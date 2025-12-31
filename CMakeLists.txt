@@ -277,6 +277,11 @@ if(APPLE)
     list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/src/macosx/SDLMain.m")
 endif()
 
+# Windows-specific sources (Icon)
+if(WIN32)
+    list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/src/win32/pingus.rc")
+endif()
+
 # Create static library
 add_library(libpingus STATIC
     ${PINGUS_SOURCES}
