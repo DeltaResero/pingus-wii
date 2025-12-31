@@ -32,24 +32,6 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
-#if defined(__APPLE__)
-/* Can't use the include, some type names conflict.
-   #include <CoreFoundation/CoreFoundation.h>
-*/
-#include <unistd.h>
-#include <strings.h>
-#include <SYS/stat.h>
-extern "C" {
-  typedef unsigned char UInt8;
-  typedef void* CFTypeRef;
-  typedef CFTypeRef CFURLRef;
-  CFURLRef CFBundleGetMainBundle(void);
-  CFURLRef CFBundleCopyResourcesDirectoryURL(CFTypeRef);
-  bool CFURLGetFileSystemRepresentation(CFURLRef, bool, UInt8*, int);
-  void CFRelease(CFTypeRef);
-}
-#endif
-
 #include "gettext.h"
 #include "tinygettext/dictionary_manager.hpp"
 #include "tinygettext/log.hpp"
@@ -431,19 +413,6 @@ PingusMain::parse_args(int argc, char** argv)
   }
 }
 
-#if defined(__APPLE__)
-// private helper to check if a file exists
-static bool file_exists(char *filename)
-{
-	struct stat buf;
-    if (stat(filename, &buf) != -1)
-    {
-        return true;
-    }
-    return false;
-}
-#endif
-
 // Get all filenames and directories
 void
 PingusMain::init_path_finder()
@@ -459,28 +428,7 @@ PingusMain::init_path_finder()
   }
   else
   { // do magic to guess the datadir
-#if defined(__APPLE__)
-    char path[PATH_MAX];
-    getcwd(path, PATH_MAX);
-    if (file_exists(strcat(path,"/data/images/fonts/chalk-40px.font")))
-    {
-      g_path_manager.set_path("data"); // assume game is run from source dir
-    }
-    else
-    {
-      char resource_path[PATH_MAX];
-      CFURLRef ref = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
-      if (!ref || !CFURLGetFileSystemRepresentation(ref, true, (UInt8*)resource_path, PATH_MAX))
-      {
-        std::cout << "Error: Couldn't get Resources path.\n" << std::endl;
-        exit(EXIT_FAILURE);
-      }
-      CFRelease(ref);
-      g_path_manager.set_path(resource_path);
-    }
-#else
     g_path_manager.set_path("data"); // assume game is run from source dir
-#endif
   }
 
   // Language is automatically picked from env variable
