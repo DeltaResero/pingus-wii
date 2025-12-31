@@ -17,6 +17,7 @@
 #ifndef HEADER_PINGUS_PINGUS_COLLISION_MAP_HPP
 #define HEADER_PINGUS_PINGUS_COLLISION_MAP_HPP
 
+#include <cstdint>
 #include <memory>
 
 #include "engine/display/sprite.hpp"
