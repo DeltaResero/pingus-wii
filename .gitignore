@@ -1,21 +1,176 @@
-.DS_Store
-.*.swp
-/.sconf_temp
-/.sconsign.dblite
-/cache
-/build
-/build-win32
-/build-win32.old
-/config.log
-/old
-*~
+###############################################################################
+# .gitignore
+#
+# This file specifies intentionally untracked files that Git should ignore.
+# Files already tracked by Git are not affected.
+#
+# NOTE: Use 'git ls-files -i --exclude-standard -c' to check for tracked files
+# that are currently being ignored.
+###############################################################################
+
+
+# =============================================================================
+# Build Output Directories
+# =============================================================================
+
+# Catches /build, /build-win32, /build-debug, etc.
+/build*/
+/obj/
+/cache/
+/result/
+/result-*/
+/old/
+
+
+# =============================================================================
+# Compiled Binaries & Libraries
+# =============================================================================
+
+# --- Object Files & Archives ---
 *.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# --- Executables ---
+*.exe
+*.bin
+*.out
+
+# --- Wii / GameCube (DevkitPro) ---
+*.elf
+*.dol
+*.map
+
+# --- Pingus Specific Executables ---
+/pingus
 /pingus-evil
 /pingus-neutral
 /pingus-nice
-/pingus
-/Pingus.app
+
+
+# =============================================================================
+# Build System Artifacts
+# =============================================================================
+
+# --- CMake ---
+# Generated files from in-source builds
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_deps/
+
+# --- SCons (Legacy) ---
+.sconf_temp/
+.sconsign.dblite
+/config.log
+
+# --- Autotools / Make ---
+/config.h
+/Makefile
+
+
+# =============================================================================
+# Packaging & Bundles
+# =============================================================================
+
+# --- macOS Application Bundles ---
+/Pingus.app/
 /Pingus-*.dmg
+
+# --- Archives ---
+*.zip
+*.tar
+*.tar.gz
+*.tar.xz
+*.tar.bz2
+*.7z
+_CPack_Packages/
+dist/
+
+
+# =============================================================================
+# Generated Assets
+# =============================================================================
+
+# --- Documentation ---
 /doc/man/pingus.html/index.html
 /doc/man/pingus.html/index.orig.html
-/result
+
+
+# =============================================================================
+# Tests & Extras
+# =============================================================================
+
+# --- Test Executables ---
+/test/*_test
+/test/*_util
+
+# --- Extra Modules ---
+# Ignore compiled binaries in extra, but keep sources
+/extra/*/
+!/extra/*.cpp
+!/extra/*.hpp
+
+
+# =============================================================================
+# Editor & IDE Configuration
+# =============================================================================
+
+# --- Generic Editor Backups ---
+*~
+
+# --- Vim ---
+*.swp
+*.swo
+*.swn
+.*.swp
+Session.vim
+tags
+
+# --- VS Code ---
+.vscode/
+
+# --- IntelliJ / JetBrains ---
+.idea/
+*.iml
+
+# --- Eclipse ---
+.project
+.cproject
+.settings/
+
+# --- Visual Studio ---
+.vs/
+
+# --- Operating System Files ---
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+
+# =============================================================================
+# Miscellaneous Temporary Files
+# =============================================================================
+tmp/
+temp/
+*.bak
+*.old
+*.orig
+*.rej
+*.patch
+*.diff
+*.log
+
+
+# EOF
