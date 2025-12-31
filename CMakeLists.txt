@@ -20,7 +20,7 @@ option(WITH_XINPUT "Build with XInput support" OFF)
 option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
-option(BUILD_EXTRA "Build extra utilities" ON)
+option(BUILD_EXTRA "Build extra utilities" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
