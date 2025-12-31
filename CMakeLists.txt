@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(Pingus VERSION 0.7.7 LANGUAGES CXX)
+set(VERSION ${PROJECT_VERSION})
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 11)
@@ -20,14 +21,6 @@ option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
 option(BUILD_EXTRA "Build extra utilities" ON)
-
-# Version from VERSION file
-if(EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
-    file(READ "${CMAKE_SOURCE_DIR}/VERSION" VERSION)
-    string(STRIP "${VERSION}" VERSION)
-else()
-    set(VERSION "0.7.7")
-endif()
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
