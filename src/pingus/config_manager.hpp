@@ -16,7 +16,6 @@
 
 #include "math/size.hpp"
 #include "pingus/options.hpp"
-#include "tinygettext/language.hpp"
 
 class Options;
 
@@ -67,10 +66,6 @@ public:
   void set_print_fps(bool);
   bool get_print_fps() const;
   boost::signals2::signal<void(bool)> on_print_fps_change;
-
-  void set_language(const tinygettext::Language&);
-  tinygettext::Language get_language() const;
-  boost::signals2::signal<void(const tinygettext::Language&)> on_language_change;
 
   void set_software_cursor(bool);
   bool get_software_cursor() const;

@@ -16,14 +16,11 @@
 #include "lisp/parser.hpp"
 #include "pingus/globals.hpp"
 #include "pingus/options.hpp"
-#include "tinygettext/dictionary_manager.hpp"
 #include "util/log.hpp"
 #include "util/sexpr_file_reader.hpp"
 #include "util/sexpr_file_writer.hpp"
 #include "util/system.hpp"
 #include "engine/sound/sound.hpp"
-
-extern tinygettext::DictionaryManager dictionary_manager;
 
 ConfigManager config_manager;
 
@@ -38,7 +35,6 @@ ConfigManager::ConfigManager() :
   on_resizable_change(),
   on_mouse_grab_change(),
   on_print_fps_change(),
-  on_language_change(),
   on_software_cursor_change(),
   on_auto_scrolling_change(),
   on_drag_drop_scrolling_change(),
@@ -214,26 +210,6 @@ ConfigManager::get_print_fps() const
 }
 
 void
-ConfigManager::set_language(const tinygettext::Language& v)
-{
-  log_info("%1%", v.str());
-
-  if (v != get_language())
-  {
-    dictionary_manager.set_language(v);
-    on_language_change(v);
-  }
-
-  m_opts.language.set(v.str());
-}
-
-tinygettext::Language
-ConfigManager::get_language() const
-{
-  return dictionary_manager.get_language();
-}
-
-void
 ConfigManager::set_software_cursor(bool v)
 {
   log_info("ConfigManager::set_software_cursor: %1%", v);
@@ -336,9 +312,6 @@ ConfigManager::apply(const Options& opts)
 
   if (opts.auto_scrolling.is_set())
     set_auto_scrolling(opts.auto_scrolling.get());
-
-  if (opts.language.is_set())
-    set_language(tinygettext::Language::from_env(opts.language.get()));
 }
 
 // EOF

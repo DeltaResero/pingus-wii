@@ -93,7 +93,6 @@ struct Options
   Value<bool> disable_music;
 
   // Misc
-  Value<std::string> language;
   Value<std::string> datadir;
   Value<std::string> userdir;
 
@@ -121,7 +120,6 @@ struct Options
     music_volume(),
     disable_sound(),
     disable_music(),
-    language(),
     datadir(),
     userdir(),
     auto_scrolling(),

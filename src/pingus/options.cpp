@@ -13,7 +13,6 @@
 
 #include <stdexcept>
 
-#include "tinygettext/language.hpp"
 #include "util/file_reader.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
@@ -149,11 +148,6 @@ Options::from_file_reader(const FileReader& reader)
     opts.controller.set(string_value);
   }
 
-  if (reader.read_string("language", string_value))
-  {
-    opts.language.set(string_value);
-  }
-
   if (reader.read_bool("software-cursor", bool_value))
   {
     opts.software_cursor.set(bool_value);
@@ -213,9 +207,6 @@ Options::save(const Pathname& filename) const
   if (controller.is_set())
     writer.write_string("controller", controller.get());
 
-  if (language.is_set())
-    writer.write_string("language", language.get());
-
   if (software_cursor.is_set())
     writer.write_bool("software-cursor", software_cursor.get());
 
@@ -252,7 +243,6 @@ Options::merge(const Options& rhs)
   disable_music.merge(rhs.disable_music);
 
   // Misc
-  language.merge(rhs.language);
   datadir.merge(rhs.datadir);
   userdir.merge(rhs.userdir);
 

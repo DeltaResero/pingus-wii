@@ -23,13 +23,10 @@
 #include "pingus/config_manager.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/gettext.h"
-#include "tinygettext/dictionary_manager.hpp"
 #include "util/log.hpp"
 #include "util/system.hpp"
 
 #define C(x) connections.push_back(x)
-
-extern tinygettext::DictionaryManager dictionary_manager;
 
 class OptionMenuCloseButton
   : public GUI::SurfaceButton
@@ -62,15 +59,6 @@ private:
   OptionMenuCloseButton & operator=(const OptionMenuCloseButton&);
 };
 
-struct LanguageSorter
-{
-  bool operator()(const tinygettext::Language& lhs,
-                  const tinygettext::Language& rhs)
-  {
-    return lhs.get_name() < rhs.get_name();
-  }
-};
-
 OptionMenu::OptionMenu() :
   m_background("core/menu/wood"),
   m_blackboard("core/menu/blackboard"),
@@ -89,9 +77,7 @@ OptionMenu::OptionMenu() :
   music_volume_box(),
   //defaults_label(),
   //defaults_box(),
-  connections(),
-  m_language(),
-  m_language_map()
+  connections()
 {
   gui_manager->add(ok_button = new OptionMenuCloseButton(this,
                                                          Display::get_width()/2 + 245,
@@ -139,31 +125,6 @@ OptionMenu::OptionMenu() :
     default: assert(!"unknown renderer type");
   }
 
-  m_language = dictionary_manager.get_language();
-
-  ChoiceBox* language_box = new ChoiceBox(Rect());
-  {
-    std::set<tinygettext::Language> languages = dictionary_manager.get_languages();
-
-    // English is the default language, thus it's not in the list of
-    // languages returned by tinygettext and we have to add it manually
-    languages.insert(tinygettext::Language::from_name("en"));
-
-    std::vector<tinygettext::Language> langs(languages.begin(), languages.end());
-    std::sort(langs.begin(), langs.end(), LanguageSorter());
-
-    for (auto i = langs.begin(); i != langs.end(); ++i)
-    {
-      m_language_map[i->get_name()] = *i;
-      language_box->add_choice(i->get_name());
-
-      if (m_language == *i)
-      {
-        language_box->set_current_choice(static_cast<int>(i - langs.begin()));
-      }
-    }
-  }
-
   ChoiceBox* scroll_box = new ChoiceBox(Rect());
   scroll_box->add_choice("Drag&Drop");
   scroll_box->add_choice("Rubberband");
@@ -194,7 +155,6 @@ OptionMenu::OptionMenu() :
   C(sound_volume_box->on_change.connect(std::bind(&OptionMenu::on_sound_volume_change, this, std::placeholders::_1)));
   C(music_volume_box->on_change.connect(std::bind(&OptionMenu::on_music_volume_change, this, std::placeholders::_1)));
 
-  C(language_box->on_change.connect(std::bind(&OptionMenu::on_language_change, this, std::placeholders::_1)));
   C(resolution_box->on_change.connect(std::bind(&OptionMenu::on_resolution_change, this, std::placeholders::_1)));
   C(renderer_box->on_change.connect(std::bind(&OptionMenu::on_renderer_change, this, std::placeholders::_1)));
 
@@ -213,8 +173,6 @@ OptionMenu::OptionMenu() :
   y_pos = 0;
   add_item(_("Resolution:"),    resolution_box);
   add_item(_("Renderer:"),      renderer_box);
-  y_pos += 1;
-  add_item(_("Language:"),        language_box);
   y_pos += 1;
   add_item(_("Master Volume:"),   master_volume_box);
   add_item(_("Sound Volume:"),    sound_volume_box);
@@ -435,21 +393,6 @@ void
 OptionMenu::on_music_volume_change(int v)
 {
   config_manager.set_music_volume(v);
-}
-
-void
-OptionMenu::on_language_change(const std::string &str)
-{
-  auto it = m_language_map.find(str);
-  if (it == m_language_map.end())
-  {
-    log_error("unknown language: %1%", str);
-  }
-  else
-  {
-    m_language = it->second;
-    config_manager.set_language(it->second);
-  }
 }
 
 void

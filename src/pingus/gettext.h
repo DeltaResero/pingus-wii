@@ -14,8 +14,11 @@
 
 #include <string>
 
-std::string _(const std::string& msg);
-std::string _(const std::string& msg, const std::string& msg_pl, int num);
+// Shim functions to replace tinygettext dependency
+inline std::string _(const std::string& msg) { return msg; }
+inline std::string _(const std::string& msg, const std::string& msg_pl, int num) {
+    return (num == 1) ? msg : msg_pl;
+}
 
 #endif /* HEADER_GETTEXT_HXX */
 

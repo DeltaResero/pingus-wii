@@ -28,8 +28,6 @@
 #include "util/system.hpp"
 
 #include "gettext.h"
-#include "tinygettext/dictionary_manager.hpp"
-#include "tinygettext/log.hpp"
 #include "util/command_line.hpp"
 
 #include "engine/screen/screen_manager.hpp"
@@ -51,8 +49,6 @@
 // Disable stupid deprecation warnings
 #pragma warning( disable : 4996 )
 #endif
-
-extern tinygettext::DictionaryManager dictionary_manager;
 
 PingusMain::PingusMain() :
   cmd_options()
@@ -98,21 +94,6 @@ PingusMain::apply_args()
   // FIXME: merge cmd_options with stuff read from config file here
   auto& options = cmd_options;
 
-  // Mode toggles
-  if (options.list_languages.is_set() &&
-      options.list_languages.get())
-  { // language listing only works after the data path has been set
-    std::cout << "Available languages are:" << std::endl;
-    std::cout << "========================" << std::endl;
-    std::set<tinygettext::Language> lst = dictionary_manager.get_languages();
-    for (std::set<tinygettext::Language>::iterator i = lst.begin(); i != lst.end(); ++i)
-      std::cout << i->get_name() << " (" << i->str() << ")" << std::endl;
-
-    std::cout << "\nLanguages can be used via:\n\n    pingus --language de\n" << std::endl;
-
-    exit(EXIT_SUCCESS);
-  }
-
   if (options.software_cursor.is_set())
     globals::software_cursor = options.software_cursor.get();
 
@@ -124,9 +105,6 @@ PingusMain::apply_args()
     globals::sound_enabled = !options.disable_sound.get();
 
   // Misc
-  if (options.language.is_set())
-    dictionary_manager.set_language(tinygettext::Language::from_name(options.language.get()));
-
   if (options.auto_scrolling.is_set())
     globals::auto_scrolling = options.auto_scrolling.get();
 
@@ -191,12 +169,6 @@ PingusMain::parse_args(int argc, char** argv)
   argp.add_option('m', "disable-music", "",
                   _("Disable music"));
 
-  argp.add_group("Language Options:");
-  argp.add_option('l', "language", "LANG",
-                  _("Select language to use with Pingus"));
-  argp.add_option(365, "list-languages", "",
-                  _("List all available languages"));
-
   argp.add_group("Editor Options:");
   argp.add_option('e', "editor", "",
                   _("Loads the level editor"));
@@ -245,11 +217,6 @@ PingusMain::parse_args(int argc, char** argv)
         else
         {
           cmd_options.framebuffer_type.set(framebuffer_type_from_string(argp.get_argument()));
-
-          //FIXME:
-          //std::cout << "Unknown renderer: " << argp.get_argument()
-          //<< " use '--renderer help' to get a list of available renderer" << std::endl;
-          //exit(EXIT_FAILURE);
         }
         break;
 
@@ -375,14 +342,6 @@ PingusMain::parse_args(int argc, char** argv)
         cmd_options.controller.set(argp.get_argument());
         break;
 
-      case 'l': // language
-        cmd_options.language.set(argp.get_argument());
-        break;
-
-      case 365: // list-languages
-        cmd_options.list_languages.set(true);
-        break;
-
       case 'h':
         argp.print_help();
         exit(EXIT_SUCCESS);
@@ -425,10 +384,6 @@ PingusMain::init_path_finder()
   { // do magic to guess the datadir
     g_path_manager.set_path("data"); // assume game is run from source dir
   }
-
-  // Language is automatically picked from env variable
-  //dictionary_manager.set_language(tinygettext::Language::from_env("it_IT.utf8")); // maybe overwritten by file ~/.pingus/config
-  dictionary_manager.add_directory(g_path_manager.complete("po/"));
 }
 
 void
@@ -443,12 +398,6 @@ PingusMain::print_greeting_message()
 
   std::cout << "userdir:                 " << System::get_userdir() << std::endl;
   std::cout << "datadir:                 " << g_path_manager.get_path() << std::endl;
-  std::cout << "language:                "
-            << dictionary_manager.get_language().get_name()
-            << " ("
-            << dictionary_manager.get_language().str()
-            << ")"
-            << std::endl;
 
   if (globals::sound_enabled)
     std::cout << "sound support:           enabled" << std::endl;
@@ -561,17 +510,12 @@ PingusMain::run(int argc, char** argv)
 {
   logmich::set_log_level(logmich::kWarning);
 
-  tinygettext::Log::set_log_info_callback(0);
-
   try
   {
-    // FIXME force set language using System::get_language() to get it from env
-    dictionary_manager.set_language(tinygettext::Language::from_env(System::get_language()));
-
-    parse_args(argc, argv); // here language and po dir isn't set, no traslation in command line
-    init_path_finder(); // here init language path
-    read_rc_file(); // here set language if ~/.pingus/config exist and language value is set
-    apply_args(); // here set language if arg -l is specified
+    parse_args(argc, argv);
+    init_path_finder();
+    read_rc_file();
+    apply_args();
 
     print_greeting_message();
 

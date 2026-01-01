@@ -21,7 +21,6 @@
 #include "engine/gui/surface_button.hpp"
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/components/label.hpp"
-#include "tinygettext/language.hpp"
 
 class CheckBox;
 class SliderBox;
@@ -64,9 +63,6 @@ private:
   typedef std::vector<boost::signals2::connection> Connections;
   Connections connections;
 
-  tinygettext::Language m_language;
-  std::map<std::string, tinygettext::Language> m_language_map;
-
 public:
   OptionMenu();
   ~OptionMenu();
@@ -91,7 +87,6 @@ public:
   void on_sound_volume_change(int v);
   void on_music_volume_change(int v);
 
-  void on_language_change(const std::string& str);
   void on_resolution_change(const std::string& str);
   void on_renderer_change(const std::string& str);
 

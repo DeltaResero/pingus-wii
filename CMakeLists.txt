@@ -207,18 +207,12 @@ endif()
 include_directories(
     ${CMAKE_BINARY_DIR}  # For config.h
     ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/external/tinygettext/include
     ${CMAKE_SOURCE_DIR}/external/logmich/include
     ${SDL_INCLUDE_DIRS}
     ${SDL_IMAGE_INCLUDE_DIRS}
     ${SDL_MIXER_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
-)
-
-# Gather source files using globbing
-file(GLOB_RECURSE TINYGETTEXT_SOURCES 
-    "${CMAKE_SOURCE_DIR}/external/tinygettext/src/*.cpp"
 )
 
 file(GLOB_RECURSE LOGMICH_SOURCES 
@@ -273,7 +267,6 @@ endif()
 # Create static library
 add_library(libpingus STATIC
     ${PINGUS_SOURCES}
-    ${TINYGETTEXT_SOURCES}
     ${LOGMICH_SOURCES}
 )
 

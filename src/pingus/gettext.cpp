@@ -9,16 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-#include "tinygettext/dictionary_manager.hpp"
-
-tinygettext::DictionaryManager dictionary_manager;
-
-std::string _(const std::string& msg) {
-  return dictionary_manager.get_dictionary().translate(msg);
-}
-
-std::string _(const std::string& msg, const std::string& msg_pl, int num) {
-  return dictionary_manager.get_dictionary().translate_plural(msg, msg_pl, num);
-}
+// This file is intentionally left empty
+// The implementation has been inlined into gettext.h to remove the tinygettext dependency
 
 // EOF
