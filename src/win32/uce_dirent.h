@@ -1,74 +1,29 @@
+// src/win32/uce_dirent.h
+// SPDX-License-Identifier: MIT
+//
+// uce-dirent.h - operating system independent dirent implementation
+// Copyright (C) 1998-2002 Toni Ronkko
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL TONI RONKKO BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+
 /*
- * uce-dirent.h - operating system independent dirent implementation
- * 
- * Copyright (C) 1998-2002  Toni Ronkko
- * 
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * ``Software''), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL TONI RONKKO BE LIABLE FOR ANY CLAIM, DAMAGES OR
- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- * 
- * 
- * May 28 1998, Toni Ronkko <tronkko@messi.uku.fi>
- *
- * $Id: uce-dirent.h,v 1.7 2002/05/13 10:48:35 tr Exp $
- *
- * $Log: uce-dirent.h,v $
- * Revision 1.7  2002/05/13 10:48:35  tr
- * embedded some source code directly to the header so that no source
- * modules need to be included in the MS Visual C project using the
- * interface, removed all the dependencies to other headers of the `uce'
- * library so that the header can be made public
- *
- * Revision 1.6  2002/04/12 16:22:04  tr
- * Unified Compiling Environment (UCE) replaced `std' library
- *
- * Revision 1.5  2001/07/20 16:33:40  tr
- * moved to `std' library and re-named defines accordingly
- *
- * Revision 1.4  2001/07/10 16:47:18  tronkko
- * revised comments
- *
- * Revision 1.3  2001/01/11 13:16:43  tr
- * using ``uce-machine.h'' for finding out defines such as `FREEBSD'
- *
- * Revision 1.2  2000/10/08 16:00:41  tr
- * copy of FreeBSD man page
- *
- * Revision 1.1  2000/07/10 05:53:16  tr
- * Initial revision
- *
- * Revision 1.2  1998/07/19 18:29:14  tr
- * Added error reporting capabilities and some asserts.
- *
- * Revision 1.1  1998/07/04 16:27:51  tr
- * Initial revision
- *
- * 
- * MSVC 1.0 scans automatic dependencies incorrectly when your project
- * contains this very header.  The problem is that MSVC cannot handle
- * include directives inside #if..#endif block those are never entered.
- * Since this header ought to compile in many different operating systems,
- * there had to be several conditional blocks that are compiled only in
- * operating systems for what they were designed for.  MSVC 1.0 cannot
- * handle inclusion of sys/dir.h in a part that is compiled only in Apollo
- * operating system.  To fix the problem you need to insert DIR.H into
- * SYSINCL.DAT located in MSVC\BIN directory and restart visual C++.
- * Consult manuals for more informaton about the problem.
  *
  * Since many UNIX systems have dirent.h we assume to have one also.
  * However, if your UNIX system does not have dirent.h you can download one
@@ -677,7 +632,4 @@ _setdirname (struct DIR *dirp) {
 
 #endif /*DIRENT_H*/
 
-
-
-
-
+// EOF

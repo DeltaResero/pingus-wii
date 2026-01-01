@@ -1,18 +1,13 @@
-//  Pingus - A free Lemmings clone
-//  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmail.com>
+// src/pingus/worldmap/worldmap_screen.cpp
+// SPDX-License-Identifier: GPL-3.0-or-later
 //
-//  This program is free software: you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 3 of the License, or
-//  (at your option) any later version.
+// Pingus - A free Lemmings clone
+// Copyright (C) 2000 Ingo Ruhnke <grumbel@gmail.com>
 //
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 
 #include "pingus/worldmap/worldmap_screen.hpp"
 
@@ -118,7 +113,8 @@ WorldmapScreenCloseButton::on_click()
 {
   ScreenManager::instance ()->pop_screen ();
 }
-
+
+
 WorldmapScreen::WorldmapScreen() :
   is_init(false),
   exit_worldmap(false),
@@ -232,4 +228,4 @@ WorldmapScreen::on_fast_forward_release()
 
 } // namespace WorldmapNS
 
-/* EOF */
+// EOF
