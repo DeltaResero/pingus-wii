@@ -14,7 +14,6 @@
 #include <iostream>
 
 #include "engine/sound/sound.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/stat_manager.hpp"
 #include "pingus/worldmap/drawable_factory.hpp"

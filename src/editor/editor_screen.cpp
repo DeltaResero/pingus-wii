@@ -26,7 +26,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "editor/message_box.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/screens/game_session.hpp"
 #include "util/log.hpp"
 
@@ -227,7 +226,7 @@ EditorScreen::draw(DrawingContext& gc)
     gc.print_center(Fonts::verdana11,
                     Vector2i(gc.get_width()/2,
                              gc.get_height()/2 - size_.height/2 + 12),
-                    _("== Editor Help =="));
+                    "== Editor Help ==");
 
     int x = gc.get_width()/2 - size_.width/2 + 12;
     int y = gc.get_height()/2 - size_.height/2 + 36;
@@ -245,16 +244,16 @@ EditorScreen::draw(DrawingContext& gc)
       );
 
     gc.print_left(Fonts::verdana11, Vector2i(x+150, y),
-                  _("Select all\n"
-                    "Clear Selection\n"
-                    "Raise objects\n"
-                    "Lower objects\n"
-                    "Raise objects to top\n"
-                    "Lower objects to bottom\n"
-                    "Rotate 90 degree\n"
-                    "Rotate 270 degree\n"
-                    "Group selected objects\n"
-                    "Ungroup selected objects\n"));
+                  "Select all\n"
+                  "Clear Selection\n"
+                  "Raise objects\n"
+                  "Lower objects\n"
+                  "Raise objects to top\n"
+                  "Lower objects to bottom\n"
+                  "Rotate 90 degree\n"
+                  "Rotate 270 degree\n"
+                  "Group selected objects\n"
+                  "Ungroup selected objects\n");
 
     x = int(gc.get_width()/2 + 12);
     y = int(gc.get_height()/2) - size_.height/2 + 36;
@@ -268,30 +267,30 @@ EditorScreen::draw(DrawingContext& gc)
                     "=, +, -\n");
 
     gc.print_left(Fonts::verdana11, Vector2i(x + 125, y),
-                  _("Flip object horizontaly\n"
-                    "Flip object vertically\n"
-                    "Delete all marked objects\n"
-                    "Move objects by one pixel\n"
-                    "Move objects by 32 pixel\n"
-                    "Toggle background color\n"
-                    "Increase/lower repeat\n"));
+                  "Flip object horizontaly\n"
+                  "Flip object vertically\n"
+                  "Delete all marked objects\n"
+                  "Move objects by one pixel\n"
+                  "Move objects by 32 pixel\n"
+                  "Toggle background color\n"
+                  "Increase/lower repeat\n");
 
     gc.print_left(Fonts::verdana11,
                   Vector2i(gc.get_width()/2 - size_.width/2 + 12,
                            gc.get_height()/2 - 10),
-                  _("You should name your level files systematically, i.e. by their theme, "
-                    "their number and your nickname:\n\n"
-                    "     <levelname><number>-<creator>.pingus\n\n"
-                    "So if you create your second level with a stone theme, call it: "
-                    "stone2-yourname.pingus\n\n"
-                    "When you have created a level and want to have it included "
-                    "in the game mail it to:\n\n"
-                    "     pingus-devel@nongnu.org\n\n"
-                    "Only levels published under the GPL are allowed into the game. The editor "
-                    "automatically inserts a reference \n"
-                    "to the GPL, if you want to have your level under a different license, you "
-                    "have to change that reference.\n"
-                    ));
+                  "You should name your level files systematically, i.e. by their theme, "
+                  "their number and your nickname:\n\n"
+                  "     <levelname><number>-<creator>.pingus\n\n"
+                  "So if you create your second level with a stone theme, call it: "
+                  "stone2-yourname.pingus\n\n"
+                  "When you have created a level and want to have it included "
+                  "in the game mail it to:\n\n"
+                  "     pingus-devel@nongnu.org\n\n"
+                  "Only levels published under the GPL are allowed into the game. The editor "
+                  "automatically inserts a reference \n"
+                  "to the GPL, if you want to have your level under a different license, you "
+                  "have to change that reference.\n"
+                  );
   }
 }
 

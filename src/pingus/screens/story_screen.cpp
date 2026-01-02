@@ -17,7 +17,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/screens/credits.hpp"
 #include "util/utf8.hpp"
@@ -100,13 +99,13 @@ public:
 
   void draw (DrawingContext& gc)
   {
-    gc.print_right(Fonts::chalk_small, Vector2i(x_pos, y_pos), _("skip"));
+    gc.print_right(Fonts::chalk_small, Vector2i(x_pos, y_pos), "skip");
   }
 
   bool is_at(int x, int y)
   {
     return
-      x > x_pos - static_cast<int>(Fonts::chalk_small.get_width(_("skip"))) &&
+      x > x_pos - static_cast<int>(Fonts::chalk_small.get_width("skip")) &&
       x < x_pos &&
       y > y_pos &&
       y < y_pos + static_cast<int>(Fonts::chalk_small.get_height());

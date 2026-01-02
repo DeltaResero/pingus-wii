@@ -14,7 +14,6 @@
 #include "engine/display/drawing_context.hpp"
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/screens/story_screen.hpp"
 #include "util/file_reader.hpp"
 #include "util/file_reader.hpp"
@@ -50,7 +49,7 @@ StoryDot::draw_hover(DrawingContext& gc)
   gc.print_center(Fonts::pingus_small,
                   Vector2i(static_cast<int>(pos.x),
                            static_cast<int>(pos.y) - 44),
-                  _(m_name),
+                  m_name,
                   10000);
 }
 

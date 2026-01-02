@@ -20,7 +20,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/stat_manager.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"

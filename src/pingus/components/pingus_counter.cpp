@@ -13,7 +13,6 @@
 
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/pingu_holder.hpp"
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
@@ -35,7 +34,7 @@ PingusCounter::draw(DrawingContext& gc)
 
   World* world = server->get_world();
 
-  snprintf(str, 128, _("Released:%3d/%d   Out:%3d   Saved:%3d/%d").c_str(),
+  snprintf(str, 128, "Released:%3d/%d   Out:%3d   Saved:%3d/%d",
            world->get_pingus()->get_number_of_released(),
            world->get_pingus()->get_number_of_allowed(),
            world->get_pingus()->get_number_of_alive(),

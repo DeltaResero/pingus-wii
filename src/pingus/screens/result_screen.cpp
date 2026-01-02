@@ -18,7 +18,6 @@
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/game_time.hpp"
-#include "pingus/gettext.h"
 #include "pingus/screens/game_session.hpp"
 #include "util/string_util.hpp"
 
@@ -83,7 +82,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos - 4), _("Give up"));
+    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos - 4), "Give up");
   }
 
   void on_click() {
@@ -118,7 +117,7 @@ public:
 
   void draw (DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 24), _("Retry"));
+    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 24), "Retry");
   }
 
   bool is_at(int x, int y) {
@@ -168,14 +167,14 @@ ResultScreenComponent::draw(DrawingContext& gc)
   gc.print_center(Fonts::chalk_large,
                   Vector2i(gc.get_width()/2,
                            Display::get_height()/2 - 200),
-                  _(result.plf.get_levelname()));
+                  result.plf.get_levelname());
 
   if (result.success())
   {
     gc.print_center(Fonts::chalk_large,
                     Vector2i(gc.get_width()/2,
                              Display::get_height()/2 - 140),
-                    _("Success!"));
+                    "Success!");
     /*gc.print_center(Fonts::pingus_small, gc.get_width()/2, gc.get_height()-30,
       "..:: Press Space to continue ::..");*/
   }
@@ -183,7 +182,7 @@ ResultScreenComponent::draw(DrawingContext& gc)
   {
     gc.print_center(Fonts::chalk_large,
                     Vector2i(gc.get_width()/2, Display::get_height()/2 - 140),
-                    _("Failure!"));
+                    "Failure!");
     /*gc.print_center(Fonts::pingus_normal, gc.get_width()/2, gc.get_height()-30,
       "..:: Press Space to retry the level ::..");*/
   }
@@ -192,32 +191,32 @@ ResultScreenComponent::draw(DrawingContext& gc)
   if (result.success())
   {
     if (result.killed == 0 && result.saved == result.total)
-      message = _("Perfect! You saved everyone possible - great!");
+      message = "Perfect! You saved everyone possible - great!";
     else if (result.killed == 0)
-      message = _("No-one got killed, pretty good work.");
+      message = "No-one got killed, pretty good work.";
     else if (result.saved == result.needed)
-      message = _("You saved exactly what you needed - you made it, but\n"
-                  "maybe you can do better?");
+      message = "You saved exactly what you needed - you made it, but\n"
+                  "maybe you can do better?";
     else if (result.killed >= 5)
-      message = _("Not everybody was saved, but still good work!");
+      message = "Not everybody was saved, but still good work!";
     else
-      message = _("What can I say, you made it - congratulations!");
+      message = "What can I say, you made it - congratulations!";
   }
   else
   {
     if (result.killed == result.total)
-      message = _("You killed everybody, not good.");
+      message = "You killed everybody, not good.";
     else if (result.saved == 0)
-      message = _("No-one got saved - I know you can do better.");
+      message = "No-one got saved - I know you can do better.";
     else if (result.saved > 0)
-      message = _("You didn't save enough, but you saved a few.  Next\n"
-                  "time you might do better.");
+      message = "You didn't save enough, but you saved a few.  Next\n"
+                  "time you might do better.";
     else if (result.saved + 1 >= result.needed)
-      message = _("Only one more and you would have made it - try again!");
+      message = "Only one more and you would have made it - try again!";
     else if (result.saved + 5 >= result.needed)
-      message = _("Only a handful more and you would have made it - try again!");
+      message = "Only a handful more and you would have made it - try again!";
     else
-      message = _("Better luck next time!");
+      message = "Better luck next time!";
   }
   gc.print_center(Fonts::chalk_normal, Vector2i(gc.get_width()/2, gc.get_height()/2 - 70), message);
 
@@ -225,14 +224,14 @@ ResultScreenComponent::draw(DrawingContext& gc)
   int right_x = gc.get_width()/2 + 100;
   int y = Display::get_height()/2 + 10;
 
-  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x,  y), _("Saved: "));
+  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x,  y), "Saved: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.saved)
                  + "/" + StringUtil::to_string(result.needed));;
 
-  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x,  (y+=30)), _("Died: "));
+  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x,  (y+=30)), "Died: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.killed));
 
-  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x, (y+=30)), _("Time left: "));
+  gc.print_left(Fonts::chalk_normal,  Vector2i(left_x, (y+=30)), "Time left: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), time_str);
 }
 

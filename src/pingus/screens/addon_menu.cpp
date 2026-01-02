@@ -14,7 +14,6 @@
 #include "engine/display/drawing_context.hpp"
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 
 AddOnMenu::AddOnMenu() :
   background(),
@@ -45,7 +44,7 @@ AddOnMenu::draw_background(DrawingContext& gc)
 
   gc.print_center(Fonts::chalk_normal, Vector2i(gc.get_width()/2, gc.get_height()/2 + 160), "Update Online [ ]");
 
-  gc.print_center(Fonts::chalk_normal, Vector2i(gc.get_width()/2 + 245 + 30, gc.get_height()/2 + 150 - 20), _("Close"));
+  gc.print_center(Fonts::chalk_normal, Vector2i(gc.get_width()/2 + 245 + 30, gc.get_height()/2 + 150 - 20), "Close");
   gc.draw(ok_button, Vector2i(gc.get_width()/2 + 245, gc.get_height()/2 + 150));
 
   gc.draw(ok_button, Vector2i(610, 145));

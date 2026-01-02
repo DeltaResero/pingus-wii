@@ -18,7 +18,6 @@
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/game_time.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/screens/game_session.hpp"
 #include "pingus/string_format.hpp"
@@ -59,7 +58,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 20), _("Play"));
+    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 20), "Play");
   }
 
   bool is_at(int x, int y) {
@@ -103,7 +102,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), _("Back"));
+    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), "Back");
   }
 
   void on_click() {
@@ -148,7 +147,7 @@ StartScreenComponent::draw(DrawingContext& gc)
   gc.print_center(Fonts::chalk_large,
                   Vector2i(gc.get_width() /2,
                            gc.get_height()/2 - 230),
-                  _(plf.get_levelname()));
+                  plf.get_levelname());
 
   gc.print_left(Fonts::chalk_normal,
                 Vector2i(gc.get_width() /2 - 300,
@@ -158,19 +157,19 @@ StartScreenComponent::draw(DrawingContext& gc)
   y += 32;
   y += 45;
 
-  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  y), _("Number of Pingus: "));
+  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  y), "Number of Pingus: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_of_pingus()));
 
-  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  (y += 30)), _("Number to Save: "));
+  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Number to Save: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_to_save()));
 
-  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  (y += 30)), _("Time: "));
+  gc.print_left (Fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Time: ");
   gc.print_right(Fonts::chalk_normal, Vector2i(right_x, y), time_str);
 
   gc.print_center(Fonts::chalk_small,
                   Vector2i(gc.get_width()/2,
                            gc.get_height()/2 + 215),
-                  _("Author: ") + plf.get_author());
+                  std::string("Author: ") + plf.get_author());
 
   if (globals::developer_mode)
   {
@@ -184,7 +183,7 @@ StartScreenComponent::format_description(int length)
   if (description != "")
     return description;
 
-  description = _(plf.get_description());
+  description = plf.get_description();
 
   if (description == "")
     return description;

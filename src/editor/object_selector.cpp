@@ -20,7 +20,6 @@
 #include "editor/object_selector_set.hpp"
 #include "editor/object_selector_list_objects.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/resource.hpp"
 #include "util/log.hpp"
@@ -157,21 +156,21 @@ ObjectSelector::ObjectSelector(EditorScreen* editor_, const Rect& rect_) :
   worldobj_set   = create_worldobj();
   prefab_set     = create_prefab();
 
-  add_button("core/editor/obj_entrance",   _("Entrance"), entrance_set.get());
-  add_button("core/editor/obj_gp_ground",  _("Groundpiece (ground)"), gp_ground_set.get());
-  add_button("core/editor/obj_gp_solid",   _("Groundpiece (solid)"), gp_solid_set.get());
-  add_button("core/editor/obj_gp_bridge",  _("Groundpiece (bridge)"), gp_bridge_set.get());
-  add_button("core/editor/obj_gp_transparent", _("Groundpiece (transparent)"), gp_transparent_set.get());
-  add_button("core/editor/obj_gp_remove",  _("Groundpiece (remove)"), gp_remove_set.get());
-  add_button("core/editor/obj_hotspot",    _("Hotspot"), hotspot_set.get());
-  add_button("core/editor/obj_background", _("Background"), background_set.get());
+  add_button("core/editor/obj_entrance",   "Entrance", entrance_set.get());
+  add_button("core/editor/obj_gp_ground",  "Groundpiece (ground)", gp_ground_set.get());
+  add_button("core/editor/obj_gp_solid",   "Groundpiece (solid)", gp_solid_set.get());
+  add_button("core/editor/obj_gp_bridge",  "Groundpiece (bridge)", gp_bridge_set.get());
+  add_button("core/editor/obj_gp_transparent", "Groundpiece (transparent)", gp_transparent_set.get());
+  add_button("core/editor/obj_gp_remove",  "Groundpiece (remove)", gp_remove_set.get());
+  add_button("core/editor/obj_hotspot",    "Hotspot", hotspot_set.get());
+  add_button("core/editor/obj_background", "Background", background_set.get());
   // -------------------------------
-  add_button("core/editor/obj_exit",     _("Exit"), exit_set.get());
-  add_button("core/editor/obj_liquid",   _("Liquid"), liquid_set.get());
-  add_button("core/editor/obj_trap",     _("Trap"), trap_set.get());
-  add_button("core/editor/obj_weather",  _("Weather"), weather_set.get());
-  add_button("core/editor/obj_worldobj", _("Special Object"), worldobj_set.get());
-  add_button("core/editor/obj_prefab",   _("Prefab Object"), prefab_set.get());
+  add_button("core/editor/obj_exit",     "Exit", exit_set.get());
+  add_button("core/editor/obj_liquid",   "Liquid", liquid_set.get());
+  add_button("core/editor/obj_trap",     "Trap", trap_set.get());
+  add_button("core/editor/obj_weather",  "Weather", weather_set.get());
+  add_button("core/editor/obj_worldobj", "Special Object", worldobj_set.get());
+  add_button("core/editor/obj_prefab",   "Prefab Object", prefab_set.get());
 }
 
 ObjectSelector::~ObjectSelector()

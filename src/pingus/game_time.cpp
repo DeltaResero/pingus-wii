@@ -13,7 +13,6 @@
 
 #include <stdio.h>
 
-#include "gettext.h"
 #include "pingus/globals.hpp"
 
 int
@@ -47,7 +46,7 @@ GameTime::ticks_to_realtime_string(int ticks)
 {
   if (ticks == -1)
   {
-    return _("unlimited");
+    return "unlimited";
   }
   else
   {

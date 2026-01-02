@@ -15,7 +15,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/components/menu_button.hpp"
-#include "pingus/gettext.h"
 #include "pingus/layer_manager.hpp"
 #include "pingus/plf_res_mgr.hpp"
 #include "pingus/resource.hpp"
@@ -46,28 +45,28 @@ PingusMenu::PingusMenu() :
 
   start_button = new MenuButton(this, Vector2i(size_.width/2 - 125,
                                                size_.height/2 - 20),
-                                _("Story"),
-                                _("..:: Start the game ::.."));
+                                "Story",
+                                "..:: Start the game ::..");
 
   editor_button = new MenuButton(this, Vector2i(size_.width/2 + 125,
                                                 size_.height/2 - 20),
-                                 _("Editor"),
-                                 _("..:: Create your own levels ::.."));
+                                 "Editor",
+                                 "..:: Create your own levels ::..");
 
   options_button = new MenuButton(this, Vector2i(size_.width/2 + 125,
                                                  size_.height/2 + 50),
-                                  _("Options"),
-                                  _("..:: Configure the game ::.."));
+                                  "Options",
+                                  "..:: Configure the game ::..");
 
   contrib_button = new MenuButton(this, Vector2i(size_.width/2 - 125,
                                                  size_.height/2 + 50),
-                                  _("Levelsets"),
-                                  _("..:: Play User Built levels ::.."));
+                                  "Levelsets",
+                                  "..:: Play User Built levels ::..");
 
   quit_button = new MenuButton(this, Vector2i(size_.width/2,
                                               size_.height/2 + 120),
-                               _("Exit"),
-                               _("..:: Bye, bye ::.."));
+                               "Exit",
+                               "..:: Bye, bye ::..");
 
   gui_manager->add(quit_button);
   gui_manager->add(options_button);
@@ -79,7 +78,7 @@ PingusMenu::PingusMenu() :
 
   create_background(Size(Display::get_width(), Display::get_height()));
 
-  help = _("..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: fullscreen   ::   F12: screenshot ::..");
+  help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: fullscreen   ::   F12: screenshot ::..";
 
   Sound::PingusSound::play_music("pingus-1.it");
 }

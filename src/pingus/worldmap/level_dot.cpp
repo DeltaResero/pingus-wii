@@ -15,7 +15,6 @@
 #include "engine/input/control.hpp"
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/plf_res_mgr.hpp"
 #include "pingus/savegame_manager.hpp"
@@ -118,7 +117,7 @@ LevelDot::draw_hover(DrawingContext& gc)
     gc.print_center(Fonts::pingus_small,
                     Vector2i(static_cast<int>(pos.x),
                              static_cast<int>(pos.y) - 44),
-                    _(get_plf().get_levelname()),
+                    get_plf().get_levelname(),
                     10000);
   }
   else
@@ -126,7 +125,7 @@ LevelDot::draw_hover(DrawingContext& gc)
     gc.print_center(Fonts::pingus_small,
                     Vector2i(static_cast<int>(pos.x),
                              static_cast<int>(pos.y) - 44),
-                    _("???"),
+                    "???",
                     10000);
   }
 

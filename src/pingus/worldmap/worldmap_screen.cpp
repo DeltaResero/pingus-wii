@@ -16,7 +16,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/screens/story_screen.hpp"
 #include "pingus/worldmap/pingus.hpp"
 #include "pingus/worldmap/worldmap.hpp"
@@ -76,7 +75,7 @@ void
 WorldmapScreenCreditsButton::draw (DrawingContext& gc)
 {
   SurfaceButton::draw(gc);
-  gc.print_center(Fonts::chalk_small, Vector2i(Display::get_width() - 59 - 24, 2), _("Show Ending?"));
+  gc.print_center(Fonts::chalk_small, Vector2i(Display::get_width() - 59 - 24, 2), "Show Ending?");
 }
 
 void
@@ -105,7 +104,7 @@ void
 WorldmapScreenCloseButton::draw (DrawingContext& gc)
 {
   SurfaceButton::draw(gc);
-  gc.print_center(Fonts::chalk_small, Vector2i(44, Display::get_height() - 25), _("Leave?"));
+  gc.print_center(Fonts::chalk_small, Vector2i(44, Display::get_height() - 25), "Leave?");
 }
 
 void

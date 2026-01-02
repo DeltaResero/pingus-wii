@@ -15,7 +15,6 @@
 #include "editor/inputbox.hpp"
 #include "editor/label.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "util/log.hpp"
 
 namespace Editor {
@@ -50,15 +49,15 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
                            "|\n\\/");
 
   datadir_button = create<Button>(Rect(Vector2i(4, rect.get_height() - 4 - 30),
-                                       Size(100, 30)), _("Datadir"));
+                                       Size(100, 30)), "Datadir");
   userdir_button = create<Button>(Rect(Vector2i(4 + 110, rect.get_height() - 4 - 30),
-                                       Size(100, 30)), _("Userdir"));
+                                       Size(100, 30)), "Userdir");
 
   open_button = create<Button>(Rect(Vector2i(rect.get_width() - 104, rect.get_height() - 4 - 30),
-                                    Size(100, 30)), mode == LOAD ? _("Open") : _("Save"));
+                                    Size(100, 30)), mode == LOAD ? "Open" : "Save");
 
   cancel_button = create<Button>(Rect(Vector2i(rect.get_width() - 104 - 104, rect.get_height() - 4 - 30),
-                                      Size(100, 30)), _("Cancel"));
+                                      Size(100, 30)), "Cancel");
 
   up_button->on_click.connect(std::bind(&FileDialog::on_up, this));
   down_button->on_click.connect(std::bind(&FileDialog::on_down, this));
@@ -69,8 +68,8 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
   open_button->on_click.connect(std::bind(&FileDialog::on_open, this));
   cancel_button->on_click.connect(std::bind(&FileDialog::on_cancel, this));
 
-  filename_label = create<Label>(Rect(6, 4+30, 4 + 60, 26+30), _("Filename:"));
-  pathname_label = create<Label>(Rect(6, 4+60, 4 + 60, 26+60), _("Pathname:"));
+  filename_label = create<Label>(Rect(6, 4+30, 4 + 60, 26+30), "Filename:");
+  pathname_label = create<Label>(Rect(6, 4+60, 4 + 60, 26+60), "Pathname:");
 
   filename_inputbox = create<Inputbox>(Rect(4 + 60, 4+30, rect.get_width()-4, 26+30));
   pathname_inputbox = create<Inputbox>(Rect(4 + 60, 4+60, rect.get_width()-4, 26+60));
@@ -92,7 +91,7 @@ FileDialog::draw_background(DrawingContext& gc)
   GUIStyle::draw_raised_box(gc, Rect(0,0,rect.get_width(), rect.get_height()));
   gc.draw_fillrect(Rect(4,4,rect.get_width()-4, 30), Color(77,130,180));
   gc.print_center(Fonts::pingus_small, Vector2i(rect.get_width()/2, 2),
-                  mode == LOAD ? _("Open a level") : _("Save your level"));
+                  mode == LOAD ? "Open a level" : "Save your level");
 }
 
 void

@@ -15,7 +15,6 @@
 #include "engine/display/display.hpp"
 #include "engine/gui/gui_manager.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 
 namespace Editor {
 
@@ -163,54 +162,54 @@ Panel::Panel(EditorScreen* editor_) :
 {
   editor->get_gui_manager()->add(this);
 
-  add_button("core/editor/document-new",  _("New level"),
+  add_button("core/editor/document-new",  "New level",
              &EditorScreen::level_new);
-  add_button("core/editor/document-open", _("Open level..."),
+  add_button("core/editor/document-open", "Open level...",
              &EditorScreen::level_load);
-  add_button("core/editor/document-save", _("Save level..."),
+  add_button("core/editor/document-save", "Save level...",
              &EditorScreen::level_save);
-  add_button("core/editor/document-save-as", _("Save level as..."),
+  add_button("core/editor/document-save-as", "Save level as...",
              &EditorScreen::level_save_as);
   add_separator();
-  add_button("core/editor/play", _("Play level..."),
+  add_button("core/editor/play", "Play level...",
              &EditorScreen::level_play);
   add_separator();
-  add_button("core/editor/actions", _("Configure actions"),
+  add_button("core/editor/actions", "Configure actions",
              &EditorScreen::toggle_action_properties);
-  add_button("core/editor/document-properties", _("Configure level"),
+  add_button("core/editor/document-properties", "Configure level",
              &EditorScreen::toggle_level_properties);
-  add_button("core/editor/object-properties", _("Display object properties"),
+  add_button("core/editor/object-properties", "Display object properties",
              &EditorScreen::toggle_object_properties);
-  add_button("core/editor/objects", _("Show object insertion window"),
+  add_button("core/editor/objects", "Show object insertion window",
              &EditorScreen::toggle_object_selector);
-  add_button("core/editor/minimap", _("Show minimap"),
+  add_button("core/editor/minimap", "Show minimap",
              &EditorScreen::toggle_minimap);
   add_separator();
-  add_button("core/editor/copy", _("Duplicate the selected objects") + " (D)",
+  add_button("core/editor/copy", std::string("Duplicate the selected objects") + " (D)",
              &EditorScreen::objects_duplicate);
-  add_button("core/editor/delete", _("Delete the selected objects") + " (Delete)",
+  add_button("core/editor/delete", std::string("Delete the selected objects") + " (Delete)",
              &EditorScreen::objects_delete);
   add_separator();
-  add_button("core/editor/object-top",    _("Raise object to top") + " (Shift+])",
+  add_button("core/editor/object-top",    std::string("Raise object to top") + " (Shift+])",
              &EditorScreen::objects_raise_to_top);
-  add_button("core/editor/object-up",     _("Raise object") + " (])",
+  add_button("core/editor/object-up",     std::string("Raise object") + " (])",
              &EditorScreen::objects_raise);
-  add_button("core/editor/object-down",   _("Lower object") + " ([)",
+  add_button("core/editor/object-down",   std::string("Lower object") + " ([)",
              &EditorScreen::objects_lower);
-  add_button("core/editor/object-bottom", _("Lower object to bottom") + " (Shift+[)",
+  add_button("core/editor/object-bottom", std::string("Lower object to bottom") + " (Shift+[)",
              &EditorScreen::objects_lower_to_bottom);
 
   if (0)
   { // rotate and flip are now in the object properties
     add_separator();
-    add_button("core/editor/object-flip-horizontal", _("Flip object horizontally") + " (F)",
+    add_button("core/editor/object-flip-horizontal", std::string("Flip object horizontally") + " (F)",
                &EditorScreen::objects_flip_horizontal);
-    add_button("core/editor/object-flip-vertical", _("Flip object vertically") + " (Shift+F)",
+    add_button("core/editor/object-flip-vertical", std::string("Flip object vertically") + " (Shift+F)",
                &EditorScreen::objects_flip_vertical);
     add_separator();
-    add_button("core/editor/object-rotate-left",  _("Rotate object -90 degree") + " (Shift+R)",
+    add_button("core/editor/object-rotate-left",  std::string("Rotate object -90 degree") + " (Shift+R)",
                &EditorScreen::objects_rotate_left);
-    add_button("core/editor/object-rotate-right", _("Rotate object 90 degree") + " (R)",
+    add_button("core/editor/object-rotate-right", std::string("Rotate object 90 degree") + " (R)",
                &EditorScreen::objects_rotate_right);
   }
 
@@ -219,9 +218,9 @@ Panel::Panel(EditorScreen* editor_) :
   //             &EditorScreen::toggle_grid_snap);
   // add_separator();
   add_separator();
-  add_button("core/editor/help", _("Display help"),
+  add_button("core/editor/help", "Display help",
              &EditorScreen::toggle_help);
-  add_button("core/editor/exit", _("Exit"),
+  add_button("core/editor/exit", "Exit",
              &EditorScreen::exit);
 }
 

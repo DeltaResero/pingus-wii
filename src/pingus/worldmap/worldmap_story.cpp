@@ -15,7 +15,6 @@
 #include <algorithm>
 
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/string_format.hpp"
 #include "util/file_reader.hpp"
 #include "util/raise_exception.hpp"
@@ -28,7 +27,6 @@ WorldmapStory::WorldmapStory(const FileReader& reader) :
   pages()
 {
   reader.read_string("title", title);
-  title = _(title);
   reader.read_string("music", music);
   FileReader all_pages = reader.read_section("pages");
 
@@ -46,7 +44,7 @@ WorldmapStory::WorldmapStory(const FileReader& reader) :
     i->read_desc("surface", desc);
     i->read_string("text", text);
     // Translate the text and break it up.
-    text = StringFormat::break_line(_(text), 570, Fonts::chalk_normal);
+    text = StringFormat::break_line(text, 570, Fonts::chalk_normal);
     pages.push_back(StoryPage(desc, text, page_name));
   }
   std::reverse(pages.begin(), pages.end());

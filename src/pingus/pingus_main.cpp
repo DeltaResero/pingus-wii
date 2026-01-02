@@ -27,7 +27,6 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
-#include "gettext.h"
 #include "util/command_line.hpp"
 
 #include "engine/screen/screen_manager.hpp"
@@ -128,74 +127,74 @@ void
 PingusMain::parse_args(int argc, char** argv)
 {
   CommandLine argp;
-  argp.add_usage(_("[OPTIONS]... [FILE]"));
-  argp.add_doc(_("Pingus is a puzzle game where you need to guide a bunch of little penguins around the world."));
+  argp.add_usage("[OPTIONS]... [FILE]");
+  argp.add_doc("Pingus is a puzzle game where you need to guide a bunch of little penguins around the world.");
 
-  argp.add_group(_("General Options:"));
+  argp.add_group("General Options:");
   argp.add_option('h', "help", "",
-                  _("Displays this help"));
+                  "Displays this help");
   argp.add_option('V', "version", "",
-                  _("Print version number and exit"));
+                  "Print version number and exit");
   argp.add_option('v', "verbose", "",
-                  _("Enable info level log output"));
+                  "Enable info level log output");
   argp.add_option('D', "debug", "",
-                  _("Enable debug level log output"));
+                  "Enable debug level log output");
   argp.add_option('Q', "quiet", "",
-                  _("Disable all log output"));
+                  "Disable all log output");
 
-  argp.add_group(_("Display Options:"));
+  argp.add_group("Display Options:");
   argp.add_option('w', "window", "",
-                  _("Start in Window Mode"));
+                  "Start in Window Mode");
   argp.add_option('f', "fullscreen", "",
-                  _("Start in Fullscreen"));
+                  "Start in Fullscreen");
   argp.add_option('r', "renderer", "RENDERER",
-                  _("Use the given renderer (default: sdl)"));
+                  "Use the given renderer (default: sdl)");
   argp.add_option('g', "geometry", "{width}x{height}",
-                  _("Set the window resolution for pingus (default: 800x600)"));
+                  "Set the window resolution for pingus (default: 800x600)");
   argp.add_option('R', "fullscreen-resolution", "{width}x{height}",
-                  _("Set the resolution used in fullscreen mode (default: 800x600)"));
+                  "Set the resolution used in fullscreen mode (default: 800x600)");
   argp.add_option(346, "software-cursor", "",
-                  _("Enable software cursor"));
+                  "Enable software cursor");
 
-  argp.add_group(_("Game Options:"));
+  argp.add_group("Game Options:");
   argp.add_option(337, "no-auto-scrolling", "",
-                  _("Disable automatic scrolling"));
+                  "Disable automatic scrolling");
   argp.add_option(338, "drag-drop-scrolling", "",
-                  _("Enable drag'n drop scrolling"));
+                  "Enable drag'n drop scrolling");
 
-  argp.add_group(_("Sound Options:"));
+  argp.add_group("Sound Options:");
   argp.add_option('s', "disable-sound", "",
-                  _("Disable sound"));
+                  "Disable sound");
   argp.add_option('m', "disable-music", "",
-                  _("Disable music"));
+                  "Disable music");
 
   argp.add_group("Editor Options:");
   argp.add_option('e', "editor", "",
-                  _("Loads the level editor"));
+                  "Loads the level editor");
 
-  argp.add_group(_("Directory Options:"));
-  argp.add_option('d', "datadir", _("DIR"),
-                  _("Load game datafiles from DIR"));
-  argp.add_option('u', "userdir", _("DIR"),
-                  _("Load config files and store savegames in DIR"));
-  argp.add_option('a', "addon", _("DIR"),
-                  _("Load game modifications from DIR"));
+  argp.add_group("Directory Options:");
+  argp.add_option('d', "datadir", "DIR",
+                  "Load game datafiles from DIR");
+  argp.add_option('u', "userdir", "DIR",
+                  "Load config files and store savegames in DIR");
+  argp.add_option('a', "addon", "DIR",
+                  "Load game modifications from DIR");
   argp.add_option(342, "no-cfg-file", "",
-                  _("Don't read ~/.pingus/config"));
-  argp.add_option('c', "config", _("FILE"),
-                  _("Read config options from FILE"));
+                  "Don't read ~/.pingus/config");
+  argp.add_option('c', "config", "FILE",
+                  "Read config options from FILE");
   argp.add_option(360, "controller", "FILE",
-                  _("Uses the controller given in FILE"));
+                  "Uses the controller given in FILE");
 
-  argp.add_group(_("Debug Options:"));
+  argp.add_group("Debug Options:");
   argp.add_option(334, "developer-mode",  "",
-                  _("Enables some special features for developers"));
+                  "Enables some special features for developers");
   argp.add_option('t', "speed", "SPEED",
-                  _("Set the game speed (0=fastest, >0=slower)"));
+                  "Set the game speed (0=fastest, >0=slower)");
   argp.add_option('k', "fps", "FPS",
-                  _("Set the desired game framerate (frames per second)"));
+                  "Set the desired game framerate (frames per second)");
   argp.add_option(344, "tile-size", "INT",
-                  _("Set the size of the map tiles (default: 32)"));
+                  "Set the size of the map tiles (default: 32)");
 
   argp.parse_args(argc, argv);
   argp.set_help_indent(20);
@@ -580,15 +579,15 @@ PingusMain::run(int argc, char** argv)
   }
   catch (const std::bad_alloc&)
   {
-    std::cout << _("Pingus: Out of memory!") << std::endl;
+    std::cout << "Pingus: Out of memory!" << std::endl;
   }
   catch (const std::exception& a)
   {
-    std::cout << _("Pingus: Standard exception caught!:\n") << a.what() << std::endl;
+    std::cout << "Pingus: Standard exception caught!:\n" << a.what() << std::endl;
   }
   catch (...)
   {
-    std::cout << _("Pingus: Unknown throw caught!") << std::endl;
+    std::cout << "Pingus: Unknown throw caught!" << std::endl;
   }
 
   Sound::PingusSound::deinit();

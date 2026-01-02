@@ -12,7 +12,6 @@
 #include "editor/message_box.hpp"
 
 #include "editor/gui_style.hpp"
-#include "pingus/gettext.h"
 #include "pingus/fonts.hpp"
 #include "util/log.hpp"
 
@@ -27,9 +26,9 @@ MessageBox::MessageBox(const Rect& rect_) :
   on_ok()
 {
   m_cancel_button = create<Button>(Rect(Vector2i(rect.get_width() - 4 - 210, rect.get_height() - 4 - 30),
-                                        Size(100, 30)), _("Cancel"));
+                                        Size(100, 30)), "Cancel");
   m_ok_button = create<Button>(Rect(Vector2i(rect.get_width() - 4 - 100, rect.get_height() - 4 - 30),
-                                    Size(100, 30)), _("Replace"));
+                                    Size(100, 30)), "Replace");
 
   m_ok_button->on_click.connect(std::bind(&MessageBox::on_ok_button, this));
   m_cancel_button->on_click.connect(std::bind(&MessageBox::on_cancel_button, this));

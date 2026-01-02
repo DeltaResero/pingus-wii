@@ -19,7 +19,6 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
-#include "pingus/gettext.h"
 #include "pingus/globals.hpp"
 #include "pingus/screens/start_screen.hpp"
 #include "util/log.hpp"
@@ -42,7 +41,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), _("Back"));
+    gc.print_center(Fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), "Back");
   }
 
   void on_click() {
@@ -147,8 +146,8 @@ public:
 
     if (globals::developer_mode)
     {
-      levelsets.push_back(Levelset::from_directory(_("Under Construction"),
-                                                   _("Untested, unpolished and broken levels"),
+      levelsets.push_back(Levelset::from_directory("Under Construction",
+                                                   "Untested, unpolished and broken levels",
                                                    "levelsets/underconstruction",
                                                    Pathname("levels", Pathname::DATA_PATH)).release());
     }
@@ -169,7 +168,7 @@ public:
     gc.push_modelview();
     gc.translate(rect.left, rect.top);
 
-    gc.print_center(Fonts::chalk_large, Vector2i(rect.get_width()/2, 10), _("Levelsets"));
+    gc.print_center(Fonts::chalk_large, Vector2i(rect.get_width()/2, 10), "Levelsets");
 
     int y = list_rect.top;
     for(int i = page; (i < (page+items_per_page)) && (i < int(levelsets.size())); ++i)
@@ -181,18 +180,18 @@ public:
 
       gc.draw(levelset->get_image(), Vector2i(list_rect.left + 10, y));
 
-      gc.print_left(Fonts::chalk_normal, Vector2i(list_rect.left + 105, 15 + y), _(levelset->get_title()));
-      gc.print_left(Fonts::chalk_small,  Vector2i(list_rect.left + 105, 40 + y), _(levelset->get_description()));
+      gc.print_left(Fonts::chalk_normal, Vector2i(list_rect.left + 105, 15 + y), levelset->get_title());
+      gc.print_left(Fonts::chalk_small,  Vector2i(list_rect.left + 105, 40 + y), levelset->get_description());
 
-      gc.print_right(Fonts::chalk_normal, Vector2i(list_rect.right, 15 + y), (boost::format("%1% %2%%%") % _("Solved:") % levelset->get_completion()).str());
-      gc.print_right(Fonts::chalk_small,  Vector2i(list_rect.right, 40 + y), (boost::format("%1% %2%") % levelset->get_level_count() % _("levels")).str());
+      gc.print_right(Fonts::chalk_normal, Vector2i(list_rect.right, 15 + y), (boost::format("%1% %2%%%") % "Solved:" % levelset->get_completion()).str());
+      gc.print_right(Fonts::chalk_small,  Vector2i(list_rect.right, 40 + y), (boost::format("%1% %2%") % levelset->get_level_count() % "levels").str());
 
       y += item_height;
     }
 
     //int total_pages = static_cast<int>(levelsets.size());;
     //gc.print_center(Fonts::chalk_normal, Vector2i(rect.get_width()/2, 360),
-    //                (boost::format("%1% %2%/%3%") % _("Page") % (page+1) % total_pages).str());
+    //                (boost::format("%1% %2%/%3%") % "Page" % (page+1) % total_pages).str());
 
     gc.pop_modelview();
   }
@@ -310,8 +309,8 @@ public:
     gc.draw(sprite, Vector2i(rect.get_width()/2 - sprite.get_width()/2 - 275, 15));
     gc.draw(sprite, Vector2i(rect.get_width()/2 - sprite.get_width()/2 + 275, 15));
 
-    gc.print_center(Fonts::chalk_large, Vector2i(rect.get_width()/2, 10), _(levelset->get_title()));
-    gc.print_center(Fonts::chalk_normal,  Vector2i(rect.get_width()/2, 62), _(levelset->get_description()));
+    gc.print_center(Fonts::chalk_large, Vector2i(rect.get_width()/2, 10), levelset->get_title());
+    gc.print_center(Fonts::chalk_normal,  Vector2i(rect.get_width()/2, 62), levelset->get_description());
 
     if (levelset)
     {
@@ -320,8 +319,8 @@ public:
       //gc.draw_fillrect(Rect(Vector2i(0,0), Size(rect.get_width(), rect.get_height())),
       //                 Color(255, 255, 0, 100));
 
-      //gc.print_left(Fonts::chalk_normal,  Vector2i(30, -32), _("Title"));
-      //gc.print_right(Fonts::chalk_normal, Vector2i(rect.get_width() - 30, -32), _("Status"));
+      //gc.print_left(Fonts::chalk_normal,  Vector2i(30, -32), "Title");
+      //gc.print_right(Fonts::chalk_normal, Vector2i(rect.get_width() - 30, -32), "Status");
 
       int y = list_rect.top;
       for(int i = page; i < (page + items_per_page) && i < levelset->get_level_count(); ++i)
@@ -339,7 +338,7 @@ public:
         }
         else
         {
-          gc.print_left(Fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), _(levelset->get_level(i)->plf.get_levelname()));
+          gc.print_left(Fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), levelset->get_level(i)->plf.get_levelname());
         }
 
         // draw icon

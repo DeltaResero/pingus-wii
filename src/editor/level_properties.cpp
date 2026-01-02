@@ -20,7 +20,6 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 #include "pingus/game_time.hpp"
-#include "pingus/gettext.h"
 
 /*
   Level Properties:
@@ -46,32 +45,32 @@ LevelProperties::LevelProperties(EditorScreen* editor_, const Rect& rect_) :
   height(),
   music()
 {
-  create<Label>(Rect(Vector2i( 10,  10), Size( 80, 20)), _("Author:"));
+  create<Label>(Rect(Vector2i( 10,  10), Size( 80, 20)), "Author:");
   author = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  32), Size( 80, 20)), _("Levelname:"));
+  create<Label>(Rect(Vector2i( 10,  32), Size( 80, 20)), "Levelname:");
   levelname = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  54), Size( 80, 20)), _("Description:"));
+  create<Label>(Rect(Vector2i( 10,  54), Size( 80, 20)), "Description:");
   description = create<Inputbox>();
 
   int y = 116;
-  create<Label>(Rect(Vector2i( 10,  y), Size( 80, 20)), _("Pingus Count:"));
+  create<Label>(Rect(Vector2i( 10,  y), Size( 80, 20)), "Pingus Count:");
   number_of_pingus = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  y+22), Size( 80, 20)), _("Pingus to Save:"));
+  create<Label>(Rect(Vector2i( 10,  y+22), Size( 80, 20)), "Pingus to Save:");
   number_to_save = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  y+44), Size( 80, 20)), _("Time:"));
+  create<Label>(Rect(Vector2i( 10,  y+44), Size( 80, 20)), "Time:");
   time = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  y+66), Size( 80, 20)), _("Width:"));
+  create<Label>(Rect(Vector2i( 10,  y+66), Size( 80, 20)), "Width:");
   width = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10,  y+88), Size( 80, 20)), _("Height:"));
+  create<Label>(Rect(Vector2i( 10,  y+88), Size( 80, 20)), "Height:");
   height = create<Inputbox>();
 
-  create<Label>(Rect(Vector2i( 10, y+110), Size( 80, 20)), _("Music:"));
+  create<Label>(Rect(Vector2i( 10, y+110), Size( 80, 20)), "Music:");
   music = create<Inputbox>();
 
   author->on_change.connect(std::bind(&LevelProperties::on_author_change, this, std::placeholders::_1));

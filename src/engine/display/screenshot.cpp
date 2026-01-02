@@ -19,7 +19,6 @@
 #include <SDL_opengl.h>
 #endif
 
-#include "pingus/gettext.h"
 #include "util/log.hpp"
 #include "util/system.hpp"
 
