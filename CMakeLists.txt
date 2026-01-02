@@ -20,7 +20,6 @@ option(WITH_XINPUT "Build with XInput support" OFF)
 option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
-option(BUILD_EXTRA "Build extra utilities" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -327,16 +326,6 @@ if(BUILD_TESTS)
     endforeach()
 endif()
 
-# Build extra utilities if enabled
-if(BUILD_EXTRA)
-    file(GLOB EXTRA_SOURCES "${CMAKE_SOURCE_DIR}/extra/*.cpp")
-    foreach(extra_source ${EXTRA_SOURCES})
-        get_filename_component(extra_name ${extra_source} NAME_WE)
-        add_executable(${extra_name} ${extra_source})
-        target_link_libraries(${extra_name} libpingus)
-    endforeach()
-endif()
-
 # Print configuration summary
 message(STATUS "")
 message(STATUS "Pingus Configuration Summary:")
@@ -353,5 +342,4 @@ message(STATUS "  Wiimote support: ${WITH_WIIMOTE}")
 message(STATUS "")
 message(STATUS "Optional Builds:")
 message(STATUS "  Build tests: ${BUILD_TESTS}")
-message(STATUS "  Build extra: ${BUILD_EXTRA}")
 message(STATUS "")
