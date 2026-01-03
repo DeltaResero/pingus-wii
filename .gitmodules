@@ -1,3 +1,0 @@
-[submodule "external/logmich"]
-	path = external/logmich
-	url = https://github.com/logmich/logmich.git
