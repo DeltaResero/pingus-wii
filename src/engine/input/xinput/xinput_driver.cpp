@@ -61,7 +61,7 @@ XInputDriver::setup_xinput()
     XDeviceInfo* info = XListInputDevices(sys.info.x11.display, &num_devices);
     for(int i = 0; i < num_devices; ++i)
     {
-      log_debug("XInputDriver: Device name='%1'", info[i].name);
+      log_debug("XInputDriver: Device name='{}'", info[i].name);
       // FIXME: Xinput isn't necesarrily a mouse, could be anything
       //if (info[i].use == IsXExtensionDevice)
       // {

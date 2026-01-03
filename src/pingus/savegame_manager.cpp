@@ -37,14 +37,14 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
 
   if (!System::exist(filename))
   {
-    log_info("%1%: savegame file not found", filename);
+    log_info("{}: savegame file not found", filename);
   }
   else
   {
     FileReader reader = FileReader::parse(filename);
     if (reader.get_name() != "pingus-savegame")
     {
-      log_error("%1%: not a (pingus-savegame) file", filename);
+      log_error("{}: not a (pingus-savegame) file", filename);
     }
     else
     {
@@ -56,7 +56,7 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
         SavegameTable::iterator j = find(savegame->get_filename());
         if (j != savegames.end())
         { // overwrite duplicates, shouldn't happen, but harmless
-          log_info("name collision: %1%", savegame->get_filename());
+          log_info("name collision: {}", savegame->get_filename());
           delete *j;
           *j = savegame;
         }
@@ -116,7 +116,7 @@ SavegameManager::store(Savegame& arg_savegame)
 SavegameManager::SavegameTable::iterator
 SavegameManager::find(const std::string& filename_)
 {
-  //log_info("SavegameManager::find: \"" << filename << "\"");
+  //log_info("SavegameManager::find: \"{}\"", filename);
 
   for(SavegameTable::iterator i = savegames.begin();
       i != savegames.end(); ++i)

@@ -60,7 +60,7 @@ private:
 
     bool operator()(NodeId a, NodeId b)
     {
-      //log_info("Coast: " << pathfinder.stat_graph[a].cost << " " << pathfinder.stat_graph[b].cost);
+      //log_info("Coast: {} {}", pathfinder.stat_graph[a].cost, pathfinder.stat_graph[b].cost);
       return pathfinder.stat_graph[a].cost > pathfinder.stat_graph[b].cost;
     }
   };

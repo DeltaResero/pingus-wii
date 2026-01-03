@@ -163,7 +163,7 @@ public:
           && i->destination == destination)
         return *i;
     }
-    log_error("couldn't resolve edge: source=%1% destination=%2%", source, destination);
+    log_error("couldn't resolve edge: source={} destination={}", source, destination);
     assert(false);
     return *(static_cast<Edge<EdgeType>*>(0));
   }

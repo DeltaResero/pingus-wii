@@ -106,7 +106,7 @@ Manager::create_controller(const Pathname& filename)
           if (pointer)
             ctrl_pointer->add_pointer(pointer);
           else
-            log_error("Manager: pointer: Couldn't create pointer %1%", j->get_name());
+            log_error("Manager: pointer: Couldn't create pointer {}", j->get_name());
         }
 
       }
@@ -121,7 +121,7 @@ Manager::create_controller(const Pathname& filename)
           if (scroller)
             ctrl_scroller->add_scroller(scroller);
           else
-            log_error("Manager: scroller: Couldn't create scroller %1%", j->get_name());
+            log_error("Manager: scroller: Couldn't create scroller {}", j->get_name());
         }
 
       }
@@ -136,7 +136,7 @@ Manager::create_controller(const Pathname& filename)
           if (button)
             ctrl_button->add_button(button);
           else
-            log_error("Manager: button: Couldn't create button %1%", j->get_name());
+            log_error("Manager: button: Couldn't create button {}", j->get_name());
         }
       }
       else if (StringUtil::has_suffix(i->get_name(), "axis"))
@@ -150,7 +150,7 @@ Manager::create_controller(const Pathname& filename)
           if (axis)
             ctrl_axis->add_axis(axis);
           else
-            log_error("Manager: axis: Couldn't create axis %1%", j->get_name());
+            log_error("Manager: axis: Couldn't create axis {}", j->get_name());
         }
       }
       else if (StringUtil::has_suffix(i->get_name(), "keyboard"))
@@ -164,7 +164,7 @@ Manager::create_controller(const Pathname& filename)
           if (keyboard)
             ctrl_keyboard->add_keyboard(keyboard);
           else
-            log_error("Manager: keyboard: Couldn't create keyboard %1%", j->get_name());
+            log_error("Manager: keyboard: Couldn't create keyboard {}", j->get_name());
         }
       }
       else
@@ -220,12 +220,12 @@ Manager::load_driver(const std::string& name)
   }
   else
   {
-    log_info("loading driver '%1%'", name);
+    log_info("loading driver '{}'", name);
 
     driver = DriverFactory::create(name, this);
     if (!driver)
     {
-      log_error("unknown driver: %1%", name);
+      log_error("unknown driver: {}", name);
       return 0;
     }
     else
@@ -248,7 +248,7 @@ Manager::create_button(const FileReader& reader, Control* parent)
   }
   else
   {
-    log_error("couldn't find driver: '%1%'", driver);
+    log_error("couldn't find driver: '{}'", driver);
     return 0;
   }
 }
@@ -265,7 +265,7 @@ Manager::create_axis(const FileReader& reader, Control* parent)
   }
   else
   {
-    log_error("couldn't find driver: '%1%'", driver);
+    log_error("couldn't find driver: '{}'", driver);
     return 0;
   }
 }
@@ -282,7 +282,7 @@ Manager::create_pointer(const FileReader& reader, Control* parent)
   }
   else
   {
-    log_error("couldn't find driver: '%1%'", driver);
+    log_error("couldn't find driver: '{}'", driver);
     return 0;
   }
 }
@@ -299,7 +299,7 @@ Manager::create_scroller(const FileReader& reader, Control* parent)
   }
   else
   {
-    log_error("couldn't find driver: '%1%'", driver);
+    log_error("couldn't find driver: '{}'", driver);
     return 0;
   }
 }
@@ -316,7 +316,7 @@ Manager::create_keyboard(const FileReader& reader, Control* parent)
   }
   else
   {
-    log_error("couldn't find driver: '%1%'", driver);
+    log_error("couldn't find driver: '{}'", driver);
     return 0;
   }
 }

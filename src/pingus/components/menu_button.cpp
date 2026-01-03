@@ -84,14 +84,14 @@ MenuButton::on_pointer_enter ()
 {
   mouse_over = true;
   Sound::PingusSound::play_sound ("tick");
-  //log_info("X: " << this << "enter");
+  //log_info("X: {} enter", (void*)this);
   menu->set_hint(desc);
 }
 
 void
 MenuButton::on_pointer_leave ()
 {
-  //log_info("X: " << this << "leave");
+  //log_info("X: {} leave", (void*)this);
   mouse_over = false;
   menu->set_hint("");
 }

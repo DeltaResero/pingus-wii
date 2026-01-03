@@ -49,7 +49,7 @@ ConfigManager::~ConfigManager()
 void
 ConfigManager::set_master_volume(int v)
 {
-  log_info("ConfigManager::set_master_volume: %1%", v);
+  log_info("ConfigManager::set_master_volume: {}", v);
   Sound::PingusSound::set_master_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.master_volume.set(get_master_volume());
@@ -64,7 +64,7 @@ ConfigManager::get_master_volume() const
 void
 ConfigManager::set_sound_volume(int v)
 {
-  log_info("ConfigManager::set_sound_volume: %1%", v);
+  log_info("ConfigManager::set_sound_volume: {}", v);
   Sound::PingusSound::set_sound_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.sound_volume.set(get_sound_volume());
@@ -79,7 +79,7 @@ ConfigManager::get_sound_volume() const
 void
 ConfigManager::set_music_volume(int v)
 {
-  log_info("ConfigManager::set_music_volume: %1%", v);
+  log_info("ConfigManager::set_music_volume: {}", v);
   Sound::PingusSound::set_music_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.music_volume.set(get_music_volume());
@@ -94,7 +94,7 @@ ConfigManager::get_music_volume() const
 void
 ConfigManager::set_fullscreen_resolution(const Size& size)
 {
-  log_info("%1%x%2%", size.width, size.height);
+  log_info("{}x{}", size.width, size.height);
 
   if (size != get_fullscreen_resolution())
   {
@@ -119,7 +119,7 @@ ConfigManager::get_fullscreen_resolution() const
 void
 ConfigManager::set_fullscreen(bool v)
 {
-  log_info("ConfigManager::set_fullscreen: %1%", v);
+  log_info("ConfigManager::set_fullscreen: {}", v);
 
   if (v != get_fullscreen())
   {
@@ -153,7 +153,7 @@ ConfigManager::get_renderer() const
 void
 ConfigManager::set_resizable(bool v)
 {
-  log_info("ConfigManager::set_resizable: %1%", v);
+  log_info("ConfigManager::set_resizable: {}", v);
 
   if (v != get_resizable())
   {
@@ -172,7 +172,7 @@ ConfigManager::get_resizable() const
 void
 ConfigManager::set_mouse_grab(bool v)
 {
-  log_info("ConfigManager::set_mouse_grab: %1%", v);
+  log_info("ConfigManager::set_mouse_grab: {}", v);
 
   if (v != get_mouse_grab())
   {
@@ -192,7 +192,7 @@ ConfigManager::get_mouse_grab() const
 void
 ConfigManager::set_print_fps(bool v)
 {
-  log_info("ConfigManager::set_print_fps: %1%", v);
+  log_info("ConfigManager::set_print_fps: {}", v);
 
   if (v != get_print_fps())
   {
@@ -212,7 +212,7 @@ ConfigManager::get_print_fps() const
 void
 ConfigManager::set_software_cursor(bool v)
 {
-  log_info("ConfigManager::set_software_cursor: %1%", v);
+  log_info("ConfigManager::set_software_cursor: {}", v);
 
   if (v != get_software_cursor())
   {
@@ -232,7 +232,7 @@ ConfigManager::get_software_cursor() const
 void
 ConfigManager::set_auto_scrolling(bool v)
 {
-  log_info("ConfigManager::set_auto_scrolling: %1%", v);
+  log_info("ConfigManager::set_auto_scrolling: {}", v);
 
   if (v != get_auto_scrolling())
   {

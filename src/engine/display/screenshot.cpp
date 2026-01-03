@@ -28,7 +28,7 @@ std::string
 Screenshot::make_screenshot()
 {
   std::string filename = get_filename();
-  log_info("Screenshot: Saving screenshot to: %1%", filename);
+  log_info("Screenshot: Saving screenshot to: {}", filename);
   save(SDL_GetVideoSurface(), filename);
   log_info("Screenshot: Screenshot is done.");
 
@@ -96,7 +96,7 @@ Screenshot::save(SDL_Surface* surface, const std::string& filename)
         break;
       }
       default:
-        log_info("BitsPerPixel: %1%", int(surface->format->BitsPerPixel));
+        log_info("BitsPerPixel: {}", int(surface->format->BitsPerPixel));
         assert(!"Unknown color format");
         break;
     }
@@ -115,7 +115,7 @@ Screenshot::save_ppm(const std::string& filename, uint8_t* buffer, int width, in
   if (!out)
   {
     perror(filename.c_str());
-    log_info("Screenshot: Couldn't write file: %1%", filename);
+    log_info("Screenshot: Couldn't write file: {}", filename);
     return;
   }
 
@@ -143,7 +143,7 @@ Screenshot::save_png(const std::string& filename, uint8_t* buffer, int width, in
   if (fp == NULL)
   {
     perror(filename.c_str());
-    log_info("Screenshot: Couldn't write file: %1%", filename);
+    log_info("Screenshot: Couldn't write file: {}", filename);
     return;
   }
 

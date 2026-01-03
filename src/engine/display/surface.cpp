@@ -367,7 +367,7 @@ Surface::mod(ResourceModifier::Enum modifier)
       return Blitter::rotate_270_flip(*this);
 
     default:
-      log_error("Surface: unhandled modifier: %1%", modifier);
+      log_error("Surface: unhandled modifier: {}", static_cast<int>(modifier));
       return *this;
   }
 }
@@ -473,7 +473,7 @@ Surface::fill(const Color& color)
     }
     else
     {
-      log_error("unsupported BytesPerPixel format: %1%", impl->surface->format->BytesPerPixel);
+      log_error("unsupported BytesPerPixel format: {}", impl->surface->format->BytesPerPixel);
     }
   }
 }

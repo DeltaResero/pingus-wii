@@ -50,7 +50,7 @@ PathManager::complete(const std::string& relative_path)
     std::string absolute_path = Pathname::join(*it, relative_path);
     bool exist = System::exist(absolute_path);
 
-    log_debug("%1%: ", absolute_path, (exist ? "exist" : "missing"));
+    log_debug("{}: {}", absolute_path, (exist ? "exist" : "missing"));
 
     if (exist)
     {

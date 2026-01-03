@@ -68,7 +68,7 @@ StoryDot::on_click()
   }
   catch(const std::exception& err)
   {
-    log_error("%1%", err.what());
+    log_error("{}", err.what());
   }
 }
 

@@ -300,7 +300,7 @@ OptionMenu::on_escape_press()
 
   // save configuration
   Pathname cfg_filename(System::get_userdir() + "config", Pathname::SYSTEM_PATH);
-  log_info("saving configuration: %1%", cfg_filename);
+  log_info("saving configuration: {}", cfg_filename.str());
   config_manager.get_options().save(cfg_filename);
 }
 
@@ -400,7 +400,7 @@ OptionMenu::on_resolution_change(const std::string& str)
   Size size_;
   if (sscanf(str.c_str(), "%dx%d", &size_.width, &size_.height) != 2)
   {
-    log_error("failed to parse: %1%", str);
+    log_error("failed to parse: {}", str);
   }
   else
   {

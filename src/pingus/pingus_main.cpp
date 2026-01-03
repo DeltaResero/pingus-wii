@@ -68,7 +68,7 @@ PingusMain::read_rc_file (void)
 
     if (!System::exist(filename))
     {
-      log_info("%1%: config file not found", filename);
+      log_info("{}: config file not found", filename);
     }
     else
     {
@@ -81,7 +81,7 @@ PingusMain::read_rc_file (void)
       }
       catch(const std::exception& err)
       {
-        log_error("%1%", err.what());
+        log_error("{}", err.what());
       }
     }
   }
@@ -557,7 +557,7 @@ PingusMain::run(int argc, char** argv)
       }
       else
       {
-        log_error("couldn't create window, falling back to SDL: %1%", err.what());
+        log_error("couldn't create window, falling back to SDL: {}", err.what());
         system.create_window(SDL_FRAMEBUFFER, screen_size, fullscreen, resizable);
         config_manager.set_renderer(SDL_FRAMEBUFFER);
       }

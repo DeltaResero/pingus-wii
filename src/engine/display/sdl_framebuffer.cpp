@@ -429,7 +429,7 @@ SDLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resizable
 
   if (screen == NULL)
   {
-    log_error("Unable to set video mode: %1%", SDL_GetError());
+    log_error("Unable to set video mode: {}", SDL_GetError());
     exit(1);
   }
 }

@@ -3,7 +3,7 @@ project(Pingus VERSION 0.7.7 LANGUAGES CXX)
 set(VERSION ${PROJECT_VERSION})
 
 # C++ Standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Build options
@@ -20,6 +20,7 @@ option(WITH_XINPUT "Build with XInput support" OFF)
 option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
+option(ENABLE_LOGGING "Enable application logging" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -206,16 +207,11 @@ endif()
 include_directories(
     ${CMAKE_BINARY_DIR}  # For config.h
     ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/external/logmich/include
     ${SDL_INCLUDE_DIRS}
     ${SDL_IMAGE_INCLUDE_DIRS}
     ${SDL_MIXER_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
-)
-
-file(GLOB_RECURSE LOGMICH_SOURCES 
-    "${CMAKE_SOURCE_DIR}/external/logmich/src/*.cpp"
 )
 
 # Gather all Pingus source files
@@ -266,8 +262,11 @@ endif()
 # Create static library
 add_library(libpingus STATIC
     ${PINGUS_SOURCES}
-    ${LOGMICH_SOURCES}
 )
+
+if(ENABLE_LOGGING)
+    target_compile_definitions(libpingus PRIVATE LOGGING_ENABLED)
+endif()
 
 # Set library name (without 'lib' prefix duplication)
 set_target_properties(libpingus PROPERTIES OUTPUT_NAME pingus)
@@ -335,6 +334,7 @@ message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "")
 message(STATUS "Feature Support:")
+message(STATUS "  Logging support: ${ENABLE_LOGGING}")
 message(STATUS "  OpenGL support: ${WITH_OPENGL}")
 message(STATUS "  XInput support: ${WITH_XINPUT}")
 message(STATUS "  Linux evdev support: ${WITH_LINUXEVDEV}")

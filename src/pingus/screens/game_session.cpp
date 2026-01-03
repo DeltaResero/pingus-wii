@@ -198,7 +198,7 @@ GameSession::update(const Input::Event& event)
 {
   GUIScreen::update(event);
 
-  //log_info("Events: " << event.get_type ());
+  //log_info("Events: {}", event.get_type ());
 
   switch (event.type)
   {
@@ -242,7 +242,7 @@ GameSession::update(const Input::Event& event)
 
     default:
       // unhandled event
-      log_info("GameSession::process_events (): unhandled event: %1%", event.type);
+      log_info("GameSession::process_events (): unhandled event: {}", static_cast<int>(event.type));
       break;
   }
 }
@@ -338,7 +338,7 @@ GameSession::on_startup ()
   is_finished = false;
 
   if (globals::developer_mode)
-    log_info("Starting Music: %1%", server->get_plf().get_music());
+    log_info("Starting Music: {}", server->get_plf().get_music());
 
   if (server->get_plf().get_music() == "none" ||
       server->get_plf().get_music().empty())
