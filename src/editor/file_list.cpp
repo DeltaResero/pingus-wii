@@ -11,6 +11,8 @@
 
 #include "editor/file_list.hpp"
 
+#include <algorithm>
+
 #include "editor/gui_style.hpp"
 #include "util/log.hpp"
 #include "pingus/fonts.hpp"
@@ -145,7 +147,8 @@ FileList::on_primary_button_release (int x, int y)
   on_pointer_move(x,y);
   if (click_item == current_item && current_item != -1)
   {
-    on_click(directory[current_item]);
+    if (on_click)
+      on_click(directory[current_item]);
   }
   click_item = -1;
 }

@@ -12,7 +12,7 @@
 
 #include "editor/viewport.hpp"
 
-#include <boost/format.hpp>
+#include <algorithm>
 
 #include "editor/editor_level.hpp"
 #include "editor/editor_screen.hpp"

@@ -101,7 +101,7 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   gptype_type->add(Groundtype::GP_REMOVE,      "Remove");
   gptype_type->set_selected_item(Groundtype::GP_GROUND);
 
-  gptype_type->on_select.connect(std::bind(&ObjectProperties::on_gptype_change, this, std::placeholders::_1));
+  gptype_type->on_select = std::bind(&ObjectProperties::on_gptype_change, this, std::placeholders::_1);
 
   entrance_direction_label = create<Label>(label_rect, "Direction:");
   entrance_direction = create<Combobox>(box_rect);
@@ -110,12 +110,12 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   entrance_direction->add(2, "Right");
   entrance_direction->set_selected_item(0);
 
-  entrance_direction->on_select.connect(std::bind(&ObjectProperties::on_entrance_direction_change, this, std::placeholders::_1));
+  entrance_direction->on_select = std::bind(&ObjectProperties::on_entrance_direction_change, this, std::placeholders::_1);
 
   release_rate_label = create<Label>(label_rect, "ReleaseRate:");
   release_rate_inputbox = create<Inputbox>(box_rect);
 
-  release_rate_inputbox->on_change.connect(std::bind(&ObjectProperties::on_release_rate_change, this, std::placeholders::_1));
+  release_rate_inputbox->on_change = std::bind(&ObjectProperties::on_release_rate_change, this, std::placeholders::_1);
 
   // Background Stretch
   stretch_label = create<Label>(label_rect, "Stretch:");
@@ -126,14 +126,14 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
                                              Size(box_rect.get_width()/2, box_rect.get_height())),
                                         "Y");
 
-  stretch_x_checkbox->on_change.connect(std::bind(&ObjectProperties::on_stretch_x_change, this, std::placeholders::_1));
-  stretch_y_checkbox->on_change.connect(std::bind(&ObjectProperties::on_stretch_y_change, this, std::placeholders::_1));
+  stretch_x_checkbox->on_change = std::bind(&ObjectProperties::on_stretch_x_change, this, std::placeholders::_1);
+  stretch_y_checkbox->on_change = std::bind(&ObjectProperties::on_stretch_y_change, this, std::placeholders::_1);
 
   keep_aspect_label = create<Label>(label_rect, "Aspect:");
   keep_aspect_checkbox = create<Checkbox>(Rect(Vector2i(box_rect.left, box_rect.top),
                                                Size(box_rect.get_width(), box_rect.get_height())),
                                           "keep");
-  keep_aspect_checkbox->on_change.connect(std::bind(&ObjectProperties::on_keep_aspect_change, this, std::placeholders::_1));
+  keep_aspect_checkbox->on_change = std::bind(&ObjectProperties::on_keep_aspect_change, this, std::placeholders::_1);
 
   para_x_label = create<Label>(label_rect, "Para-X:");
   para_y_label = create<Label>(label_rect, "Para-Y:");
@@ -141,8 +141,8 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   para_x_inputbox = create<Inputbox>(box_rect);
   para_y_inputbox = create<Inputbox>(box_rect);
 
-  para_x_inputbox->on_change.connect(std::bind(&ObjectProperties::on_para_x_change, this, std::placeholders::_1));
-  para_y_inputbox->on_change.connect(std::bind(&ObjectProperties::on_para_y_change, this, std::placeholders::_1));
+  para_x_inputbox->on_change = std::bind(&ObjectProperties::on_para_x_change, this, std::placeholders::_1);
+  para_y_inputbox->on_change = std::bind(&ObjectProperties::on_para_y_change, this, std::placeholders::_1);
 
   scroll_x_label = create<Label>(label_rect, "Scroll-X:");
   scroll_y_label = create<Label>(label_rect, "Scroll-Y:");
@@ -150,24 +150,24 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   scroll_x_inputbox = create<Inputbox>(box_rect);
   scroll_y_inputbox = create<Inputbox>(box_rect);
 
-  scroll_x_inputbox->on_change.connect(std::bind(&ObjectProperties::on_scroll_x_change, this, std::placeholders::_1));
-  scroll_y_inputbox->on_change.connect(std::bind(&ObjectProperties::on_scroll_y_change, this, std::placeholders::_1));
+  scroll_x_inputbox->on_change = std::bind(&ObjectProperties::on_scroll_x_change, this, std::placeholders::_1);
+  scroll_y_inputbox->on_change = std::bind(&ObjectProperties::on_scroll_y_change, this, std::placeholders::_1);
 
   owner_label = create<Label>(label_rect, "Owner Id:");
   owner_inputbox = create<Inputbox>(box_rect);
-  owner_inputbox->on_change.connect(std::bind(&ObjectProperties::on_owner_change, this, std::placeholders::_1));
+  owner_inputbox->on_change = std::bind(&ObjectProperties::on_owner_change, this, std::placeholders::_1);
 
   pos_x_label = create<Label>(label_rect, "X-Pos:");
   pos_x_inputbox = create<Inputbox>(box_rect);
-  pos_x_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_x_change, this, std::placeholders::_1));
+  pos_x_inputbox->on_change = std::bind(&ObjectProperties::on_pos_x_change, this, std::placeholders::_1);
 
   pos_y_label = create<Label>(label_rect, "Y-Pos:");
   pos_y_inputbox = create<Inputbox>(box_rect);
-  pos_y_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_y_change, this, std::placeholders::_1));
+  pos_y_inputbox->on_change = std::bind(&ObjectProperties::on_pos_y_change, this, std::placeholders::_1);
 
   pos_z_label = create<Label>(label_rect, "Z-Pos:");
   pos_z_inputbox = create<Inputbox>(box_rect);
-  pos_z_inputbox->on_change.connect(std::bind(&ObjectProperties::on_pos_z_change, this, std::placeholders::_1));
+  pos_z_inputbox->on_change = std::bind(&ObjectProperties::on_pos_z_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   Size color_s(box_rect.get_width()/4, box_rect.get_height());
@@ -178,10 +178,10 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   color_b_inputbox = create<Inputbox>(Rect(Vector2i(box_rect.left + 2*color_s.width, box_rect.top), color_s));
   color_a_inputbox = create<Inputbox>(Rect(Vector2i(box_rect.left + 3*color_s.width, box_rect.top), color_s));
 
-  color_r_inputbox->on_change.connect(std::bind(&ObjectProperties::on_color_r_change, this, std::placeholders::_1));
-  color_g_inputbox->on_change.connect(std::bind(&ObjectProperties::on_color_g_change, this, std::placeholders::_1));
-  color_b_inputbox->on_change.connect(std::bind(&ObjectProperties::on_color_b_change, this, std::placeholders::_1));
-  color_a_inputbox->on_change.connect(std::bind(&ObjectProperties::on_color_a_change, this, std::placeholders::_1));
+  color_r_inputbox->on_change = std::bind(&ObjectProperties::on_color_r_change, this, std::placeholders::_1);
+  color_g_inputbox->on_change = std::bind(&ObjectProperties::on_color_g_change, this, std::placeholders::_1);
+  color_b_inputbox->on_change = std::bind(&ObjectProperties::on_color_b_change, this, std::placeholders::_1);
+  color_a_inputbox->on_change = std::bind(&ObjectProperties::on_color_a_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   small_stars_label    = create<Label>(label_rect, "Small Stars:");
@@ -193,14 +193,14 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   large_stars_label    = create<Label>(label_rect, "Large Stars:");
   large_stars_inputbox = create<Inputbox>(box_rect);
 
-  small_stars_inputbox->on_change.connect(std::bind(&ObjectProperties::on_small_stars_change, this, std::placeholders::_1));
-  middle_stars_inputbox->on_change.connect(std::bind(&ObjectProperties::on_middle_stars_change, this, std::placeholders::_1));
-  large_stars_inputbox->on_change.connect(std::bind(&ObjectProperties::on_large_stars_change, this, std::placeholders::_1));
+  small_stars_inputbox->on_change = std::bind(&ObjectProperties::on_small_stars_change, this, std::placeholders::_1);
+  middle_stars_inputbox->on_change = std::bind(&ObjectProperties::on_middle_stars_change, this, std::placeholders::_1);
+  large_stars_inputbox->on_change = std::bind(&ObjectProperties::on_large_stars_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   repeat_label = create<Label>(label_rect, "Repeat:");
   repeat_inputbox = create<Inputbox>(box_rect);
-  repeat_inputbox->on_change.connect(std::bind(&ObjectProperties::on_repeat_change, this, std::placeholders::_1));
+  repeat_inputbox->on_change = std::bind(&ObjectProperties::on_repeat_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   flip_horizontal_button = create<Button>(Rect(Vector2i(15+40*0-3, 0), Size(34, 34)), "|");
@@ -208,24 +208,24 @@ ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   rotate_270_button      = create<Button>(Rect(Vector2i(15+40*2-3 + 20, 0), Size(34, 34)), "<-.");
   rotate_90_button       = create<Button>(Rect(Vector2i(15+40*3-3 + 20, 0), Size(34, 34)), ".->");
 
-  flip_vertical_button->on_click.connect(std::bind(&ObjectProperties::on_flip_vertical, this));
-  flip_horizontal_button->on_click.connect(std::bind(&ObjectProperties::on_flip_horizontal, this));
-  rotate_90_button->on_click.connect(std::bind(&ObjectProperties::on_rotate_90, this));
-  rotate_270_button->on_click.connect(std::bind(&ObjectProperties::on_rotate_270, this));
+  flip_vertical_button->on_click = std::bind(&ObjectProperties::on_flip_vertical, this);
+  flip_horizontal_button->on_click = std::bind(&ObjectProperties::on_flip_horizontal, this);
+  rotate_90_button->on_click = std::bind(&ObjectProperties::on_rotate_90, this);
+  rotate_270_button->on_click = std::bind(&ObjectProperties::on_rotate_270, this);
   // ___________________________________________________________________
   //
   id_label    = create<Label>(label_rect, "Id:");
   id_inputbox = create<Inputbox>(box_rect);
-  id_inputbox->on_change.connect(std::bind(&ObjectProperties::on_id_change, this, std::placeholders::_1));
+  id_inputbox->on_change = std::bind(&ObjectProperties::on_id_change, this, std::placeholders::_1);
 
   target_id_label    = create<Label>(label_rect, "Target Id:");
   target_id_inputbox = create<Inputbox>(box_rect);
-  target_id_inputbox->on_change.connect(std::bind(&ObjectProperties::on_target_id_change, this, std::placeholders::_1));
+  target_id_inputbox->on_change = std::bind(&ObjectProperties::on_target_id_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   height_label    = create<Label>(label_rect, "Height:");
   height_inputbox = create<Inputbox>(box_rect);
-  height_inputbox->on_change.connect(std::bind(&ObjectProperties::on_height_change, this, std::placeholders::_1));
+  height_inputbox->on_change = std::bind(&ObjectProperties::on_height_change, this, std::placeholders::_1);
   // ___________________________________________________________________
   //
   set_object(LevelObjPtr());

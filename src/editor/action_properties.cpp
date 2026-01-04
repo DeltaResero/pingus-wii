@@ -72,8 +72,8 @@ ActionProperties::add_action(ActionName::Enum id)
 
   action_comps[id] = comp;
 
-  comp.checkbox->on_change.connect(std::bind(&ActionProperties::on_checkbox_change, this, std::placeholders::_1, id));
-  comp.inputbox->on_change.connect(std::bind(&ActionProperties::on_inputbox_change, this, std::placeholders::_1, id));
+  comp.checkbox->on_change = std::bind(&ActionProperties::on_checkbox_change, this, std::placeholders::_1, id);
+  comp.inputbox->on_change = std::bind(&ActionProperties::on_inputbox_change, this, std::placeholders::_1, id);
 
   y_pos += 22;
 }

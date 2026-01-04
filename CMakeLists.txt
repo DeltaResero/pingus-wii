@@ -34,25 +34,9 @@ pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(PNG REQUIRED libpng)
 
-# Boost
-# Set policy for modern CMake and Boost 1.70+
-if(POLICY CMP0167)
-    cmake_policy(SET CMP0167 NEW)
-endif()
-
-# In Boost 1.69+, System became header-only
-# In Boost 1.89, we only need filesystem (system is header-only)
-find_package(Boost 1.69 REQUIRED COMPONENTS filesystem)
-
-# Boost.Signals2 is header-only (old Signals was removed)
-if(Boost_FOUND)
-    message(STATUS "Boost version: ${Boost_VERSION}")
-    message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
-    message(STATUS "Boost libraries: ${Boost_LIBRARIES}")
-endif()
-
 # OpenGL (optional)
 if(WITH_OPENGL)
+    set(OpenGL_GL_PREFERENCE LEGACY)
     find_package(OpenGL)
     if(OPENGL_FOUND)
         set(HAVE_OPENGL 1)
@@ -211,7 +195,6 @@ include_directories(
     ${SDL_IMAGE_INCLUDE_DIRS}
     ${SDL_MIXER_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIRS}
 )
 
 # Gather all Pingus source files
@@ -277,8 +260,10 @@ target_link_libraries(libpingus
     ${SDL_IMAGE_LIBRARIES}
     ${SDL_MIXER_LIBRARIES}
     ${PNG_LIBRARIES}
-    ${Boost_LIBRARIES}
 )
+
+# Link Standard C++ Filesystem (Plain signature to match above)
+target_link_libraries(libpingus stdc++fs)
 
 if(WITH_OPENGL AND OPENGL_FOUND)
     target_link_libraries(libpingus ${OPENGL_LIBRARIES})

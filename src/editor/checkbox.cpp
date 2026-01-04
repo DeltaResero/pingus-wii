@@ -47,7 +47,8 @@ void
 Checkbox::on_primary_button_press(int x, int y)
 {
   checked = !checked;
-  on_change(checked);
+  if (on_change)
+    on_change(checked);
 }
 
 void

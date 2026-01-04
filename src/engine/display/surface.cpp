@@ -12,7 +12,7 @@
 #include "engine/display/surface.hpp"
 
 #include <SDL_image.h>
-#include <boost/format.hpp>
+#include <format>
 #include <stdexcept>
 
 #include "engine/display/blitter.hpp"
@@ -511,27 +511,26 @@ Surface::is_indexed() const
 void
 Surface::print(std::ostream& out)
 {
-  out << boost::format("Pointer: 0x%p\n"
-                       "Rmask:   0x%08x\n"
-                       "Gmask:   0x%08x\n"
-                       "Bmask:   0x%08x\n"
-                       "Amask:   0x%08x\n"
-                       "Flags:   0x%08x -> %s%s%s%s\n"
-                       "Palette: 0x%08x\n"
-                       "BitsPerPixel: %d\n"
-    )
-    % impl->surface
-    % impl->surface->format->Rmask
-    % impl->surface->format->Gmask
-    % impl->surface->format->Bmask
-    % impl->surface->format->Amask
-    % impl->surface->flags
-    % ((impl->surface->flags & SDL_HWSURFACE) ? "HWSURFACE " : "")
-    % ((impl->surface->flags & SDL_SWSURFACE) ? "SWSURFACE " : "")
-    % ((impl->surface->flags & SDL_SRCCOLORKEY) ? "SRCCOLORKEY " : "")
-    % ((impl->surface->flags & SDL_SRCALPHA) ? "SRCALPHA " : "")
-    % impl->surface->format->palette
-    % static_cast<int>(impl->surface->format->BitsPerPixel);
+  out << std::format("Pointer: 0x{:p}\n"
+                     "Rmask:   0x{:08x}\n"
+                     "Gmask:   0x{:08x}\n"
+                     "Bmask:   0x{:08x}\n"
+                     "Amask:   0x{:08x}\n"
+                     "Flags:   0x{:08x} -> {}{}{}{}\n"
+                     "Palette: 0x{:p}\n"
+                     "BitsPerPixel: {}\n",
+                     (void*)impl->surface,
+                     impl->surface->format->Rmask,
+                     impl->surface->format->Gmask,
+                     impl->surface->format->Bmask,
+                     impl->surface->format->Amask,
+                     impl->surface->flags,
+                     ((impl->surface->flags & SDL_HWSURFACE) ? "HWSURFACE " : ""),
+                     ((impl->surface->flags & SDL_SWSURFACE) ? "SWSURFACE " : ""),
+                     ((impl->surface->flags & SDL_SRCCOLORKEY) ? "SRCCOLORKEY " : ""),
+                     ((impl->surface->flags & SDL_SRCALPHA) ? "SRCALPHA " : ""),
+                     (void*)impl->surface->format->palette,
+                     static_cast<int>(impl->surface->format->BitsPerPixel));
 
   if (impl->surface->flags & SDL_SRCCOLORKEY)
     out << "Colorkey: " << static_cast<int>(impl->surface->format->colorkey) << std::endl;
@@ -544,11 +543,11 @@ Surface::print(std::ostream& out)
     SDL_LockSurface(impl->surface);
     Uint8* pixels = static_cast<Uint8*>(impl->surface->pixels);
     for(int i = 0; i < impl->surface->pitch * impl->surface->h; i += 4)
-      out << boost::format("(%3d %3d %3d %3d) ")
-        % static_cast<int>(pixels[i+0])
-        % static_cast<int>(pixels[i+1])
-        % static_cast<int>(pixels[i+2])
-        % static_cast<int>(pixels[i+3]);
+      out << std::format("({:3d} {:3d} {:3d} {:3d}) ",
+                         static_cast<int>(pixels[i+0]),
+                         static_cast<int>(pixels[i+1]),
+                         static_cast<int>(pixels[i+2]),
+                         static_cast<int>(pixels[i+3]));
     out << std::endl;
     SDL_UnlockSurface(impl->surface);
   }

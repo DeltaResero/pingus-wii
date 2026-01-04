@@ -47,7 +47,7 @@ XInputDevice::XInputDevice(XInputDriver* owner_, XDeviceInfo* info) :
   }
   else
   {
-    //slot_xevent = owner->sig_unknown_xevent.connect(this, &CL_InputDevice_XInput::on_xevent);
+    // Device registered successfully
   }
 }
 

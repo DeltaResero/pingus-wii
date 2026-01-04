@@ -77,7 +77,7 @@ SliderBox::on_pointer_move(int x, int y)
 
     value = Math::clamp(0, value, m_steps);
 
-    if (value != old_value)
+    if (value != old_value && on_change)
       on_change(value*5); // scale to [0,100]
   }
 }

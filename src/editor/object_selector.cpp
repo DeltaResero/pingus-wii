@@ -11,7 +11,7 @@
 
 #include "editor/object_selector.hpp"
 
-#include <boost/signals2.hpp>
+#include <functional>
 
 #include "editor/generic_level_obj.hpp"
 #include "editor/gui_style.hpp"
@@ -41,7 +41,7 @@ private:
   std::string tooltip;
 
 public:
-  boost::signals2::signal<void()> on_click;
+  std::function<void()> on_click;
 
 public:
   ObjectSelectorButton(ObjectSelectorList* object_list_,
@@ -98,7 +98,7 @@ public:
   void on_primary_button_release (int x, int y)
   {
     mouse_down = false;
-    if (mouse_over)
+    if (mouse_over && on_click)
       on_click();
   }
 
@@ -192,7 +192,7 @@ ObjectSelector::add_button(const std::string& image, const std::string& tooltip,
                                         Vector2i(2 + button_pos.x * 30,
                                                  2 + button_pos.y * 30),
                                         image, tooltip);
-  button->on_click.connect(std::bind(&ObjectSelectorList::set_objects, object_list, set));
+  button->on_click = std::bind(&ObjectSelectorList::set_objects, object_list, set);
 
   button_pos.x += 1;
   if (button_pos.x > 7)

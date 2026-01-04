@@ -25,8 +25,6 @@
 #include "util/log.hpp"
 #include "util/system.hpp"
 
-#define C(x) connections.push_back(x)
-
 class OptionMenuCloseButton
   : public GUI::SurfaceButton
 {
@@ -73,10 +71,9 @@ OptionMenu::OptionMenu() :
   printfps_box(),
   master_volume_box(),
   sound_volume_box(),
-  music_volume_box(),
+  music_volume_box()
   //defaults_label(),
   //defaults_box(),
-  connections()
 {
   gui_manager->add(ok_button = new OptionMenuCloseButton(this,
                                                          Display::get_width()/2 + 245,
@@ -143,19 +140,19 @@ OptionMenu::OptionMenu() :
   sound_volume_box->set_value(config_manager.get_sound_volume());
   music_volume_box->set_value(config_manager.get_music_volume());
 
-  C(software_cursor_box->on_change.connect(std::bind(&OptionMenu::on_software_cursor_change, this, std::placeholders::_1)));
-  C(fullscreen_box->on_change.connect(std::bind(&OptionMenu::on_fullscreen_change, this, std::placeholders::_1)));
-  C(autoscroll_box->on_change.connect(std::bind(&OptionMenu::on_autoscroll_change, this, std::placeholders::_1)));
-  C(dragdrop_scroll_box->on_change.connect(std::bind(&OptionMenu::on_drag_drop_scrolling_change, this, std::placeholders::_1)));
-  C(mousegrab_box->on_change.connect(std::bind(&OptionMenu::on_mousegrab_change, this, std::placeholders::_1)));
-  C(printfps_box->on_change.connect(std::bind(&OptionMenu::on_printfps_change, this, std::placeholders::_1)));
+  software_cursor_box->on_change = std::bind(&OptionMenu::on_software_cursor_change, this, std::placeholders::_1);
+  fullscreen_box->on_change = std::bind(&OptionMenu::on_fullscreen_change, this, std::placeholders::_1);
+  autoscroll_box->on_change = std::bind(&OptionMenu::on_autoscroll_change, this, std::placeholders::_1);
+  dragdrop_scroll_box->on_change = std::bind(&OptionMenu::on_drag_drop_scrolling_change, this, std::placeholders::_1);
+  mousegrab_box->on_change = std::bind(&OptionMenu::on_mousegrab_change, this, std::placeholders::_1);
+  printfps_box->on_change = std::bind(&OptionMenu::on_printfps_change, this, std::placeholders::_1);
 
-  C(master_volume_box->on_change.connect(std::bind(&OptionMenu::on_master_volume_change, this, std::placeholders::_1)));
-  C(sound_volume_box->on_change.connect(std::bind(&OptionMenu::on_sound_volume_change, this, std::placeholders::_1)));
-  C(music_volume_box->on_change.connect(std::bind(&OptionMenu::on_music_volume_change, this, std::placeholders::_1)));
+  master_volume_box->on_change = std::bind(&OptionMenu::on_master_volume_change, this, std::placeholders::_1);
+  sound_volume_box->on_change = std::bind(&OptionMenu::on_sound_volume_change, this, std::placeholders::_1);
+  music_volume_box->on_change = std::bind(&OptionMenu::on_music_volume_change, this, std::placeholders::_1);
 
-  C(resolution_box->on_change.connect(std::bind(&OptionMenu::on_resolution_change, this, std::placeholders::_1)));
-  C(renderer_box->on_change.connect(std::bind(&OptionMenu::on_renderer_change, this, std::placeholders::_1)));
+  resolution_box->on_change = std::bind(&OptionMenu::on_resolution_change, this, std::placeholders::_1);
+  renderer_box->on_change = std::bind(&OptionMenu::on_renderer_change, this, std::placeholders::_1);
 
   x_pos = 0;
   y_pos = 0;
@@ -179,22 +176,22 @@ OptionMenu::OptionMenu() :
 
   // Connect with ConfigManager
   mousegrab_box->set_state(config_manager.get_mouse_grab(), false);
-  C(config_manager.on_mouse_grab_change.connect(std::bind(&CheckBox::set_state, mousegrab_box, std::placeholders::_1, false)));
+  config_manager.on_mouse_grab_change = std::bind(&CheckBox::set_state, mousegrab_box, std::placeholders::_1, false);
 
   printfps_box->set_state(config_manager.get_print_fps(), false);
-  C(config_manager.on_print_fps_change.connect(std::bind(&CheckBox::set_state, printfps_box, std::placeholders::_1, false)));
+  config_manager.on_print_fps_change = std::bind(&CheckBox::set_state, printfps_box, std::placeholders::_1, false);
 
   fullscreen_box->set_state(config_manager.get_fullscreen(), false);
-  C(config_manager.on_fullscreen_change.connect(std::bind(&CheckBox::set_state, fullscreen_box, std::placeholders::_1, false)));
+  config_manager.on_fullscreen_change = std::bind(&CheckBox::set_state, fullscreen_box, std::placeholders::_1, false);
 
   software_cursor_box->set_state(config_manager.get_software_cursor(), false);
-  C(config_manager.on_software_cursor_change.connect(std::bind(&CheckBox::set_state, software_cursor_box, std::placeholders::_1, false)));
+  config_manager.on_software_cursor_change = std::bind(&CheckBox::set_state, software_cursor_box, std::placeholders::_1, false);
 
   autoscroll_box->set_state(config_manager.get_auto_scrolling(), false);
-  C(config_manager.on_auto_scrolling_change.connect(std::bind(&CheckBox::set_state, autoscroll_box, std::placeholders::_1, false)));
+  config_manager.on_auto_scrolling_change = std::bind(&CheckBox::set_state, autoscroll_box, std::placeholders::_1, false);
 
   dragdrop_scroll_box->set_state(config_manager.get_drag_drop_scrolling(), false);
-  C(config_manager.on_drag_drop_scrolling_change.connect(std::bind(&CheckBox::set_state, dragdrop_scroll_box, std::placeholders::_1, false)));
+  config_manager.on_drag_drop_scrolling_change = std::bind(&CheckBox::set_state, dragdrop_scroll_box, std::placeholders::_1, false);
 
   /*
     defaults_label = new Label("Reset to Defaults:", Rect(Vector2i(Display::get_width()/2 - 100, Display::get_height()/2 + 160), Size(170, 32)));
@@ -253,10 +250,12 @@ OptionMenu::add_item(const std::string& label, GUI::RectComponent* control)
 
 OptionMenu::~OptionMenu()
 {
-  for(Connections::iterator i = connections.begin(); i != connections.end(); ++i)
-  {
-    (*i).disconnect();
-  }
+  config_manager.on_mouse_grab_change = nullptr;
+  config_manager.on_print_fps_change = nullptr;
+  config_manager.on_fullscreen_change = nullptr;
+  config_manager.on_software_cursor_change = nullptr;
+  config_manager.on_auto_scrolling_change = nullptr;
+  config_manager.on_drag_drop_scrolling_change = nullptr;
 }
 
 struct OptionEntry {

@@ -77,7 +77,7 @@ void
 Button::on_primary_button_release (int x, int y)
 {
   mouse_down = false;
-  if (mouse_over)
+  if (mouse_over && on_click)
     on_click();
 }
 

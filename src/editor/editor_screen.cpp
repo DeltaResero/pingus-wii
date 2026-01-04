@@ -95,12 +95,12 @@ EditorScreen::EditorScreen() :
     m_level_new_msgbox->set_title("Create new level");
     m_level_new_msgbox->set_text("Replace current level with an empty new one?");
     m_level_new_msgbox->set_ok_text("Replace");
-    m_level_new_msgbox->on_ok.connect(std::bind(&EditorScreen::level_new_without_confirm, this));
+    m_level_new_msgbox->on_ok = std::bind(&EditorScreen::level_new_without_confirm, this);
 
     m_level_new_msgbox->hide();
   }
 
-  viewport->selection_changed.connect(std::bind(&ObjectProperties::set_objects, object_properties, std::placeholders::_1));
+  viewport->selection_changed = std::bind(&ObjectProperties::set_objects, object_properties, std::placeholders::_1);
   viewport->refresh();
 
   update_layout();

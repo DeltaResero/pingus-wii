@@ -9,8 +9,6 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-#include <boost/format.hpp>
-
 #include "pingus/pingu.hpp"
 #include "pingus/pingu_holder.hpp"
 #include "pingus/server.hpp"

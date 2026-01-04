@@ -30,8 +30,8 @@ MessageBox::MessageBox(const Rect& rect_) :
   m_ok_button = create<Button>(Rect(Vector2i(rect.get_width() - 4 - 100, rect.get_height() - 4 - 30),
                                     Size(100, 30)), "Replace");
 
-  m_ok_button->on_click.connect(std::bind(&MessageBox::on_ok_button, this));
-  m_cancel_button->on_click.connect(std::bind(&MessageBox::on_cancel_button, this));
+  m_ok_button->on_click = std::bind(&MessageBox::on_ok_button, this);
+  m_cancel_button->on_click = std::bind(&MessageBox::on_cancel_button, this);
 }
 
 void
@@ -81,7 +81,8 @@ void
 MessageBox::on_ok_button()
 {
   hide();
-  on_ok();
+  if (on_ok)
+    on_ok();
 }
 
 void

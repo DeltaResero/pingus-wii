@@ -38,7 +38,7 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
   file_list = create<FileList>(Rect(4, 30 + 30 + 30,
                                     rect.get_width()-4 - 30, rect.get_height() - 4 - 35));
 
-  file_list->on_click.connect(std::bind(&FileDialog::load_file, this, std::placeholders::_1));
+  file_list->on_click = std::bind(&FileDialog::load_file, this, std::placeholders::_1);
 
   Rect file_rect = file_list->get_rect();
   up_button = create<Button>(Rect(file_rect.right + 2, file_rect.top,
@@ -59,14 +59,14 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
   cancel_button = create<Button>(Rect(Vector2i(rect.get_width() - 104 - 104, rect.get_height() - 4 - 30),
                                       Size(100, 30)), "Cancel");
 
-  up_button->on_click.connect(std::bind(&FileDialog::on_up, this));
-  down_button->on_click.connect(std::bind(&FileDialog::on_down, this));
+  up_button->on_click = std::bind(&FileDialog::on_up, this);
+  down_button->on_click = std::bind(&FileDialog::on_down, this);
 
-  datadir_button->on_click.connect(std::bind(&FileDialog::on_datadir, this));
-  userdir_button->on_click.connect(std::bind(&FileDialog::on_userdir, this));
+  datadir_button->on_click = std::bind(&FileDialog::on_datadir, this);
+  userdir_button->on_click = std::bind(&FileDialog::on_userdir, this);
 
-  open_button->on_click.connect(std::bind(&FileDialog::on_open, this));
-  cancel_button->on_click.connect(std::bind(&FileDialog::on_cancel, this));
+  open_button->on_click = std::bind(&FileDialog::on_open, this);
+  cancel_button->on_click = std::bind(&FileDialog::on_cancel, this);
 
   filename_label = create<Label>(Rect(6, 4+30, 4 + 60, 26+30), "Filename:");
   pathname_label = create<Label>(Rect(6, 4+60, 4 + 60, 26+60), "Pathname:");
@@ -74,8 +74,8 @@ FileDialog::FileDialog(EditorScreen* editor_, const Rect& rect_, Mode mode_) :
   filename_inputbox = create<Inputbox>(Rect(4 + 60, 4+30, rect.get_width()-4, 26+30));
   pathname_inputbox = create<Inputbox>(Rect(4 + 60, 4+60, rect.get_width()-4, 26+60));
 
-  filename_inputbox->on_enter.connect(std::bind(&FileDialog::on_filename_enter, this));
-  pathname_inputbox->on_enter.connect(std::bind(&FileDialog::on_pathname_change, this));
+  filename_inputbox->on_enter = std::bind(&FileDialog::on_filename_enter, this);
+  pathname_inputbox->on_enter = std::bind(&FileDialog::on_pathname_change, this);
 
   on_userdir();
 }

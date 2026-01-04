@@ -104,7 +104,8 @@ ConfigManager::set_fullscreen_resolution(const Size& size)
       Display::set_video_mode(size, Display::is_fullscreen(), false);
 #endif
     }
-    on_fullscreen_resolution_change(size);
+    if (on_fullscreen_resolution_change)
+      on_fullscreen_resolution_change(size);
   }
 
   m_opts.fullscreen_resolution.set(size);
@@ -126,7 +127,8 @@ ConfigManager::set_fullscreen(bool v)
 #ifndef WIN32
     Display::set_video_mode(Display::get_size(), Display::is_fullscreen(), false);
 #endif
-    on_fullscreen_change(v);
+    if (on_fullscreen_change)
+      on_fullscreen_change(v);
   }
 
   m_opts.fullscreen.set(v);
@@ -157,7 +159,8 @@ ConfigManager::set_resizable(bool v)
 
   if (v != get_resizable())
   {
-    on_resizable_change(v);
+    if (on_resizable_change)
+      on_resizable_change(v);
   }
 
   m_opts.resizable.set(v);
@@ -177,7 +180,8 @@ ConfigManager::set_mouse_grab(bool v)
   if (v != get_mouse_grab())
   {
     SDL_WM_GrabInput(v ? SDL_GRAB_ON : SDL_GRAB_OFF);
-    on_mouse_grab_change(v);
+    if (on_mouse_grab_change)
+      on_mouse_grab_change(v);
   }
 
   m_opts.mouse_grab.set(v);
@@ -197,7 +201,8 @@ ConfigManager::set_print_fps(bool v)
   if (v != get_print_fps())
   {
     globals::print_fps = v;
-    on_print_fps_change(v);
+    if (on_print_fps_change)
+      on_print_fps_change(v);
   }
 
   m_opts.print_fps.set(v);
@@ -217,7 +222,8 @@ ConfigManager::set_software_cursor(bool v)
   if (v != get_software_cursor())
   {
     ScreenManager::instance()->show_software_cursor(v);
-    on_software_cursor_change(v);
+    if (on_software_cursor_change)
+      on_software_cursor_change(v);
   }
 
   m_opts.software_cursor.set(v);
@@ -237,7 +243,8 @@ ConfigManager::set_auto_scrolling(bool v)
   if (v != get_auto_scrolling())
   {
     globals::auto_scrolling = v;
-    on_auto_scrolling_change(v);
+    if (on_auto_scrolling_change)
+      on_auto_scrolling_change(v);
   }
 
   m_opts.auto_scrolling.set(v);
@@ -256,7 +263,8 @@ ConfigManager::set_drag_drop_scrolling(bool v)
   {
     globals::drag_drop_scrolling = v;
     m_opts.drag_drop_scrolling.set(v);
-    on_drag_drop_scrolling_change(v);
+    if (on_drag_drop_scrolling_change)
+      on_drag_drop_scrolling_change(v);
   }
 }
 

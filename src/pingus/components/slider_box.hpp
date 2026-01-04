@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_PINGUS_COMPONENTS_SLIDER_BOX_HPP
 #define HEADER_PINGUS_PINGUS_COMPONENTS_SLIDER_BOX_HPP
 
-#include <boost/signals2.hpp>
+#include <functional>
 
 #include "engine/gui/rect_component.hpp"
 
@@ -34,7 +34,7 @@ public:
 
   void set_value(int v);
 
-  boost::signals2::signal<void (int)> on_change;
+  std::function<void (int)> on_change;
 
 private:
   SliderBox (const SliderBox&);

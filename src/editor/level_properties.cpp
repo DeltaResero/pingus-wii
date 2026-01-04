@@ -73,17 +73,17 @@ LevelProperties::LevelProperties(EditorScreen* editor_, const Rect& rect_) :
   create<Label>(Rect(Vector2i( 10, y+110), Size( 80, 20)), "Music:");
   music = create<Inputbox>();
 
-  author->on_change.connect(std::bind(&LevelProperties::on_author_change, this, std::placeholders::_1));
-  levelname->on_change.connect(std::bind(&LevelProperties::on_levelname_change, this, std::placeholders::_1));
-  description->on_change.connect(std::bind(&LevelProperties::on_description_change, this, std::placeholders::_1));
+  author->on_change = std::bind(&LevelProperties::on_author_change, this, std::placeholders::_1);
+  levelname->on_change = std::bind(&LevelProperties::on_levelname_change, this, std::placeholders::_1);
+  description->on_change = std::bind(&LevelProperties::on_description_change, this, std::placeholders::_1);
 
-  number_to_save->on_change.connect(std::bind(&LevelProperties::on_number_to_save_change, this, std::placeholders::_1));
-  number_of_pingus->on_change.connect(std::bind(&LevelProperties::on_number_of_pingus_change, this, std::placeholders::_1));
+  number_to_save->on_change = std::bind(&LevelProperties::on_number_to_save_change, this, std::placeholders::_1);
+  number_of_pingus->on_change = std::bind(&LevelProperties::on_number_of_pingus_change, this, std::placeholders::_1);
 
-  width->on_change.connect(std::bind(&LevelProperties::on_width_change, this, std::placeholders::_1));
-  height->on_change.connect(std::bind(&LevelProperties::on_height_change, this, std::placeholders::_1));
-  time->on_change.connect(std::bind(&LevelProperties::on_time_change, this, std::placeholders::_1));
-  music->on_change.connect(std::bind(&LevelProperties::on_music_change, this, std::placeholders::_1));
+  width->on_change = std::bind(&LevelProperties::on_width_change, this, std::placeholders::_1);
+  height->on_change = std::bind(&LevelProperties::on_height_change, this, std::placeholders::_1);
+  time->on_change = std::bind(&LevelProperties::on_time_change, this, std::placeholders::_1);
+  music->on_change = std::bind(&LevelProperties::on_music_change, this, std::placeholders::_1);
 }
 
 LevelProperties::~LevelProperties()

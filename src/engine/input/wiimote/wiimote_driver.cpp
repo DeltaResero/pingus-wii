@@ -11,6 +11,9 @@
 
 #include "engine/input/wiimote/wiimote_driver.hpp"
 
+#include <format>
+#include <iostream>
+
 #include "engine/input/wiimote/wiimote.hpp"
 #include "pingus/globals.hpp"
 #include "util/string_util.hpp"
@@ -90,7 +93,7 @@ WiimoteDriver::update(float delta)
         add_axis_event(X2_AXIS, math::mid(-1.0f, -float(pitch / M_PI), 1.0f));
         add_axis_event(Y2_AXIS, math::mid(-1.0f, -float(roll  / M_PI), 1.0f));
 
-        std::cout << boost::format("%|6.3f| %|6.3f|") % pitch % roll << std::endl;
+        std::cout << std::format("{:6.3f} {:6.3f}", pitch, roll) << std::endl;
       }
     }
     else

@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_PINGUS_COMPONENTS_CHOICE_BOX_HPP
 #define HEADER_PINGUS_PINGUS_COMPONENTS_CHOICE_BOX_HPP
 
-#include <boost/signals2.hpp>
+#include <functional>
 
 #include "engine/gui/rect_component.hpp"
 
@@ -31,7 +31,7 @@ public:
   void add_choice(const std::string& str);
   void set_current_choice(int choice);
 
-  boost::signals2::signal<void (std::string)> on_change;
+  std::function<void (std::string)> on_change;
 
 private:
   ChoiceBox (const ChoiceBox&);

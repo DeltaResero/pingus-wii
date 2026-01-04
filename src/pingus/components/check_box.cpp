@@ -28,7 +28,8 @@ void
 CheckBox::on_primary_button_press (int x, int y)
 {
   state = !state;
-  on_change(state);
+  if (on_change)
+    on_change(state);
 }
 
 void
@@ -52,7 +53,7 @@ CheckBox::set_state(bool v, bool send_signal)
 {
   state = v;
 
-  if (send_signal)
+  if (send_signal && on_change)
     on_change(state);
 }
 

@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_EDITOR_CHECKBOX_HPP
 #define HEADER_PINGUS_EDITOR_CHECKBOX_HPP
 
-#include <boost/signals2.hpp>
+#include <functional>
 
 #include "engine/gui/rect_component.hpp"
 
@@ -35,7 +35,7 @@ public:
   bool is_checked() const { return checked; }
   void on_primary_button_press(int x, int y);
 
-  boost::signals2::signal<void (bool)> on_change;
+  std::function<void (bool)> on_change;
 
 private:
   Checkbox (const Checkbox&);

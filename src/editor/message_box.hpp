@@ -12,6 +12,8 @@
 #ifndef HEADER_PINGUS_EDITOR_MESSAGE_BOX_HPP
 #define HEADER_PINGUS_EDITOR_MESSAGE_BOX_HPP
 
+#include <functional>
+
 #include "engine/gui/group_component.hpp"
 #include "editor/button.hpp"
 
@@ -40,7 +42,7 @@ public:
   void on_cancel_button();
 
 public:
-  boost::signals2::signal<void()> on_ok;
+  std::function<void()> on_ok;
 
 private:
   MessageBox(const MessageBox&);

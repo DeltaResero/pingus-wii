@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_PINGUS_COMPONENTS_CHECK_BOX_HPP
 #define HEADER_PINGUS_PINGUS_COMPONENTS_CHECK_BOX_HPP
 
-#include <boost/signals2.hpp>
+#include <functional>
 
 #include "engine/display/sprite.hpp"
 #include "engine/gui/rect_component.hpp"
@@ -34,7 +34,7 @@ public:
 
   void set_state(bool v, bool send_signal);
 
-  boost::signals2::signal<void (bool)> on_change;
+  std::function<void (bool)> on_change;
 
 private:
   CheckBox (const CheckBox&);

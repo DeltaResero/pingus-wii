@@ -12,6 +12,7 @@
 #include "util/system.hpp"
 
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <memory>
 #include <sstream>
@@ -26,7 +27,6 @@
 #  include <sys/types.h>
 #  include <unistd.h>
 #  include <errno.h>
-#  include <boost/filesystem.hpp>
 #else /* WIN32 */
 #  include <windows.h>
 #  include <direct.h>
@@ -244,7 +244,7 @@ System::create_dir(std::string directory)
       directory.erase(end);
     }
     log_info("System::create_dir: {}", directory);
-    if (!boost::filesystem::create_directories(directory.c_str()))
+    if (!std::filesystem::create_directories(directory.c_str()))
     {
       raise_exception(std::runtime_error, "System::create_dir: " << directory << ": " << strerror(errno));
     }
