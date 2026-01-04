@@ -283,7 +283,7 @@ PingusMain::parse_args(int argc, char** argv)
           "Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
           "See the file AUTHORS for a complete list of contributors.\n"
           "Pingus comes with ABSOLUTELY NO WARRANTY. This is free software, and you are\n"
-          "welcome to redistribute it under certain conditions; see the file COPYING for details."
+          "welcome to redistribute it under certain conditions; see the file LICENSE for details."
                   << std::endl;
         exit(EXIT_SUCCESS);
         break;

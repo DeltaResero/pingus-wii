@@ -150,7 +150,7 @@ PingusMenu::draw_background(DrawingContext& gc)
                 "Pingus " VERSION " - Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
                 "See the file AUTHORS for a complete list of contributors.\n"
                 "Pingus comes with ABSOLUTELY NO WARRANTY. This is free software, and you are\n"
-                "welcome to redistribute it under certain conditions; see the file COPYING for details.\n");
+                "welcome to redistribute it under certain conditions; see the file LICENSE for details.\n");
 
   gc.draw_fillrect(Rect(0,
                         Display::get_height () - 26,
