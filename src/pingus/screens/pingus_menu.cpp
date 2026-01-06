@@ -11,7 +11,10 @@
 
 #include "pingus/screens/pingus_menu.hpp"
 
+#ifndef DISABLE_EDITOR
 #include "editor/editor_screen.hpp"
+#endif
+
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/components/menu_button.hpp"
@@ -35,48 +38,53 @@ PingusMenu::PingusMenu() :
   logo(),
   start_button(),
   quit_button(),
+#ifndef DISABLE_EDITOR
   editor_button(),
+#endif
   contrib_button(),
   options_button()
 {
   is_init = false;
 
-  Size size_(Display::get_width(), Display::get_height());
+  // Initialize buttons with dummy positions (0,0).
+  // The actual layout is applied immediately after via layout_buttons()
 
-  start_button = new MenuButton(this, Vector2i(size_.width/2 - 125,
-                                               size_.height/2 - 20),
+  start_button = new MenuButton(this, Vector2i(0,0),
                                 "Story",
                                 "..:: Start the game ::..");
 
-  editor_button = new MenuButton(this, Vector2i(size_.width/2 + 125,
-                                                size_.height/2 - 20),
+#ifndef DISABLE_EDITOR
+  editor_button = new MenuButton(this, Vector2i(0,0),
                                  "Editor",
                                  "..:: Create your own levels ::..");
+#endif
 
-  options_button = new MenuButton(this, Vector2i(size_.width/2 + 125,
-                                                 size_.height/2 + 50),
+  options_button = new MenuButton(this, Vector2i(0,0),
                                   "Options",
                                   "..:: Configure the game ::..");
 
-  contrib_button = new MenuButton(this, Vector2i(size_.width/2 - 125,
-                                                 size_.height/2 + 50),
+  contrib_button = new MenuButton(this, Vector2i(0,0),
                                   "Levelsets",
                                   "..:: Play User Built levels ::..");
 
-  quit_button = new MenuButton(this, Vector2i(size_.width/2,
-                                              size_.height/2 + 120),
+  quit_button = new MenuButton(this, Vector2i(0,0),
                                "Exit",
                                "..:: Bye, bye ::..");
 
+  // Add buttons to GUI manager
   gui_manager->add(quit_button);
   gui_manager->add(options_button);
   gui_manager->add(contrib_button);
   gui_manager->add(start_button);
+#ifndef DISABLE_EDITOR
   gui_manager->add(editor_button);
+#endif
 
   logo = Sprite("core/misc/logo");
 
+  // Apply initial layout
   create_background(Size(Display::get_width(), Display::get_height()));
+  layout_buttons(Size(Display::get_width(), Display::get_height()));
 
   help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: fullscreen   ::   F12: screenshot ::..";
 
@@ -85,6 +93,37 @@ PingusMenu::PingusMenu() :
 
 PingusMenu::~PingusMenu()
 {
+}
+
+void
+PingusMenu::layout_buttons(const Size& size)
+{
+  // Define Layout Constants
+  const int center_x = size.width / 2;
+  const int center_y = size.height / 2;
+  const int x_offset = 125;
+
+  // Define the 5 logical slots for the menu grid
+  const Vector2i slot_tl(center_x - x_offset, center_y - 20);
+  const Vector2i slot_tr(center_x + x_offset, center_y - 20);
+  const Vector2i slot_bl(center_x - x_offset, center_y + 50);
+  const Vector2i slot_br(center_x + x_offset, center_y + 50);
+  const Vector2i slot_bc(center_x,            center_y + 120);
+
+  // Left side is static (always the same)
+  start_button->set_pos(slot_tl.x, slot_tl.y);
+  contrib_button->set_pos(slot_bl.x, slot_bl.y);
+
+#ifndef DISABLE_EDITOR
+  // --- Standard Layout (5 Buttons) ---
+  editor_button->set_pos(slot_tr.x, slot_tr.y);
+  options_button->set_pos(slot_br.x, slot_br.y);
+  quit_button->set_pos(slot_bc.x, slot_bc.y);
+#else
+  // --- No Editor Layout (2x2 Grid) ---
+  options_button->set_pos(slot_tr.x, slot_tr.y);
+  quit_button->set_pos(slot_br.x, slot_br.y);
+#endif
 }
 
 void
@@ -126,11 +165,13 @@ void PingusMenu::do_contrib(const std::string &levelfile)
     (std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(Pathname(levelfile, Pathname::SYSTEM_PATH))));
 }
 
+#ifndef DISABLE_EDITOR
 void PingusMenu::do_edit()
 {       // Launch the level editor
   Sound::PingusSound::stop_music();
   ScreenManager::instance()->push_screen(std::make_shared<Editor::EditorScreen>());
 }
+#endif
 
 void
 PingusMenu::on_escape_press ()
@@ -183,10 +224,12 @@ PingusMenu::on_click(MenuButton* button)
   {
     do_quit();
   }
+#ifndef DISABLE_EDITOR
   else if (button == editor_button)
   {
     do_edit();
   }
+#endif
   else if (button == contrib_button)
   {
     ScreenManager::instance()->push_screen(std::make_shared<LevelMenu>());
@@ -256,21 +299,7 @@ PingusMenu::resize(const Size& size_)
 {
   GUIScreen::resize(size_);
   create_background(size);
-
-  start_button->set_pos(size.width/2 - 125,
-                        size.height/2 - 20);
-
-  editor_button->set_pos(size.width/2 + 125,
-                         size.height/2 - 20);
-
-  contrib_button->set_pos(size.width/2 - 125,
-                          size.height/2 + 50);
-
-  options_button->set_pos(size.width/2 + 125,
-                          size.height/2 + 50);
-
-  quit_button->set_pos(size.width/2,
-                       size.height/2 + 120);
+  layout_buttons(size);
 }
 
 // EOF

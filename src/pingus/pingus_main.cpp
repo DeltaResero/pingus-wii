@@ -14,8 +14,11 @@
 #include <iostream>
 #include <signal.h>
 
+#ifndef DISABLE_EDITOR
 #include "editor/editor_level.hpp"
 #include "editor/editor_screen.hpp"
+#endif
+
 #include "engine/input/manager.hpp"
 #include "engine/system/sdl_system.hpp"
 #include "pingus/config_manager.hpp"
@@ -168,9 +171,11 @@ PingusMain::parse_args(int argc, char** argv)
   argp.add_option('m', "disable-music", "",
                   "Disable music");
 
+#ifndef DISABLE_EDITOR
   argp.add_group("Editor Options:");
   argp.add_option('e', "editor", "",
                   "Loads the level editor");
+#endif
 
   argp.add_group("Directory Options:");
   argp.add_option('d', "datadir", "DIR",
@@ -219,9 +224,11 @@ PingusMain::parse_args(int argc, char** argv)
         }
         break;
 
+#ifndef DISABLE_EDITOR
       case 'e': // -e, --editor
         cmd_options.editor.set(true);
         break;
+#endif
 
       case 't': // -t, --set-speed
         cmd_options.speed.set(StringUtil::to<int>(argp.get_argument()));
@@ -441,6 +448,7 @@ PingusMain::start_game ()
 
   ScreenManager  screen_manager(input_manager, input_controller);
 
+#ifndef DISABLE_EDITOR
   if (cmd_options.editor.is_set() && cmd_options.editor.get())
   { // Editor
     std::shared_ptr<Editor::EditorScreen> editor = std::make_shared<Editor::EditorScreen>();
@@ -450,7 +458,9 @@ PingusMain::start_game ()
 
     screen_manager.push_screen(editor);
   }
-  else if (cmd_options.rest.is_set())
+  else
+#endif
+  if (cmd_options.rest.is_set())
   { // just start the map that was passed on the command line
     if (StringUtil::has_suffix(cmd_options.rest.get(), ".pingus-demo"))
     { // Demo file

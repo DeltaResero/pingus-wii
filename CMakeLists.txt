@@ -21,6 +21,7 @@ option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
 option(ENABLE_LOGGING "Enable application logging" OFF)
+option(WITH_EDITOR "Build with level editor support" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -187,6 +188,10 @@ if(HAVE_ICONV_CONST)
     add_compile_definitions(HAVE_ICONV_CONST ICONV_CONST=${ICONV_CONST})
 endif()
 
+if(NOT WITH_EDITOR)
+    add_compile_definitions(DISABLE_EDITOR=1)
+endif()
+
 # Include directories
 include_directories(
     ${CMAKE_BINARY_DIR}  # For config.h
@@ -215,6 +220,11 @@ list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/opengl/.*")
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/evdev/.*")
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/wiimote/.*")
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/xinput/.*")
+
+# Remove editor sources if disabled
+if(NOT WITH_EDITOR)
+    list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/src/editor/.*")
+endif()
 
 # Add back optional sources based on configuration
 if(WITH_OPENGL)
@@ -320,6 +330,7 @@ message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "")
 message(STATUS "Feature Support:")
 message(STATUS "  Logging support: ${ENABLE_LOGGING}")
+message(STATUS "  Level Editor: ${WITH_EDITOR}")
 message(STATUS "  OpenGL support: ${WITH_OPENGL}")
 message(STATUS "  XInput support: ${WITH_XINPUT}")
 message(STATUS "  Linux evdev support: ${WITH_LINUXEVDEV}")

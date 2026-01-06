@@ -41,7 +41,9 @@ private:
 
   MenuButton* start_button;
   MenuButton* quit_button;
+#ifndef DISABLE_EDITOR
   MenuButton* editor_button;
+#endif
   MenuButton* contrib_button;
   MenuButton* options_button;
 
@@ -49,9 +51,13 @@ private:
 
   void do_quit();
   void do_start(const std::string &filename);
+#ifndef DISABLE_EDITOR
   void do_edit();
+#endif
 
   void create_background(const Size& size);
+
+  void layout_buttons(const Size& size);
 
 public:
   PingusMenu();
