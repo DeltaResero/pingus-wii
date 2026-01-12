@@ -33,6 +33,14 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
 {
   int flags = SDL_OPENGL;
 
+#ifdef __WII__
+  // Wii Specific OpenGL (OpenGX) setup
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 0);
+  flags |= SDL_FULLSCREEN;
+#endif
+
   if (fullscreen)
   {
     flags |= SDL_FULLSCREEN;
@@ -42,13 +50,16 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
     flags |= SDL_RESIZABLE;
   }
 
+  int width = size.width;
+  int height = size.height;
   int bpp = 0; // auto-detect
-  screen = SDL_SetVideoMode(size.width, size.height, bpp, flags);
+
+  screen = SDL_SetVideoMode(width, height, bpp, flags);
 
   if(screen == 0)
   {
     std::ostringstream msg;
-    msg << "Couldn't set video mode (" << size.width << "x" << size.height
+    msg << "Couldn't set video mode (" << width << "x" << height
         << "-" << bpp << "bpp): " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
@@ -63,12 +74,15 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glViewport(0, 0, size.width, size.height);
+  // Fix for texture corruption (garbage) on some drivers/platforms
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+  glViewport(0, 0, screen->w, screen->h);
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  glOrtho(0, size.width, size.height, 0, -1, 1);
+  glOrtho(0, screen->w, screen->h, 0, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -142,35 +156,55 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Vector2i& p
 void
 OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos)
 {
-  const OpenGLFramebufferSurfaceImpl* texture = static_cast<OpenGLFramebufferSurfaceImpl*>(src.get_impl());
+  const OpenGLFramebufferSurfaceImpl* impl = static_cast<OpenGLFramebufferSurfaceImpl*>(src.get_impl());
+  const std::vector<OpenGLTile>& tiles = impl->get_tiles();
 
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
+  // Iterate over all tiles that make up this surface
+  for (const auto& tile : tiles)
+  {
+    // Calculate intersection between the requested source rect and this tile's area
+    Rect intersection = srcrect;
+    intersection.left   = Math::max(srcrect.left,   tile.rect.left);
+    intersection.top    = Math::max(srcrect.top,    tile.rect.top);
+    intersection.right  = Math::min(srcrect.right,  tile.rect.right);
+    intersection.bottom = Math::min(srcrect.bottom, tile.rect.bottom);
 
-  int vertices[] = {
-    pos.x,                     pos.y,
-    pos.x+srcrect.get_width(), pos.y,
-    pos.x+srcrect.get_width(), pos.y+srcrect.get_height(),
-    pos.x,                     pos.y+srcrect.get_height(),
-  };
-  glVertexPointer(2, GL_INT, 0, vertices);
+    // If this tile is not visible in the requested rect, skip it
+    if (intersection.left >= intersection.right || intersection.top >= intersection.bottom)
+      continue;
 
-  float uvs[] = {
-    static_cast<float>(srcrect.left)   / static_cast<float>(texture->get_texture_size().width),
-    static_cast<float>(srcrect.top)    / static_cast<float>(texture->get_texture_size().height),
+    // Calculate draw position on screen
+    int draw_x = pos.x + (intersection.left - srcrect.left);
+    int draw_y = pos.y + (intersection.top  - srcrect.top);
 
-    static_cast<float>(srcrect.right)  / static_cast<float>(texture->get_texture_size().width),
-    static_cast<float>(srcrect.top)    / static_cast<float>(texture->get_texture_size().height),
+    // Calculate UV coordinates relative to the tile's texture
+    // Note: tile.rect.left/top is the offset of the tile in the original image
+    float u1 = static_cast<float>(intersection.left - tile.rect.left) / static_cast<float>(tile.texture_size.width);
+    float v1 = static_cast<float>(intersection.top  - tile.rect.top)  / static_cast<float>(tile.texture_size.height);
+    float u2 = static_cast<float>(intersection.right - tile.rect.left) / static_cast<float>(tile.texture_size.width);
+    float v2 = static_cast<float>(intersection.bottom - tile.rect.top) / static_cast<float>(tile.texture_size.height);
 
-    static_cast<float>(srcrect.right)  / static_cast<float>(texture->get_texture_size().width),
-    static_cast<float>(srcrect.bottom) / static_cast<float>(texture->get_texture_size().height),
+    glBindTexture(GL_TEXTURE_2D, tile.handle);
 
-    static_cast<float>(srcrect.left)   / static_cast<float>(texture->get_texture_size().width),
-    static_cast<float>(srcrect.bottom) / static_cast<float>(texture->get_texture_size().height)
-  };
+    int vertices[] = {
+      draw_x,                                   draw_y,
+      draw_x + intersection.get_width(),        draw_y,
+      draw_x + intersection.get_width(),        draw_y + intersection.get_height(),
+      draw_x,                                   draw_y + intersection.get_height(),
+    };
+    glVertexPointer(2, GL_INT, 0, vertices);
 
-  glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+    float uvs[] = {
+      u1, v1,
+      u2, v1,
+      u2, v2,
+      u1, v2
+    };
 
-  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+  }
 
   glBindTexture(GL_TEXTURE_2D, 0);
 }

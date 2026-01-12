@@ -13,6 +13,10 @@
 
 #include <SDL_image.h>
 
+#ifdef __WII__
+#  include <wiiuse/wpad.h>
+#endif
+
 #include "engine/display/display.hpp"
 #include "math/size.hpp"
 #include "util/pathname.hpp"
@@ -20,7 +24,19 @@
 
 SDLSystem::SDLSystem()
 {
+#ifdef __WII__
+  // Initialize WPAD before SDL on Wii
+  WPAD_Init();
+  WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
+  WPAD_SetVRes(WPAD_CHAN_ALL, 640, 480);
+
+  log_info("Wii Remote initialized");
+
+  // Initialize SDL with joystick support (required for Wii Remote input)
+  if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) != 0)
+#else
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0)
+#endif
   {
     log_error("Unable to initialize SDL: {}", SDL_GetError());
     exit(1);
@@ -29,6 +45,32 @@ SDLSystem::SDLSystem()
   {
     atexit(SDL_Quit);
   }
+
+#ifdef __WII__
+  // Open joystick 0 to receive Wii Remote events
+  SDL_JoystickEventState(SDL_ENABLE);
+  int num_joysticks = SDL_NumJoysticks();
+  log_info("SDL detected {} joystick(s)", num_joysticks);
+
+  if (num_joysticks > 0)
+  {
+    SDL_Joystick* joy = SDL_JoystickOpen(0);
+    if (!joy)
+    {
+      log_warn("Could not open Wii Remote joystick 0: {}", SDL_GetError());
+    }
+    else
+    {
+      log_info("Wii Remote joystick opened: {} axes, {} buttons",
+               SDL_JoystickNumAxes(joy),
+               SDL_JoystickNumButtons(joy));
+    }
+  }
+  else
+  {
+    log_warn("No Wii Remotes detected by SDL");
+  }
+#endif
 }
 
 SDLSystem::~SDLSystem()

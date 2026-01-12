@@ -12,16 +12,30 @@
 #ifndef HEADER_PINGUS_ENGINE_DISPLAY_OPENGL_OPENGL_FRAMEBUFFER_SURFACE_IMPL_HPP
 #define HEADER_PINGUS_ENGINE_DISPLAY_OPENGL_OPENGL_FRAMEBUFFER_SURFACE_IMPL_HPP
 
-#include <SDL_opengl.h>
+#ifdef __WII__
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/glext.h>
+#else
+#  include <SDL_opengl.h>
+#endif
+
+#include <vector>
 
 #include "engine/display/framebuffer_surface.hpp"
+#include "math/rect.hpp"
+
+struct OpenGLTile {
+  GLuint handle;
+  Rect   rect;         // Position and size in the original image
+  Size   texture_size; // Actual allocated size of the GL texture (POT or aligned)
+};
 
 class OpenGLFramebufferSurfaceImpl : public FramebufferSurfaceImpl
 {
 private:
-  GLuint m_handle;
-  Size   m_size;
-  Size   m_texture_size;
+  std::vector<OpenGLTile> m_tiles;
+  Size m_size;
 
 public:
   OpenGLFramebufferSurfaceImpl(SDL_Surface* src);
@@ -30,8 +44,7 @@ public:
   int get_width()  const { return m_size.width;  }
   int get_height() const { return m_size.height; }
 
-  GLuint get_handle() const { return m_handle; }
-  Size get_texture_size() const { return m_texture_size; }
+  const std::vector<OpenGLTile>& get_tiles() const { return m_tiles; }
   Size get_size() const { return m_size; }
 
 private:

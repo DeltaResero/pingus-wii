@@ -14,6 +14,16 @@
 
 #include "engine/display/framebuffer.hpp"
 
+#ifdef __WII__
+#  include <GL/gl.h>
+#  include <GL/glu.h>
+#  include <GL/glext.h>
+#else
+#  include <SDL_opengl.h>
+#endif
+
+#include <vector>
+
 class OpenGLFramebuffer : public Framebuffer
 {
 private:
@@ -26,26 +36,26 @@ public:
   FramebufferSurface create_surface(const Surface& surface);
 
   void set_video_mode(const Size& size, bool fullscreen, bool resizable);
-  bool is_fullscreen() const;
-  bool is_resizable() const;
+
   void flip();
 
-  void push_cliprect(const Rect&);
+  void push_cliprect(const Rect& rect);
   void pop_cliprect();
 
   void draw_surface(const FramebufferSurface& src, const Vector2i& pos);
   void draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos);
 
   void draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color);
-
   void draw_rect(const Rect& rect, const Color& color);
   void fill_rect(const Rect& rect, const Color& color);
 
   Size get_size() const;
+  bool is_fullscreen() const;
+  bool is_resizable() const;
 
 private:
   OpenGLFramebuffer(const OpenGLFramebuffer&);
-  OpenGLFramebuffer & operator=(const OpenGLFramebuffer&);
+  OpenGLFramebuffer& operator=(const OpenGLFramebuffer&);
 };
 
 #endif

@@ -26,8 +26,14 @@ int         tile_size               = 32;
 
 int         default_screen_width    = 800;
 int         default_screen_height   = 600;
+
 bool        draw_collision_map      = false;
+
+#ifdef __WII__
+bool        software_cursor         = true;
+#else
 bool        software_cursor         = false;
+#endif
 
 std::string global_username;
 std::string global_email;

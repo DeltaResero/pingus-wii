@@ -30,6 +30,10 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
+#ifdef __WII__
+#  include "util/wii.hpp"
+#endif
+
 #include "util/command_line.hpp"
 
 #include "engine/screen/screen_manager.hpp"
@@ -387,8 +391,14 @@ PingusMain::init_path_finder()
     g_path_manager.set_path(cmd_options.datadir.get());
   }
   else
-  { // do magic to guess the datadir
-    g_path_manager.set_path("data"); // assume game is run from source dir
+  {
+#ifdef __WII__
+    // On Wii, get data directory from SD/USB storage
+    g_path_manager.set_path(Wii::get_data_dir());
+#else
+    // assume game is run from source dir
+    g_path_manager.set_path("data");
+#endif
   }
 }
 
@@ -437,8 +447,15 @@ PingusMain::start_game ()
 
   if (!cmd_options.controller.is_set())
   {
+#ifdef __WII__
+    // On Wii, default to the Wii controller config if nothing else is specified
+    // Note: We use DATA_PATH here because the file is in the game data, not user config
+    input_controller = input_manager.create_controller(Pathname("controller/wii.scm",
+                                                                Pathname::DATA_PATH));
+#else
     input_controller = input_manager.create_controller(Pathname("controller/default.scm",
                                                                 Pathname::DATA_PATH));
+#endif
   }
   else
   {
@@ -525,6 +542,18 @@ PingusMain::run(int argc, char** argv)
     init_path_finder();
     read_rc_file();
     apply_args();
+
+#ifdef __WII__
+    // Force Wii-appropriate defaults AFTER parsing arguments and config files
+    // to prevent accidental overrides.
+    cmd_options.software_cursor.set(true);
+    cmd_options.fullscreen.set(true);
+    cmd_options.resizable.set(false);
+    cmd_options.fullscreen_resolution.set(Size(640, 480));
+    cmd_options.geometry.set(Size(640, 480));
+    // Ensure globals are updated with these forced values
+    globals::software_cursor = true;
+#endif
 
     print_greeting_message();
 

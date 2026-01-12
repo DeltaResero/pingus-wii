@@ -6,6 +6,15 @@ set(VERSION ${PROJECT_VERSION})
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Detect Wii build
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "powerpc" AND CMAKE_SYSTEM_NAME STREQUAL "Generic")
+  set(WII_BUILD ON)
+  message(STATUS "Configuring for Nintendo Wii")
+  add_compile_definitions(__WII__ GEKKO)
+else()
+  set(WII_BUILD OFF)
+endif()
+
 # Build options
 # Determine default for Linux evdev support
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
@@ -15,13 +24,20 @@ else()
 endif()
 
 # Build options
-option(WITH_OPENGL "Build with OpenGL support" ON)
+if(WII_BUILD)
+    # Force OpenGL on Wii (OpenGX) and disable Editor by default
+    option(WITH_OPENGL "Build with OpenGL support" ON)
+    option(WITH_EDITOR "Build with level editor support" OFF)
+else()
+    option(WITH_OPENGL "Build with OpenGL support" ON)
+    option(WITH_EDITOR "Build with level editor support" OFF)
+endif()
+
 option(WITH_XINPUT "Build with XInput support" OFF)
 option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
 option(ENABLE_LOGGING "Enable application logging" OFF)
-option(WITH_EDITOR "Build with level editor support" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -35,16 +51,35 @@ pkg_check_modules(SDL_IMAGE REQUIRED SDL_image)
 pkg_check_modules(SDL_MIXER REQUIRED SDL_mixer)
 pkg_check_modules(PNG REQUIRED libpng)
 
+# Wii Specific Libraries
+if(WII_BUILD)
+    find_library(OGC_LIB ogc REQUIRED)
+    find_library(FAT_LIB fat REQUIRED)
+    find_library(OPENGX_LIB opengx REQUIRED)
+    find_library(WIIUSE_LIB wiiuse REQUIRED)
+    find_library(BTE_LIB bte REQUIRED)
+    
+    message(STATUS "Found Wii Libs: ${OGC_LIB} ${FAT_LIB} ${OPENGX_LIB}")
+endif()
+
 # OpenGL (optional)
 if(WITH_OPENGL)
     set(OpenGL_GL_PREFERENCE LEGACY)
-    find_package(OpenGL)
-    if(OPENGL_FOUND)
+    
+    if(WII_BUILD)
+        # On Wii, we use OpenGX which provides standard GL symbols
+        set(OPENGL_FOUND TRUE)
         set(HAVE_OPENGL 1)
-        message(STATUS "OpenGL support: enabled")
+        message(STATUS "OpenGL support: enabled (OpenGX)")
     else()
-        message(STATUS "OpenGL support: disabled (not found)")
-        set(WITH_OPENGL OFF)
+        find_package(OpenGL)
+        if(OPENGL_FOUND)
+            set(HAVE_OPENGL 1)
+            message(STATUS "OpenGL support: enabled")
+        else()
+            message(STATUS "OpenGL support: disabled (not found)")
+            set(WITH_OPENGL OFF)
+        endif()
     endif()
 else()
     message(STATUS "OpenGL support: disabled")
@@ -149,7 +184,14 @@ elseif(ICONV_CONST_EMPTY)
     set(HAVE_ICONV_CONST 1)
     message(STATUS "iconv signature: char**")
 else()
-    message(FATAL_ERROR "Cannot determine iconv signature")
+    # On Wii, iconv might be missing or different, but we'll assume char** if detection fails
+    if(WII_BUILD)
+        set(ICONV_CONST "")
+        set(HAVE_ICONV_CONST 1)
+        message(STATUS "Wii build: assuming iconv signature char**")
+    else()
+        message(FATAL_ERROR "Cannot determine iconv signature")
+    endif()
 endif()
 
 # Set HAVE_SDL (always true for this project)
@@ -202,6 +244,10 @@ include_directories(
     ${PNG_INCLUDE_DIRS}
 )
 
+if(WII_BUILD)
+    include_directories($ENV{DEVKITPRO}/libogc/include)
+endif()
+
 # Gather all Pingus source files
 file(GLOB_RECURSE PINGUS_SOURCES
     "${CMAKE_SOURCE_DIR}/src/editor/*.cpp"
@@ -247,6 +293,11 @@ if(WITH_XINPUT)
     list(APPEND PINGUS_SOURCES ${XINPUT_SOURCES})
 endif()
 
+# Add Wii specific sources
+if(WII_BUILD)
+    list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/src/util/wii.cpp")
+endif()
+
 # Windows-specific sources (Icon)
 if(WIN32)
     list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/src/win32/pingus.rc")
@@ -276,7 +327,11 @@ target_link_libraries(libpingus
 target_link_libraries(libpingus stdc++fs)
 
 if(WITH_OPENGL AND OPENGL_FOUND)
-    target_link_libraries(libpingus ${OPENGL_LIBRARIES})
+    if(WII_BUILD)
+        target_link_libraries(libpingus ${OPENGX_LIB})
+    else()
+        target_link_libraries(libpingus ${OPENGL_LIBRARIES})
+    endif()
 endif()
 
 if(WITH_WIIMOTE AND CWIID_LIBRARY)
@@ -286,6 +341,16 @@ endif()
 
 if(WITH_XINPUT AND X11_FOUND)
     target_link_libraries(libpingus ${X11_LIBRARIES} ${X11_Xi_LIB})
+endif()
+
+if(WII_BUILD)
+    target_link_libraries(libpingus 
+        ${FAT_LIB} 
+        ${WIIUSE_LIB} 
+        ${BTE_LIB} 
+        ${OGC_LIB} 
+        m
+    )
 endif()
 
 # Check if iconv is needed as a separate library (macOS, BSD)
@@ -303,9 +368,11 @@ endif()
 add_executable(pingus src/main.cpp)
 target_link_libraries(pingus libpingus)
 
-# Install targets
-install(TARGETS pingus DESTINATION bin)
-install(DIRECTORY data/ DESTINATION share/pingus)
+# Install targets (Skip for Wii, we build a custom app structure)
+if(NOT WII_BUILD)
+    install(TARGETS pingus DESTINATION bin)
+    install(DIRECTORY data/ DESTINATION share/pingus)
+endif()
 
 # Build tests if enabled
 if(BUILD_TESTS)
@@ -320,13 +387,39 @@ if(BUILD_TESTS)
     endforeach()
 endif()
 
+# Wii Post-Build Steps
+if(WII_BUILD)
+    # Convert ELF to DOL
+    add_custom_command(TARGET pingus POST_BUILD
+        COMMAND $ENV{DEVKITPRO}/tools/bin/elf2dol 
+                $<TARGET_FILE:pingus>
+                ${CMAKE_CURRENT_BINARY_DIR}/boot.dol
+        COMMENT "Converting ELF to DOL for Homebrew Channel..."
+        VERBATIM
+    )
+    
+    # Create Homebrew Channel structure
+    add_custom_command(TARGET pingus POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/boot.dol ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/boot.dol
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/data
+        COMMENT "Creating Homebrew Channel package in build/apps/pingus/..."
+        VERBATIM
+    )
+endif()
+
 # Print configuration summary
 message(STATUS "")
 message(STATUS "Pingus Configuration Summary:")
 message(STATUS "  Version: ${VERSION}")
 message(STATUS "  C++ Compiler: ${CMAKE_CXX_COMPILER}")
 message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
+if(WII_BUILD)
+    message(STATUS "  Platform: Nintendo Wii")
+    message(STATUS "  Renderer: OpenGX (Hardware Accelerated)")
+else()
+    message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
+endif()
 message(STATUS "")
 message(STATUS "Feature Support:")
 message(STATUS "  Logging support: ${ENABLE_LOGGING}")

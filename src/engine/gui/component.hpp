@@ -29,16 +29,19 @@ private:
   bool focus;
   bool mouse_over;
   bool visible;
+  bool enabled;
 
 public:
-  Component () : parent(0), focus(false), mouse_over(false), visible(true) { }
+  Component () : parent(0), focus(false), mouse_over(false), visible(true), enabled(true) { }
   virtual ~Component() {}
 
   virtual void set_focus(bool val) { focus = val; }
   virtual void set_mouse_over(bool val) { mouse_over = val; }
+  virtual void set_enabled(bool val) { enabled = val; }
 
   virtual bool has_mouse_over() const { return mouse_over; }
   virtual bool has_focus() const { return focus; }
+  virtual bool is_enabled() const { return enabled; }
 
   virtual void hide() { visible = false; }
   virtual void show() { visible = true; }

@@ -19,6 +19,10 @@
 #include <stdexcept>
 #include <string.h>
 
+#ifdef __WII__
+#  include "util/wii.hpp"
+#endif
+
 #ifndef WIN32
 #  include <dirent.h>
 #  include <fcntl.h>
@@ -282,7 +286,11 @@ System::create_dir(std::string directory)
 std::string
 System::find_userdir()
 {
-#ifdef WIN32
+#ifdef __WII__
+  // On Wii, user directory is in the same location as the data directory
+  // Store saves, config, etc. in the base Pingus directory
+  return Wii::get_base_dir();
+#elif defined(WIN32)
   std::string tmpstr;
   char* appdata  = getenv("APPDATA");
   if (appdata)
@@ -690,10 +698,19 @@ System::write_file(const std::string& filename, const std::string& content)
 {
   log_debug("writing {}", filename);
 
-#ifdef WIN32
-  // FIXME: not save
-  std::ofstream out(filename);
+#if defined(WIN32) || defined(__WII__)
+  // Simple implementation for Windows and Wii
+  // Wii's FAT library doesn't support atomic file operations like mkstemp
+  std::ofstream out(filename, std::ios::binary | std::ios::trunc);
+  if (!out)
+  {
+    raise_exception(std::runtime_error, filename << ": failed to open for writing");
+  }
   out.write(content.data(), content.size());
+  if (!out)
+  {
+    raise_exception(std::runtime_error, filename << ": write failed");
+  }
 #else
   // build the filename: "/home/foo/outfile.pngXXXXXX"
   std::unique_ptr<char[]> tmpfile(new char[filename.size()+6+1]);

@@ -243,6 +243,18 @@ OptionMenu::add_item(const std::string& label, GUI::RectComponent* control)
   gui_manager->add(label_component);
   gui_manager->add(control);
 
+#ifdef __WII__
+  // Disable specific options for Wii to lock them
+  if (label == "Fullscreen" ||
+      label == "Mouse Grab" ||
+      label == "Software Cursor" ||
+      label == "Resolution:")
+  {
+      control->set_enabled(false);
+      // FIXME: Should grey text for disabled options
+  }
+#endif
+
   options.push_back(Option(label_component, control));
 
   y_pos += 1;

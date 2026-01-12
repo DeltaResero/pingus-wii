@@ -16,7 +16,13 @@
 #include <png.h>
 
 #ifdef HAVE_OPENGL
-#include <SDL_opengl.h>
+#  ifdef __WII__
+#    include <GL/gl.h>
+#    include <GL/glu.h>
+#    include <GL/glext.h>
+#  else
+#    include <SDL_opengl.h>
+#  endif
 #endif
 
 #include "util/log.hpp"
