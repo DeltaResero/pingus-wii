@@ -53,7 +53,7 @@ public:
   void translate(int x, int y);
 
   /** Set the rotation of the drawing context */
-  void rotate(float angel);
+  void rotate(float angle);
 
   /** Set the scaling of the drawing context */
   void scale(float x, float y);
