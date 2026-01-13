@@ -69,11 +69,14 @@ This project uses the [CMake](https://cmake.org/) build system and depends on
 
 You can configure the build by passing `-DOPTION=ON/OFF` to cmake.
 
-| Option            | Description                                 | Default |
-|-------------------|---------------------------------------------|---------|
-| `ENABLE_LOGGING`  | Enable application logging                  | `OFF`   |
-| `WITH_OPENGL`     | Build with OpenGL support                   | `ON`    |
-| `BUILD_TESTS`     | Build test programs                         | `OFF`   |
+| Option           | Description                                    | Default |
+|------------------|------------------------------------------------|---------|
+| `WITH_EDITOR`    | Build with the level editor                    | `OFF`   |
+| `WITH_OPENGL`    | Build with OpenGL support                      | `ON`    |
+| `ENABLE_LOGGING` | Enable application logging                     | `OFF`   |
+| `WARNINGS`       | Enable extra compiler warnings (-Wall -Wextra) | `ON`    |
+| `WERROR`         | Treat compiler warnings as errors (-Werror)    | `OFF`   |
+| `BUILD_TESTS`    | Build test programs                            | `OFF`   |
 
 ```bash
 mkdir build

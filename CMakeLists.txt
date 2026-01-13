@@ -1,3 +1,14 @@
+# CMakeLists.txt
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Pingus
+# Copyright (C) 2026 DeltaResero
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
 cmake_minimum_required(VERSION 3.10)
 project(Pingus VERSION 0.7.7 LANGUAGES CXX)
 set(VERSION ${PROJECT_VERSION})
@@ -27,6 +38,10 @@ endif()
 
 option(BUILD_TESTS "Build test programs" OFF)
 option(ENABLE_LOGGING "Enable application logging" OFF)
+
+# Compiler Warning Options
+option(WARNINGS "Enable extra compiler warnings (-Wall -Wextra)" ON)
+option(WERROR "Treat compiler warnings as errors (-Werror)" OFF)
 
 # Add module path for custom Find modules and toolchains
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -232,6 +247,15 @@ add_library(libpingus STATIC
     ${PINGUS_SOURCES}
 )
 
+# Apply compiler warnings if enabled
+if(WARNINGS)
+    target_compile_options(libpingus PRIVATE -Wall -Wextra)
+endif()
+
+if(WERROR)
+    target_compile_options(libpingus PRIVATE -Werror)
+endif()
+
 if(ENABLE_LOGGING)
     target_compile_definitions(libpingus PRIVATE LOGGING_ENABLED)
 endif()
@@ -341,7 +365,11 @@ message(STATUS "Feature Support:")
 message(STATUS "  Logging support: ${ENABLE_LOGGING}")
 message(STATUS "  Level Editor: ${WITH_EDITOR}")
 message(STATUS "  OpenGL support: ${WITH_OPENGL}")
+message(STATUS "  Extra Warnings: ${WARNINGS}")
+message(STATUS "  Warnings as Errors: ${WERROR}")
 message(STATUS "")
 message(STATUS "Optional Builds:")
 message(STATUS "  Build tests: ${BUILD_TESTS}")
 message(STATUS "")
+
+# EOF
