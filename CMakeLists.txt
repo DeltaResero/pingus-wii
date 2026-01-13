@@ -25,7 +25,6 @@ else()
     option(WITH_EDITOR "Build with level editor support" OFF)
 endif()
 
-option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
 option(ENABLE_LOGGING "Enable application logging" OFF)
 
@@ -75,20 +74,6 @@ else()
     message(STATUS "OpenGL support: disabled")
 endif()
 
-# Wiimote (optional)
-if(WITH_WIIMOTE)
-    find_library(CWIID_LIBRARY cwiid)
-    find_path(CWIID_INCLUDE_DIR cwiid.h)
-    if(CWIID_LIBRARY AND CWIID_INCLUDE_DIR)
-        set(HAVE_CWIID 1)
-        message(STATUS "Wiimote support: enabled")
-    else()
-        message(STATUS "Wiimote support: disabled (libcwiid not found)")
-        set(WITH_WIIMOTE OFF)
-    endif()
-else()
-    message(STATUS "Wiimote support: disabled")
-endif()
 
 # Check for iconv
 include(CheckCXXSourceCompiles)
@@ -182,10 +167,6 @@ if(HAVE_OPENGL)
     add_compile_definitions(HAVE_OPENGL=1)
 endif()
 
-if(HAVE_CWIID)
-    add_compile_definitions(HAVE_CWIID=1)
-endif()
-
 if(HAVE_ICONV_CONST)
     add_compile_definitions(HAVE_ICONV_CONST ICONV_CONST=${ICONV_CONST})
 endif()
@@ -223,7 +204,6 @@ list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/src/main\\.cpp$")
 
 # Remove optional sources that shouldn't be included by default
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/opengl/.*")
-list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/wiimote/.*")
 
 # Remove editor sources if disabled
 if(NOT WITH_EDITOR)
@@ -236,10 +216,6 @@ if(WITH_OPENGL)
     list(APPEND PINGUS_SOURCES ${OPENGL_SOURCES})
 endif()
 
-if(WITH_WIIMOTE)
-    file(GLOB WIIMOTE_SOURCES "${CMAKE_SOURCE_DIR}/src/engine/input/wiimote/*.cpp")
-    list(APPEND PINGUS_SOURCES ${WIIMOTE_SOURCES})
-endif()
 
 # Add Wii specific sources
 if(WII_BUILD)
@@ -282,10 +258,6 @@ if(WITH_OPENGL AND OPENGL_FOUND)
     endif()
 endif()
 
-if(WITH_WIIMOTE AND CWIID_LIBRARY)
-    target_link_libraries(libpingus ${CWIID_LIBRARY})
-    target_include_directories(libpingus PRIVATE ${CWIID_INCLUDE_DIR})
-endif()
 
 if(WII_BUILD)
     target_link_libraries(libpingus 
@@ -369,7 +341,6 @@ message(STATUS "Feature Support:")
 message(STATUS "  Logging support: ${ENABLE_LOGGING}")
 message(STATUS "  Level Editor: ${WITH_EDITOR}")
 message(STATUS "  OpenGL support: ${WITH_OPENGL}")
-message(STATUS "  Wiimote support: ${WITH_WIIMOTE}")
 message(STATUS "")
 message(STATUS "Optional Builds:")
 message(STATUS "  Build tests: ${BUILD_TESTS}")

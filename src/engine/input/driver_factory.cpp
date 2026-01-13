@@ -14,10 +14,6 @@
 #include "engine/input/core_driver.hpp"
 #include "engine/input/sdl_driver.hpp"
 
-#ifdef HAVE_CWIID
-#  include "engine/input/wiimote/wiimote_driver.hpp"
-#endif
-
 namespace Input {
 
 Driver*
@@ -31,12 +27,6 @@ DriverFactory::create(const std::string& name, Manager* manager)
   {
     return new CoreDriver(manager);
   }
-#ifdef HAVE_CWIID
-  else if (name == "wiimote")
-  {
-    return new WiimoteDriver();
-  }
-#endif
   else
   {
     return 0;

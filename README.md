@@ -63,7 +63,7 @@ This project uses the [CMake](https://cmake.org/) build system and depends on
 * CMake 3.10 or later
 * C++20 compatible compiler (GCC/Clang)
 * **Required Libraries:** SDL 1.2, SDL_image, SDL_mixer, libpng
-* **Optional Libraries:** OpenGL, libcwiid (Wiimote)
+* **Optional Libraries:** OpenGL
 
 ### Build Options
 
@@ -73,7 +73,6 @@ You can configure the build by passing `-DOPTION=ON/OFF` to cmake.
 |-------------------|---------------------------------------------|---------|
 | `ENABLE_LOGGING`  | Enable application logging                  | `OFF`   |
 | `WITH_OPENGL`     | Build with OpenGL support                   | `ON`    |
-| `WITH_WIIMOTE`    | Build with Wiimote support (requires cwiid) | `OFF`   |
 | `BUILD_TESTS`     | Build test programs                         | `OFF`   |
 
 ```bash
