@@ -308,6 +308,17 @@ endif()
 add_executable(pingus src/main.cpp)
 target_link_libraries(pingus libpingus)
 
+# Copy data directory (Non-Wii)
+if(NOT WII_BUILD)
+    add_custom_command(TARGET pingus POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_SOURCE_DIR}/data"
+                "$<TARGET_FILE_DIR:pingus>/data"
+        COMMENT "Copying data directory to build output..."
+        VERBATIM
+    )
+endif()
+
 # Install targets (Skip for Wii, we build a custom app structure)
 if(NOT WII_BUILD)
     install(TARGETS pingus DESTINATION bin)
