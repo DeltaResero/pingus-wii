@@ -239,7 +239,7 @@ endif()
 
 # Windows-specific sources (Icon)
 if(WIN32)
-    list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/src/win32/pingus.rc")
+    list(APPEND PINGUS_SOURCES "${CMAKE_SOURCE_DIR}/packaging/windows/pingus.rc")
 endif()
 
 # Create static library
@@ -323,6 +323,11 @@ endif()
 if(NOT WII_BUILD)
     install(TARGETS pingus DESTINATION bin)
     install(DIRECTORY data/ DESTINATION share/pingus)
+    
+    # Install desktop entry (Linux)
+    if(UNIX AND NOT APPLE)
+        install(FILES packaging/linux/pingus.desktop DESTINATION share/applications)
+    endif()
 endif()
 
 # Build tests if enabled
@@ -352,8 +357,12 @@ if(WII_BUILD)
     # Create Homebrew Channel structure
     add_custom_command(TARGET pingus POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus
+        # Copy binary and data
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/boot.dol ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/boot.dol
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/data
+        # Copy Homebrew Channel metadata (Icon and XML)
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/wii/icon.png ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/icon.png
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/wii/meta.xml ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/meta.xml
         COMMENT "Creating Homebrew Channel package in build/apps/pingus/..."
         VERBATIM
     )
