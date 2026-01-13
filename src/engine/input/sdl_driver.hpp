@@ -34,6 +34,14 @@ private:
     int button;
   };
 
+  struct JoystickHatBinding {
+    Button* binding;
+
+    int device;
+    int hat;
+    int dir; // SDL_HAT_UP, SDL_HAT_DOWN, etc.
+  };
+
   struct JoystickAxisBinding {
     Axis* binding;
 
@@ -66,6 +74,7 @@ private:
   std::vector<KeyboardButtonBinding> keyboard_button_bindings;
   std::vector<MouseButtonBinding>    mouse_button_bindings;
   std::vector<JoystickButtonBinding> joystick_button_bindings;
+  std::vector<JoystickHatBinding>    joystick_hat_bindings;
   std::vector<JoystickAxisBinding>   joystick_axis_bindings;
   Keyboard* keyboard_binding;
 
@@ -74,6 +83,12 @@ private:
 
   typedef std::map<int, SDL_Joystick*> JoystickHandles;
   JoystickHandles joystick_handles;
+
+  // Virtual Mouse State for Joystick Emulation
+  float virtual_mouse_x;
+  float virtual_mouse_y;
+  float joy_axis_x;
+  float joy_axis_y;
 
 public:
   SDLDriver();

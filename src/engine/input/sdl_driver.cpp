@@ -11,6 +11,7 @@
 
 #include "engine/input/sdl_driver.hpp"
 
+#include <cmath>
 #include "engine/display/display.hpp"
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/global_event.hpp"
@@ -23,10 +24,15 @@ SDLDriver::SDLDriver() :
   keyboard_button_bindings(),
   mouse_button_bindings(),
   joystick_button_bindings(),
+  joystick_hat_bindings(),
   joystick_axis_bindings(),
   keyboard_binding(0),
   string2key(),
-  joystick_handles()
+  joystick_handles(),
+  virtual_mouse_x(Display::get_width() / 2.0f),
+  virtual_mouse_y(Display::get_height() / 2.0f),
+  joy_axis_x(0.0f),
+  joy_axis_y(0.0f)
 {
   for (int i = 0; i < SDLK_LAST; ++i)
   {
@@ -71,6 +77,39 @@ SDLDriver::create_button(const FileReader& reader, Control* parent)
     {
       return 0;
     }
+  }
+  else if (reader.get_name() == "sdl:joystick-hat")
+  {
+    JoystickHatBinding binding;
+
+    reader.read_int("device", binding.device);
+    reader.read_int("hat",    binding.hat);
+
+    std::string dir;
+    if (reader.read_string("dir", dir))
+    {
+      if (dir == "up")         binding.dir = SDL_HAT_UP;
+      else if (dir == "down")  binding.dir = SDL_HAT_DOWN;
+      else if (dir == "left")  binding.dir = SDL_HAT_LEFT;
+      else if (dir == "right") binding.dir = SDL_HAT_RIGHT;
+      else {
+        log_error("unknown hat direction '{}'", dir);
+        return 0;
+      }
+
+      if (open_joystick(binding.device))
+      {
+        binding.binding = new Button(parent);
+        joystick_hat_bindings.push_back(binding);
+        return binding.binding;
+      }
+    }
+    else
+    {
+      log_error("'dir' missing for joystick-hat binding");
+      return 0;
+    }
+    return 0;
   }
   else if (reader.get_name() == "sdl:mouse-button")
   {
@@ -210,6 +249,48 @@ SDLDriver::update(float delta)
   // FIXME: Little hackywacky, better way would be to fetch event
   // loops somewhere else and only forward the relevant SDL_Events to
   // the SDLDriver
+
+  // --- Joystick Mouse Emulation ---
+  const float deadzone = 0.15f;
+  const float speed = 800.0f; // Pixels per second
+
+  bool joy_moved = false;
+
+  if (std::abs(joy_axis_x) > deadzone) {
+    virtual_mouse_x += joy_axis_x * speed * delta;
+    joy_moved = true;
+  }
+  if (std::abs(joy_axis_y) > deadzone) {
+    virtual_mouse_y += joy_axis_y * speed * delta;
+    joy_moved = true;
+  }
+
+  if (joy_moved) {
+    Size screen_size = Display::get_size();
+    if (virtual_mouse_x < 0) virtual_mouse_x = 0;
+    if (virtual_mouse_y < 0) virtual_mouse_y = 0;
+    if (virtual_mouse_x > screen_size.width) virtual_mouse_x = screen_size.width;
+    if (virtual_mouse_y > screen_size.height) virtual_mouse_y = screen_size.height;
+
+    for(std::vector<PointerBinding>::iterator i = pointer_bindings.begin();
+        i != pointer_bindings.end(); ++i)
+    {
+      Vector2f new_pos(virtual_mouse_x, virtual_mouse_y);
+
+      // Force update by jittering inward to ensure valid bounds.
+      if (i->binding->get_pos() == new_pos)
+      {
+          Vector2f temp_pos = new_pos;
+          temp_pos.x += (new_pos.x > screen_size.width / 2.0f) ? -1.0f : 1.0f;
+          temp_pos.y += (new_pos.y > screen_size.height / 2.0f) ? -1.0f : 1.0f;
+          i->binding->set_pos(temp_pos);
+      }
+
+      i->binding->set_pos(new_pos);
+    }
+  }
+  // --------------------------------
+
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
@@ -220,6 +301,10 @@ SDLDriver::update(float delta)
         break;
 
       case SDL_MOUSEMOTION:
+        // Sync virtual mouse with IR pointer
+        virtual_mouse_x = (float)event.motion.x;
+        virtual_mouse_y = (float)event.motion.y;
+
         for(std::vector<PointerBinding>::iterator i = pointer_bindings.begin();
             i != pointer_bindings.end(); ++i)
         {
@@ -278,7 +363,27 @@ SDLDriver::update(float delta)
         }
         break;
 
+      case SDL_JOYHATMOTION:
+        for(std::vector<JoystickHatBinding>::iterator i = joystick_hat_bindings.begin();
+            i != joystick_hat_bindings.end(); ++i)
+        {
+          if (event.jhat.which == i->device &&
+              event.jhat.hat   == i->hat)
+          {
+            bool active = (event.jhat.value & i->dir);
+            i->binding->set_state(active ? BUTTON_PRESSED : BUTTON_RELEASED);
+          }
+        }
+        break;
+
       case SDL_JOYAXISMOTION:
+        // Capture Axis 0/1 from ANY device for mouse emulation
+        if (event.jaxis.axis == 0) {
+            joy_axis_x = static_cast<float>(event.jaxis.value) / 32767.0f;
+        } else if (event.jaxis.axis == 1) {
+            joy_axis_y = static_cast<float>(event.jaxis.value) / 32767.0f;
+        }
+
         for(std::vector<JoystickAxisBinding>::iterator i = joystick_axis_bindings.begin();
             i != joystick_axis_bindings.end(); ++i)
         {
