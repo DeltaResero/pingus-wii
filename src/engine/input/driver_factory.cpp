@@ -18,16 +18,8 @@
 #  include "engine/input/wiimote/wiimote_driver.hpp"
 #endif
 
-#ifdef HAVE_XINPUT
-#  include "engine/input/xinput/xinput_driver.hpp"
-#endif
-
 #ifdef HAVE_LINUXUSBMOUSE
 #  include "engine/input/usbmouse/usbmouse_driver.hpp"
-#endif
-
-#ifdef HAVE_LINUXEVDEV
-#  include "engine/input/evdev/evdev_driver.hpp"
 #endif
 
 namespace Input {
@@ -47,18 +39,6 @@ DriverFactory::create(const std::string& name, Manager* manager)
   else if (name == "usbmouse")
   {
     return new USBMouseDriver();
-  }
-#endif
-#ifdef HAVE_LINUXEVDEV
-  else if (name == "evdev")
-  {
-    return new EvdevDriver();
-  }
-#endif
-#ifdef HAVE_XINPUT
-  else if (name == "xinput")
-  {
-    return new XInputDriver();
   }
 #endif
 #ifdef HAVE_CWIID

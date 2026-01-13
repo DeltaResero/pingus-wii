@@ -73,8 +73,6 @@ You can configure the build by passing `-DOPTION=ON/OFF` to cmake.
 |-------------------|---------------------------------------------|---------|
 | `ENABLE_LOGGING`  | Enable application logging                  | `OFF`   |
 | `WITH_OPENGL`     | Build with OpenGL support                   | `ON`    |
-| `WITH_XINPUT`     | Build with XInput support                   | `OFF`   |
-| `WITH_LINUXEVDEV` | Build with Linux evdev support              | `ON`    |
 | `WITH_WIIMOTE`    | Build with Wiimote support (requires cwiid) | `OFF`   |
 | `BUILD_TESTS`     | Build test programs                         | `OFF`   |
 

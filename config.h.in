@@ -12,14 +12,8 @@
 /* Define to 1 if you have OpenGL support */
 #cmakedefine HAVE_OPENGL 1
 
-/* Define to 1 if you have Linux evdev support */
-#cmakedefine HAVE_LINUXEVDEV 1
-
 /* Define to 1 if you have Wiimote (cwiid) support */
 #cmakedefine HAVE_CWIID 1
-
-/* Define to 1 if you have XInput support */
-#cmakedefine HAVE_XINPUT 1
 
 /* Define to 1 if iconv requires const qualifier */
 #cmakedefine HAVE_ICONV_CONST 1

@@ -16,14 +16,6 @@ else()
 endif()
 
 # Build options
-# Determine default for Linux evdev support
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(LINUXEVDEV_DEFAULT ON)
-else()
-    set(LINUXEVDEV_DEFAULT OFF)
-endif()
-
-# Build options
 if(WII_BUILD)
     # Force OpenGL on Wii (OpenGX) and disable Editor by default
     option(WITH_OPENGL "Build with OpenGL support" ON)
@@ -33,8 +25,6 @@ else()
     option(WITH_EDITOR "Build with level editor support" OFF)
 endif()
 
-option(WITH_XINPUT "Build with XInput support" OFF)
-option(WITH_LINUXEVDEV "Build with Linux evdev support" ${LINUXEVDEV_DEFAULT})
 option(WITH_WIIMOTE "Build with Wiimote support" OFF)
 option(BUILD_TESTS "Build test programs" OFF)
 option(ENABLE_LOGGING "Enable application logging" OFF)
@@ -85,14 +75,6 @@ else()
     message(STATUS "OpenGL support: disabled")
 endif()
 
-# Linux evdev (optional)
-if(WITH_LINUXEVDEV)
-    message(STATUS "Linux evdev support: enabled")
-    set(HAVE_LINUXEVDEV 1)
-else()
-    message(STATUS "Linux evdev support: disabled")
-endif()
-
 # Wiimote (optional)
 if(WITH_WIIMOTE)
     find_library(CWIID_LIBRARY cwiid)
@@ -106,20 +88,6 @@ if(WITH_WIIMOTE)
     endif()
 else()
     message(STATUS "Wiimote support: disabled")
-endif()
-
-# XInput (optional)
-if(WITH_XINPUT)
-    find_package(X11)
-    if(X11_FOUND AND X11_Xi_FOUND)
-        set(HAVE_XINPUT 1)
-        message(STATUS "XInput support: enabled")
-    else()
-        message(STATUS "XInput support: disabled (Xi library not found)")
-        set(WITH_XINPUT OFF)
-    endif()
-else()
-    message(STATUS "XInput support: disabled")
 endif()
 
 # Check for iconv
@@ -214,16 +182,8 @@ if(HAVE_OPENGL)
     add_compile_definitions(HAVE_OPENGL=1)
 endif()
 
-if(HAVE_LINUXEVDEV)
-    add_compile_definitions(HAVE_LINUXEVDEV=1)
-endif()
-
 if(HAVE_CWIID)
     add_compile_definitions(HAVE_CWIID=1)
-endif()
-
-if(HAVE_XINPUT)
-    add_compile_definitions(HAVE_XINPUT=1)
 endif()
 
 if(HAVE_ICONV_CONST)
@@ -263,9 +223,7 @@ list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/src/main\\.cpp$")
 
 # Remove optional sources that shouldn't be included by default
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/opengl/.*")
-list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/evdev/.*")
 list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/wiimote/.*")
-list(FILTER PINGUS_SOURCES EXCLUDE REGEX ".*/xinput/.*")
 
 # Remove editor sources if disabled
 if(NOT WITH_EDITOR)
@@ -278,19 +236,9 @@ if(WITH_OPENGL)
     list(APPEND PINGUS_SOURCES ${OPENGL_SOURCES})
 endif()
 
-if(WITH_LINUXEVDEV)
-    file(GLOB EVDEV_SOURCES "${CMAKE_SOURCE_DIR}/src/engine/input/evdev/*.cpp")
-    list(APPEND PINGUS_SOURCES ${EVDEV_SOURCES})
-endif()
-
 if(WITH_WIIMOTE)
     file(GLOB WIIMOTE_SOURCES "${CMAKE_SOURCE_DIR}/src/engine/input/wiimote/*.cpp")
     list(APPEND PINGUS_SOURCES ${WIIMOTE_SOURCES})
-endif()
-
-if(WITH_XINPUT)
-    file(GLOB XINPUT_SOURCES "${CMAKE_SOURCE_DIR}/src/engine/input/xinput/*.cpp")
-    list(APPEND PINGUS_SOURCES ${XINPUT_SOURCES})
 endif()
 
 # Add Wii specific sources
@@ -337,10 +285,6 @@ endif()
 if(WITH_WIIMOTE AND CWIID_LIBRARY)
     target_link_libraries(libpingus ${CWIID_LIBRARY})
     target_include_directories(libpingus PRIVATE ${CWIID_INCLUDE_DIR})
-endif()
-
-if(WITH_XINPUT AND X11_FOUND)
-    target_link_libraries(libpingus ${X11_LIBRARIES} ${X11_Xi_LIB})
 endif()
 
 if(WII_BUILD)
@@ -425,8 +369,6 @@ message(STATUS "Feature Support:")
 message(STATUS "  Logging support: ${ENABLE_LOGGING}")
 message(STATUS "  Level Editor: ${WITH_EDITOR}")
 message(STATUS "  OpenGL support: ${WITH_OPENGL}")
-message(STATUS "  XInput support: ${WITH_XINPUT}")
-message(STATUS "  Linux evdev support: ${WITH_LINUXEVDEV}")
 message(STATUS "  Wiimote support: ${WITH_WIIMOTE}")
 message(STATUS "")
 message(STATUS "Optional Builds:")
