@@ -35,10 +35,10 @@ private:
   unsigned int serial;
 
   /** The width of the collision map. */
-  int    width;
+  const int width;
 
   /** The height of the collision map. */
-  int   height;
+  const int height;
 
   /** A array of uchar, each uchar represents a pixel on the map. */
   std::unique_ptr<uint8_t[]> colmap;
@@ -61,13 +61,34 @@ public:
   /** Returns the height of the collision map. */
   int get_height();
 
-  /** Returns the height of the collision map. */
+  /** Returns the width of the collision map. */
   int get_width();
 
-  int  getpixel(int x, int y);
+  /** Get pixel value with bounds checking. Returns GP_OUTOFSCREEN if out of bounds.
+      Optimized with unsigned cast trick for single comparison per axis. */
+  __attribute__((always_inline))
+  inline int getpixel(int x, int y) const
+  {
+    // Unsigned cast trick: if x or y is negative, it becomes a very large unsigned value
+    // This allows us to check both lower and upper bounds with just two comparisons
+    if (static_cast<unsigned int>(x) < static_cast<unsigned int>(width) &&
+        static_cast<unsigned int>(y) < static_cast<unsigned int>(height))
+    {
+      return colmap[x + y * width];
+    }
+    else
+    {
+      return Groundtype::GP_OUTOFSCREEN;
+    }
+  }
 
-  /** Same as getpixel() but without the range check */
-  int  getpixel_fast(int x, int y);
+  /** Same as getpixel() but without the range check.
+      WARNING: Caller must ensure x and y are within bounds! */
+  __attribute__((always_inline))
+  inline int getpixel_fast(int x, int y) const
+  {
+    return colmap[x + y * width];
+  }
 
   /** @return a number which represents the state of the collision
       map, once it changes the serial changes also */

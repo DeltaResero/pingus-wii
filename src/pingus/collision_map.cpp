@@ -31,22 +31,6 @@ CollisionMap::~CollisionMap()
 {
 }
 
-int
-CollisionMap::getpixel(int x, int y)
-{
-  if (x >= 0 && x < width && y >= 0 && y < height) {
-    return colmap[x+y*width];
-  } else {
-    return Groundtype::GP_OUTOFSCREEN;
-  }
-}
-
-int
-CollisionMap::getpixel_fast(int x, int y)
-{
-  return colmap[x+y*width];
-}
-
 unsigned char*
 CollisionMap::get_data()
 {
