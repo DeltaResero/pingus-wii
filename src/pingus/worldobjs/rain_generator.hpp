@@ -30,7 +30,7 @@ public:
   void update ();
   void draw (SceneContext& gc);
   float get_z_pos () const { return 1000; }
-  void set_pos(const Vector3f& p) {}
+  void set_pos(const Vector3f& /*p*/) {}
   Vector3f get_pos() const { return Vector3f(); }
 
 private:
