@@ -65,7 +65,7 @@ SliderBox::on_primary_button_release(int x, int y)
 }
 
 void
-SliderBox::on_pointer_move(int x, int y)
+SliderBox::on_pointer_move(int x, int /*y*/)
 {
   if (drag_drop)
   {

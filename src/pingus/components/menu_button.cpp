@@ -75,7 +75,7 @@ MenuButton::draw (DrawingContext& gc)
 }
 
 void
-MenuButton::update (float delta)
+MenuButton::update (float /*delta*/)
 {
 }
 

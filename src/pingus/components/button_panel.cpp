@@ -144,14 +144,14 @@ ButtonPanel::previous_action()
 }
 
 void
-ButtonPanel::on_primary_button_press(int x, int y)
+ButtonPanel::on_primary_button_press(int /*x*/, int y)
 {
   int action = (y - rect.top) / 38;
   current_button = Math::clamp(0, action, int(buttons.size()-1));
 }
 
 void
-ButtonPanel::on_primary_button_release(int x, int y)
+ButtonPanel::on_primary_button_release(int /*x*/, int /*y*/)
 {
 }
 
@@ -168,7 +168,7 @@ ButtonPanel::on_pointer_leave()
 }
 
 void
-ButtonPanel::on_pointer_move(int x, int y)
+ButtonPanel::on_pointer_move(int /*x*/, int y)
 {
   int action = (y - rect.top) / 38;
   tip_button = Math::clamp(0, action, int(buttons.size()-1));

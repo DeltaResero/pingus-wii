@@ -25,7 +25,7 @@ CheckBox::CheckBox(const Rect& rect_) :
 }
 
 void
-CheckBox::on_primary_button_press (int x, int y)
+CheckBox::on_primary_button_press (int /*x*/, int /*y*/)
 {
   if (!is_enabled())
     return;
