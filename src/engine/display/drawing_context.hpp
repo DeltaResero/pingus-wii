@@ -17,6 +17,7 @@
 #include "engine/display/drawing_request.hpp"
 #include "math/color.hpp"
 #include "math/vector3f.hpp"
+#include "util/memory_pool.hpp"
 
 class Framebuffer;
 class Font;
@@ -40,6 +41,9 @@ private:
   Rect rect;
 
   bool do_clipping;
+
+  /** Memory pool for DrawingRequest allocations */
+  MemoryPool<DrawingRequest> request_pool;
 
 public:
   DrawingContext();

@@ -65,36 +65,54 @@ public:
 
   ~MemoryPool()
   {
-    clear();
-  }
-
-  void clear()
-  {
+    // Call destructors on all objects
     for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
       (*i)->~T();
     objects.clear();
 
-    // FIXME: We don't have to delete the chunks, instead we should
-    // just reset the pointer to start and reuse them
+    // Free all memory chunks
     for(typename Chunks::reverse_iterator i = chunks.rbegin(); i != chunks.rend(); ++i)
     {
       delete[] *i;
     }
     chunks.clear();
+  }
 
+  void clear()
+  {
+    // Call destructors on all objects
+    for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
+      (*i)->~T();
+    objects.clear();
+
+    // Keep chunks allocated and reuse them instead of deleting
+    // This avoids repeated allocation/deallocation overhead
     next_free = 0;
   }
 
   template<class C>
   T* create() { return keep(new (allocate(sizeof(C))) C()); }
+
+  template<class C, class Arg1>
+  T* create(Arg1& arg1) { return keep(new (allocate(sizeof(C))) C(arg1)); }
+
   template<class C, class Arg1>
   T* create(const Arg1& arg1) { return keep(new (allocate(sizeof(C))) C(arg1)); }
+
+  template<class C, class Arg1, class Arg2>
+  T* create(Arg1& arg1, const Arg2& arg2) { return keep(new (allocate(sizeof(C))) C(arg1, arg2)); }
+
   template<class C, class Arg1, class Arg2>
   T* create(const Arg1& arg1, const Arg2& arg2) { return keep(new (allocate(sizeof(C))) C(arg1, arg2)); }
+
   template<class C, class Arg1, class Arg2, class Arg3>
   T* create(const Arg1& arg1, const Arg2& arg2, const Arg3& arg3) { return keep(new (allocate(sizeof(C))) C(arg1, arg2, arg3)); }
+
   template<class C, class Arg1, class Arg2, class Arg3, class Arg4>
   T* create(const Arg1& arg1, const Arg2& arg2, const Arg3& arg3, const Arg4& arg4) { return keep(new (allocate(sizeof(C))) C(arg1, arg2, arg3, arg4)); }
+
+  template<class C, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+  T* create(const Arg1& arg1, const Arg2& arg2, const Arg3& arg3, const Arg4& arg4, const Arg5& arg5) { return keep(new (allocate(sizeof(C))) C(arg1, arg2, arg3, arg4, arg5)); }
 
 private:
   MemoryPool (const MemoryPool&);
