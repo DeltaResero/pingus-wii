@@ -35,7 +35,7 @@ SpriteDrawable::SpriteDrawable(const FileReader& reader) :
 }
 
 void
-SpriteDrawable::update(float delta)
+SpriteDrawable::update(float /*delta*/)
 {
 }
 

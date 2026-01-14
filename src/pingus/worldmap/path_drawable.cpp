@@ -35,7 +35,7 @@ PathDrawable::draw (DrawingContext& gc)
 }
 
 void
-PathDrawable::update (float delta)
+PathDrawable::update (float /*delta*/)
 {
 }
 

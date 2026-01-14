@@ -78,7 +78,7 @@ LevelDot::draw(DrawingContext& gc)
 }
 
 void
-LevelDot::update(float delta)
+LevelDot::update(float /*delta*/)
 {
 }
 
