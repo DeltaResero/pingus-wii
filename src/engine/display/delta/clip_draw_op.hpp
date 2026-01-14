@@ -47,7 +47,7 @@ public:
     }
   }
 
-  void mark_changed_regions(std::vector<Rect>& update_rects) const
+  void mark_changed_regions(std::vector<Rect>& /*update_rects*/) const
   {
   }
 
