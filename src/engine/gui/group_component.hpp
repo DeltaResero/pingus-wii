@@ -42,7 +42,7 @@ public:
   virtual ~GroupComponent();
 
   void draw(DrawingContext& gc);
-  virtual void draw_background(DrawingContext& gc) {}
+  virtual void draw_background(DrawingContext& /*gc*/) {}
 
   void update(float delta);
 
@@ -52,8 +52,8 @@ public:
   void on_secondary_button_press(int x, int y);
   void on_secondary_button_release(int x, int y);
 
-  void on_primary_button_click(int x, int y) {}
-  void on_secondary_button_click(int x, int y) {}
+  void on_primary_button_click(int /*x*/, int /*y*/) {}
+  void on_secondary_button_click(int /*x*/, int /*y*/) {}
 
   void on_key_pressed(const Input::KeyboardEvent& ev);
 
