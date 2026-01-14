@@ -59,7 +59,7 @@ public:
   /** The z-pos at which the pingus gets draw.
       @return 50 */
   float get_z_pos() const;
-  void set_pos(const Vector3f& p) { }
+  void set_pos(const Vector3f& /*p*/) { }
   Vector3f get_pos() const { return Vector3f(); }
   /*@}*/
 
