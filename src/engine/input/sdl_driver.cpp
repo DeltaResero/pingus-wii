@@ -50,7 +50,7 @@ SDLDriver::~SDLDriver()
 }
 
 Keyboard*
-SDLDriver::create_keyboard(const FileReader& reader, Control* parent)
+SDLDriver::create_keyboard(const FileReader& /*reader*/, Control* parent)
 {
   return (keyboard_binding = new Keyboard(parent));
 }
