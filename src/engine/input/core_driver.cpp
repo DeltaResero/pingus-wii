@@ -206,13 +206,13 @@ private:
 };
 
 Button*
-CoreDriver::create_button(const FileReader& reader, Control* parent)
+CoreDriver::create_button(const FileReader& /*reader*/, Control* /*parent*/)
 {
   return 0;
 }
 
 Axis*
-CoreDriver::create_axis(const FileReader& reader, Control* parent)
+CoreDriver::create_axis(const FileReader& /*reader*/, Control* /*parent*/)
 {
   return 0;
 }
@@ -364,7 +364,7 @@ CoreDriver::create_pointer(const FileReader& reader, Control* parent)
 }
 
 Keyboard*
-CoreDriver::create_keyboard(const FileReader& reader, Control* parent)
+CoreDriver::create_keyboard(const FileReader& /*reader*/, Control* /*parent*/)
 {
   return 0;
 }

@@ -28,7 +28,7 @@ public:
   virtual ~CoreDriver() {}
 
   std::string get_name() const { return "core"; }
-  void update(float delta) {}
+  void update(float /*delta*/) {}
 
   Button*   create_button  (const FileReader& reader, Control* parent);
   Axis*     create_axis    (const FileReader& reader, Control* parent);
