@@ -38,7 +38,7 @@ public:
 
   ActionName::Enum get_type() const { return ActionName::BOMBER; }
 
-  bool change_allowed (ActionName::Enum action) { return false; }
+  bool change_allowed (ActionName::Enum /*action*/) { return false; }
 
   void draw (SceneContext& gc);
   void update();
