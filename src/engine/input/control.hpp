@@ -47,10 +47,10 @@ public:
     }
   }
 
-  virtual void update(float delta) {
+  virtual void update(float /*delta*/) {
   }
 
-  virtual void update(Control* ctrl) {
+  virtual void update(Control* /*ctrl*/) {
     log_warn("Control:update() not handled");
   }
 
@@ -108,7 +108,7 @@ public:
       (*i)->update(delta);
   }
 
-  virtual void update(Control* ctrl)
+  virtual void update(Control* /*ctrl*/)
   {
     ButtonState new_state = BUTTON_RELEASED;
 
@@ -250,7 +250,7 @@ public:
       (*i)->update(delta);
   }
 
-  void update(Control* ctrl)
+  void update(Control* /*ctrl*/)
   {
     float new_pos = 0;
 
@@ -443,7 +443,7 @@ public:
       delete *i;
   }
 
-  void update(float delta) {
+  void update(float /*delta*/) {
   }
 
   void update(Control* p) {
