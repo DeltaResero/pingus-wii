@@ -41,7 +41,7 @@ public:
 
     glyphs.resize(65536, 0); // 16bit ought to be enough for everybody
 
-    // Copyh Unicode -> Glyph mapping
+    // Copy Unicode -> Glyph mapping
     for(std::vector<GlyphImageDescription>::size_type j = 0; j < desc.images.size(); ++j)
     {
       Surface surface(desc.images[j].pathname);
@@ -108,7 +108,13 @@ public:
     UTF8::iterator i(text);
     while(i.next())
     {
-      const uint32_t& unicode = *i;
+      const uint32_t unicode = *i;
+
+      // Skip invalid UTF-8 replacement characters silently
+      if (unicode == 0xFFFD)
+      {
+        continue;
+      }
 
       if (unicode < glyphs.size() && glyphs[unicode])
       {
@@ -145,14 +151,14 @@ public:
     UTF8::iterator i(text);
     while(i.next())
     {
-      const uint32_t& unicode = *i;
+      const uint32_t unicode = *i;
 
       if (unicode == '\n')
       {
         last_width = std::max(last_width, width);
         width = 0;
       }
-      else
+      else if (unicode != 0xFFFD) // Skip invalid sequences
       {
         width += get_width(unicode) + char_spacing;
       }

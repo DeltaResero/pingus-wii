@@ -15,6 +15,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <string_view>
 
 class UTF8
 {
@@ -22,13 +23,14 @@ public:
   class iterator
   {
   private:
-    const std::string* text;
+    const char* text_ptr;
+    size_t text_len;
 
     /** Position of the next Unicode character after \a chr */
-    std::string::size_type pos;
+    size_t pos;
 
     /** Position of \a chr */
-    std::string::size_type idx;
+    size_t idx;
 
     /** Current Unicode character */
     uint32_t chr;
@@ -38,6 +40,7 @@ public:
         pointer, thus it must remain valid for the lifetime of the
         iterator. */
     iterator(const std::string& text);
+    iterator(std::string_view text);
     iterator(const std::string& text, std::string::iterator it);
 
     bool next();
@@ -45,15 +48,19 @@ public:
     uint32_t operator*() const;
 
     /** Returns the starting position of the current character */
-    std::string::size_type get_index() const { return idx; }
+    size_t get_index() const { return idx; }
 
-    const std::string& get_string() const { return *text; }
+    std::string_view get_string_view() const { return std::string_view(text_ptr, text_len); }
+
+    // For backwards compatibility
+    std::string get_string() const { return std::string(text_ptr, text_len); }
   };
 
   /**
    * Returns the number of characters in a UTF-8 string
    */
   static std::string::size_type length(const std::string& str);
+  static std::string::size_type length(std::string_view str);
 
   static std::string substr(const iterator& first, const iterator& last);
   static std::string substr(const std::string& text, std::string::size_type pos, std::string::size_type n);
@@ -73,10 +80,10 @@ public:
    * gets unicode character at byte position @a p of UTF-8 encoded @a
    * text, then advances @a p to the next character.
    *
-   * @throws std::runtime_error if decoding fails.
-   * See unicode standard section 3.10 table 3-5 and 3-6 for details.
+   * Returns 0xFFFD (replacement character) if decoding fails.
    */
   static uint32_t decode_utf8(const std::string& text, size_t& p);
+  static uint32_t decode_utf8(std::string_view text, size_t& p);
 
   static uint32_t decode_utf8(const std::string& text);
 

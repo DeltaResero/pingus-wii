@@ -12,8 +12,6 @@
 
 #include "util/utf8.hpp"
 
-#include <stdexcept>
-
 #include "util/log.hpp"
 
 /** Replacement character for invalid UTF-8 sequences */
@@ -35,12 +33,18 @@ UTF8::is_linebreak_character(uint32_t unicode)
 std::string::size_type
 UTF8::length(const std::string& str)
 {
+  return length(std::string_view(str));
+}
+
+std::string::size_type
+UTF8::length(std::string_view str)
+{
   // Not checking for valid UTF-8 sequences should be ok, since
   // incorrect ones are a character too.
   std::string::size_type len = 0;
-  for(std::string::const_iterator i = str.begin(); i != str.end(); ++i)
+  for(size_t i = 0; i < str.size(); ++i)
   {
-    unsigned char c = *i;
+    unsigned char c = static_cast<unsigned char>(str[i]);
     if (((c & 0xc0) == 0xc0) || (c < 0x80)) // 0xc0 == 1100_000
     {
       len += 1;
@@ -53,8 +57,15 @@ UTF8::length(const std::string& str)
 std::string
 UTF8::substr(const iterator& first, const iterator& last)
 {
-  return first.get_string().substr(first.get_index(),
-                                   last.get_index() - first.get_index());
+  std::string_view sv = first.get_string_view();
+  size_t first_idx = first.get_index();
+  size_t last_idx = last.get_index();
+
+  if (last_idx > first_idx && last_idx <= sv.size())
+  {
+    return std::string(sv.substr(first_idx, last_idx - first_idx));
+  }
+  return std::string();
 }
 
 std::string
@@ -72,7 +83,7 @@ UTF8::advance(std::string::const_iterator it, std::string::size_type n)
   for(std::string::size_type i = 0; i < n; ++i)
   {
     // FIXME: Doesn't check if UTF8 sequence is valid
-    unsigned char c = *it;
+    unsigned char c = static_cast<unsigned char>(*it);
 
     if (c < 0x80)
     {
@@ -99,6 +110,7 @@ UTF8::advance(std::string::const_iterator it, std::string::size_type n)
 
   return it;
 }
+
 /**
  * returns true if this byte matches a bitmask of 10xx.xxxx, i.e. it is the 2nd, 3rd or 4th byte of a multibyte utf8 string
  */
@@ -112,71 +124,111 @@ uint32_t
 UTF8::decode_utf8(const std::string& text)
 {
   size_t p = 0;
-  return decode_utf8(text, p);
+  return decode_utf8(std::string_view(text), p);
 }
 
 /**
  * gets unicode character at byte position @a p of UTF-8 encoded @a
  * text, then advances @a p to the next character.
  *
- * @throws std::runtime_error if decoding fails.
- * See unicode standard section 3.10 table 3-5 and 3-6 for details.
+ * Returns INVALID_UTF8_SEQUENCE (0xFFFD) on error.
  */
 uint32_t
 UTF8::decode_utf8(const std::string& text, size_t& p)
 {
-  unsigned char c1 = static_cast<unsigned char>(text[p+0]);
+  return decode_utf8(std::string_view(text), p);
+}
+
+uint32_t
+UTF8::decode_utf8(std::string_view text, size_t& p)
+{
+  // Bounds check
+  if (p >= text.size())
+  {
+    return INVALID_UTF8_SEQUENCE;
+  }
+
+  unsigned char c1 = static_cast<unsigned char>(text[p]);
 
   if (has_multibyte_mark(c1))
   {
-    throw std::runtime_error("Malformed utf-8 sequence");
+    // Invalid: continuation byte at start position
+    p += 1;
+    return INVALID_UTF8_SEQUENCE;
   }
   else if ((c1 & 0200) == 0000)
   {
     // 0xxx.xxxx: 1 byte sequence
-    p+=1;
-
+    p += 1;
     return c1;
   }
   else if ((c1 & 0340) == 0300)
   {
     // 110x.xxxx: 2 byte sequence
-    if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    unsigned char c2 = static_cast<unsigned char>(text[p+1]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=2;
+    if (p + 1 >= text.size())
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
 
+    unsigned char c2 = static_cast<unsigned char>(text[p + 1]);
+    if (!has_multibyte_mark(c2))
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
+
+    p += 2;
     return (c1 & 0037) << 6 | (c2 & 0077);
   }
   else if ((c1 & 0360) == 0340)
   {
     // 1110.xxxx: 3 byte sequence
-    if(p+2 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    unsigned char c2 = static_cast<unsigned char>(text[p+1]);
-    unsigned char c3 = static_cast<unsigned char>(text[p+2]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=3;
+    if (p + 2 >= text.size())
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
 
+    unsigned char c2 = static_cast<unsigned char>(text[p + 1]);
+    unsigned char c3 = static_cast<unsigned char>(text[p + 2]);
+
+    if (!has_multibyte_mark(c2) || !has_multibyte_mark(c3))
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
+
+    p += 3;
     return (c1 & 0017) << 12 | (c2 & 0077) << 6 | (c3 & 0077);
   }
   else if ((c1 & 0370) == 0360)
   {
     // 1111.0xxx: 4 byte sequence
-    if(p+3 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    unsigned char c2 = static_cast<unsigned char>(text[p+1]);
-    unsigned char c3 = static_cast<unsigned char>(text[p+2]);
-    unsigned char c4 = static_cast<unsigned char>(text[p+4]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c4)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=4;
+    if (p + 3 >= text.size())
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
 
+    unsigned char c2 = static_cast<unsigned char>(text[p + 1]);
+    unsigned char c3 = static_cast<unsigned char>(text[p + 2]);
+    unsigned char c4 = static_cast<unsigned char>(text[p + 3]);
+
+    if (!has_multibyte_mark(c2) || !has_multibyte_mark(c3) || !has_multibyte_mark(c4))
+    {
+      p += 1;
+      return INVALID_UTF8_SEQUENCE;
+    }
+
+    p += 4;
     return (c1 & 0007) << 18 | (c2 & 0077) << 12 | (c3 & 0077) << 6 | (c4 & 0077);
   }
   else
   {
-    throw std::runtime_error("Malformed utf-8 sequence");
+    // Invalid UTF-8 start byte
+    p += 1;
+    return INVALID_UTF8_SEQUENCE;
   }
 }
 
@@ -209,9 +261,19 @@ UTF8::encode_utf8(uint32_t unicode)
   return result;
 }
 
-// FIXME: Get rid of exceptions in this code
+// Iterator implementation - optimized for zero-copy operation
 UTF8::iterator::iterator(const std::string& text_)
-  : text(&text_),
+  : text_ptr(text_.data()),
+    text_len(text_.size()),
+    pos(0),
+    idx(0),
+    chr(INVALID_UTF8_SEQUENCE)
+{
+}
+
+UTF8::iterator::iterator(std::string_view text_)
+  : text_ptr(text_.data()),
+    text_len(text_.size()),
     pos(0),
     idx(0),
     chr(INVALID_UTF8_SEQUENCE)
@@ -219,8 +281,9 @@ UTF8::iterator::iterator(const std::string& text_)
 }
 
 UTF8::iterator::iterator(const std::string& text_, const std::string::iterator it)
-  : text(&text_),
-    pos(it - text->begin()),
+  : text_ptr(text_.data()),
+    text_len(text_.size()),
+    pos(it - text_.begin()),
     idx(pos),
     chr(INVALID_UTF8_SEQUENCE)
 {
@@ -237,19 +300,15 @@ UTF8::iterator::operator+(int n)
 bool
 UTF8::iterator::next()
 {
-  try
+  if (pos >= text_len)
   {
-    idx = pos;
-    chr = decode_utf8(*text, pos);
-  }
-  catch (std::exception)
-  {
-    log_error("Malformed utf-8 sequence beginning with {} found ", *(reinterpret_cast<const uint32_t*>(text->c_str() + pos)));
-    chr = INVALID_UTF8_SEQUENCE;
-    ++pos;
+    return false;
   }
 
-  return pos <= text->size();
+  idx = pos;
+  chr = decode_utf8(std::string_view(text_ptr, text_len), pos);
+
+  return true;
 }
 
 uint32_t
