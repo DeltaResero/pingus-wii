@@ -58,13 +58,13 @@ SurfaceButton::is_at (int x, int y)
 }
 
 void
-SurfaceButton::on_primary_button_press (int x, int y)
+SurfaceButton::on_primary_button_press (int /*x*/, int /*y*/)
 {
   pressed = true;
 }
 
 void
-SurfaceButton::on_primary_button_release (int x, int y)
+SurfaceButton::on_primary_button_release (int /*x*/, int /*y*/)
 {
   pressed = false;
 }
@@ -82,7 +82,7 @@ SurfaceButton::on_pointer_leave ()
 }
 
 void
-SurfaceButton::on_primary_button_click (int x, int y)
+SurfaceButton::on_primary_button_click (int /*x*/, int /*y*/)
 {
   on_click();
 }
