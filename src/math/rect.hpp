@@ -79,6 +79,15 @@ public:
       bottom(rect.bottom)
   {}
 
+  Rect& operator=(const Rect &rect)
+  {
+    left = rect.left;
+    top = rect.top;
+    right = rect.right;
+    bottom = rect.bottom;
+    return *this;
+  }
+
   Rect grow(int b) const {
     return Rect(left   - b,
                 top    - b,
@@ -293,6 +302,15 @@ public:
       right(rect.right),
       bottom(rect.bottom)
   {}
+
+  Rectf& operator=(const Rectf &rect)
+  {
+    left = rect.left;
+    top = rect.top;
+    right = rect.right;
+    bottom = rect.bottom;
+    return *this;
+  }
 
   //: Rect += Rect operator.
   Rectf &operator+=(const Rectf &r)

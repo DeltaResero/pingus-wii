@@ -59,6 +59,13 @@ public:
       height(s.height)
   {}
 
+  Size& operator=(const Size &s)
+  {
+    width = s.width;
+    height = s.height;
+    return *this;
+  }
+
   explicit Size(const Sizef& s);
 
   //! Attributes:
@@ -134,6 +141,13 @@ public:
     : width(s.width),
       height(s.height)
   {}
+
+  Sizef& operator=(const Sizef &s)
+  {
+    width = s.width;
+    height = s.height;
+    return *this;
+  }
 
   //! Attributes:
 public:
