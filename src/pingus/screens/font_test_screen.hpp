@@ -30,7 +30,7 @@ public:
 
   void draw(DrawingContext& gc);
   void update(const Input::Event& event);
-  void update(float delta) {}
+  void update(float /*delta*/) {}
 
 private:
   FontTestScreen (const FontTestScreen&);

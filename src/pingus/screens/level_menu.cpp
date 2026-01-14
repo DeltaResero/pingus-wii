@@ -390,7 +390,7 @@ public:
     current_level = -1;
   }
 
-  int get_current_level(int x, int y)
+  int get_current_level(int /*x*/, int y)
   {
     int cl = current_level = y / 32 + page;
     if (cl < 0 || cl >= levelset->get_level_count())

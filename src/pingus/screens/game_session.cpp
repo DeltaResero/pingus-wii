@@ -255,7 +255,7 @@ GameSession::process_scroll_event (const Input::ScrollEvent& ev)
 }
 
 void
-GameSession::process_axis_event (const Input::AxisEvent& event)
+GameSession::process_axis_event (const Input::AxisEvent& /*event*/)
 {
   // log_info("GameSession::process_axis_event ()");
 }
