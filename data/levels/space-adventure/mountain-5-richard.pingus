@@ -8,7 +8,7 @@
     (number-of-pingus 30)
     (number-to-save 25)
     (time -1)
-    (music "gd-giirm.s3m")
+    (music "gd-giirm.it")
     (actions 
       (blocker 9)
       (bridger 7)
