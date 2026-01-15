@@ -598,6 +598,9 @@ PingusMain::run(int argc, char** argv)
       {
         log_error("couldn't create window, falling back to SDL: {}", err.what());
         system.create_window(SDL_FRAMEBUFFER, screen_size, fullscreen, resizable);
+
+        // Update both command line options and config manager to reflect reality
+        cmd_options.framebuffer_type.set(SDL_FRAMEBUFFER);
         config_manager.set_renderer(SDL_FRAMEBUFFER);
       }
     }

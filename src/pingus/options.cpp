@@ -59,7 +59,12 @@ FramebufferType framebuffer_type_from_string(const std::string& str)
   }
   else if (str == "opengl")
   {
+#ifdef HAVE_OPENGL
     return OPENGL_FRAMEBUFFER;
+#else
+    log_warn("OpenGL support not compiled in, falling back to 'sdl'");
+    return SDL_FRAMEBUFFER;
+#endif
   }
   else
   {
@@ -140,7 +145,7 @@ Options::from_file_reader(const FileReader& reader)
 
   if (reader.read_bool("print-fps", bool_value))
   {
-    opts.mouse_grab.set(bool_value);
+    opts.print_fps.set(bool_value);
   }
 
   if (reader.read_string("controller", string_value))

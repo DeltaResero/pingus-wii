@@ -118,7 +118,10 @@ OptionMenu::OptionMenu() :
 #ifdef HAVE_OPENGL
     case OPENGL_FRAMEBUFFER: renderer_box->set_current_choice(2); break;
 #endif
-    default: assert(!"unknown renderer type");
+    default:
+      log_error("OptionMenu: Unsupported renderer type found in config. Defaulting UI to SDL.");
+      renderer_box->set_current_choice(0);
+      break;
   }
 
   ChoiceBox* scroll_box = new ChoiceBox(Rect());

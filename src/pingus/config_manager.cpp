@@ -143,7 +143,17 @@ ConfigManager::get_fullscreen() const
 void
 ConfigManager::set_renderer(FramebufferType type)
 {
-  return m_opts.framebuffer_type.set(type);
+#ifndef HAVE_OPENGL
+  if (type == OPENGL_FRAMEBUFFER)
+  {
+    log_warn("ConfigManager: OpenGL requested but not supported. Falling back to SDL.");
+    type = SDL_FRAMEBUFFER;
+  }
+#endif
+
+  m_opts.framebuffer_type.set(type);
+  if (on_renderer_change)
+    on_renderer_change(type);
 }
 
 FramebufferType
