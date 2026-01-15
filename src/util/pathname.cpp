@@ -21,7 +21,7 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
-Pathname Pathname::tmpfile(const std::string& prefix)
+Pathname Pathname::tmpfile(const std::string& /*prefix*/)
 {
   assert(!"Unimplemented");
   return Pathname();
