@@ -200,6 +200,8 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     // Calculate draw position on screen
     int draw_x = pos.x + (intersection.left - srcrect.left);
     int draw_y = pos.y + (intersection.top  - srcrect.top);
+    int draw_width = intersection.get_width();
+    int draw_height = intersection.get_height();
 
     // Calculate UV coordinates relative to the tile's texture
     // Note: tile.rect.left/top is the offset of the tile in the original image
@@ -215,13 +217,13 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
       m_last_texture_id = tile.handle;
     }
 
-    int vertices[] = {
-      draw_x,                                   draw_y,
-      draw_x + intersection.get_width(),        draw_y,
-      draw_x + intersection.get_width(),        draw_y + intersection.get_height(),
-      draw_x,                                   draw_y + intersection.get_height(),
+    GLfloat vertices[] = {
+      static_cast<GLfloat>(draw_x),              static_cast<GLfloat>(draw_y),
+      static_cast<GLfloat>(draw_x + draw_width), static_cast<GLfloat>(draw_y),
+      static_cast<GLfloat>(draw_x + draw_width), static_cast<GLfloat>(draw_y + draw_height),
+      static_cast<GLfloat>(draw_x),              static_cast<GLfloat>(draw_y + draw_height),
     };
-    glVertexPointer(2, GL_INT, 0, vertices);
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
 
     float uvs[] = {
       u1, v1,
@@ -255,11 +257,11 @@ OpenGLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const C
 
   glColor4ub(color.r, color.g, color.b, color.a);
 
-  int vertices[] = {
-    pos1.x, pos1.y,
-    pos2.x, pos2.y,
+  GLfloat vertices[] = {
+    static_cast<GLfloat>(pos1.x), static_cast<GLfloat>(pos1.y),
+    static_cast<GLfloat>(pos2.x), static_cast<GLfloat>(pos2.y),
   };
-  glVertexPointer(2, GL_INT, 0, vertices);
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
 
   glDrawArrays(GL_LINES, 0, 2);
 }
@@ -283,13 +285,13 @@ OpenGLFramebuffer::draw_rect(const Rect& rect, const Color& color)
 
   glColor4ub(color.r, color.g, color.b, color.a);
 
-  int vertices[] = {
-    rect.left,  rect.top,
-    rect.right, rect.top,
-    rect.right, rect.bottom,
-    rect.left,  rect.bottom,
+  GLfloat vertices[] = {
+    static_cast<GLfloat>(rect.left),  static_cast<GLfloat>(rect.top),
+    static_cast<GLfloat>(rect.right), static_cast<GLfloat>(rect.top),
+    static_cast<GLfloat>(rect.right), static_cast<GLfloat>(rect.bottom),
+    static_cast<GLfloat>(rect.left),  static_cast<GLfloat>(rect.bottom),
   };
-  glVertexPointer(2, GL_INT, 0, vertices);
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
 
   glDrawArrays(GL_LINE_LOOP, 0, 4);
 }
@@ -313,13 +315,13 @@ OpenGLFramebuffer::fill_rect(const Rect& rect, const Color& color)
 
   glColor4ub(color.r, color.g, color.b, color.a);
 
-  int vertices[] = {
-    rect.left,  rect.top,
-    rect.right, rect.top,
-    rect.right, rect.bottom,
-    rect.left,  rect.bottom,
+  GLfloat vertices[] = {
+    static_cast<GLfloat>(rect.left),  static_cast<GLfloat>(rect.top),
+    static_cast<GLfloat>(rect.right), static_cast<GLfloat>(rect.top),
+    static_cast<GLfloat>(rect.right), static_cast<GLfloat>(rect.bottom),
+    static_cast<GLfloat>(rect.left),  static_cast<GLfloat>(rect.bottom),
   };
-  glVertexPointer(2, GL_INT, 0, vertices);
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
