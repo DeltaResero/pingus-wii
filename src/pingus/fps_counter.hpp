@@ -17,9 +17,6 @@
 class FPSCounter
 {
 private:
-  /** Used to know when the frame has changed */
-  bool odd_frame;
-
   /** A string holding the current value of frames + "fps", its
       updated every second */
   std::string fps_string;

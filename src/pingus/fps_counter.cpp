@@ -20,7 +20,6 @@
 FPSCounter fps_counter;
 
 FPSCounter::FPSCounter() :
-  odd_frame(),
   fps_string(),
   fps_count(),
   start_time()
@@ -37,17 +36,7 @@ void
 FPSCounter::draw()
 {
   update_fps_counter();
-
-  if (odd_frame)
-  {
-    Fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
-    odd_frame = false;
-  }
-  else
-  {
-    Fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, "+ " + fps_string + " +", *Display::get_framebuffer());
-    odd_frame = true;
-  }
+  Fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
 }
 
 void
