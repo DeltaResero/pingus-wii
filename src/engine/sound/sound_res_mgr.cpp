@@ -24,22 +24,32 @@ SoundResMgr::load(const std::string& name)
 
   if (i == sound_map.end())
   {
-    std::string filename = g_path_manager.complete("sounds/" + name + ".wav");
-    Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
-    log_info("SoundResMgr: Loading sound from disk: {} -> {}", name, filename);
-    if (!chunk)
-      log_info("Error: {}", Mix_GetError());
+    // Optimize string construction by pre-allocating memory
+    std::string filename;
+    filename.reserve(8 + name.size() + 4); // "sounds/" (7) + "/" (1) + name + ".wav" (4)
+    filename = "sounds/";
+    filename += name;
+    filename += ".wav";
 
+    std::string full_path = g_path_manager.complete(filename);
+    Mix_Chunk* chunk = Mix_LoadWAV(full_path.c_str());
+
+    if (!chunk)
+    {
+      log_error("SoundResMgr: Failed to load sound '{}' from '{}': {}", name, full_path, Mix_GetError());
+      sound_map[name] = nullptr; // Negative cache: prevent repeated load attempts
+      return nullptr;
+    }
+
+    log_info("SoundResMgr: Loaded sound '{}' from disk: {}", name, full_path);
     sound_map[name] = chunk;
     return chunk;
   }
   else
   {
-    log_info("SoundResMgr: Loading sound from cache: {}", name);
+    // Cache hit - return immediately without logging (console I/O is slow on Wii)
     return i->second;
   }
-
-  return 0;
 }
 
 void SoundResMgr::free_sound_map()
