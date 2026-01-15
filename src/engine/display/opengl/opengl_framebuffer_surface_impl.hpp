@@ -29,6 +29,8 @@ struct OpenGLTile {
   GLuint handle;
   Rect   rect;         // Position and size in the original image
   Size   texture_size; // Actual allocated size of the GL texture (POT or aligned)
+  GLfloat u_scale;     // Pre-calculated 1.0f / texture_size.width
+  GLfloat v_scale;     // Pre-calculated 1.0f / texture_size.height
 };
 
 class OpenGLFramebufferSurfaceImpl : public FramebufferSurfaceImpl

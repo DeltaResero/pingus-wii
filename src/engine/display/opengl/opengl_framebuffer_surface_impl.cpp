@@ -58,6 +58,10 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
       tile.texture_size.width  = get_texture_size(w);
       tile.texture_size.height = get_texture_size(h);
 
+      // Pre-calculate reciprocals for UV coordinate calculations
+      tile.u_scale = 1.0f / static_cast<float>(tile.texture_size.width);
+      tile.v_scale = 1.0f / static_cast<float>(tile.texture_size.height);
+
       glGenTextures(1, &tile.handle);
 
       // Determine format

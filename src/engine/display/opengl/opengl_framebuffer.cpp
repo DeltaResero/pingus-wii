@@ -203,12 +203,11 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     int draw_width = intersection.get_width();
     int draw_height = intersection.get_height();
 
-    // Calculate UV coordinates relative to the tile's texture
-    // Note: tile.rect.left/top is the offset of the tile in the original image
-    float u1 = static_cast<float>(intersection.left - tile.rect.left) / static_cast<float>(tile.texture_size.width);
-    float v1 = static_cast<float>(intersection.top  - tile.rect.top)  / static_cast<float>(tile.texture_size.height);
-    float u2 = static_cast<float>(intersection.right - tile.rect.left) / static_cast<float>(tile.texture_size.width);
-    float v2 = static_cast<float>(intersection.bottom - tile.rect.top) / static_cast<float>(tile.texture_size.height);
+    // Calculate UV coordinates using pre-calculated reciprocals
+    float u1 = static_cast<float>(intersection.left - tile.rect.left) * tile.u_scale;
+    float v1 = static_cast<float>(intersection.top  - tile.rect.top)  * tile.v_scale;
+    float u2 = static_cast<float>(intersection.right - tile.rect.left) * tile.u_scale;
+    float v2 = static_cast<float>(intersection.bottom - tile.rect.top) * tile.v_scale;
 
     // Only bind texture if it's different from the last one
     if (m_last_texture_id != tile.handle)
