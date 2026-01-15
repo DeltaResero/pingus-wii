@@ -36,7 +36,7 @@ Label::draw (DrawingContext& gc)
 }
 
 void
-Label::update (float delta)
+Label::update (float /*delta*/)
 {
 }
 

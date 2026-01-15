@@ -90,19 +90,19 @@ public:
     mouse_over = false;
   }
 
-  void on_primary_button_press (int x, int y)
+  void on_primary_button_press (int /*x*/, int /*y*/)
   {
     mouse_down = true;
   }
 
-  void on_primary_button_release (int x, int y)
+  void on_primary_button_release (int /*x*/, int /*y*/)
   {
     mouse_down = false;
     if (mouse_over && on_click)
       on_click();
   }
 
-  void update (float delta)
+  void update (float /*delta*/)
   {
     sprite.update();
   }

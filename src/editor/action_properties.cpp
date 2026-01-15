@@ -55,7 +55,7 @@ ActionProperties::draw_background(DrawingContext& gc)
 }
 
 void
-ActionProperties::update (float delta)
+ActionProperties::update (float /*delta*/)
 {
 
 }

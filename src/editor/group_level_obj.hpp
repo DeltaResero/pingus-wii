@@ -129,45 +129,45 @@ public:
   /** Set the object's position */
   void set_pos(const Vector3f p);
 
-  void set_pos_x(float x) { }
+  void set_pos_x(float /*x*/) { }
   float get_pos_x() const { return 0.0f; }
 
-  void set_pos_y(float y) { }
+  void set_pos_y(float /*y*/) { }
   float get_pos_y() const { return 0.0f; }
 
-  void set_pos_z(float z) { }
+  void set_pos_z(float /*z*/) { }
   float get_pos_z() const { return 0.0f; }
 
   /** Original position of the objects before being dragged around */
   void set_orig_pos(const Vector3f p) { m_orig_pos = p; }
 
   /** Set the object's resource name */
-  void set_res_desc(const ResDescriptor d) { }
+  void set_res_desc(const ResDescriptor /*d*/) { }
 
   /** Set the object's modifier */
-  void set_modifier(const std::string m) { }
+  void set_modifier(const std::string /*m*/) { }
 
   /** Set the object's modifier */
-  void set_modifier(ResourceModifier::Enum modifier) { }
+  void set_modifier(ResourceModifier::Enum /*modifier*/) { }
 
   ResourceModifier::Enum get_modifier() const { return ResourceModifier::Enum::ROT0; }
 
   /** Set the object's section header name */
-  void set_section_name(const std::string sn) { }
+  void set_section_name(const std::string /*sn*/) { }
 
   /** Set the object's type */
-  void set_type(const std::string t) { }
+  void set_type(const std::string /*t*/) { }
 
-  void set_ground_type(const std::string t) { }
+  void set_ground_type(const std::string /*t*/) { }
 
   /** Set the object's speed */
-  void set_speed(const int s) { }
+  void set_speed(const int /*s*/) { }
 
   /** Set the objects release rate */
   void set_release_rate(const int r);
 
   /** Set the object's parallax */
-  void set_parallax(const float para) { }
+  void set_parallax(const float /*para*/) { }
 
   /** Set the object's repeat */
   void set_repeat(const int w);
@@ -176,36 +176,36 @@ public:
   void set_owner(const int owner);
 
   /** Set the object's scroll rate in the x direction */
-  void set_scroll_x(const float s) { }
+  void set_scroll_x(const float /*s*/) { }
 
   /** Set the object's scroll rate in the y direction */
-  void set_scroll_y(const float s) { }
+  void set_scroll_y(const float /*s*/) { }
 
   /** Set the objects stretch in the x direction value */
-  void set_stretch_x(const bool s) { }
+  void set_stretch_x(const bool /*s*/) { }
 
   /** Set the objects stretch in the y direction value */
-  void set_stretch_y(bool s) { }
+  void set_stretch_y(bool /*s*/) { }
 
   /** Set whether or not the object should maintain it's aspect ratio when stretched */
-  void set_keep_aspect(const bool a) { }
+  void set_keep_aspect(const bool /*a*/) { }
 
   /** Set the objects color if applicable */
-  void set_color(const Color& c) { }
+  void set_color(const Color& /*c*/) { }
 
   /** Set the object's parallax scroll multiplier in the x direction */
-  void set_para_x(const float p) { }
+  void set_para_x(const float /*p*/) { }
 
   /** Set the object's parallax scroll multiplier in the y direction */
-  void set_para_y(const float p) { }
+  void set_para_y(const float /*p*/) { }
 
   /** Set the object's direction if applicable */
   void set_direction(const std::string d);
 
-  void set_id(const std::string& t) { }
-  void set_target_id(const std::string& t) { }
+  void set_id(const std::string& /*t*/) { }
+  void set_target_id(const std::string& /*t*/) { }
 
-  void set_height(const int h) { }
+  void set_height(const int /*h*/) { }
 
   /** Write basic properties to the file for this type */
   void write_properties(FileWriter &fw);
@@ -217,7 +217,7 @@ public:
   bool is_at (int x, int y);
 
   /** Returns a number representing which attributes this object possesses */
-  unsigned int get_attributes(std::string obj_type) { return 0; }
+  unsigned int get_attributes(std::string /*obj_type*/) { return 0; }
 
   Rect get_rect() const;
 
@@ -225,9 +225,9 @@ public:
   int get_middle_stars() const { return 0; }
   int get_large_stars() const  { return 0; }
 
-  void set_small_stars(int n)  {}
-  void set_middle_stars(int n) {}
-  void set_large_stars(int n)  {}
+  void set_small_stars(int /*n*/)  {}
+  void set_middle_stars(int /*n*/) {}
+  void set_large_stars(int /*n*/)  {}
 
   LevelObjPtr duplicate(const Vector2i& offset) const;
 

@@ -122,12 +122,12 @@ public:
     mouse_over = false;
   }
 
-  void on_primary_button_press (int x, int y)
+  void on_primary_button_press (int /*x*/, int /*y*/)
   {
     mouse_down = true;
   }
 
-  void on_primary_button_release (int x, int y)
+  void on_primary_button_release (int /*x*/, int /*y*/)
   {
     mouse_down = false;
     if (mouse_over && callback)
@@ -140,7 +140,7 @@ public:
             pos.y <= y && pos.y + 34 > y);
   }
 
-  void update (float delta)
+  void update (float /*delta*/)
   {
     sprite.update();
   }
@@ -238,7 +238,7 @@ Panel::draw (DrawingContext& gc)
 }
 
 void
-Panel::update (float delta)
+Panel::update (float /*delta*/)
 {
 
 }

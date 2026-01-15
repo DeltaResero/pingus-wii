@@ -185,7 +185,7 @@ FileList::prev_page()
 }
 
 void
-FileList::update (float delta)
+FileList::update (float /*delta*/)
 {
 }
 
