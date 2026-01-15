@@ -55,6 +55,8 @@ CollisionMask::CollisionMask(const ResDescriptor& res_desc) :
 void
 CollisionMask::init_colmap(const Surface& surf, const std::string& surface_res)
 {
+  (void)surface_res;
+
   int pitch = surf.get_pitch();
   width  = surf.get_width();
   height = surf.get_height();
