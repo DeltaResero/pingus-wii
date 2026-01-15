@@ -138,10 +138,8 @@ PingusSoundReal::set_master_volume(float volume)
 void
 PingusSoundReal::apply_volume_changes()
 {
-  int sound_volume = static_cast<int>(MIX_MAX_VOLUME * m_sound_volume * m_master_volume);
   int music_volume = static_cast<int>(MIX_MAX_VOLUME * m_music_volume * m_master_volume);
 
-  Mix_Volume(-1, sound_volume);
   Mix_VolumeMusic(music_volume);
 }
 
