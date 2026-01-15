@@ -10,6 +10,7 @@
 // (at your option) any later version.
 
 #include <iostream>
+#include <string>
 
 #include "util/utf8.hpp"
 
@@ -21,10 +22,12 @@ int main(int argc, char** argv)
   }
   else
   {
-    std::cout << "length in ASCII characters: " << std::string(argv[1]).length() << std::endl;
-    std::cout << "length in UTF8 characters:  " << UTF8::length(argv[1]) << std::endl;
+    std::string text(argv[1]);
 
-    std::string res = UTF8::substr(argv[1], 1, 1);
+    std::cout << "length in ASCII characters: " << text.length() << std::endl;
+    std::cout << "length in UTF8 characters:  " << UTF8::length(text) << std::endl;
+
+    std::string res = UTF8::substr(text, 1, 1);
     std::cout << "substr:  " << res.length() << " " << res << std::endl;
   }
   return 0;
