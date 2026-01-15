@@ -30,6 +30,11 @@ private:
   SDL_Surface* screen;
   std::vector<Rect> cliprect_stack;
 
+  // State caching to avoid redundant OpenGL calls
+  GLuint m_last_texture_id;
+  bool m_texture_enabled;
+  bool m_texcoord_array_enabled;
+
 public:
   OpenGLFramebuffer();
 

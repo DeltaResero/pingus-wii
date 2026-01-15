@@ -18,7 +18,10 @@
 
 OpenGLFramebuffer::OpenGLFramebuffer() :
   screen(),
-  cliprect_stack()
+  cliprect_stack(),
+  m_last_texture_id(0),
+  m_texture_enabled(false),
+  m_texcoord_array_enabled(false)
 {
 }
 
@@ -86,6 +89,11 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+
+  // Reset state cache to match what we just set
+  m_last_texture_id = 0;
+  m_texture_enabled = true;
+  m_texcoord_array_enabled = true;
 }
 
 bool
@@ -156,6 +164,22 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Vector2i& p
 void
 OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos)
 {
+  // Ensure texture rendering is enabled
+  if (!m_texture_enabled)
+  {
+    glEnable(GL_TEXTURE_2D);
+    m_texture_enabled = true;
+  }
+
+  if (!m_texcoord_array_enabled)
+  {
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    m_texcoord_array_enabled = true;
+  }
+
+  // Reset color to white (in case previous draw_line/draw_rect changed it)
+  glColor4f(1, 1, 1, 1);
+
   const OpenGLFramebufferSurfaceImpl* impl = static_cast<OpenGLFramebufferSurfaceImpl*>(src.get_impl());
   const std::vector<OpenGLTile>& tiles = impl->get_tiles();
 
@@ -184,7 +208,12 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     float u2 = static_cast<float>(intersection.right - tile.rect.left) / static_cast<float>(tile.texture_size.width);
     float v2 = static_cast<float>(intersection.bottom - tile.rect.top) / static_cast<float>(tile.texture_size.height);
 
-    glBindTexture(GL_TEXTURE_2D, tile.handle);
+    // Only bind texture if it's different from the last one
+    if (m_last_texture_id != tile.handle)
+    {
+      glBindTexture(GL_TEXTURE_2D, tile.handle);
+      m_last_texture_id = tile.handle;
+    }
 
     int vertices[] = {
       draw_x,                                   draw_y,
@@ -205,16 +234,26 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
-
-  glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void
 OpenGLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color)
 {
-  glDisable(GL_TEXTURE_2D);
+  // Disable texturing if currently enabled
+  if (m_texture_enabled)
+  {
+    glDisable(GL_TEXTURE_2D);
+    m_texture_enabled = false;
+  }
+
+  // Disable texture coordinate array if currently enabled
+  if (m_texcoord_array_enabled)
+  {
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    m_texcoord_array_enabled = false;
+  }
+
   glColor4ub(color.r, color.g, color.b, color.a);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   int vertices[] = {
     pos1.x, pos1.y,
@@ -223,18 +262,26 @@ OpenGLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const C
   glVertexPointer(2, GL_INT, 0, vertices);
 
   glDrawArrays(GL_LINES, 0, 2);
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
 }
 
 void
 OpenGLFramebuffer::draw_rect(const Rect& rect, const Color& color)
 {
-  glDisable(GL_TEXTURE_2D);
+  // Disable texturing if currently enabled
+  if (m_texture_enabled)
+  {
+    glDisable(GL_TEXTURE_2D);
+    m_texture_enabled = false;
+  }
+
+  // Disable texture coordinate array if currently enabled
+  if (m_texcoord_array_enabled)
+  {
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    m_texcoord_array_enabled = false;
+  }
+
   glColor4ub(color.r, color.g, color.b, color.a);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   int vertices[] = {
     rect.left,  rect.top,
@@ -245,18 +292,26 @@ OpenGLFramebuffer::draw_rect(const Rect& rect, const Color& color)
   glVertexPointer(2, GL_INT, 0, vertices);
 
   glDrawArrays(GL_LINE_LOOP, 0, 4);
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
 }
 
 void
 OpenGLFramebuffer::fill_rect(const Rect& rect, const Color& color)
 {
-  glDisable(GL_TEXTURE_2D);
+  // Disable texturing if currently enabled
+  if (m_texture_enabled)
+  {
+    glDisable(GL_TEXTURE_2D);
+    m_texture_enabled = false;
+  }
+
+  // Disable texture coordinate array if currently enabled
+  if (m_texcoord_array_enabled)
+  {
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    m_texcoord_array_enabled = false;
+  }
+
   glColor4ub(color.r, color.g, color.b, color.a);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
   int vertices[] = {
     rect.left,  rect.top,
@@ -267,10 +322,6 @@ OpenGLFramebuffer::fill_rect(const Rect& rect, const Color& color)
   glVertexPointer(2, GL_INT, 0, vertices);
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
 }
 
 Size
