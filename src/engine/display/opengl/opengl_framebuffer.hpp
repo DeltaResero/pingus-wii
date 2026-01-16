@@ -58,6 +58,9 @@ public:
   bool is_fullscreen() const;
   bool is_resizable() const;
 
+  /** Forces the framebuffer to reset its internal state cache and OpenGL state. */
+  void invalidate_state();
+
 private:
   OpenGLFramebuffer(const OpenGLFramebuffer&);
   OpenGLFramebuffer& operator=(const OpenGLFramebuffer&);

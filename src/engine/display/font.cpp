@@ -11,12 +11,43 @@
 
 #include "engine/display/font.hpp"
 
+#include <algorithm>
+#include <map>
+#include <vector>
+
 #include "engine/display/display.hpp"
 #include "engine/display/font_description.hpp"
 #include "engine/display/framebuffer.hpp"
+#include "engine/display/framebuffer_surface.hpp"
 #include "util/line_iterator.hpp"
 #include "util/log.hpp"
 #include "util/utf8.hpp"
+
+#ifdef HAVE_OPENGL
+#include "engine/display/opengl/opengl_framebuffer.hpp"
+#include "engine/display/opengl/opengl_framebuffer_surface_impl.hpp"
+
+#ifdef __WII__
+#  include <GL/gl.h>
+#else
+#  include <SDL_opengl.h>
+#endif
+
+struct GlyphVertex {
+  GLfloat x, y;
+  GLfloat u, v;
+};
+
+struct GlyphBatch {
+  GLuint texture_id;
+  std::vector<GlyphVertex> vertices;
+
+  GlyphBatch(GLuint tex_id) : texture_id(tex_id), vertices() {
+    vertices.reserve(256);
+  }
+};
+
+#endif // HAVE_OPENGL
 
 class FontImpl
 {
@@ -100,6 +131,23 @@ public:
 
   void render_line(Origin origin, int x, int y, const std::string& text, Framebuffer& fb)
   {
+    if (text.empty())
+      return;
+
+#ifdef HAVE_OPENGL
+    OpenGLFramebuffer* gl_fb = dynamic_cast<OpenGLFramebuffer*>(&fb);
+    if (gl_fb)
+    {
+      render_line_opengl(origin, x, y, text, gl_fb);
+      return;
+    }
+#endif
+
+    render_line_standard(origin, x, y, text, fb);
+  }
+
+  void render_line_standard(Origin origin, int x, int y, const std::string& text, Framebuffer& fb)
+  {
     Vector2i offset = calc_origin(origin, get_size(text));
 
     float dstx = float(x - offset.x);
@@ -123,12 +171,114 @@ public:
                         glyph.rect, Vector2i(static_cast<int>(dstx), static_cast<int>(dsty)) + glyph.offset);
         dstx += static_cast<float>(glyph.advance) + char_spacing;
       }
-      else
-      {
-        // Draw placeholder char and issue a warning
-      }
     }
   }
+
+#ifdef HAVE_OPENGL
+  void render_line_opengl(Origin origin, int x, int y, const std::string& text, OpenGLFramebuffer* gl_fb)
+  {
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+    Vector2i offset = calc_origin(origin, get_size(text));
+
+    int base_x = x - offset.x;
+    int base_y = y - offset.y;
+
+    std::map<GLuint, GlyphBatch> batches;
+    float dstx = 0.0f;
+
+    UTF8::iterator i(text);
+    while(i.next())
+    {
+      const uint32_t unicode = *i;
+
+      if (unicode == 0xFFFD)
+        continue;
+
+      if (unicode < glyphs.size() && glyphs[unicode])
+      {
+        const GlyphDescription& glyph = *glyphs[unicode];
+
+        OpenGLFramebufferSurfaceImpl* gl_impl =
+          dynamic_cast<OpenGLFramebufferSurfaceImpl*>(framebuffer_surfaces[glyph.image].get_impl());
+
+        if (!gl_impl)
+        {
+          dstx += static_cast<float>(glyph.advance) + char_spacing;
+          continue;
+        }
+
+        const std::vector<OpenGLTile>& tiles = gl_impl->get_tiles();
+
+        for (const OpenGLTile& tile : tiles)
+        {
+          if (glyph.rect.left >= tile.rect.left &&
+              glyph.rect.right <= tile.rect.right &&
+              glyph.rect.top >= tile.rect.top &&
+              glyph.rect.bottom <= tile.rect.bottom)
+          {
+            auto batch_it = batches.find(tile.handle);
+            if (batch_it == batches.end())
+            {
+              batches.insert(std::make_pair(tile.handle, GlyphBatch(tile.handle)));
+              batch_it = batches.find(tile.handle);
+            }
+
+            GlyphBatch& batch = batch_it->second;
+
+            float glyph_left_in_tile = static_cast<float>(glyph.rect.left - tile.rect.left);
+            float glyph_top_in_tile = static_cast<float>(glyph.rect.top - tile.rect.top);
+            float glyph_width = static_cast<float>(glyph.rect.get_width());
+            float glyph_height = static_cast<float>(glyph.rect.get_height());
+
+            float tx1 = glyph_left_in_tile * tile.u_scale;
+            float ty1 = glyph_top_in_tile * tile.v_scale;
+            float tx2 = (glyph_left_in_tile + glyph_width) * tile.u_scale;
+            float ty2 = (glyph_top_in_tile + glyph_height) * tile.v_scale;
+
+            float screen_x = static_cast<float>(base_x) + dstx + static_cast<float>(glyph.offset.x);
+            float screen_y = static_cast<float>(base_y) + static_cast<float>(glyph.offset.y);
+
+            batch.vertices.push_back({screen_x, screen_y + glyph_height, tx1, ty2});
+            batch.vertices.push_back({screen_x + glyph_width, screen_y + glyph_height, tx2, ty2});
+            batch.vertices.push_back({screen_x + glyph_width, screen_y, tx2, ty1});
+            batch.vertices.push_back({screen_x, screen_y, tx1, ty1});
+
+            break;
+          }
+        }
+
+        dstx += static_cast<float>(glyph.advance) + char_spacing;
+      }
+    }
+
+    if (!batches.empty())
+    {
+      for (auto& batch_pair : batches)
+      {
+        GlyphBatch& batch = batch_pair.second;
+
+        if (batch.vertices.empty())
+          continue;
+
+        glBindTexture(GL_TEXTURE_2D, batch.texture_id);
+
+        glVertexPointer(2, GL_FLOAT, sizeof(GlyphVertex), &batch.vertices[0].x);
+        glTexCoordPointer(2, GL_FLOAT, sizeof(GlyphVertex), &batch.vertices[0].u);
+
+        glDrawArrays(GL_QUADS, 0, batch.vertices.size());
+      }
+    }
+
+    gl_fb->invalidate_state();
+  }
+#endif // HAVE_OPENGL
 
   int get_height() const
   {
@@ -158,7 +308,7 @@ public:
         last_width = std::max(last_width, width);
         width = 0;
       }
-      else if (unicode != 0xFFFD) // Skip invalid sequences
+      else if (unicode != 0xFFFD)
       {
         width += get_width(unicode) + char_spacing;
       }
@@ -192,14 +342,14 @@ void
 Font::render(int x, int y, const std::string& text, Framebuffer& fb)
 {
   if (impl)
-    impl->render(origin_top_left, x,y,text, fb);
+    impl->render(origin_top_left, x, y, text, fb);
 }
 
 void
 Font::render(Origin origin, int x, int y, const std::string& text, Framebuffer& fb)
 {
   if (impl)
-    impl->render(origin, x,y,text, fb);
+    impl->render(origin, x, y, text, fb);
 }
 
 int

@@ -331,4 +331,20 @@ OpenGLFramebuffer::get_size() const
   return Size(screen->w, screen->h);
 }
 
+void
+OpenGLFramebuffer::invalidate_state()
+{
+  glDisable(GL_TEXTURE_2D);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_VERTEX_ARRAY);
+
+  m_last_texture_id = 0;
+  m_texture_enabled = false;
+  m_texcoord_array_enabled = false;
+}
+
 // EOF
