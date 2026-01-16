@@ -11,14 +11,24 @@
 
 #include "engine/display/sprite_impl.hpp"
 
+#include <map>
+
 #include "engine/display/display.hpp"
 #include "engine/display/framebuffer.hpp"
 #include "engine/display/sprite_description.hpp"
 #include "util/log.hpp"
 
+static std::map<std::pair<Pathname, ResourceModifier::Enum>, FramebufferSurface> surface_cache;
+
 FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceModifier::Enum modifier)
 {
-  // FIXME: Implement proper cache
+  std::pair<Pathname, ResourceModifier::Enum> key(filename, modifier);
+  auto it = surface_cache.find(key);
+  if (it != surface_cache.end())
+  {
+    return it->second;
+  }
+
   try
   {
     Surface surface(filename);
@@ -26,14 +36,18 @@ FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceMo
     {
       surface = surface.mod(modifier);
     }
-    return Display::get_framebuffer()->create_surface(surface);
+    FramebufferSurface fs = Display::get_framebuffer()->create_surface(surface);
+    surface_cache[key] = fs;
+    return fs;
   }
   catch(const std::exception& err)
   {
     // return a dummy surface for cases where the image file can't be found
     log_error("{}", err.what());
     Surface surface(Pathname("images/core/misc/404.png", Pathname::DATA_PATH));
-    return Display::get_framebuffer()->create_surface(surface);
+    FramebufferSurface fs = Display::get_framebuffer()->create_surface(surface);
+    surface_cache[key] = fs;
+    return fs;
   }
 }
 
