@@ -17,8 +17,8 @@
 #include <vector>
 
 /** MemoryPool allows the allocation of small objects on a previous
-    allocated chunk of memeroy, thus reducing the amount of new/delete
-    calls that have do be done and providing a speed up. */
+    allocated chunk of memory, thus reducing the amount of new/delete
+    calls that have to be done and providing a speed up. */
 template<class T>
 class MemoryPool
 {
@@ -31,20 +31,37 @@ private:
 
   size_t chunk_size;
   size_t next_free;
+  size_t current_chunk_index;
 
   char* allocate(size_t size)
   {
     assert(size <= chunk_size);
 
-    if (chunks.empty() ||
-        (next_free + size) > chunk_size)
+    // Check if current chunk has enough space
+    if (current_chunk_index < chunks.size() &&
+        (next_free + size) <= chunk_size)
     {
+      char* ptr = chunks[current_chunk_index] + next_free;
+      next_free += size;
+      return ptr;
+    }
+
+    // Current chunk is full, try to recycle the next chunk
+    if (current_chunk_index + 1 < chunks.size())
+    {
+      current_chunk_index++;
+      next_free = 0;
+    }
+    else
+    {
+      // Allocate new chunk if needed
       char* chunk = new char[chunk_size];
       chunks.push_back(chunk);
+      current_chunk_index = chunks.size() - 1;
       next_free = 0;
     }
 
-    char* ptr = chunks.back() + next_free;
+    char* ptr = chunks[current_chunk_index] + next_free;
     next_free += size;
     return ptr;
   }
@@ -56,12 +73,24 @@ private:
   }
 
 public:
-  MemoryPool(size_t chunk_size_ = 16384) :
+  MemoryPool(size_t chunk_size_ = 16384, size_t initial_chunks = 4) :
     objects(),
     chunks(),
     chunk_size(chunk_size_),
-    next_free(0)
-  {}
+    next_free(0),
+    current_chunk_index(0)
+  {
+    // Pre-allocate chunks to avoid runtime allocation
+    chunks.reserve(initial_chunks + 2);
+    for (size_t i = 0; i < initial_chunks; ++i)
+    {
+      chunks.push_back(new char[chunk_size]);
+    }
+
+    // Pre-reserve object storage to prevent vector reallocation
+    size_t estimated_objects = (initial_chunks * chunk_size) / 80;
+    objects.reserve(estimated_objects);
+  }
 
   ~MemoryPool()
   {
@@ -85,8 +114,8 @@ public:
       (*i)->~T();
     objects.clear();
 
-    // Keep chunks allocated and reuse them instead of deleting
-    // This avoids repeated allocation/deallocation overhead
+    // Reset chunk recycling state
+    current_chunk_index = 0;
     next_free = 0;
   }
 
@@ -113,6 +142,10 @@ public:
 
   template<class C, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
   T* create(const Arg1& arg1, const Arg2& arg2, const Arg3& arg3, const Arg4& arg4, const Arg5& arg5) { return keep(new (allocate(sizeof(C))) C(arg1, arg2, arg3, arg4, arg5)); }
+
+  // Diagnostic functions
+  size_t get_allocated_bytes() const { return chunks.size() * chunk_size; }
+  size_t get_chunk_count() const { return chunks.size(); }
 
 private:
   MemoryPool (const MemoryPool&);
