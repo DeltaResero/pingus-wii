@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_PINGUS_SCREENS_OPTION_MENU_HPP
 #define HEADER_PINGUS_PINGUS_SCREENS_OPTION_MENU_HPP
 
+#include <memory>
 #include <map>
 #include <vector>
 
@@ -66,7 +67,7 @@ public:
   void draw_background (DrawingContext& gc);
   void on_escape_press ();
 
-  void add_item(const std::string& label, GUI::RectComponent* control);
+  void add_item(const std::string& label, std::unique_ptr<GUI::RectComponent> control);
 
   void resize(const Size&);
   void close_screen();

@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_GUI_GROUP_COMPONENT_HPP
 #define HEADER_PINGUS_ENGINE_GUI_GROUP_COMPONENT_HPP
 
+#include <memory>
 #include "engine/display/drawing_context.hpp"
 #include "engine/gui/rect_component.hpp"
 
@@ -20,7 +21,7 @@ namespace GUI {
 class GroupComponent : public RectComponent
 {
 private:
-  typedef std::vector<Component*> Components;
+  typedef std::vector<std::unique_ptr<Component>> Components;
   Components     children;
   DrawingContext drawing_context;
 
@@ -63,14 +64,15 @@ public:
   void on_pointer_move(int x, int y);
 
   /** \a comp will be deleted by GroupComponent */
-  void add(Component* comp);
+  void add(std::unique_ptr<Component> comp);
 
   template<typename C, typename ...Args>
   C* create(Args&&... args)
   {
-    C* c = new C(std::forward<Args>(args)...);
-    add(c);
-    return c;
+    std::unique_ptr<C> c(new C(std::forward<Args>(args)...));
+    C* ptr = c.get();
+    add(std::move(c));
+    return ptr;
   }
 
   void update_layout();

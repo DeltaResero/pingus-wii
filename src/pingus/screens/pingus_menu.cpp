@@ -49,35 +49,14 @@ PingusMenu::PingusMenu() :
   // Initialize buttons with dummy positions (0,0).
   // The actual layout is applied immediately after via layout_buttons()
 
-  start_button = new MenuButton(this, Vector2i(0,0),
-                                "Story",
-                                "..:: Start the game ::..");
-
-#ifndef DISABLE_EDITOR
-  editor_button = new MenuButton(this, Vector2i(0,0),
-                                 "Editor",
-                                 "..:: Create your own levels ::..");
-#endif
-
-  options_button = new MenuButton(this, Vector2i(0,0),
-                                  "Options",
-                                  "..:: Configure the game ::..");
-
-  contrib_button = new MenuButton(this, Vector2i(0,0),
-                                  "Levelsets",
-                                  "..:: Play User Built levels ::..");
-
-  quit_button = new MenuButton(this, Vector2i(0,0),
-                               "Exit",
-                               "..:: Bye, bye ::..");
 
   // Add buttons to GUI manager
-  gui_manager->add(quit_button);
-  gui_manager->add(options_button);
-  gui_manager->add(contrib_button);
-  gui_manager->add(start_button);
+  quit_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Exit", "..:: Bye, bye ::..");
+  options_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Options", "..:: Configure the game ::..");
+  contrib_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Levelsets", "..:: Play User Built levels ::..");
+  start_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Story", "..:: Start the game ::..");
 #ifndef DISABLE_EDITOR
-  gui_manager->add(editor_button);
+  editor_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Editor", "..:: Create your own levels ::..");
 #endif
 
   logo = Sprite("core/misc/logo");

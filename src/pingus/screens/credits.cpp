@@ -71,7 +71,7 @@ Credits::Credits(const Pathname& filename) :
 {
   scene_context.reset(new SceneContext);
   fast_scrolling = false;
-  gui_manager->add(new CreditsOkButton(this));
+  gui_manager->create<CreditsOkButton>(this);
 
   font       = Fonts::chalk_normal;
   font_small = Fonts::chalk_large;

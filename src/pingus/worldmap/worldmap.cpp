@@ -20,8 +20,8 @@
 #include "pingus/worldmap/level_dot.hpp"
 #include "pingus/worldmap/pingus.hpp"
 #include "util/log.hpp"
-#include "util/sexpr_file_writer.hpp"
 #include "util/pathname.hpp"
+#include "util/sexpr_file_writer.hpp"
 
 namespace WorldmapNS {
 
@@ -113,8 +113,8 @@ Worldmap::draw(DrawingContext& gc)
 
   gc_state.push(gc);
 
-  for (DrawableLst::iterator i = drawables.begin (); i != drawables.end (); ++i)
-    (*i)->draw(gc);
+  for (auto& drawable : drawables)
+    drawable->draw(gc);
 
   Vector2f mpos = gc_state.screen2world(Vector2i(mouse_x, mouse_y));
   Dot* dot = path_graph->get_dot(mpos.x, mpos.y);
@@ -127,9 +127,9 @@ Worldmap::draw(DrawingContext& gc)
 void
 Worldmap::update(float delta)
 {
-  for (DrawableLst::iterator i = drawables.begin (); i != drawables.end (); ++i)
+  for (auto& drawable : drawables)
   {
-    (*i)->update (delta);
+    drawable->update (delta);
   }
 }
 

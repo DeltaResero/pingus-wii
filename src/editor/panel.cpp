@@ -160,7 +160,6 @@ Panel::Panel(EditorScreen* editor_) :
   pos(2,2),
   callback()
 {
-  editor->get_gui_manager()->add(this);
 
   add_button("core/editor/document-new",  "New level",
              &EditorScreen::level_new);
