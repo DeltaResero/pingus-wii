@@ -175,7 +175,7 @@ Levelset::add_level(const std::string& resname, bool accessible)
 {
   try
   {
-    std::unique_ptr<Level> level(new Level);
+    auto level = std::make_unique<Level>();
 
     level->resname    = resname;
     level->plf        = PLFResMgr::load_plf(level->resname);
