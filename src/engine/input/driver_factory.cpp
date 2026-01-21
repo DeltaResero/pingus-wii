@@ -16,20 +16,20 @@
 
 namespace Input {
 
-Driver*
+std::unique_ptr<Driver>
 DriverFactory::create(const std::string& name, Manager* manager)
 {
   if (name == "sdl")
   {
-    return new SDLDriver;
+    return std::make_unique<SDLDriver>();
   }
   else if (name == "core")
   {
-    return new CoreDriver(manager);
+    return std::make_unique<CoreDriver>(manager);
   }
   else
   {
-    return 0;
+    return nullptr;
   }
 }
 

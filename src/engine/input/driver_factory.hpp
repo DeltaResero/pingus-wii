@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_INPUT_DRIVER_FACTORY_HPP
 #define HEADER_PINGUS_ENGINE_INPUT_DRIVER_FACTORY_HPP
 
+#include <memory>
 #include <string>
 
 namespace Input {
@@ -23,7 +24,7 @@ class DriverFactory
 {
 private:
 public:
-  static Driver* create(const std::string& name, Manager* manager);
+  static std::unique_ptr<Driver> create(const std::string& name, Manager* manager);
 
 private:
   DriverFactory(const DriverFactory&);
