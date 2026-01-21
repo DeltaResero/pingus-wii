@@ -13,6 +13,7 @@
 #define HEADER_PINGUS_ENGINE_INPUT_CONTROLLER_HPP
 
 #include <memory>
+#include <vector>
 
 #include "engine/input/event.hpp"
 
@@ -37,11 +38,11 @@ public:
 
 private:
   // State Stuff
-  std::vector<ControllerButton*>   buttons;
-  std::vector<ControllerAxis*>     axes;
-  std::vector<ControllerPointer*>  pointers;
-  std::vector<ControllerScroller*> scrollers;
-  std::vector<ControllerKeyboard*> keyboards;
+  std::vector<std::unique_ptr<ControllerButton>>   buttons;
+  std::vector<std::unique_ptr<ControllerAxis>>     axes;
+  std::vector<std::unique_ptr<ControllerPointer>>  pointers;
+  std::vector<std::unique_ptr<ControllerScroller>> scrollers;
+  std::vector<std::unique_ptr<ControllerKeyboard>> keyboards;
 
   std::vector<Event> events;
 
@@ -64,11 +65,11 @@ public:
   void add_scroller_event(int id, float xrel, float yrel);
   void add_keyboard_event(const SDL_KeyboardEvent& ev);
 
-  void add_axis(int id, ControllerAxis* axis);
-  void add_button(int id, ControllerButton* button);
-  void add_pointer(int id, ControllerPointer* pointer);
-  void add_scroller(int id, ControllerScroller* scroller);
-  void add_keyboard(int id, ControllerKeyboard* keyboard);
+  void add_axis(int id, std::unique_ptr<ControllerAxis> axis);
+  void add_button(int id, std::unique_ptr<ControllerButton> button);
+  void add_pointer(int id, std::unique_ptr<ControllerPointer> pointer);
+  void add_scroller(int id, std::unique_ptr<ControllerScroller> scroller);
+  void add_keyboard(int id, std::unique_ptr<ControllerKeyboard> keyboard);
 
   void refresh();
   void update(float delta);

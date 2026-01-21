@@ -49,13 +49,15 @@ SDLDriver::~SDLDriver()
 
 }
 
-Keyboard*
+std::unique_ptr<Keyboard>
 SDLDriver::create_keyboard(const FileReader& /*reader*/, Control* parent)
 {
-  return (keyboard_binding = new Keyboard(parent));
+  auto keyboard = std::make_unique<Keyboard>(parent);
+  keyboard_binding = keyboard.get();
+  return keyboard;
 }
 
-Button*
+std::unique_ptr<Button>
 SDLDriver::create_button(const FileReader& reader, Control* parent)
 {
   //log_info("SDL: {}", reader.get_name());
@@ -68,14 +70,15 @@ SDLDriver::create_button(const FileReader& reader, Control* parent)
 
     if (open_joystick(binding.device))
     {
-      binding.binding = new Button(parent);
+      auto button = std::make_unique<Button>(parent);
+      binding.binding = button.get();
       joystick_button_bindings.push_back(binding);
 
-      return binding.binding;
+      return button;
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
   else if (reader.get_name() == "sdl:joystick-hat")
@@ -94,32 +97,34 @@ SDLDriver::create_button(const FileReader& reader, Control* parent)
       else if (dir == "right") binding.dir = SDL_HAT_RIGHT;
       else {
         log_error("unknown hat direction '{}'", dir);
-        return 0;
+        return nullptr;
       }
 
       if (open_joystick(binding.device))
       {
-        binding.binding = new Button(parent);
+        auto button = std::make_unique<Button>(parent);
+        binding.binding = button.get();
         joystick_hat_bindings.push_back(binding);
-        return binding.binding;
+        return button;
       }
     }
     else
     {
       log_error("'dir' missing for joystick-hat binding");
-      return 0;
+      return nullptr;
     }
-    return 0;
+    return nullptr;
   }
   else if (reader.get_name() == "sdl:mouse-button")
   {
-    MouseButtonBinding binding;
+    auto button = std::make_unique<Button>(parent);
 
+    MouseButtonBinding binding;
     reader.read_int("button", binding.button);
-    binding.binding = new Button(parent);
+    binding.binding = button.get();
     mouse_button_bindings.push_back(binding);
 
-    return binding.binding;
+    return button;
   }
   else if (reader.get_name() == "sdl:keyboard-button")
   {
@@ -129,33 +134,34 @@ SDLDriver::create_button(const FileReader& reader, Control* parent)
       String2Key::iterator i = string2key.find(key);
       if (i != string2key.end())
       {
-        KeyboardButtonBinding binding;
+        auto button = std::make_unique<Button>(parent);
 
+        KeyboardButtonBinding binding;
         binding.key = i->second;
-        binding.binding = new Button(parent);
+        binding.binding = button.get();
         keyboard_button_bindings.push_back(binding);
 
-        return binding.binding;
+        return button;
       }
       else
       {
         log_error("couldn't find keysym for key '{}'", key);
-        return 0;
+        return nullptr;
       }
     }
     else
     {
       log_error("'key' missing");
-      return 0;
+      return nullptr;
     }
   }
   else
   {
-    return 0;
+    return nullptr;
   }
 }
 
-Axis*
+std::unique_ptr<Axis>
 SDLDriver::create_axis(const FileReader& reader, Control* parent)
 {
   if (reader.get_name() == "sdl:joystick-axis")
@@ -167,55 +173,58 @@ SDLDriver::create_axis(const FileReader& reader, Control* parent)
 
     if (open_joystick(binding.device))
     {
-      binding.binding = new Axis(parent);
+      auto axis = std::make_unique<Axis>(parent);
+      binding.binding = axis.get();
       joystick_axis_bindings.push_back(binding);
 
-      return binding.binding;
+      return axis;
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
   else
   {
-    return 0;
+    return nullptr;
   }
 }
 
-Scroller*
+std::unique_ptr<Scroller>
 SDLDriver::create_scroller(const FileReader& reader, Control* parent)
 {
   if (reader.get_name() == "sdl:mouse-scroller")
   {
-    ScrollerBinding binding;
+    auto scroller = std::make_unique<Scroller>(parent);
 
-    binding.binding = new Scroller(parent);
+    ScrollerBinding binding;
+    binding.binding = scroller.get();
     scroller_bindings.push_back(binding);
 
-    return binding.binding;
+    return scroller;
   }
   else
   {
-    return 0;
+    return nullptr;
   }
 }
 
-Pointer*
+std::unique_ptr<Pointer>
 SDLDriver::create_pointer(const FileReader& reader, Control* parent)
 {
   if (reader.get_name() == "sdl:mouse-pointer")
   {
-    PointerBinding binding;
+    auto pointer = std::make_unique<Pointer>(parent);
 
-    binding.binding = new Pointer(parent);
+    PointerBinding binding;
+    binding.binding = pointer.get();
     pointer_bindings.push_back(binding);
 
-    return binding.binding;
+    return pointer;
   }
   else
   {
-    return 0;
+    return nullptr;
   }
 }
 
