@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	<app version="1">
-		<name>Pingus</name>
-		<coder>Ported by r-win</coder>
-		<version>0.7.6</version>
-		<release_date>201205062218</release_date>
-		<short_description>Pingus is a free Lemmings-like puzzle game covered under the GNU GPL. It features currently 77 playable levels.</short_description>
-		<long_description>Pingus has started at the end of 1998 with the simple goal to create a Free (as in freedom, not as in free beer) Lemmings clone. The Free means you get the sources and are allowed and encouraged to change and distribute them. You basically get everything that I used to create this game. In the years it has grown than quite a bit over the original goal and become something more than just a clone, we have original artwork, a built-in level editor, new actions, multiplayer and a few other features.</long_description>
-	</app>
+<app version="1">
+    <name>Pingus Wii</name>
+    <coder>r-win &amp; DeltaResero</coder>
+    <version>0.7.7-wii-d.1</version>
+    <release_date>20260121</release_date>
+    <short_description>A penguin puzzle-strategy game</short_description>
+    <long_description>Guide penguins to safety in this 2D puzzle-strategy game
+- Based on v0.7.7 with various improvements &amp; fixes
+- Originally ported by r-win and updated by DeltaResero
+- Features a story campaign &amp; dozens of extra levels
+- Assign penguins roles to overcome hazardous obstacles
+- Supports Wii Remote, USB Keyboard &amp; Mouse
+
+For more info, visit: github.com/DeltaResero/pingus-wii</long_description>
+</app>
