@@ -187,6 +187,7 @@ Examples:
     # Convert GIF to SVG
     gif_to_animated_svg(args.input, args.output, args.delay)
 
+
 if __name__ == '__main__':
     main()
 
