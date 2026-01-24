@@ -120,8 +120,8 @@ command.
 <table>
   <tr>
     <td align="center"><img src="docs/assets/pingu_actions/walker_walls.svg" alt="Walls"></td>
-    <td><strong>Walls:</strong> If a Pingu hits a wall or a border higher than they can
-    step (approx. 3 pixels), they will reverse direction.</td>
+    <td><strong>Walls:</strong> Pingus reverse direction at walls or borders higher than
+    they can step (approx. 3 pixels).</td>
   </tr>
   <tr>
     <td align="center"><img src="docs/assets/pingu_actions/walker.svg" alt="Slopes"></td>
@@ -129,8 +129,8 @@ command.
   </tr>
   <tr>
     <td align="center"><img src="docs/assets/pingu_actions/tumbler.svg" alt="Falling"></td>
-    <td><strong>Falling:</strong> If a Pingu walks off a ledge, they begin to fall; if the
-    fall is too high, they will not survive the impact.</td>
+    <td><strong>Falling:</strong> Pingus fall when walking off a ledge. High falls are
+    fatal without a Floater.</td>
   </tr>
 </table>
 
