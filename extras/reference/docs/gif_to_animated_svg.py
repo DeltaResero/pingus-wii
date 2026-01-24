@@ -28,14 +28,15 @@ Requirements:
 import sys
 import base64
 import argparse
+import importlib.util
 from pathlib import Path
 
 def check_dependencies():
     """Check if required dependencies are installed."""
-    try:
-        from PIL import Image
+    # Use importlib to check for module existence without importing it
+    if importlib.util.find_spec("PIL"):
         return True
-    except ImportError:
+    else:
         print("ERROR: Pillow (PIL) is not installed.", file=sys.stderr)
         print("\nInstall it with one of these commands:", file=sys.stderr)
         print("  pip install Pillow", file=sys.stderr)
