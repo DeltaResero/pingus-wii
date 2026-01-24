@@ -32,7 +32,19 @@ SExprFileWriter::indent()
 }
 
 void
-SExprFileWriter::begin_section(const char* name)
+SExprFileWriter::begin_collection(const char* name)
+{
+  begin_mapping(name);
+}
+
+void
+SExprFileWriter::end_collection()
+{
+  end_mapping();
+}
+
+void
+SExprFileWriter::begin_mapping(const char* name)
 {
   if (level != 0)
     (*out) << std::endl;
@@ -42,7 +54,7 @@ SExprFileWriter::begin_section(const char* name)
 }
 
 void
-SExprFileWriter::end_section()
+SExprFileWriter::end_mapping()
 {
   --level;
   (*out) << ")";
