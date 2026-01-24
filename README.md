@@ -292,11 +292,11 @@ infrastructure, adapting the build system for other platforms should be fairly t
 Pingus supports multiple rendering backends which can be selected at runtime using the
 `-r` or `--renderer` command line flags or via the options menu.
 
-* **sdl:** A simple software renderer based on SDL. This is the default and safest option
+- **sdl:** A simple software renderer based on SDL. This is the default and safest option
   for compatibility.
-* **opengl:** Uses hardware acceleration to render graphics. It is much faster than the
+- **opengl:** Uses hardware acceleration to render graphics. It is much faster than the
   SDL renderer and is recommended if your hardware supports OpenGL.
-* **delta:** Uses SDL but attempts to optimize performance by only re-rendering screen
+- **delta:** Uses SDL but attempts to optimize performance by only re-rendering screen
   elements that have changed. Some effects (like scrolling backgrounds) are disabled in
   this mode to maximize performance.
 
