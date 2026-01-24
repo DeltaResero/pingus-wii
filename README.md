@@ -67,47 +67,47 @@ permanent, while others are temporary or one-time uses.
 
 <table>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/basher.gif" alt="Basher"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/basher.svg" alt="Basher"></td>
     <td><strong>Basher:</strong> Digs a horizontal tunnel until they hit steel or run out
     of ground.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/blocker.gif" alt="Blocker"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/blocker.svg" alt="Blocker"></td>
     <td><strong>Blocker:</strong> Stands still and reverses the direction of any other
     Pingu that touches them.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/bomber.gif" alt="Bomber"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/bomber.svg" alt="Bomber"></td>
     <td><strong>Bomber:</strong> Explodes after a 5-second countdown, destroying the Pingu
     and surrounding terrain.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/bridger.gif" alt="Bridger"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/bridger.svg" alt="Bridger"></td>
     <td><strong>Bridger:</strong> Builds a staircase at a 30-degree angle until they hit a
     ceiling or run out of bricks.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/climber.gif" alt="Climber"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/climber.svg" alt="Climber"></td>
     <td><strong>Climber:</strong> Permanently allows a Pingu to scale vertical walls
     instead of turning around.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/digger.gif" alt="Digger"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/digger.svg" alt="Digger"></td>
     <td><strong>Digger:</strong> Digs a vertical shaft straight down until they hit steel
     or fall into empty space.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/floater.gif" alt="Floater"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/floater.svg" alt="Floater"></td>
     <td><strong>Floater:</strong> Deploys a propeller to glide gently down from heights,
     preventing death from falling.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/jumper.gif" alt="Jumper"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/jumper.svg" alt="Jumper"></td>
     <td><strong>Jumper:</strong> Performs a high leap forward to clear small gaps or
     obstacles.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/miner.gif" alt="Miner"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/miner.svg" alt="Miner"></td>
     <td><strong>Miner:</strong> Digs a diagonal tunnel downwards through the terrain.</td>
   </tr>
 </table>
@@ -119,16 +119,16 @@ command.
 
 <table>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/walker_walls.gif" alt="Walls"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/walker_walls.svg" alt="Walls"></td>
     <td><strong>Walls:</strong> If a Pingu hits a wall or a border higher than they can
     step (approx. 3 pixels), they will reverse direction.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/walker.gif" alt="Slopes"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/walker.svg" alt="Slopes"></td>
     <td><strong>Slopes:</strong> Pingus can walk up slopes and over diagonal terrain.</td>
   </tr>
   <tr>
-    <td align="center"><img src="docs/assets/pingu_actions/tumbler.gif" alt="Falling"></td>
+    <td align="center"><img src="docs/assets/pingu_actions/tumbler.svg" alt="Falling"></td>
     <td><strong>Falling:</strong> If a Pingu walks off a ledge, they begin to fall; if the
     fall is too high, they will not survive the impact.</td>
   </tr>
