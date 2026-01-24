@@ -29,7 +29,9 @@ import sys
 import base64
 import argparse
 import importlib.util
+from io import BytesIO
 from pathlib import Path
+
 
 def check_dependencies():
     """Check if required dependencies are installed."""
@@ -44,31 +46,9 @@ def check_dependencies():
         print("  sudo apt install python3-pil   # Debian/Ubuntu", file=sys.stderr)
         return False
 
-def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
-    """
-    Convert an animated GIF to an SVG with CSS keyframe animation.
 
-    Args:
-        gif_path: Path to input GIF file
-        output_path: Path to output SVG file (default: same name with .svg extension)
-        delay_override: Override frame delay in seconds (default: use GIF timing)
-
-    Returns:
-        Path to created SVG file
-    """
-    from PIL import Image
-    from io import BytesIO
-
-    # Open the GIF
-    try:
-        img = Image.open(gif_path)
-    except Exception as e:
-        print(f"ERROR: Could not open '{gif_path}': {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Get dimensions
-    width, height = img.size
-
+def get_gif_metrics(img, delay_override=None):
+    """Calculate frame count and total duration from the GIF."""
     # Count frames
     frame_count = 0
     try:
@@ -79,8 +59,8 @@ def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
         pass
 
     if frame_count == 0:
-        print(f"ERROR: '{gif_path}' has no frames", file=sys.stderr)
-        sys.exit(1)
+        # We cannot print the filename here easily, so we raise an error
+        raise ValueError("GIF has no frames")
 
     # Get delay from GIF or use override
     img.seek(0)
@@ -90,14 +70,12 @@ def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
         frame_delay = img.info.get('duration', 100) / 1000.0  # Convert ms to seconds
 
     total_duration = frame_delay * frame_count
+    return frame_count, frame_delay, total_duration
 
-    # Build SVG
+
+def generate_css(frame_count, total_duration):
+    """Generate the CSS styles and keyframes for the animation."""
     svg_parts = []
-    svg_parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" '
-                    f'xmlns:xlink="http://www.w3.org/1999/xlink" '
-                    f'width="{width}" height="{height}" '
-                    f'viewBox="0 0 {width} {height}">')
-
     # Add CSS animation
     svg_parts.append('  <style>')
     svg_parts.append('    image {')
@@ -120,7 +98,12 @@ def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
         svg_parts.append('    }')
 
     svg_parts.append('  </style>')
+    return svg_parts
 
+
+def generate_encoded_frames(img, frame_count, width, height):
+    """Generate the Base64 encoded image elements."""
+    svg_parts = []
     # Embed each frame as base64-encoded PNG
     for i in range(frame_count):
         img.seek(i)
@@ -132,8 +115,50 @@ def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
         png_b64 = base64.b64encode(buffer.getvalue()).decode('ascii')
 
         svg_parts.append(f'  <image id="frame{i}" x="0" y="0" '
-                        f'width="{width}" height="{height}" '
-                        f'xlink:href="data:image/png;base64,{png_b64}"/>')
+                         f'width="{width}" height="{height}" '
+                         f'xlink:href="data:image/png;base64,{png_b64}"/>')
+    return svg_parts
+
+
+def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
+    """
+    Convert an animated GIF to an SVG with CSS keyframe animation.
+
+    Args:
+        gif_path: Path to input GIF file
+        output_path: Path to output SVG file (default: same name with .svg extension)
+        delay_override: Override frame delay in seconds (default: use GIF timing)
+
+    Returns:
+        Path to created SVG file
+    """
+    from PIL import Image
+
+    # Open the GIF
+    try:
+        img = Image.open(gif_path)
+    except Exception as e:
+        print(f"ERROR: Could not open '{gif_path}': {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Get dimensions
+    width, height = img.size
+
+    try:
+        frame_count, frame_delay, total_duration = get_gif_metrics(img, delay_override)
+    except ValueError as e:
+        print(f"ERROR: '{gif_path}': {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Build SVG
+    svg_parts = []
+    svg_parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" '
+                     f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+                     f'width="{width}" height="{height}" '
+                     f'viewBox="0 0 {width} {height}">')
+
+    svg_parts.extend(generate_css(frame_count, total_duration))
+    svg_parts.extend(generate_encoded_frames(img, frame_count, width, height))
 
     svg_parts.append('</svg>')
 
@@ -155,6 +180,7 @@ def gif_to_animated_svg(gif_path, output_path=None, delay_override=None):
 
     return output_path
 
+
 def main():
     parser = argparse.ArgumentParser(
         description='Convert animated GIF to CSS-animated SVG for GitHub',
@@ -171,12 +197,12 @@ Examples:
     )
 
     parser.add_argument('input',
-                       help='Input GIF file')
+                        help='Input GIF file')
     parser.add_argument('-o', '--output',
-                       help='Output SVG file (default: input name with .svg extension)')
+                        help='Output SVG file (default: input name with .svg extension)')
     parser.add_argument('-d', '--delay',
-                       type=float,
-                       help='Override frame delay in seconds (default: use GIF timing)')
+                        type=float,
+                        help='Override frame delay in seconds (default: use GIF timing)')
 
     args = parser.parse_args()
 
