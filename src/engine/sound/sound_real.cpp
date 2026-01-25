@@ -36,7 +36,7 @@ PingusSoundReal::PingusSoundReal() :
 
   log_info("Initializing SDL_Mixer");
 
-  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+  if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
   {
     raise_exception(std::runtime_error, "Unable to initialize SDL_Mixer: " << Mix_GetError());
   }
