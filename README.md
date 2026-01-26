@@ -184,14 +184,15 @@ wii-opengx
 You can configure the build by passing flags to `cmake`. For example, to enable the
 level editor, append the following flag to your `cmake` command: `-DWITH_EDITOR=ON`
 
-| Option           | Description                                    | Default |
-|------------------|------------------------------------------------|---------|
-| `WITH_EDITOR`    | Build with the level editor                    | `OFF`   |
-| `WITH_OPENGL`    | Build with OpenGL support                      | `ON`    |
-| `ENABLE_LOGGING` | Enable application logging                     | `OFF`   |
-| `WARNINGS`       | Enable extra compiler warnings (-Wall -Wextra) | `ON`    |
-| `WERROR`         | Treat compiler warnings as errors (-Werror)    | `OFF`   |
-| `BUILD_TESTS`    | Build test programs                            | `OFF`   |
+| Option             | Description                                 | Default   |
+|------------------  |---------------------------------------------|-----------|
+| `CMAKE_BUILD_TYPE` | Build type (Debug or Release)               | `Release` |
+| `WITH_EDITOR`      | Build with the level editor                 | `OFF`     |
+| `WITH_OPENGL`      | Build with OpenGL support                   | `ON`      |
+| `ENABLE_LOGGING`   | Enable application logging                  | `OFF`     |
+| `WARNINGS`         | Set Extra compiler warnings (-Wall -Wextra) | `ON`      |
+| `WERROR`           | Treat compiler warnings as errors (-Werror) | `OFF`     |
+| `BUILD_TESTS`      | Build test programs                         | `OFF`     |
 
 <br>
 

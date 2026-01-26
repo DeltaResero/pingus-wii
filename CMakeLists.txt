@@ -13,6 +13,19 @@ cmake_minimum_required(VERSION 3.10)
 project(Pingus VERSION 0.7.7 LANGUAGES CXX)
 set(VERSION ${PROJECT_VERSION})
 
+# Build Type Configuration (Default to Release)
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
+endif()
+
+# Verify strip tool is found by the toolchain
+if(CMAKE_STRIP)
+  message(STATUS "Found strip tool: ${CMAKE_STRIP}")
+else()
+  message(WARNING "Strip tool not found. Release binaries will not be stripped.")
+endif()
+
 # C++ Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -310,6 +323,15 @@ target_link_libraries(pingus libpingus)
 
 # Copy data directory (Non-Wii)
 if(NOT WII_BUILD)
+    # Strip the binary in Release mode
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
+        add_custom_command(TARGET pingus POST_BUILD
+            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:pingus>
+            COMMENT "Stripping binary..."
+            VERBATIM
+        )
+    endif()
+
     add_custom_command(TARGET pingus POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${CMAKE_SOURCE_DIR}/data"
@@ -344,6 +366,15 @@ if(BUILD_TESTS)
 endif()
 
 # Wii Post-Build Steps
+if(WII_BUILD)
+    # Strip the ELF binary (Release builds only) to reduce file size
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
+        add_custom_command(TARGET pingus POST_BUILD
+            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:pingus>
+            COMMENT "Stripping ELF binary..."
+            VERBATIM
+        )
+    endif()
 if(WII_BUILD)
     # Convert ELF to DOL
     add_custom_command(TARGET pingus POST_BUILD
