@@ -10,6 +10,15 @@
 # (at your option) any later version.
 
 cmake_minimum_required(VERSION 3.10)
+
+# Prevent in-source builds
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+  message(FATAL_ERROR "In-source builds are not allowed. Please create a build directory and run cmake from there:\n"
+                      "  mkdir build\n"
+                      "  cd build\n"
+                      "  cmake ..\n")
+endif()
+
 project(Pingus VERSION 0.7.7 LANGUAGES CXX)
 set(VERSION ${PROJECT_VERSION})
 
@@ -31,13 +40,39 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Detect Wii build
-# Support both System Toolchain (NintendoWii) and Local Toolchain (powerpc)
-if(CMAKE_SYSTEM_NAME STREQUAL "NintendoWii" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "powerpc")
+if(CMAKE_SYSTEM_NAME STREQUAL "NintendoWii")
   set(WII_BUILD ON)
-  message(STATUS "Configuring for Wii")
+  message(STATUS "Configuring for Nintendo Wii")
   add_compile_definitions(__WII__ GEKKO)
 else()
   set(WII_BUILD OFF)
+endif()
+
+# Cross-compilation safety check
+if(CMAKE_CROSSCOMPILING AND NOT WII_BUILD)
+  message(WARNING "Cross-compiling detected but not for Wii. "
+                  "If this is unintentional, please check your toolchain file.")
+endif()
+
+# Wii-specific environment validation
+if(WII_BUILD)
+  # Verify DEVKITPRO environment
+  if(NOT DEFINED ENV{DEVKITPRO})
+    message(FATAL_ERROR "DEVKITPRO environment variable not set. "
+                        "Please set it to your devkitPro installation path.")
+  endif()
+  
+  # Verify required tools exist
+  if(NOT EXISTS "$ENV{DEVKITPRO}/tools/bin/elf2dol")
+    message(FATAL_ERROR "elf2dol not found at $ENV{DEVKITPRO}/tools/bin/elf2dol. "
+                        "Please check your devkitPro installation.")
+  endif()
+  
+  # Verify required libraries exist
+  if(NOT EXISTS "$ENV{DEVKITPRO}/libogc")
+    message(FATAL_ERROR "libogc not found at $ENV{DEVKITPRO}/libogc. "
+                        "Please install libogc from devkitPro.")
+  endif()
 endif()
 
 # Build options
@@ -57,8 +92,9 @@ option(ENABLE_LOGGING "Enable application logging" OFF)
 option(WARNINGS "Enable extra compiler warnings (-Wall -Wextra)" ON)
 option(WERROR "Treat compiler warnings as errors (-Werror)" OFF)
 
-# Add module path for custom Find modules and toolchains
+# Add module path for custom Find modules, toolchains, and platform files
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Find required packages
 find_package(PkgConfig REQUIRED)

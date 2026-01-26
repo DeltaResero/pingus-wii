@@ -9,8 +9,11 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_NAME NintendoWii)
 set(CMAKE_SYSTEM_PROCESSOR powerpc)
+
+# Add cmake directory to module path so CMake can find Platform/NintendoWii.cmake
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/.." ${CMAKE_MODULE_PATH})
 
 # --- Environment Check ---
 if(NOT DEFINED ENV{DEVKITPRO} OR NOT DEFINED ENV{DEVKITPPC})
