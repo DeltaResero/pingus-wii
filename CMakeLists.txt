@@ -19,8 +19,11 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
                       "  cmake ..\n")
 endif()
 
-project(Pingus VERSION 0.7.7 LANGUAGES CXX)
-set(VERSION ${PROJECT_VERSION})
+project(Pingus VERSION 0.7.7 LANGUAGES C CXX)
+
+# We define the full version string manually for the game to display
+set(PROJECT_FULL_VERSION "v0.7.7-wii-d.1")
+set(VERSION ${PROJECT_FULL_VERSION})
 
 # Build Type Configuration (Default to Release)
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -234,7 +237,7 @@ configure_file(
 
 # Compile definitions
 add_compile_definitions(
-    VERSION="${VERSION}"
+    VERSION="${PROJECT_FULL_VERSION}"
     _GNU_SOURCE=1
     HAVE_SDL=1
 )
