@@ -333,52 +333,10 @@ endif()
 add_executable(pingus src/main.cpp)
 target_link_libraries(pingus libpingus)
 
-# Copy data directory (Non-Wii)
-if(NOT WII_BUILD)
-    # Strip the binary in Release mode
-    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
-        add_custom_command(TARGET pingus POST_BUILD
-            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:pingus>
-            COMMENT "Stripping binary..."
-            VERBATIM
-        )
-    endif()
-
-    add_custom_command(TARGET pingus POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_SOURCE_DIR}/data"
-                "$<TARGET_FILE_DIR:pingus>/data"
-        COMMENT "Copying data directory to build output..."
-        VERBATIM
-    )
-endif()
-
-# Install targets (Skip for Wii, we build a custom app structure)
-if(NOT WII_BUILD)
-    install(TARGETS pingus DESTINATION bin)
-    install(DIRECTORY data/ DESTINATION share/pingus)
-    
-    # Install desktop entry (Linux)
-    if(UNIX AND NOT APPLE)
-        install(FILES packaging/linux/pingus.desktop DESTINATION share/applications)
-    endif()
-endif()
-
-# Build tests if enabled
-if(BUILD_TESTS)
-    file(GLOB TEST_SOURCES 
-        "${CMAKE_SOURCE_DIR}/test/*_test.cpp" 
-        "${CMAKE_SOURCE_DIR}/test/*_util.cpp"
-    )
-    foreach(test_source ${TEST_SOURCES})
-        get_filename_component(test_name ${test_source} NAME_WE)
-        add_executable(${test_name} ${test_source})
-        target_link_libraries(${test_name} libpingus)
-    endforeach()
-endif()
-
-# Wii Post-Build Steps
+# Post-Build Steps and Distribution Directory Creation
 if(WII_BUILD)
+    # Wii: Create Homebrew Channel structure in build/apps/pingus/
+    
     # Strip the ELF binary (Release builds only) to reduce file size
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
         add_custom_command(TARGET pingus POST_BUILD
@@ -409,6 +367,68 @@ if(WII_BUILD)
         COMMENT "Creating Homebrew Channel package in build/apps/pingus/..."
         VERBATIM
     )
+else()
+    # Non-Wii: Create distribution directory in build/dist/pingus/
+    
+    # Strip the binary in Release mode
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
+        add_custom_command(TARGET pingus POST_BUILD
+            COMMAND ${CMAKE_STRIP} $<TARGET_FILE:pingus>
+            COMMENT "Stripping binary..."
+            VERBATIM
+        )
+    endif()
+    
+    # Create distribution directory and copy all necessary files
+    add_custom_command(TARGET pingus POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus
+        # Copy binary
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pingus> ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
+        # Copy data directory
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/data
+        COMMENT "Creating distribution directory in build/dist/pingus/..."
+        VERBATIM
+    )
+    
+    # Copy platform-specific files to distribution directory
+    if(UNIX AND NOT APPLE)
+        # Linux: Copy .desktop file and icon
+        add_custom_command(TARGET pingus POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus.desktop ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
+            COMMENT "Copying Linux desktop file to dist/pingus/..."
+            VERBATIM
+        )
+        # Note: For later once we separate out from data/ the icon into packaging/linux/, uncomment:
+        # COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus.png ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
+    elseif(WIN32)
+        # Windows: Icon is already compiled into the binary via pingus.rc
+        # No additional files needed in dist, but could copy DLLs here if needed
+        message(STATUS "Windows build: Icon embedded in executable")
+    endif()
+endif()
+
+# Install targets (Skip for Wii, we build a custom app structure)
+if(NOT WII_BUILD)
+    install(TARGETS pingus DESTINATION bin)
+    install(DIRECTORY data/ DESTINATION share/pingus)
+    
+    # Install desktop entry (Linux)
+    if(UNIX AND NOT APPLE)
+        install(FILES packaging/linux/pingus.desktop DESTINATION share/applications)
+    endif()
+endif()
+
+# Build tests if enabled
+if(BUILD_TESTS)
+    file(GLOB TEST_SOURCES 
+        "${CMAKE_SOURCE_DIR}/test/*_test.cpp" 
+        "${CMAKE_SOURCE_DIR}/test/*_util.cpp"
+    )
+    foreach(test_source ${TEST_SOURCES})
+        get_filename_component(test_name ${test_source} NAME_WE)
+        add_executable(${test_name} ${test_source})
+        target_link_libraries(${test_name} libpingus)
+    endforeach()
 endif()
 
 # Print configuration summary
@@ -420,8 +440,10 @@ message(STATUS "  Build type: ${CMAKE_BUILD_TYPE}")
 if(WII_BUILD)
     message(STATUS "  Platform: Nintendo Wii")
     message(STATUS "  Renderer: OpenGX (Hardware Accelerated)")
+    message(STATUS "  Output: build/apps/pingus/ (Homebrew Channel)")
 else()
     message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
+    message(STATUS "  Distribution: build/dist/pingus/")
 endif()
 message(STATUS "")
 message(STATUS "Feature Support:")
