@@ -10,7 +10,7 @@
 Original Port by: r-win
 Updated by:       DeltaResero
 Type:             Puzzle-Strategy
-Version:          0.7.7-wii-d.1
+Version:          0.7.7-wii-d.01
 Software license: GPLv3+
 ```
 

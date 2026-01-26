@@ -22,7 +22,7 @@ endif()
 project(Pingus VERSION 0.7.7 LANGUAGES C CXX)
 
 # We define the full version string manually for the game to display
-set(PROJECT_FULL_VERSION "v0.7.7-wii-d.1")
+set(PROJECT_FULL_VERSION "v0.7.7-wii-d.01")
 set(VERSION ${PROJECT_FULL_VERSION})
 
 # Build Type Configuration (Default to Release)
