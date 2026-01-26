@@ -31,9 +31,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Detect Wii build
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "powerpc" AND CMAKE_SYSTEM_NAME STREQUAL "Generic")
+# Support both System Toolchain (NintendoWii) and Local Toolchain (powerpc)
+if(CMAKE_SYSTEM_NAME STREQUAL "NintendoWii" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "powerpc")
   set(WII_BUILD ON)
-  message(STATUS "Configuring for Nintendo Wii")
+  message(STATUS "Configuring for Wii")
   add_compile_definitions(__WII__ GEKKO)
 else()
   set(WII_BUILD OFF)
@@ -70,13 +71,24 @@ pkg_check_modules(PNG REQUIRED libpng)
 
 # Wii Specific Libraries
 if(WII_BUILD)
-    find_library(OGC_LIB ogc REQUIRED)
-    find_library(FAT_LIB fat REQUIRED)
-    find_library(OPENGX_LIB opengx REQUIRED)
-    find_library(WIIUSE_LIB wiiuse REQUIRED)
-    find_library(BTE_LIB bte REQUIRED)
+    # Define search paths for Wii libraries to support both local and system toolchains
+    set(DKP_LIBOGC_PATH "$ENV{DEVKITPRO}/libogc/lib/wii")
+    set(DKP_PORTLIBS_PATH "$ENV{DEVKITPRO}/portlibs/wii/lib")
+
+    # We use HINTS to tell CMake where to look.
+    # libfat, wiiuse, and bte are core libs located in libogc/lib/wii
+    find_library(OGC_LIB ogc HINTS ${DKP_LIBOGC_PATH} REQUIRED)
+    find_library(FAT_LIB fat HINTS ${DKP_LIBOGC_PATH} REQUIRED)
+    find_library(WIIUSE_LIB wiiuse HINTS ${DKP_LIBOGC_PATH} REQUIRED)
+    find_library(BTE_LIB bte HINTS ${DKP_LIBOGC_PATH} REQUIRED)
     
-    message(STATUS "Found Wii Libs: ${OGC_LIB} ${FAT_LIB} ${OPENGX_LIB}")
+    # opengx is a portlib located in portlibs/wii/lib
+    find_library(OPENGX_LIB opengx HINTS ${DKP_PORTLIBS_PATH} REQUIRED)
+    
+    message(STATUS "Found Wii Libs: ${OGC_LIB}")
+    
+    # Explicitly add libogc includes (Critical for wiiuse/wpad.h)
+    include_directories($ENV{DEVKITPRO}/libogc/include)
 endif()
 
 # OpenGL (optional)
@@ -104,72 +116,72 @@ endif()
 
 
 # Check for iconv
-include(CheckCXXSourceCompiles)
-
-# On Linux, iconv is usually in glibc, on other systems it might be a separate library
-set(CMAKE_REQUIRED_LIBRARIES "")
-check_cxx_source_compiles("
-#include <iconv.h>
-int main() {
-    const char *foo;
-    iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-          static_cast<char**>(0), static_cast<size_t*>(0));
-    return 0;
-}" ICONV_CONST_CONST)
-
-check_cxx_source_compiles("
-#include <iconv.h>
-int main() {
-    char *foo;
-    iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-          static_cast<char**>(0), static_cast<size_t*>(0));
-    return 0;
-}" ICONV_CONST_EMPTY)
-
-# If glibc iconv didn't work, try with separate iconv library
-if(NOT ICONV_CONST_CONST AND NOT ICONV_CONST_EMPTY)
-    set(CMAKE_REQUIRED_LIBRARIES "iconv")
-    check_cxx_source_compiles("
-#include <iconv.h>
-int main() {
-    const char *foo;
-    iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-          static_cast<char**>(0), static_cast<size_t*>(0));
-    return 0;
-}" ICONV_CONST_CONST_LIB)
-    
-    check_cxx_source_compiles("
-#include <iconv.h>
-int main() {
-    char *foo;
-    iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-          static_cast<char**>(0), static_cast<size_t*>(0));
-    return 0;
-}" ICONV_CONST_EMPTY_LIB)
-    
-    if(ICONV_CONST_CONST_LIB)
-        set(ICONV_CONST_CONST TRUE)
-        set(ICONV_NEEDS_LIB TRUE)
-    elseif(ICONV_CONST_EMPTY_LIB)
-        set(ICONV_CONST_EMPTY TRUE)
-        set(ICONV_NEEDS_LIB TRUE)
-    endif()
-endif()
-
-if(ICONV_CONST_CONST)
-    set(ICONV_CONST "const")
-    set(HAVE_ICONV_CONST 1)
-    message(STATUS "iconv signature: const char**")
-elseif(ICONV_CONST_EMPTY)
+# We skip detection on Wii to avoid cross-compilation linking errors during config
+if(WII_BUILD)
     set(ICONV_CONST "")
     set(HAVE_ICONV_CONST 1)
-    message(STATUS "iconv signature: char**")
+    message(STATUS "Wii build: skipping detection, assuming iconv signature char**")
 else()
-    # On Wii, iconv might be missing or different, but we'll assume char** if detection fails
-    if(WII_BUILD)
+    include(CheckCXXSourceCompiles)
+    
+    # On Linux, iconv is usually in glibc, on other systems it might be a separate library
+    set(CMAKE_REQUIRED_LIBRARIES "")
+    check_cxx_source_compiles("
+    #include <iconv.h>
+    int main() {
+        const char *foo;
+        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
+              static_cast<char**>(0), static_cast<size_t*>(0));
+        return 0;
+    }" ICONV_CONST_CONST)
+
+    check_cxx_source_compiles("
+    #include <iconv.h>
+    int main() {
+        char *foo;
+        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
+              static_cast<char**>(0), static_cast<size_t*>(0));
+        return 0;
+    }" ICONV_CONST_EMPTY)
+
+    # If glibc iconv didn't work, try with separate iconv library
+    if(NOT ICONV_CONST_CONST AND NOT ICONV_CONST_EMPTY)
+        set(CMAKE_REQUIRED_LIBRARIES "iconv")
+        check_cxx_source_compiles("
+    #include <iconv.h>
+    int main() {
+        const char *foo;
+        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
+              static_cast<char**>(0), static_cast<size_t*>(0));
+        return 0;
+    }" ICONV_CONST_CONST_LIB)
+        
+        check_cxx_source_compiles("
+    #include <iconv.h>
+    int main() {
+        char *foo;
+        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
+              static_cast<char**>(0), static_cast<size_t*>(0));
+        return 0;
+    }" ICONV_CONST_EMPTY_LIB)
+        
+        if(ICONV_CONST_CONST_LIB)
+            set(ICONV_CONST_CONST TRUE)
+            set(ICONV_NEEDS_LIB TRUE)
+        elseif(ICONV_CONST_EMPTY_LIB)
+            set(ICONV_CONST_EMPTY TRUE)
+            set(ICONV_NEEDS_LIB TRUE)
+        endif()
+    endif()
+
+    if(ICONV_CONST_CONST)
+        set(ICONV_CONST "const")
+        set(HAVE_ICONV_CONST 1)
+        message(STATUS "iconv signature: const char**")
+    elseif(ICONV_CONST_EMPTY)
         set(ICONV_CONST "")
         set(HAVE_ICONV_CONST 1)
-        message(STATUS "Wii build: assuming iconv signature char**")
+        message(STATUS "iconv signature: char**")
     else()
         message(FATAL_ERROR "Cannot determine iconv signature")
     endif()
@@ -375,7 +387,7 @@ if(WII_BUILD)
             VERBATIM
         )
     endif()
-if(WII_BUILD)
+    
     # Convert ELF to DOL
     add_custom_command(TARGET pingus POST_BUILD
         COMMAND $ENV{DEVKITPRO}/tools/bin/elf2dol 
