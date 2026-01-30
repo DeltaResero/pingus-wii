@@ -11,6 +11,8 @@
 
 #include "pingus/collision_map.hpp"
 
+#include <algorithm>
+
 #include "engine/display/drawing_context.hpp"
 #include "engine/display/sprite.hpp"
 #include "pingus/collision_mask.hpp"
@@ -58,10 +60,10 @@ CollisionMap::remove(const CollisionMask& mask, int x_pos, int y_pos)
   int sheight = mask.get_height();
   uint8_t* buffer = mask.get_data();
 
-  int start_x = Math::max(0, -x_pos);
-  int start_y = Math::max(0, -y_pos);
-  int end_x   = Math::min(swidth,  width  - x_pos);
-  int end_y   = Math::min(sheight, height - y_pos);
+  int start_x = std::max(0, -x_pos);
+  int start_y = std::max(0, -y_pos);
+  int end_x   = std::min(swidth,  width  - x_pos);
+  int end_y   = std::min(sheight, height - y_pos);
 
   for (int y = start_y; y < end_y; ++y)
   {

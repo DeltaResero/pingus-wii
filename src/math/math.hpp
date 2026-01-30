@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_MATH_MATH_HPP
 #define HEADER_PINGUS_MATH_MATH_HPP
 
+#include <algorithm>
 #include <assert.h>
 #include <stdlib.h>
 #include <string>
@@ -26,37 +27,11 @@ namespace Math {
 const float pi   = 3.14159265358979323846f;     /* pi */
 const float pi_2 = 1.57079632679489661923f;     /* pi/2 */
 
-// Win32 defines these are defines already, so we have to undef them
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
-
-template<class T>
-T min (const T& a, const T& b)
-{
-  if (a < b)
-    return a;
-  else
-    return b;
-}
-
-template<class T>
-T max (const T& a, const T& b)
-{
-  if (a > b)
-    return a;
-  else
-    return b;
-}
-
 template<class T>
 T clamp (const T& low, const T& v, const T& high)
 {
   assert(low <= high);
-  return max((low), min((v), (high)));
+  return std::max((low), std::min((v), (high)));
 }
 
 inline

@@ -27,6 +27,7 @@
 #ifndef __MATH_RECT_HPP__
 #define __MATH_RECT_HPP__
 
+#include <algorithm>
 #include <math.h>
 
 #include "math/origin.hpp"
@@ -466,10 +467,10 @@ public:
 
   // Construct a rectangle large enough
   Rectf grow(const Rectf& rect) const {
-    return Rectf(Math::min(left, rect.left),
-                 Math::min(top, rect.top),
-                 Math::max(right, rect.right),
-                 Math::max(bottom, rect.bottom));
+    return Rectf(std::min(left, rect.left),
+                 std::min(top, rect.top),
+                 std::max(right, rect.right),
+                 std::max(bottom, rect.bottom));
   }
 
   float get_diagonal() const
@@ -492,10 +493,10 @@ public:
 
   Rectf clip_to(const Rectf& cliprect) const
   {
-    return Rectf(Math::max(left,   cliprect.left),
-                 Math::max(top,    cliprect.top),
-                 Math::min(right,  cliprect.right),
-                 Math::min(bottom, cliprect.bottom));
+    return Rectf(std::max(left,   cliprect.left),
+                 std::max(top,    cliprect.top),
+                 std::min(right,  cliprect.right),
+                 std::min(bottom, cliprect.bottom));
   }
 };
 

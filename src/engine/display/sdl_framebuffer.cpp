@@ -11,6 +11,8 @@
 
 #include "engine/display/sdl_framebuffer.hpp"
 
+#include <algorithm>
+
 #include "engine/display/sdl_framebuffer_surface_impl.hpp"
 #include "util/log.hpp"
 
@@ -112,12 +114,12 @@ void draw_hline(SDL_Surface* screen, int x, int y, int length, const Color& colo
 SDL_Rect Intersection(SDL_Rect* r1, SDL_Rect* r2)
 {
   SDL_Rect rect;
-  rect.x = Math::max(r1->x, r2->x);
-  rect.y = Math::max(r1->y, r2->y);
-  int endx = Math::min(r1->x + r1->w, r2->x + r2->w);
-  rect.w = static_cast<Uint16>(Math::max(static_cast<int>(endx - rect.x), 0));
-  int endy = Math::min(r1->y + r1->h, r2->y + r2->h);
-  rect.h = static_cast<Uint16>(Math::max(static_cast<int>(endy - rect.y), 0));
+  rect.x = std::max(r1->x, r2->x);
+  rect.y = std::max(r1->y, r2->y);
+  int endx = std::min(r1->x + r1->w, r2->x + r2->w);
+  rect.w = static_cast<Uint16>(std::max(static_cast<int>(endx - rect.x), 0));
+  int endy = std::min(r1->y + r1->h, r2->y + r2->h);
+  rect.h = static_cast<Uint16>(std::max(static_cast<int>(endy - rect.y), 0));
   return rect;
 }
 

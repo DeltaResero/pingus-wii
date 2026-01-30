@@ -11,6 +11,7 @@
 
 #include "pingus/ground_map.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 
 #include "engine/display/scene_context.hpp"
@@ -130,8 +131,8 @@ GroundMap::draw(SceneContext& gc)
     draw_colmap(gc);
 
   // Trying to calc which parts of the tilemap needs to be drawn
-  int start_x = Math::max(0, display.left / globals::tile_size);
-  int start_y = Math::max(0, display.top  / globals::tile_size);
+  int start_x = std::max(0, display.left / globals::tile_size);
+  int start_y = std::max(0, display.top  / globals::tile_size);
   int tilemap_width  = display.get_width()  / globals::tile_size + 1;
   int tilemap_height = display.get_height() / globals::tile_size + 1;
 
@@ -176,11 +177,11 @@ void
 GroundMap::remove(Surface sprovider, int x, int y)
 {
   // Get the start tile and end tile
-  int start_x = Math::max(x / globals::tile_size, 0);
-  int start_y = Math::max(y / globals::tile_size, 0);
-  int end_x   = Math::min((x + sprovider.get_width()) / globals::tile_size,
+  int start_x = std::max(x / globals::tile_size, 0);
+  int start_y = std::max(y / globals::tile_size, 0);
+  int end_x   = std::min((x + sprovider.get_width()) / globals::tile_size,
                           (width - 1) / globals::tile_size);
-  int end_y   = Math::min((y + sprovider.get_height()) / globals::tile_size,
+  int end_y   = std::min((y + sprovider.get_height()) / globals::tile_size,
                           (height - 1) / globals::tile_size);
 
   for(int ix = start_x; ix <= end_x; ++ix)

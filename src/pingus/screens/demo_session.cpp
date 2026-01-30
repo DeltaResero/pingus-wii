@@ -104,10 +104,10 @@ DemoSession::DemoSession(const Pathname& pathname_) :
   int world_height = server->get_world()->get_height();
 
   playfield = gui_manager->create<Playfield>(server.get(), nullptr,
-                                             Rect(Vector2i(Math::max((size.width  - world_width)/2,  0),
-                                                           Math::max((size.height - world_height)/2, 0)),
-                                                  Size(Math::min(size.width,  world_width),
-                                                       Math::min(size.height, world_height))));
+                                             Rect(Vector2i(std::max((size.width  - world_width)/2,  0),
+                                                           std::max((size.height - world_height)/2, 0)),
+                                                  Size(std::min(size.width,  world_width),
+                                                       std::min(size.height, world_height))));
 
   small_map = gui_manager->create<SmallMap>(server.get(), playfield, Rect(Vector2i(5, size.height - 105), Size(175, 100)));
 
@@ -261,10 +261,10 @@ DemoSession::resize(const Size& size_)
   int world_width  = server->get_world()->get_width();
   int world_height = server->get_world()->get_height();
 
-  playfield->set_rect(Rect(Vector2i(Math::max((size.width  - world_width)/2,  0),
-                                    Math::max((size.height - world_height)/2, 0)),
-                           Size(Math::min(size.width,  world_width),
-                                Math::min(size.height, world_height))));
+  playfield->set_rect(Rect(Vector2i(std::max((size.width  - world_width)/2,  0),
+                                    std::max((size.height - world_height)/2, 0)),
+                           Size(std::min(size.width,  world_width),
+                                std::min(size.height, world_height))));
 
   fastforward_button->set_pos(32+50, 32);
   pause_button->set_pos(32,  32);

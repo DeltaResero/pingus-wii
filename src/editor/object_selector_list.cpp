@@ -16,6 +16,8 @@
 #include "editor/viewport.hpp"
 #include "util/log.hpp"
 
+#include <algorithm>
+
 namespace Editor {
 
 ObjectSelectorList::ObjectSelectorList(EditorScreen* editor_, ObjectSelector* object_selector_, const Rect& rect_) :
@@ -203,7 +205,7 @@ ObjectSelectorList::on_pointer_move (int x, int y)
   if (mode == SCROLLING)
   {
     offset = old_offset + static_cast<float>(y - drag_start.y);
-    offset = Math::clamp(Math::min(static_cast<float>(rect.get_height()) - (static_cast<float>(height) * 48.0f), 0.0f), offset, 0.0f);
+    offset = Math::clamp(std::min(static_cast<float>(rect.get_height()) - (static_cast<float>(height) * 48.0f), 0.0f), offset, 0.0f);
   }
 }
 
@@ -218,7 +220,7 @@ ObjectSelectorList::scroll(float y)
     int width = 5;
     int height = (static_cast<int>(set->get_objects().size()) / width) +
       ((static_cast<int>(set->get_objects().size()) % width > 0) ? 1 : 0);
-    offset = Math::clamp(Math::min(static_cast<float>(rect.get_height()) - (static_cast<float>(height) * 48.0f),
+    offset = Math::clamp(std::min(static_cast<float>(rect.get_height()) - (static_cast<float>(height) * 48.0f),
                                    0.0f), offset, 0.0f);
   }
 }
