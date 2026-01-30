@@ -202,7 +202,7 @@ Manager::get_driver(const std::string& name)
       return i->get();
     }
   }
-  return 0;
+  return nullptr;
 }
 
 Driver*
@@ -222,7 +222,7 @@ Manager::load_driver(const std::string& name)
     if (!driver)
     {
       log_error("unknown driver: {}", name);
-      return 0;
+      return nullptr;
     }
     else
     {

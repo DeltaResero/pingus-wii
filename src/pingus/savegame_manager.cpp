@@ -19,7 +19,7 @@
 #include "util/sexpr_file_writer.hpp"
 #include "util/system.hpp"
 
-SavegameManager* SavegameManager::instance_ = 0;
+SavegameManager* SavegameManager::instance_ = nullptr;
 
 SavegameManager*
 SavegameManager::instance()
@@ -32,7 +32,7 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
   filename(System::get_userdir() + arg_filename),
   savegames()
 {
-  assert(instance_ == 0);
+  assert(instance_ == nullptr);
   instance_ = this;
 
   if (!System::exist(filename))
@@ -71,7 +71,7 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
 SavegameManager::~SavegameManager()
 {
   savegames.clear();
-  instance_ = 0;
+  instance_ = nullptr;
 }
 
 Savegame*
@@ -79,7 +79,7 @@ SavegameManager::get(const std::string& filename_)
 {
   SavegameTable::iterator i = find(filename_);
   if (i == savegames.end())
-    return 0;
+    return nullptr;
   else
     return (*i).get();
 }

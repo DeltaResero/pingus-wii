@@ -26,7 +26,7 @@ SDLDriver::SDLDriver() :
   joystick_button_bindings(),
   joystick_hat_bindings(),
   joystick_axis_bindings(),
-  keyboard_binding(0),
+  keyboard_binding(nullptr),
   string2key(),
   joystick_handles(),
   virtual_mouse_x(Display::get_width() / 2.0f),

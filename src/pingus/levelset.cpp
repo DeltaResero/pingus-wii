@@ -205,7 +205,7 @@ Levelset::get_level(int num) const
   if (num >= 0 && num < int(m_levels.size()))
     return m_levels[num].get();
   else
-    return 0;
+    return nullptr;
 }
 
 int

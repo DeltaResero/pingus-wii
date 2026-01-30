@@ -94,7 +94,7 @@ Sprite::get_height() const
 
 Sprite::operator bool() const
 {
-  return (impl.get() != 0);
+  return (impl.get() != nullptr);
 }
 
 void

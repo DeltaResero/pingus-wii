@@ -106,7 +106,7 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
       // This ensures that:
       // 1. Padding pixels (if texture_size > w/h) are transparent/black.
       // 2. Colorkey pixels (which are skipped during blit) remain transparent.
-      SDL_FillRect(convert, NULL, 0);
+      SDL_FillRect(convert, nullptr, 0);
 
       // Blit the specific chunk of the source image to the convert surface
       SDL_Rect src_rect = { (Sint16)x, (Sint16)y, (Uint16)w, (Uint16)h };

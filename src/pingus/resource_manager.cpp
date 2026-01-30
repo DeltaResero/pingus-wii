@@ -134,7 +134,7 @@ ResourceManager::get_sprite_description(const std::string& name)
     }
     else
     {
-      return 0;
+      return nullptr;
     }
   }
 }

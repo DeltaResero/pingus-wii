@@ -118,8 +118,8 @@ public:
   /** Retrieve the object's direction */
   std::string get_direction() { return m_direction; }
 
-  std::string get_id() const { return 0; }
-  std::string get_target_id() const { return 0; }
+  std::string get_id() const { return nullptr; }
+  std::string get_target_id() const { return nullptr; }
 
   int get_height() const { return 0; }
 

@@ -134,7 +134,7 @@ private:
 
 public:
   ControllerButton(Controller* controller_, int id_)
-    : ButtonGroup(0),
+    : ButtonGroup(nullptr),
       controller(controller_),
       id(id_)
   {}
@@ -270,7 +270,7 @@ private:
 
 public:
   ControllerAxis(Controller* controller_, int id_)
-    : AxisGroup(0),
+    : AxisGroup(nullptr),
       controller(controller_),
       id(id_)
   {}
@@ -328,7 +328,7 @@ private:
 
 public:
   ControllerPointer(Controller* controller_, int id_)
-    : PointerGroup(0),
+    : PointerGroup(nullptr),
       controller(controller_),
       id(id_)
   {}
@@ -386,7 +386,7 @@ private:
 
 public:
   ControllerScroller(Controller* controller_, int id_)
-    : ScrollerGroup(0),
+    : ScrollerGroup(nullptr),
       controller(controller_),
       id(id_)
   {}
@@ -456,7 +456,7 @@ private:
 
 public:
   ControllerKeyboard(Controller* controller_, int id_) :
-    KeyboardGroup(0),
+    KeyboardGroup(nullptr),
     controller(controller_),
     id(id_)
   {}

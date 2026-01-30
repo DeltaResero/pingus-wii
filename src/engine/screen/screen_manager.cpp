@@ -129,7 +129,7 @@ void write_event(std::ostream& out, const Input::Event& event)
   }
 }
 
-ScreenManager* ScreenManager::instance_ = 0;
+ScreenManager* ScreenManager::instance_ = nullptr;
 
 ScreenManager::ScreenManager(Input::Manager& arg_input_manager,
                              Input::ControllerPtr arg_input_controller) :
@@ -143,7 +143,7 @@ ScreenManager::ScreenManager(Input::Manager& arg_input_manager,
   record_input(false),
   playback_input(false)
 {
-  assert(instance_ == 0);
+  assert(instance_ == nullptr);
   instance_ = this;
 
   cursor = Sprite("core/cursors/animcross");
@@ -152,7 +152,7 @@ ScreenManager::ScreenManager(Input::Manager& arg_input_manager,
 
 ScreenManager::~ScreenManager()
 {
-  instance_ = 0;
+  instance_ = nullptr;
 }
 
 void

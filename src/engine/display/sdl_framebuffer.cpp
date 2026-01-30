@@ -133,7 +133,7 @@ void clip(int& i, int min, int max)
 
 
 SDLFramebuffer::SDLFramebuffer() :
-  screen(0),
+  screen(nullptr),
   cliprect_stack()
 {
 }
@@ -160,7 +160,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Vector2i& 
   dstrect.w = 0;
   dstrect.h = 0;
 
-  SDL_BlitSurface(src, NULL, screen, &dstrect);
+  SDL_BlitSurface(src, nullptr, screen, &dstrect);
 }
 
 void
@@ -427,7 +427,7 @@ SDLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resizable
 
   screen = SDL_SetVideoMode(size.width, size.height, 0, flags);
 
-  if (screen == NULL)
+  if (screen == nullptr)
   {
     log_error("Unable to set video mode: {}", SDL_GetError());
     exit(1);
@@ -469,7 +469,7 @@ SDLFramebuffer::pop_cliprect()
 {
   cliprect_stack.pop_back();
   if (cliprect_stack.empty())
-    SDL_SetClipRect(screen, NULL);
+    SDL_SetClipRect(screen, nullptr);
   else
     SDL_SetClipRect(screen, &cliprect_stack.back());
 }

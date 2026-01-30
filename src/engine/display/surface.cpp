@@ -218,7 +218,7 @@ Surface::blit(Surface src, int x_pos, int y_pos)
     dstrect.x = static_cast<Sint16>(x_pos);
     dstrect.y = static_cast<Sint16>(y_pos);
 
-    SDL_BlitSurface(src.get_surface(), NULL, get_surface(), &dstrect);
+    SDL_BlitSurface(src.get_surface(), nullptr, get_surface(), &dstrect);
   }
 }
 
@@ -279,12 +279,12 @@ Surface::get_pitch() const
 SDL_Surface*
 Surface::get_surface() const
 {
-  return impl ? impl->surface : 0;
+  return impl ? impl->surface : nullptr;
 }
 
 Surface::operator bool() const
 {
-  return impl ? impl->surface != NULL : false;
+  return impl ? impl->surface != nullptr : false;
 }
 
 Color
@@ -387,12 +387,12 @@ Surface::clone() const
   {
     Uint8 alpha = impl->surface->format->alpha;
     SDL_SetAlpha(impl->surface, 0, 0);
-    SDL_BlitSurface(impl->surface, NULL, new_surface, NULL);
+    SDL_BlitSurface(impl->surface, nullptr, new_surface, nullptr);
     SDL_SetAlpha(impl->surface, SDL_SRCALPHA, alpha);
   }
   else
   {
-    SDL_BlitSurface(impl->surface, NULL, new_surface, NULL);
+    SDL_BlitSurface(impl->surface, nullptr, new_surface, nullptr);
   }
 
   return Surface(std::shared_ptr<SurfaceImpl>(new SurfaceImpl(new_surface)));
@@ -483,7 +483,7 @@ Surface::convert_to_rgba() const
 {
   SDL_Surface* surface = Blitter::create_surface_rgba(impl->surface->w, impl->surface->h);
   SDL_SetAlpha(impl->surface, 0, 0);
-  SDL_BlitSurface(impl->surface, NULL, surface, NULL);
+  SDL_BlitSurface(impl->surface, nullptr, surface, nullptr);
   return Surface(surface);
 }
 
@@ -492,7 +492,7 @@ Surface::convert_to_rgb() const
 {
   SDL_Surface* surface = Blitter::create_surface_rgb(impl->surface->w, impl->surface->h);
   SDL_SetAlpha(impl->surface, 0, 0);
-  SDL_BlitSurface(impl->surface, NULL, surface, NULL);
+  SDL_BlitSurface(impl->surface, nullptr, surface, nullptr);
   return Surface(surface);
 }
 

@@ -14,7 +14,7 @@
 
 namespace Input {
 
-Controller* Controller::current_ = 0;
+Controller* Controller::current_ = nullptr;
 
 Controller*
 Controller::current()

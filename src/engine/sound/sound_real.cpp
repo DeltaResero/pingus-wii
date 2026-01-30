@@ -22,7 +22,7 @@
 namespace Sound {
 
 PingusSoundReal::PingusSoundReal() :
-  music_sample(0),
+  music_sample(nullptr),
   m_music_volume(1.0f),
   m_sound_volume(1.0f),
   m_master_volume(1.0f)
@@ -87,7 +87,7 @@ PingusSoundReal::real_stop_music ()
   {
     Mix_HaltMusic();
     Mix_FreeMusic(music_sample);
-    music_sample = 0;
+    music_sample = nullptr;
   }
 }
 

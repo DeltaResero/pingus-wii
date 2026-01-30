@@ -206,7 +206,7 @@ public:
 
   void on_pointer_leave()
   {
-    current_levelset = 0;
+    current_levelset = nullptr;
   }
 
   void on_pointer_move(int x, int y)
@@ -216,7 +216,7 @@ public:
 
     if (!list_rect.contains(Vector2i(x, y)))
     {
-      current_levelset = NULL;
+      current_levelset = nullptr;
     }
     else
     {
@@ -230,7 +230,7 @@ public:
         if (i >= 0 && i < static_cast<int>(levelsets.size()))
           current_levelset = levelsets[i].get();
         else
-          current_levelset = NULL;
+          current_levelset = nullptr;
       }
     }
   }
@@ -278,7 +278,7 @@ public:
     m_checkbox_marked(),
     m_checkbox_locked(),
     m_checkbox(),
-    levelset(0),
+    levelset(nullptr),
     current_level(-1),
     page(0),
     item_height(32),
