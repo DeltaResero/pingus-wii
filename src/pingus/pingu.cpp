@@ -11,6 +11,7 @@
 
 #include "pingus/pingu.hpp"
 
+#include <algorithm>
 #include <sstream>
 
 #include "engine/display/scene_context.hpp"
@@ -119,8 +120,8 @@ Pingu::set_velocity (const Vector3f& velocity_)
   velocity = velocity_;
 
   // crude terminal velocity
-  velocity.x = Math::clamp(-terminal_velocity, velocity.x, terminal_velocity);
-  velocity.y = Math::clamp(-terminal_velocity, velocity.y, terminal_velocity);
+  velocity.x = std::clamp(velocity.x, -terminal_velocity, terminal_velocity);
+  velocity.y = std::clamp(velocity.y, -terminal_velocity, terminal_velocity);
 }
 
 // Set the action of the pingu (bridger, blocker, bomber, etc.)

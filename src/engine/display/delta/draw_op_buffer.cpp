@@ -139,11 +139,11 @@ DrawOpBuffer::render(SDLFramebuffer& fb, DrawOpBuffer& frontbuffer)
     for(std::vector<Rect>::iterator i = changed_regions.begin(); i != changed_regions.end(); ++i)
     {
       // FIXME: It might be a good idea to remove empty rectangles here, so that merge_rectangles() can work smoother
-      i->left = Math::clamp(0, int(i->left), screen_size.width);
-      i->top  = Math::clamp(0, int(i->top),  screen_size.height);
+      i->left = std::clamp(int(i->left), 0, screen_size.width);
+      i->top  = std::clamp(int(i->top),  0, screen_size.height);
 
-      i->right  = Math::clamp(0, int(i->right),  screen_size.width);
-      i->bottom = Math::clamp(0, int(i->bottom), screen_size.height);
+      i->right  = std::clamp(int(i->right),  0, screen_size.width);
+      i->bottom = std::clamp(int(i->bottom), 0, screen_size.height);
     }
 
     if (!changed_regions.empty())

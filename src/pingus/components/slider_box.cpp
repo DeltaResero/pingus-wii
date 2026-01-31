@@ -11,6 +11,8 @@
 
 #include "pingus/components/slider_box.hpp"
 
+#include <algorithm>
+
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
@@ -75,7 +77,7 @@ SliderBox::on_pointer_move(int x, int /*y*/)
 
     value = m_steps * x / (rect.get_width() - 12);
 
-    value = Math::clamp(0, value, m_steps);
+    value = std::clamp(value, 0, m_steps);
 
     if (value != old_value && on_change)
       on_change(value*5); // scale to [0,100]

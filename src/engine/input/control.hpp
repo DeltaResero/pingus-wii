@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_INPUT_CONTROL_HPP
 #define HEADER_PINGUS_ENGINE_INPUT_CONTROL_HPP
 
+#include <algorithm>
 #include <vector>
 #include <memory>
 
@@ -256,7 +257,7 @@ public:
       new_pos += (*i)->get_pos();
     }
 
-    new_pos = Math::clamp(-1.0f, new_pos, 1.0f);
+    new_pos = std::clamp(new_pos, -1.0f, 1.0f);
 
     set_state(new_pos);
   }

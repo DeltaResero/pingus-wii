@@ -11,6 +11,7 @@
 
 #include "pingus/worldmap/worldmap.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 #include "engine/sound/sound.hpp"
@@ -94,7 +95,7 @@ Worldmap::draw(DrawingContext& gc)
     min = width - gc.get_width()/2;
     max = gc.get_width()/2;
   }
-  pingu_pos.x = Math::clamp(min, pingu_pos.x, max);
+  pingu_pos.x = std::clamp(pingu_pos.x, min, max);
 
   if (height >= gc.get_height())
   {
@@ -106,7 +107,7 @@ Worldmap::draw(DrawingContext& gc)
     min = height - gc.get_height()/2;
     max = gc.get_height()/2;
   }
-  pingu_pos.y = Math::clamp(min, pingu_pos.y, max);
+  pingu_pos.y = std::clamp(pingu_pos.y, min, max);
 
   gc_state.set_size(gc.get_width(), gc.get_height());
   gc_state.set_pos(Vector2i(pingu_pos.x, pingu_pos.y));
