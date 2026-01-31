@@ -33,20 +33,6 @@ float frand()
   return static_cast<float>(rand()) / (static_cast<float>(RAND_MAX) + 1.0f);
 }
 
-inline
-bool rand_bool()
-{
-  return rand()%2 == 0;
-}
-
-inline int round (float f)
-{
-  if (f >= 0.0f)
-    return int(f + 0.5f);
-  else
-    return int(f - 0.5f);
-}
-
 float abs(float v);
 float sin(float a);
 float cos(float a);
