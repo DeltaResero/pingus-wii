@@ -19,7 +19,7 @@
 #include "util/file_reader.hpp"
 #include "util/raise_exception.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 WorldmapStory::WorldmapStory(const FileReader& reader) :
   title(),
@@ -44,7 +44,7 @@ WorldmapStory::WorldmapStory(const FileReader& reader) :
     i->read_desc("surface", desc);
     i->read_string("text", text);
     // Translate the text and break it up.
-    text = StringFormat::break_line(text, 570, Fonts::chalk_normal);
+    text = StringFormat::break_line(text, 570, pingus::fonts::chalk_normal);
     pages.push_back(StoryPage(desc, text, page_name));
   }
   std::reverse(pages.begin(), pages.end());
@@ -53,6 +53,6 @@ WorldmapStory::WorldmapStory(const FileReader& reader) :
     raise_exception(std::runtime_error, "WorldmapStory: Worldmap does not include a valid story");
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

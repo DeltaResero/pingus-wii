@@ -21,7 +21,7 @@ class Server;
 class GameSession;
 class DrawingContext;
 
-class TimeDisplay : public GUI::Component
+class TimeDisplay : public pingus::gui::Component
 {
 private:
   Server*   server;

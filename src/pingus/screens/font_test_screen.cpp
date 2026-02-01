@@ -48,7 +48,7 @@ FontTestScreen::draw(DrawingContext& gc)
                          dark ? Color(0, 0, 0) : Color(200,200,200));
     }
 
-  gc.print_left(Fonts::chalk_large, Vector2i(10, 10), "Pingus - Font Test");
+  gc.print_left(pingus::fonts::chalk_large, Vector2i(10, 10), "Pingus - Font Test");
 
   gc.push_modelview();
   gc.translate(scroll.x, scroll.y);
@@ -94,17 +94,17 @@ FontTestScreen::draw(DrawingContext& gc)
 }
 
 void
-FontTestScreen::update(const Input::Event& event)
+FontTestScreen::update(const pingus::input::Event& event)
 {
   switch (event.type)
   {
-    case Input::BUTTON_EVENT_TYPE:
-      if (event.button.state == Input::BUTTON_PRESSED &&
-          event.button.name == Input::PRIMARY_BUTTON)
+    case pingus::input::BUTTON_EVENT_TYPE:
+      if (event.button.state == pingus::input::BUTTON_PRESSED &&
+          event.button.name == pingus::input::PRIMARY_BUTTON)
         dark = !dark;
       break;
 
-    case Input::SCROLLER_EVENT_TYPE:
+    case pingus::input::SCROLLER_EVENT_TYPE:
       scroll.x += static_cast<int>(event.scroll.x_delta);
       scroll.y += static_cast<int>(event.scroll.y_delta);
       break;

@@ -22,7 +22,7 @@ PingusCounter::PingusCounter(Server* s) :
   font(),
   background("core/buttons/info")
 {
-  font = Fonts::pingus_small_fixnum;
+  font = pingus::fonts::pingus_small_fixnum;
 }
 
 void

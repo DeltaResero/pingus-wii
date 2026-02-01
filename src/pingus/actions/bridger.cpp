@@ -18,7 +18,7 @@
 #include "pingus/worldobj.hpp"
 #include "util/string_util.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Bridger::Bridger (Pingu* p) :
   PinguAction(p),
@@ -190,7 +190,7 @@ Bridger::place_a_brick()
   name = "Bridger" + std::string(" (") + StringUtil::to_string(bricks) + ")";
 
   if (bricks < 4)
-    Sound::PingusSound::play_sound("ting");
+    pingus::sound::PingusSound::play_sound("ting");
 
   if (pingu->direction.is_right())
   {
@@ -221,6 +221,6 @@ Bridger::get_name () const
   return name;
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

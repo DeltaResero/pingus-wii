@@ -50,7 +50,7 @@ void
 ConfigManager::set_master_volume(int v)
 {
   log_info("ConfigManager::set_master_volume: {}", v);
-  Sound::PingusSound::set_master_volume(static_cast<float>(v) / 100.0f);
+  pingus::sound::PingusSound::set_master_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.master_volume.set(get_master_volume());
 }
@@ -58,14 +58,14 @@ ConfigManager::set_master_volume(int v)
 int
 ConfigManager::get_master_volume() const
 {
-  return static_cast<int>(Sound::PingusSound::get_master_volume() * 100);
+  return static_cast<int>(pingus::sound::PingusSound::get_master_volume() * 100);
 }
 
 void
 ConfigManager::set_sound_volume(int v)
 {
   log_info("ConfigManager::set_sound_volume: {}", v);
-  Sound::PingusSound::set_sound_volume(static_cast<float>(v) / 100.0f);
+  pingus::sound::PingusSound::set_sound_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.sound_volume.set(get_sound_volume());
 }
@@ -73,14 +73,14 @@ ConfigManager::set_sound_volume(int v)
 int
 ConfigManager::get_sound_volume() const
 {
-  return static_cast<int>(Sound::PingusSound::get_sound_volume() * 100);
+  return static_cast<int>(pingus::sound::PingusSound::get_sound_volume() * 100);
 }
 
 void
 ConfigManager::set_music_volume(int v)
 {
   log_info("ConfigManager::set_music_volume: {}", v);
-  Sound::PingusSound::set_music_volume(static_cast<float>(v) / 100.0f);
+  pingus::sound::PingusSound::set_music_volume(static_cast<float>(v) / 100.0f);
 
   m_opts.music_volume.set(get_music_volume());
 }
@@ -88,7 +88,7 @@ ConfigManager::set_music_volume(int v)
 int
 ConfigManager::get_music_volume() const
 {
-  return static_cast<int>(Sound::PingusSound::get_music_volume() * 100);
+  return static_cast<int>(pingus::sound::PingusSound::get_music_volume() * 100);
 }
 
 void

@@ -23,10 +23,10 @@
 #include "pingus/worldmap/worldmap.hpp"
 #include "pingus/worldmap/worldmap_component.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class WorldmapScreenCloseButton
-  : public GUI::SurfaceButton
+  : public pingus::gui::SurfaceButton
 {
 private:
   WorldmapScreen* worldmap_screen;
@@ -42,7 +42,7 @@ private:
 };
 
 class WorldmapScreenCreditsButton
-  : public GUI::SurfaceButton
+  : public pingus::gui::SurfaceButton
 {
 private:
   WorldmapScreen* worldmap_screen;
@@ -58,7 +58,7 @@ private:
 };
 
 WorldmapScreenCreditsButton::WorldmapScreenCreditsButton(WorldmapScreen* worldmap_screen_) :
-  GUI::SurfaceButton(Display::get_width() - 150, 0,
+  pingus::gui::SurfaceButton(Display::get_width() - 150, 0,
                      "core/worldmap/credits_button_normal",
                      "core/worldmap/credits_button_pressed",
                      "core/worldmap/credits_button_hover"),
@@ -70,14 +70,14 @@ void
 WorldmapScreenCreditsButton::on_pointer_enter()
 {
   SurfaceButton::on_pointer_enter();
-  Sound::PingusSound::play_sound ("tick");
+  pingus::sound::PingusSound::play_sound ("tick");
 }
 
 void
 WorldmapScreenCreditsButton::draw (DrawingContext& gc)
 {
   SurfaceButton::draw(gc);
-  gc.print_center(Fonts::chalk_small, Vector2i(Display::get_width() - 59 - 24, 2), "Show Ending?");
+  gc.print_center(pingus::fonts::chalk_small, Vector2i(Display::get_width() - 59 - 24, 2), "Show Ending?");
 }
 
 void
@@ -87,7 +87,7 @@ WorldmapScreenCreditsButton::on_click()
 }
 
 WorldmapScreenCloseButton::WorldmapScreenCloseButton(WorldmapScreen* worldmap_screen_) :
-  GUI::SurfaceButton(0, Display::get_height() - 37,
+  pingus::gui::SurfaceButton(0, Display::get_height() - 37,
                      "core/worldmap/leave_button_normal",
                      "core/worldmap/leave_button_pressed",
                      "core/worldmap/leave_button_hover"),
@@ -99,14 +99,14 @@ void
 WorldmapScreenCloseButton::on_pointer_enter()
 {
   SurfaceButton::on_pointer_enter();
-  Sound::PingusSound::play_sound ("tick");
+  pingus::sound::PingusSound::play_sound ("tick");
 }
 
 void
 WorldmapScreenCloseButton::draw (DrawingContext& gc)
 {
   SurfaceButton::draw(gc);
-  gc.print_center(Fonts::chalk_small, Vector2i(44, Display::get_height() - 25), "Leave?");
+  gc.print_center(pingus::fonts::chalk_small, Vector2i(44, Display::get_height() - 25), "Leave?");
 }
 
 void
@@ -153,7 +153,7 @@ void
 WorldmapScreen::on_startup ()
 {
   exit_worldmap = false;
-  Sound::PingusSound::stop_music();
+  pingus::sound::PingusSound::stop_music();
 
   if (worldmap.get())
     worldmap->on_startup ();
@@ -227,6 +227,6 @@ WorldmapScreen::on_fast_forward_release()
   m_worldmap_component->on_fast_forward_release();
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

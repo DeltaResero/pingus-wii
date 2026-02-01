@@ -19,7 +19,7 @@
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
 
-namespace Sound {
+namespace pingus::sound {
 
 PingusSoundReal::PingusSoundReal() :
   music_sample(nullptr),
@@ -161,6 +161,6 @@ PingusSoundReal::get_master_volume() const
   return m_master_volume;
 }
 
-} // namespace Sound
+} // namespace pingus::sound
 
 // EOF

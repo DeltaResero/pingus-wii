@@ -25,7 +25,7 @@
 namespace pingus::editor {
 
 ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
-  GUI::GroupComponent(rect_, false),
+  gui::GroupComponent(rect_, false),
   editor(editor_),
   objects(),
   type_label(),
@@ -242,7 +242,7 @@ ObjectProperties::advance()
 }
 
 void
-ObjectProperties::place(GUI::RectComponent* comp)
+ObjectProperties::place(gui::RectComponent* comp)
 {
   Rect crect = comp->get_rect();
   comp->set_rect(Rect(crect.left,
@@ -253,7 +253,7 @@ ObjectProperties::place(GUI::RectComponent* comp)
 }
 
 void
-ObjectProperties::place(GUI::RectComponent* comp1, GUI::RectComponent* comp2)
+ObjectProperties::place(gui::RectComponent* comp1, gui::RectComponent* comp2)
 {
   Rect rect1 = comp1->get_rect();
   Rect rect2 = comp2->get_rect();

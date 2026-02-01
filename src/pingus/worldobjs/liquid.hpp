@@ -16,11 +16,11 @@
 #include "pingus/res_descriptor.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class LiquidData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class Liquid : public WorldObj
 {
@@ -53,7 +53,7 @@ private:
   Liquid& operator= (const Liquid&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

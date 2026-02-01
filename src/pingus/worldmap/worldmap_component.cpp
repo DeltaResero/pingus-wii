@@ -16,7 +16,7 @@
 #include "pingus/worldmap/worldmap.hpp"
 #include "pingus/worldmap/worldmap_screen.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 WorldmapComponent::WorldmapComponent(WorldmapScreen* worldmap_screen_) :
   scene_context(new SceneContext),
@@ -118,6 +118,6 @@ WorldmapComponent::on_fast_forward_release()
   m_fast_forward = false;
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

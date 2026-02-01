@@ -15,7 +15,7 @@
 #include "pingus/groundtype.hpp"
 #include "pingus/pingu.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Climber::Climber (Pingu* p) :
   PinguAction(p),
@@ -102,6 +102,6 @@ Climber::change_allowed(ActionName::Enum new_action)
     (new_action == ActionName::JUMPER);
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

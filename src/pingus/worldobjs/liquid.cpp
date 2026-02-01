@@ -15,7 +15,7 @@
 #include "pingus/collision_map.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 Liquid::Liquid(const FileReader& reader) :
   sur(),
@@ -71,6 +71,6 @@ Liquid::update()
   sur.update(0.033f);
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

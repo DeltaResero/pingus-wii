@@ -21,7 +21,7 @@
 #include "pingus/world.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 Smasher::Smasher(const FileReader& reader) :
   sprite("traps/smasher"),
@@ -61,7 +61,7 @@ Smasher::update ()
         // SMASH!!! The thing hitten earth and kills the pingus
         downwards = false;
         --count;
-        Sound::PingusSound::play_sound("tenton");
+        pingus::sound::PingusSound::play_sound("tenton");
 
         for(int i=0; i < 20; ++i)
         {
@@ -141,6 +141,6 @@ Smasher::catch_pingu (Pingu* pingu)
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

@@ -30,18 +30,18 @@ int main()
 
     SDL_Surface* screen = SDL_SetVideoMode(640, 480, 0, 0);
 
-    Input::Manager manager;
+    pingus::input::Manager manager;
 
-    Input::ControllerPtr controller
+    pingus::input::ControllerPtr controller
       = manager.create_controller(Pathname("../data/controller/input2.scm", Pathname::SYSTEM_PATH));
 
     while(true)
     {
-      std::vector<Input::Event> events;
+      std::vector<pingus::input::Event> events;
 
       controller->poll_events(events);
 
-      for(std::vector<Input::Event>::iterator i = events.begin(); i != events.end(); ++i)
+      for(std::vector<pingus::input::Event>::iterator i = events.begin(); i != events.end(); ++i)
       {
         // insert code here
       }

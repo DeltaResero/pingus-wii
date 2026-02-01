@@ -16,13 +16,13 @@
 #include "pingus/direction.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class GuillotineData;
 }
 
 class Pingu;
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class Guillotine : public WorldObj
 {
@@ -52,7 +52,7 @@ private:
   Guillotine& operator=(const Guillotine&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

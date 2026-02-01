@@ -11,7 +11,7 @@
 
 #include "engine/gui/group_component.hpp"
 
-namespace GUI {
+namespace pingus::gui {
 
 GroupComponent*
 Component::get_parent() const
@@ -40,6 +40,6 @@ Component::ungrab()
     parent->ungrab(this);
 }
 
-} // namespace GUI
+} // namespace pingus::gui
 
 // EOF

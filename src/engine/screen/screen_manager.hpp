@@ -19,7 +19,7 @@
 #include "engine/display/sprite.hpp"
 #include "math/vector2f.hpp"
 
-namespace Input {
+namespace pingus::input {
 class Manager;
 struct Event;
 class Controller;
@@ -38,8 +38,8 @@ private:
   static ScreenManager* instance_;
 
 private:
-  Input::Manager& input_manager;
-  Input::ControllerPtr input_controller;
+  pingus::input::Manager& input_manager;
+  pingus::input::ControllerPtr input_controller;
 
   std::unique_ptr<DrawingContext> display_gc;
 
@@ -57,8 +57,8 @@ private:
   bool playback_input;
 
 public:
-  ScreenManager(Input::Manager& input_manager,
-                Input::ControllerPtr arg_input_controller);
+  ScreenManager(pingus::input::Manager& input_manager,
+                pingus::input::ControllerPtr arg_input_controller);
   ~ScreenManager();
 
   void resize(const Size& size);
@@ -67,7 +67,7 @@ public:
       not return until the somebody signals a quit() */
   void display();
 
-  void update(float delta, const std::vector<Input::Event>& events);
+  void update(float delta, const std::vector<pingus::input::Event>& events);
 
   /** Replace the current screen */
   void replace_screen(ScreenPtr screen);

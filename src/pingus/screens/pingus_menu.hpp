@@ -18,9 +18,9 @@
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/fonts.hpp"
 
-namespace GUI {
+namespace pingus::gui {
 class GUIManager;
-} // namespace GUI
+} // namespace pingus::gui
 
 class SurfaceButton;
 class GameDelta;

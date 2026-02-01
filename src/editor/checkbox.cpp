@@ -37,9 +37,9 @@ Checkbox::draw(DrawingContext& gc)
     GUIStyle::draw_raised_box(gc, rect);
 
   if (!label.empty())
-    gc.print_center(Fonts::verdana11,
+    gc.print_center(pingus::fonts::verdana11,
                     Vector2i(rect.left + rect.get_width()/2,
-                             rect.top + rect.get_height()/2 - Fonts::verdana11.get_height()/2),
+                             rect.top + rect.get_height()/2 - pingus::fonts::verdana11.get_height()/2),
                     label);
 }
 

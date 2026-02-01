@@ -19,7 +19,7 @@
 #include "pingus/worldobjs/switch_door_door.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 SwitchDoorSwitch::SwitchDoorSwitch(const FileReader& reader) :
   switch_pos(),
@@ -79,6 +79,6 @@ SwitchDoorSwitch::update ()
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

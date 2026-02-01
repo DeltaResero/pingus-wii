@@ -17,7 +17,7 @@
 #include "pingus/world.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 RainGenerator::RainGenerator (const FileReader& /*reader*/) :
   do_thunder(false),
@@ -54,7 +54,7 @@ RainGenerator::update()
     do_thunder = true;
     thunder_count = 1.0f;
     waiter_count = 1.0f;
-    Sound::PingusSound::play_sound ("thunder");
+    pingus::sound::PingusSound::play_sound ("thunder");
   }
 
   if (do_thunder)
@@ -66,6 +66,6 @@ RainGenerator::update()
     world->get_rain_particle_holder()->add_particle(rand() % (world->get_width() * 2), -32);
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

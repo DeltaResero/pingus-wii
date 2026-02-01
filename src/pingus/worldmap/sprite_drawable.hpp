@@ -16,7 +16,7 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldmap/drawable.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class SpriteDrawable : public Drawable
 {
@@ -39,7 +39,7 @@ private:
   SpriteDrawable& operator= (const SpriteDrawable&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

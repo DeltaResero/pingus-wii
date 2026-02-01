@@ -16,7 +16,7 @@
 #include "util/pathname.hpp"
 #include "util/raise_exception.hpp"
 
-using namespace WorldmapNS;
+using namespace pingus::worldmap;
 
 class PingusWorldmapImpl
 {

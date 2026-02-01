@@ -14,7 +14,7 @@
 #include "engine/display/scene_context.hpp"
 #include "pingus/pingu.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Smashed::Smashed (Pingu* p) :
   PinguAction(p),
@@ -39,6 +39,6 @@ Smashed::update()
     pingu->set_status(Pingu::PS_DEAD);
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

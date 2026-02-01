@@ -11,7 +11,7 @@
 
 #include "pingus/worldmap/path.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 Path::Path() :
   vec(),
@@ -97,6 +97,6 @@ Path::reverse()
   std::reverse(vec.begin (), vec.end ());
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

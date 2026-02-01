@@ -17,7 +17,7 @@
 #include "pingus/pingu_holder.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 FakeExit::FakeExit(const FileReader& reader) :
   surface("traps/fake_exit"),
@@ -80,6 +80,6 @@ FakeExit::draw_smallmap(SmallMap* smallmap)
   smallmap->draw_sprite(smallmap_symbol, pos);
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

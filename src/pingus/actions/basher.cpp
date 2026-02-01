@@ -20,7 +20,7 @@
 #include "pingus/worldobj.hpp"
 #include "util/log.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Basher::Basher (Pingu* p) :
   PinguAction(p),
@@ -81,7 +81,7 @@ Basher::update ()
           || rel_getpixel(0, pingu_height) == Groundtype::GP_SOLID)
       {
         // Change direction and let walk code walk forward/up to get out.
-        Sound::PingusSound::play_sound("chink");
+        pingus::sound::PingusSound::play_sound("chink");
         pingu->direction.change();
         pingu->set_action(ActionName::WALKER);
       }
@@ -166,6 +166,6 @@ Basher::have_something_to_dig()
   }
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

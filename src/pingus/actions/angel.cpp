@@ -15,7 +15,7 @@
 #include "pingus/globals.hpp"
 #include "pingus/pingu.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Angel::Angel (Pingu* p)
   : PinguAction(p),
@@ -44,6 +44,6 @@ Angel::draw (SceneContext& gc)
   gc.color().draw (sprite, pingu->get_pos ());
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

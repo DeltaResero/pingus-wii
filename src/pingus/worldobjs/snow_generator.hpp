@@ -14,11 +14,11 @@
 
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class SnowGeneratorData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class SnowGenerator : public WorldObj
 {
@@ -42,7 +42,7 @@ private:
   SnowGenerator& operator= (const SnowGenerator&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

@@ -19,7 +19,7 @@
 #include "pingus/worldobj.hpp"
 #include "util/log.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Miner::Miner (Pingu* p) :
   PinguAction(p),
@@ -55,7 +55,7 @@ Miner::update ()
     {
       // stop mining when hitting solid ground
       if (rel_getpixel(0, -1) == Groundtype::GP_SOLID)
-        Sound::PingusSound::play_sound("chink");
+        pingus::sound::PingusSound::play_sound("chink");
 
       mine(true);
 
@@ -103,6 +103,6 @@ Miner::draw (SceneContext& gc)
   gc.color().draw(sprite[pingu->direction], pingu->get_pos());
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

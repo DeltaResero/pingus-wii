@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_GUI_BUTTON_HPP
 #define HEADER_PINGUS_ENGINE_GUI_BUTTON_HPP
 
-namespace GUI {
+namespace pingus::gui {
 
 class Button
 {
@@ -28,7 +28,7 @@ public:
   void on_pointer_leave ();
 };
 
-} // namespace GUI
+} // namespace pingus::gui
 
 #endif
 

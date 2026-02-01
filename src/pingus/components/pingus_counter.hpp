@@ -20,7 +20,7 @@ class DrawingContext;
 class World;
 class Server;
 
-class PingusCounter : public GUI::Component
+class PingusCounter : public pingus::gui::Component
 {
 private:
   Server* server;

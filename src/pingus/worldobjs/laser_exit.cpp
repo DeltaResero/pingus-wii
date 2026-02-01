@@ -16,7 +16,7 @@
 #include "pingus/pingu_holder.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 LaserExit::LaserExit(const FileReader& reader) :
   surface("traps/laser_exit"),
@@ -74,6 +74,6 @@ LaserExit::catch_pingu (Pingu* pingu)
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

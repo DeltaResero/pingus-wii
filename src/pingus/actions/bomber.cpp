@@ -19,7 +19,7 @@
 #include "pingus/pingu_enums.hpp"
 #include "pingus/world.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Bomber::Bomber (Pingu* p) :
   PinguAction(p),
@@ -54,12 +54,12 @@ Bomber::update ()
 {
   sprite.update ();
 
-  Movers::LinearMover mover(WorldObj::get_world(), pingu->get_pos());
+  movers::LinearMover mover(WorldObj::get_world(), pingu->get_pos());
 
   Vector3f velocity = pingu->get_velocity();
 
   // Move the Pingu
-  mover.update(velocity, Colliders::PinguCollider(pingu_height));
+  mover.update(velocity, colliders::PinguCollider(pingu_height));
 
   pingu->set_pos(mover.get_pos());
 
@@ -107,6 +107,6 @@ Bomber::update ()
   }
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

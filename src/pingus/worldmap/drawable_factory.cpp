@@ -14,7 +14,7 @@
 #include "pingus/worldmap/sprite_drawable.hpp"
 #include "util/log.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 std::unique_ptr<Drawable>
 DrawableFactory::create(const FileReader& reader)
@@ -30,6 +30,6 @@ DrawableFactory::create(const FileReader& reader)
   }
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

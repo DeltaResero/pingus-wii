@@ -39,7 +39,7 @@
 #include "util/log.hpp"
 #include "util/overrride_file_reader.hpp"
 
-using namespace WorldObjs;
+using namespace pingus::worldobjs;
 
 std::unique_ptr<WorldObjFactory> WorldObjFactory::instance_;
 

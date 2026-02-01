@@ -17,7 +17,7 @@
 #include "engine/input/manager.hpp"
 #include "util/log.hpp"
 
-namespace Input {
+namespace pingus::input {
 
 class AxisPointer : public Pointer
 {
@@ -362,6 +362,6 @@ CoreDriver::create_keyboard(const FileReader& /*reader*/, Control* /*parent*/)
   return nullptr;
 }
 
-} // namespace Input
+} // namespace pingus::input
 
 // EOF

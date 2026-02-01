@@ -17,7 +17,7 @@
 #include "pingus/pingu_holder.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 SwitchDoorDoor::SwitchDoorDoor(const FileReader& reader) :
   WorldObj(reader),
@@ -96,6 +96,6 @@ SwitchDoorDoor::open_door()
   is_opening = true;
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

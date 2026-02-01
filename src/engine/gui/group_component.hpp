@@ -16,7 +16,7 @@
 #include "engine/display/drawing_context.hpp"
 #include "engine/gui/rect_component.hpp"
 
-namespace GUI {
+namespace pingus::gui {
 
 class GroupComponent : public RectComponent
 {
@@ -56,7 +56,7 @@ public:
   void on_primary_button_click(int /*x*/, int /*y*/) {}
   void on_secondary_button_click(int /*x*/, int /*y*/) {}
 
-  void on_key_pressed(const Input::KeyboardEvent& ev);
+  void on_key_pressed(const pingus::input::KeyboardEvent& ev);
 
   void on_pointer_enter();
   void on_pointer_leave();
@@ -89,7 +89,7 @@ private:
   GroupComponent& operator=(const GroupComponent&);
 };
 
-} // namespace GUI
+} // namespace pingus::gui
 
 #endif
 

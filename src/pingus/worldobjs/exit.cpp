@@ -19,7 +19,7 @@
 #include "pingus/world.hpp"
 #include "util/string_util.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 Exit::Exit(const FileReader& reader) :
   desc(),
@@ -102,6 +102,6 @@ Exit::get_z_pos () const
   return pos.z;
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

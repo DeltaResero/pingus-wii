@@ -15,7 +15,7 @@
 #include <memory>
 #include "engine/input/driver.hpp"
 
-namespace Input {
+namespace pingus::input {
 
 class Manager;
 
@@ -42,7 +42,7 @@ private:
   CoreDriver & operator=(const CoreDriver&);
 };
 
-} // namespace Input
+} // namespace pingus::input
 
 #endif
 

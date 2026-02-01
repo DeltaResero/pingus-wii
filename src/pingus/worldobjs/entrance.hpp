@@ -15,13 +15,13 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class EntranceData;
 }
 
 class Pingu;
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 /** A abstract representation of an entrance, the implementation
     currently sucks and needs to be rewritten */
@@ -64,7 +64,7 @@ private:
   Entrance& operator= (const Entrance&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

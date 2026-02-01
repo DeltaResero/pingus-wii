@@ -14,7 +14,7 @@
 #include "engine/display/scene_context.hpp"
 #include "pingus/res_descriptor.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 Hotspot::Hotspot(const FileReader& reader) :
   sprite(),
@@ -53,6 +53,6 @@ Hotspot::get_z_pos () const
   return pos.z;
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

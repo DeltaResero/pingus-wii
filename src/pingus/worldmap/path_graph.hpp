@@ -21,7 +21,7 @@
 #include "pingus/worldmap/pathfinder.hpp"
 #include "util/file_reader.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class Dot;
 class Worldmap;
@@ -84,7 +84,7 @@ private:
   PathGraph& operator= (const PathGraph&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

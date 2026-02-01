@@ -40,8 +40,8 @@ MenuButton::MenuButton(PingusMenu* menu_,
   x_pos = pos_.x;
   y_pos = pos_.y;
 
-  font       = Fonts::pingus_small;
-  font_large = Fonts::chalk_large;
+  font       = pingus::fonts::pingus_small;
+  font_large = pingus::fonts::chalk_large;
 
   mouse_over = false;
   pressed    = false;
@@ -83,7 +83,7 @@ void
 MenuButton::on_pointer_enter ()
 {
   mouse_over = true;
-  Sound::PingusSound::play_sound ("tick");
+  pingus::sound::PingusSound::play_sound ("tick");
   //log_info("X: {} enter", (void*)this);
   menu->set_hint(desc);
 }

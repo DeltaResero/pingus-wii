@@ -15,7 +15,7 @@
 #include <memory>
 #include <string>
 
-namespace Input {
+namespace pingus::input {
 
 class Driver;
 class Manager;
@@ -31,7 +31,7 @@ private:
   DriverFactory& operator=(const DriverFactory&);
 };
 
-} // namespace Input
+} // namespace pingus::input
 
 #endif
 

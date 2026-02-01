@@ -19,7 +19,7 @@
 #include "util/raise_exception.hpp"
 #include "util/string_util.hpp"
 
-namespace Input {
+namespace pingus::input {
 
 Manager::Manager() :
   drivers(),
@@ -317,6 +317,6 @@ Manager::create_keyboard(const FileReader& reader, Control* parent)
   }
 }
 
-} // namespace Input
+} // namespace pingus::input
 
 // EOF

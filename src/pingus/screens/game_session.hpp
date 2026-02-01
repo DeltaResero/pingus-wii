@@ -18,7 +18,7 @@
 #include "pingus/action_name.hpp"
 #include "pingus/pingus_level.hpp"
 
-namespace Input {
+namespace pingus::input {
 struct ScrollEvent;
 struct AxisEvent;
 struct Event;
@@ -82,7 +82,7 @@ public:
 
   /** Update all parts of the world */
   void update (float delta);
-  void update (const Input::Event& event);
+  void update (const pingus::input::Event& event);
   void draw_background (DrawingContext& gc);
 
   ButtonPanel* get_button_panel () { return button_panel; }
@@ -109,8 +109,8 @@ public:
   void resize(const Size&);
 
 private:
-  void process_scroll_event (const Input::ScrollEvent&);
-  void process_axis_event (const Input::AxisEvent&);
+  void process_scroll_event (const pingus::input::ScrollEvent&);
+  void process_axis_event (const pingus::input::AxisEvent&);
 
 private:
   GameSession (const GameSession&);

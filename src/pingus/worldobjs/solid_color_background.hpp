@@ -15,11 +15,11 @@
 #include "math/color.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class SolidColorBackgroundData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class SolidColorBackground : public WorldObj
 {
@@ -43,7 +43,7 @@ private:
   SolidColorBackground& operator= (const SolidColorBackground&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

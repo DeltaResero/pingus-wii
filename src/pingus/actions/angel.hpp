@@ -15,7 +15,7 @@
 #include "engine/display/sprite.hpp"
 #include "pingus/pingu_action.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 class Angel : public PinguAction
 {
@@ -37,7 +37,7 @@ private:
   Angel& operator= (const Angel&);
 };
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 #endif
 

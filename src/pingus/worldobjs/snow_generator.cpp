@@ -15,7 +15,7 @@
 #include "pingus/particles/snow_particle_holder.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 SnowGenerator::SnowGenerator(const FileReader& reader) :
   intensity(1.0f)
@@ -61,6 +61,6 @@ SnowGenerator::on_startup()
 #endif
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

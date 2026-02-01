@@ -112,7 +112,7 @@ EditorScreen::~EditorScreen()
 void
 EditorScreen::on_startup ()
 {
-  Sound::PingusSound::stop_music();
+  pingus::sound::PingusSound::stop_music();
 }
 
 // Close the current screen
@@ -221,14 +221,14 @@ EditorScreen::draw(DrawingContext& gc)
                           gc.get_height()/2 + size_.height/2),
                      Color(255,255,255));
 
-    gc.print_center(Fonts::verdana11,
+    gc.print_center(pingus::fonts::verdana11,
                     Vector2i(gc.get_width()/2,
                              gc.get_height()/2 - size_.height/2 + 12),
                     "== Editor Help ==");
 
     int x = gc.get_width()/2 - size_.width/2 + 12;
     int y = gc.get_height()/2 - size_.height/2 + 36;
-    gc.print_center(Fonts::verdana11, Vector2i(x + 75, y),
+    gc.print_center(pingus::fonts::verdana11, Vector2i(x + 75, y),
                     "A\n"
                     "Shift+A\n"
                     "PageUp, ], w\n"
@@ -241,7 +241,7 @@ EditorScreen::draw(DrawingContext& gc)
                     "Shift+G\n"
       );
 
-    gc.print_left(Fonts::verdana11, Vector2i(x+150, y),
+    gc.print_left(pingus::fonts::verdana11, Vector2i(x+150, y),
                   "Select all\n"
                   "Clear Selection\n"
                   "Raise objects\n"
@@ -255,7 +255,7 @@ EditorScreen::draw(DrawingContext& gc)
 
     x = int(gc.get_width()/2 + 12);
     y = int(gc.get_height()/2) - size_.height/2 + 36;
-    gc.print_center(Fonts::verdana11, Vector2i(x + 50, y),
+    gc.print_center(pingus::fonts::verdana11, Vector2i(x + 50, y),
                     "F\n"
                     "Shift+F\n"
                     "Delete, Backspace\n"
@@ -264,7 +264,7 @@ EditorScreen::draw(DrawingContext& gc)
                     "B, Shift+B\n"
                     "=, +, -\n");
 
-    gc.print_left(Fonts::verdana11, Vector2i(x + 125, y),
+    gc.print_left(pingus::fonts::verdana11, Vector2i(x + 125, y),
                   "Flip object horizontaly\n"
                   "Flip object vertically\n"
                   "Delete all marked objects\n"
@@ -273,7 +273,7 @@ EditorScreen::draw(DrawingContext& gc)
                   "Toggle background color\n"
                   "Increase/lower repeat\n");
 
-    gc.print_left(Fonts::verdana11,
+    gc.print_left(pingus::fonts::verdana11,
                   Vector2i(gc.get_width()/2 - size_.width/2 + 12,
                            gc.get_height()/2 - 10),
                   "You should name your level files systematically, i.e. by their theme, "
@@ -293,13 +293,13 @@ EditorScreen::draw(DrawingContext& gc)
 }
 
 void
-EditorScreen::update(const Input::Event& event)
+EditorScreen::update(const input::Event& event)
 {
   GUIScreen::update(event);
 
   switch (event.type)
   {
-    case Input::SCROLLER_EVENT_TYPE:
+    case input::SCROLLER_EVENT_TYPE:
       viewport->set_scroll_pos(viewport->get_scroll_pos() -
                                Vector2i(static_cast<int>(event.scroll.x_delta),
                                         static_cast<int>(event.scroll.y_delta)));

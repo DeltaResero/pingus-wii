@@ -21,7 +21,7 @@
 
 class Server;
 
-class ButtonPanel : public GUI::RectComponent
+class ButtonPanel : public pingus::gui::RectComponent
 {
 private:
   struct ActionButton

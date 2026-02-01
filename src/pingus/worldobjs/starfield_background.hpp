@@ -16,11 +16,11 @@
 
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class StarfieldBackgroundData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class StarfieldBackgroundStars;
 
@@ -50,7 +50,7 @@ private:
   StarfieldBackground& operator= (const StarfieldBackground&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

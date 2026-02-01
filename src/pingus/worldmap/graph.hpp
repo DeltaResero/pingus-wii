@@ -18,7 +18,7 @@
 
 #include "util/log.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 typedef int NodeId;
 typedef int EdgeId;
@@ -190,7 +190,7 @@ public:
   }
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

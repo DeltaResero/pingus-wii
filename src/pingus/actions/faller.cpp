@@ -19,7 +19,7 @@
 #include "pingus/world.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Faller::Faller (Pingu* p) :
   PinguAction(p),
@@ -67,10 +67,10 @@ Faller::update ()
   Vector3f move = velocity;
   bool collided;
 
-  Movers::LinearMover mover(WorldObj::get_world(), pingu->get_pos());
+  movers::LinearMover mover(WorldObj::get_world(), pingu->get_pos());
 
   // Move the Pingu as far is it can go
-  mover.update(move, Colliders::PinguCollider(pingu_height));
+  mover.update(move, colliders::PinguCollider(pingu_height));
 
   pingu->set_pos(mover.get_pos());
 
@@ -161,6 +161,6 @@ Faller::change_allowed (ActionName::Enum new_action)
     new_action == ActionName::BOMBER;
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

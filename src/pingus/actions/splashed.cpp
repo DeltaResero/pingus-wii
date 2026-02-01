@@ -16,7 +16,7 @@
 #include "pingus/world.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Splashed::Splashed (Pingu* p) :
   PinguAction(p),
@@ -50,6 +50,6 @@ Splashed::draw (SceneContext& gc)
   gc.color().draw(sprite, pingu->get_pos ());
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

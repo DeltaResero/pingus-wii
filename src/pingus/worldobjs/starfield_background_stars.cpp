@@ -15,7 +15,7 @@
 #include "pingus/globals.hpp"
 #include "pingus/world.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 StarfieldBackgroundStars::StarfieldBackgroundStars (Type type) :
   sur(),
@@ -63,6 +63,6 @@ StarfieldBackgroundStars::draw (SceneContext& gc)
   gc.color().draw(sur, Vector3f (x_pos, y_pos));
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

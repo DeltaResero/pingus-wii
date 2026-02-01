@@ -14,7 +14,7 @@
 
 #include "pingus/collider.hpp"
 
-namespace Colliders {
+namespace pingus::colliders {
 
 class PinguCollider : public Collider
 {
@@ -36,7 +36,7 @@ private:
   int height;
 };
 
-} // namespace Colliders
+} // namespace pingus::colliders
 
 #endif
 

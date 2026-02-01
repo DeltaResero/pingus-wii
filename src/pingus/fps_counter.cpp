@@ -36,7 +36,7 @@ void
 FPSCounter::draw()
 {
   update_fps_counter();
-  Fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
+  pingus::fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
 }
 
 void

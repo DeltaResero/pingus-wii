@@ -17,7 +17,7 @@
 #include "pingus/world.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 ConveyorBelt::ConveyorBelt(const FileReader& reader) :
   left_sur  (Sprite ("worldobjs/conveyorbelt_left")),
@@ -91,6 +91,6 @@ ConveyorBelt::get_z_pos () const
   return pos.z;
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

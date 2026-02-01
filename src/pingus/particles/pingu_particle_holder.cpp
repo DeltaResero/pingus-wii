@@ -15,7 +15,7 @@
 #include "pingus/collision_map.hpp"
 #include "pingus/world.hpp"
 
-namespace Particles {
+namespace pingus::particles {
 
 const float x_collision_decrease = 0.3f;
 const float y_collision_decrease = 0.6f;
@@ -152,6 +152,6 @@ PinguParticleHolder::draw (SceneContext& gc)
   }
 }
 
-} // namespace Particles
+} // namespace pingus::particles
 
 // EOF

@@ -16,13 +16,13 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class LaserExitData;
-} // namespace WorldObjsData
+} // namespace pingus::worldobjsData
 
 class Pingu;
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class LaserExit : public WorldObj
 {
@@ -50,7 +50,7 @@ private:
   LaserExit& operator= (const LaserExit&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

@@ -90,7 +90,7 @@ FileDialog::draw_background(DrawingContext& gc)
   // Window border and title
   GUIStyle::draw_raised_box(gc, Rect(0,0,rect.get_width(), rect.get_height()));
   gc.draw_fillrect(Rect(4,4,rect.get_width()-4, 30), Color(77,130,180));
-  gc.print_center(Fonts::pingus_small, Vector2i(rect.get_width()/2, 2),
+  gc.print_center(pingus::fonts::pingus_small, Vector2i(rect.get_width()/2, 2),
                   mode == LOAD ? "Open a level" : "Save your level");
 }
 
@@ -179,7 +179,7 @@ FileDialog::on_down()
 void
 FileDialog::update_layout()
 {
-  GUI::GroupComponent::update_layout();
+  gui::GroupComponent::update_layout();
 
   file_list->set_rect(Rect(4, 30 + 30 + 30,
                            rect.get_width()-4 - 30, rect.get_height() - 4 - 35));

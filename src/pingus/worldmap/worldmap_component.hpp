@@ -18,12 +18,12 @@
 
 class SceneContext;
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class WorldmapScreen;
 class Worldmap;
 
-class WorldmapComponent : public GUI::Component
+class WorldmapComponent : public pingus::gui::Component
 {
 private:
   std::unique_ptr<SceneContext> scene_context;
@@ -51,7 +51,7 @@ private:
   WorldmapComponent& operator= (const WorldmapComponent&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

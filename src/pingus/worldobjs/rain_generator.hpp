@@ -14,7 +14,7 @@
 
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class RainGenerator : public WorldObj
 {
@@ -38,7 +38,7 @@ private:
   RainGenerator& operator= (const RainGenerator&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

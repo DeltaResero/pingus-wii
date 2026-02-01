@@ -15,11 +15,11 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class ConveyorBeltData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class ConveyorBelt : public  WorldObj
 {
@@ -48,7 +48,7 @@ private:
   ConveyorBelt& operator= (const ConveyorBelt&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

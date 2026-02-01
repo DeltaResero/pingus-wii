@@ -17,7 +17,7 @@
 
 #include "engine/input/event.hpp"
 
-namespace Input {
+namespace pingus::input {
 
 class ControllerDescription;
 class Controller;
@@ -79,7 +79,7 @@ private:
   Controller& operator= (const Controller&);
 };
 
-} // namespace Input
+} // namespace pingus::input
 
 #endif
 

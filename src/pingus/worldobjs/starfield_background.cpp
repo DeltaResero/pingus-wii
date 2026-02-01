@@ -13,7 +13,7 @@
 
 #include "pingus/worldobjs/starfield_background_stars.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 StarfieldBackground::StarfieldBackground(const FileReader& reader) :
   small_stars_count(100),
@@ -61,6 +61,6 @@ StarfieldBackground::draw (SceneContext& gc)
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

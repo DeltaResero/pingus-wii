@@ -17,11 +17,11 @@
 
 class Pingu;
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class FakeExitData;
-} // namespace WorldObjsData
+} // namespace pingus::worldobjsData
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 /** The FakeExit is an object that looks similar to the traditional
     IceExit, but is really a trap that smashed all pingus that try to
@@ -57,7 +57,7 @@ private:
   FakeExit& operator= (const FakeExit&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

@@ -14,7 +14,7 @@
 #include "engine/display/scene_context.hpp"
 #include "pingus/pingu.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 Drown::Drown (Pingu* p) :
   PinguAction(p),
@@ -42,6 +42,6 @@ Drown::update ()
   }
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

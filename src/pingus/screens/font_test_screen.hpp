@@ -29,7 +29,7 @@ public:
   FontTestScreen(const Pathname& fontfile);
 
   void draw(DrawingContext& gc);
-  void update(const Input::Event& event);
+  void update(const pingus::input::Event& event);
   void update(float /*delta*/) {}
 
 private:

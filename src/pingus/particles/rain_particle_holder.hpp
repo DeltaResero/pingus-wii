@@ -20,7 +20,7 @@
 
 class GraphicContext;
 
-namespace Particles {
+namespace pingus::particles {
 
 class RainParticleHolder : public WorldObj
 {
@@ -64,7 +64,7 @@ private:
   RainParticleHolder& operator= (const RainParticleHolder&);
 };
 
-} // namespace Particles
+} // namespace pingus::particles
 
 #endif
 

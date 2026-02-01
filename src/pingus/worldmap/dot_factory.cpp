@@ -17,7 +17,7 @@
 #include "pingus/worldmap/story_dot.hpp"
 #include "util/raise_exception.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 std::unique_ptr<Dot>
 DotFactory::create(const FileReader& reader)
@@ -37,6 +37,6 @@ DotFactory::create(const FileReader& reader)
   }
 }
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 // EOF

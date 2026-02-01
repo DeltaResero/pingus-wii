@@ -19,7 +19,7 @@
 
 namespace pingus::editor {
 
-class MessageBox : public GUI::GroupComponent
+class MessageBox : public gui::GroupComponent
 {
 private:
   Button* m_ok_button;

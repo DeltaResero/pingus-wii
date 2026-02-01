@@ -16,7 +16,7 @@
 
 #include "util/file_reader.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class Dot;
 
@@ -31,7 +31,7 @@ private:
   DotFactory& operator= (const DotFactory&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

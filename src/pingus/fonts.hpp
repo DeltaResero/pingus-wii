@@ -14,7 +14,7 @@
 
 #include "engine/display/font.hpp"
 
-namespace Fonts {
+namespace pingus::fonts {
 
 extern Font chalk_large;
 extern Font chalk_normal;
@@ -35,7 +35,7 @@ void init ();
 /** Unload fonts */
 void deinit ();
 
-} // namespace Fonts
+} // namespace pingus::fonts
 
 #endif
 

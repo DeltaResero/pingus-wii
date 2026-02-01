@@ -23,7 +23,7 @@
 
 class FileReader;
 
-namespace Input {
+namespace pingus::input {
 
 class SDLDriver : public Driver
 {
@@ -112,7 +112,7 @@ private:
   SDLDriver & operator=(const SDLDriver&);
 };
 
-} // namespace Input
+} // namespace pingus::input
 
 #endif
 

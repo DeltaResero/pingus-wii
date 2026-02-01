@@ -19,7 +19,7 @@
 
 class FileReader;
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 class StoryDot : public Dot
 {
@@ -49,7 +49,7 @@ private:
   StoryDot& operator=(const StoryDot&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

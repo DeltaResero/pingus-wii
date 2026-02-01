@@ -16,11 +16,11 @@
 #include "math/color.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class SurfaceBackgroundData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class SurfaceBackground : public WorldObj
 {
@@ -77,7 +77,7 @@ private:
   SurfaceBackground& operator= (const SurfaceBackground&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

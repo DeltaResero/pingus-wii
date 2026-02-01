@@ -16,7 +16,7 @@
 #include "pingus/ground_map.hpp"
 #include "pingus/world.hpp"
 
-namespace Particles {
+namespace pingus::particles {
 
 SnowParticleHolder::SnowParticle::SnowParticle (int x, int y, bool colliding_) :
   alive(true),
@@ -137,6 +137,6 @@ SnowParticleHolder::draw (SceneContext& gc)
   }
 }
 
-} // namespace Particles
+} // namespace pingus::particles
 
 // EOF

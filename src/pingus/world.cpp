@@ -54,10 +54,10 @@ World::World(const PingusLevel& plf) :
   log_debug("create particle holder");
 
   // These get deleted via the world_obj vector in the destructor
-  pingu_particle_holder = new Particles::PinguParticleHolder();
-  rain_particle_holder  = new Particles::RainParticleHolder();
-  smoke_particle_holder = new Particles::SmokeParticleHolder();
-  snow_particle_holder  = new Particles::SnowParticleHolder();
+  pingu_particle_holder = new pingus::particles::PinguParticleHolder();
+  rain_particle_holder  = new pingus::particles::RainParticleHolder();
+  smoke_particle_holder = new pingus::particles::SmokeParticleHolder();
+  snow_particle_holder  = new pingus::particles::SnowParticleHolder();
 
   world_obj.push_back(gfx_map);
 
@@ -208,7 +208,7 @@ World::get_time()
 void
 World::armageddon(void)
 {
-  Sound::PingusSound::play_sound("goodidea");
+  pingus::sound::PingusSound::play_sound("goodidea");
   do_armageddon = true;
   armageddon_count = 0;
 }
@@ -242,7 +242,7 @@ World::play_sound(std::string name, const Vector3f& /*pos*/, float volume)
   */
   float panning = 0.0f;
 
-  Sound::PingusSound::play_sound(name, volume, panning);
+  pingus::sound::PingusSound::play_sound(name, volume, panning);
 }
 
 Pingu*
@@ -308,7 +308,7 @@ World::get_start_pos(int player_id)
   int num_entrances = 0;
   for(WorldObjIter obj = world_obj.begin(); obj != world_obj.end(); ++obj)
   {
-    WorldObjs::Entrance* entrance = dynamic_cast<WorldObjs::Entrance*>(*obj);
+    pingus::worldobjs::Entrance* entrance = dynamic_cast<pingus::worldobjs::Entrance*>(*obj);
     if (entrance && entrance->get_owner_id() == player_id)
     {
       pos += Vector2i(static_cast<int>(entrance->get_pos().x),

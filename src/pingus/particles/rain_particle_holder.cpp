@@ -16,7 +16,7 @@
 #include "pingus/globals.hpp"
 #include "pingus/world.hpp"
 
-namespace Particles {
+namespace pingus::particles {
 
 RainParticleHolder::RainParticle::RainParticle(int x, int y)
   : alive(true), splash(false), use_rain2_surf(false), splash_counter(0), splash_frame(0), pos(Vector3f(static_cast<float>(x), static_cast<float>(y)))
@@ -117,6 +117,6 @@ RainParticleHolder::draw (SceneContext& gc)
   }
 }
 
-} // namespace Particles
+} // namespace pingus::particles
 
 // EOF

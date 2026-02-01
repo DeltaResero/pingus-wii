@@ -19,7 +19,7 @@
 #include "pingus/path_manager.hpp"
 #include "util/log.hpp"
 
-namespace Sound {
+namespace pingus::sound {
 
 std::unique_ptr<PingusSoundImpl> PingusSound::sound;
 
@@ -126,6 +126,6 @@ PingusSound::get_master_volume()
   return sound->get_master_volume();
 }
 
-} // namespace Sound
+} // namespace pingus::sound
 
 // EOF

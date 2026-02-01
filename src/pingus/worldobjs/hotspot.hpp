@@ -15,11 +15,11 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjsData {
+namespace pingus::worldobjsData {
 class HotspotData;
 }
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class Hotspot : public WorldObj
 {
@@ -43,7 +43,7 @@ private:
   Hotspot& operator= (const Hotspot&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 

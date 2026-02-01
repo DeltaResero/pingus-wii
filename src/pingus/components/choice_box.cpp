@@ -36,13 +36,13 @@ ChoiceBox::draw(DrawingContext& gc)
       if (is_enabled())
       {
         //if (current_choice != 0)
-        gc.print_left(Fonts::chalk_normal,  Vector2i(rect.left, rect.top), "<");
+        gc.print_left(pingus::fonts::chalk_normal,  Vector2i(rect.left, rect.top), "<");
 
         //if (current_choice != int(choices.size())-1)
-        gc.print_right(Fonts::chalk_normal, Vector2i(rect.right, rect.top), ">");
+        gc.print_right(pingus::fonts::chalk_normal, Vector2i(rect.right, rect.top), ">");
       }
 
-      gc.print_center(Fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top),
+      gc.print_center(pingus::fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top),
                       choices[current_choice]);
     }
   }

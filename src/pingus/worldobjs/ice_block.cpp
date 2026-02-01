@@ -17,7 +17,7 @@
 #include "pingus/world.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 IceBlock::IceBlock(const FileReader& reader) :
   pos(),
@@ -89,6 +89,6 @@ IceBlock::update()
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

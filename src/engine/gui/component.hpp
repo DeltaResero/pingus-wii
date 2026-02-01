@@ -16,7 +16,7 @@
 
 class DrawingContext;
 
-namespace GUI {
+namespace pingus::gui {
 
 class GroupComponent;
 
@@ -83,7 +83,7 @@ public:
 
   /** Emitted whenever a keyboard character is pressed.  Only certain
       components should implement this */
-  virtual void on_key_pressed(const Input::KeyboardEvent& /*ev*/) {}
+  virtual void on_key_pressed(const pingus::input::KeyboardEvent& /*ev*/) {}
 
   GroupComponent* get_parent() const;
   void set_parent(GroupComponent* p);
@@ -96,7 +96,7 @@ private:
   Component& operator= (const Component&);
 };
 
-} // namespace GUI
+} // namespace pingus::gui
 
 #endif
 

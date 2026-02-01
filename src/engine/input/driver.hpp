@@ -16,7 +16,7 @@
 #include "engine/input/control.hpp"
 #include "util/file_reader.hpp"
 
-namespace Input {
+namespace pingus::input {
 
 class Driver
 {
@@ -34,7 +34,7 @@ public:
   virtual std::unique_ptr<Keyboard> create_keyboard(const FileReader& reader, Control* parent) =0;
 };
 
-} // namespace Input
+} // namespace pingus::input
 
 #endif
 

@@ -17,7 +17,7 @@
 
 #include "math/vector3f.hpp"
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 /** a wrapper class around std::vector<Vector>, which can calculate
     the length of the path and a few other things */
@@ -79,7 +79,7 @@ public:
   void reverse();
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

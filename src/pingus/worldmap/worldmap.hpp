@@ -21,7 +21,7 @@
 class Font;
 class DrawingContext;
 
-namespace WorldmapNS {
+namespace pingus::worldmap {
 
 typedef int EdgeId;
 typedef int NodeId;
@@ -106,7 +106,7 @@ private:
   Worldmap & operator=(const Worldmap&);
 };
 
-} // namespace WorldmapNS
+} // namespace pingus::worldmap
 
 #endif
 

@@ -14,7 +14,7 @@
 #include "engine/display/scene_context.hpp"
 #include "pingus/pingu.hpp"
 
-namespace pingus::action {
+namespace pingus::actions {
 
 LaserKill::LaserKill(Pingu* p) :
   PinguAction(p),
@@ -39,6 +39,6 @@ LaserKill::update ()
     sprite[pingu->direction].update();
 }
 
-} // namespace pingus::action
+} // namespace pingus::actions
 
 // EOF

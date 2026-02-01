@@ -16,7 +16,7 @@
 
 class Collider;
 
-namespace Movers {
+namespace pingus::movers {
 
 class LinearMover : public Mover
 {
@@ -31,7 +31,7 @@ public:
   void update(const Vector3f& move, const Collider& collision_at);
 };
 
-} // namespace Movers
+} // namespace pingus::movers
 
 #endif
 

@@ -20,7 +20,7 @@
 
 class SceneContext;
 
-namespace Particles {
+namespace pingus::particles {
 
 class PinguParticleHolder : public WorldObj
 {
@@ -60,7 +60,7 @@ private:
   PinguParticleHolder& operator= (const PinguParticleHolder&);
 };
 
-} // namespace Particles
+} // namespace pingus::particles
 
 #endif
 

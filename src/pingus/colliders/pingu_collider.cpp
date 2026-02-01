@@ -14,7 +14,7 @@
 #include "math/vector3f.hpp"
 #include "pingus/groundtype.hpp"
 
-namespace Colliders {
+namespace pingus::colliders {
 
 PinguCollider::PinguCollider(const int height_arg) : height(height_arg)
 {
@@ -75,6 +75,6 @@ bool PinguCollider::operator() (World* const world, Vector3f current_pos,
   return collided;
 }
 
-} // namespace Colliders
+} // namespace pingus::colliders
 
 // EOF

@@ -18,7 +18,7 @@
 #include "pingus/worldobjs/teleporter_target.hpp"
 #include "util/log.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 Teleporter::Teleporter(const FileReader& reader) :
   pos(),
@@ -79,6 +79,6 @@ Teleporter::update ()
   }
 }
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 // EOF

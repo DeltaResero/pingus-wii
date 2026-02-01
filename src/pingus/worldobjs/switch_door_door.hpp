@@ -16,7 +16,7 @@
 #include "pingus/collision_mask.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace WorldObjs {
+namespace pingus::worldobjs {
 
 class SwitchDoorDoor : public WorldObj
 {
@@ -58,7 +58,7 @@ private:
   SwitchDoorDoor& operator=(const SwitchDoorDoor&);
 };
 
-} // namespace WorldObjs
+} // namespace pingus::worldobjs
 
 #endif
 
