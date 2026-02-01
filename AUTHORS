@@ -1,6 +1,6 @@
 I tried to list here all people, which have contributed to Pingus. If
-you know somebody who I have missed please drop me a quick reminder to 
-<grumbel@gmail.com>. 
+you know somebody who I have missed please drop me a quick reminder to
+<grumbel@gmail.com>.
 
 Ingo Ruhnke <grumbel@gmail.com> - http://pingus.seul.org/~grumbel/
 	* lots of gfx
@@ -8,7 +8,7 @@ Ingo Ruhnke <grumbel@gmail.com> - http://pingus.seul.org/~grumbel/
 	* project maintainer
 	* programming
 
-Michael Käser <michaelk@gmx.ch>
+Michael Kaeser <michaelk@gmx.ch>
 	* maintainer of the Windows version for Pingus 0.4.0
 
 Joel Fauche <joel-fauche@worldonline.fr> - http://www.multimania.com/jfauche/
@@ -18,7 +18,7 @@ Michael Mestre <mmestre@teaser.fr> - http://www.teaser.fr/~mmestre/
 	* some gfx (rock tile, weed, traps)
 
 Craig Timpany <craigtimpany@w3.to>
-	* some pingu gfx(digger, tumbler, bridger2)
+	* some pingu gfx (digger, tumbler, bridger2)
 	* traps
 	* lots of great levels
 
@@ -28,9 +28,9 @@ Jules Bean <jmlb2@hermes.cam.ac.uk>
 David Philippi <david@torangan.de>
 	* RPM version maintainer
 	* Sound code
-        * Input code
-        * include cleanup
-        * lots and lots of code cleanup
+	* Input code
+	* include cleanup
+	* lots and lots of code cleanup
 
 Johnny Taporg <taporg@yahoo.com>
 	* A little Banner
@@ -62,9 +62,9 @@ Alan Tennent <rdt@post.queensu.ca>
 	* bazooker
 	* http://www.geocities.com/SiliconValley/Mouse/8254/
 
-Kenneth Gangstø <kennethg@iname.com>
+Kenneth Gangsto <kennethg@iname.com>
 	* Some fonts
-        * lots of Win32 help and testing
+	* lots of Win32 help and testing
 
 Peter Todd <retep@penguinpowered.com> - http://www.petertodd.ca
 	* Programming (forces)
@@ -81,14 +81,14 @@ David Flores <davidf@linuxfan.com>
 	* fixed the bridger
 
 Tuomas (Tigert) Kuosmanen <tigert@gimp.org> - http://tigert.gimp.org/
-	* Editor Icons (riped out of gnome-stock)
+	* Editor Icons (ripped out of gnome-stock)
 
 Keir Fraser <Keir.Fraser@cl.cam.ac.uk>
 	* ???
 
 Felix Natter <fnatter@gmx.net>
 	* Lots of namespace clean ups
-	* Spellingmistake fixups
+	* Spelling mistake fixups
 	* iostream fixups
 
 Mark Collinson <mark.collinson@lineone.net>
@@ -103,7 +103,7 @@ Michael Wand <mwand@gmx.de>
 	* levels
 
 Jens Henrik Goebbert <jens.goebbert@post.rwth-aachen.de>
-	* levels 
+	* levels
 
 Bernhard Trummer <bernhard.trummer@gmx.at>
 	* libxml configure.in entry
@@ -112,9 +112,6 @@ Andrew Mustun <andrew@qcad.org>
 Benjamin Winkler
 	* caimagemanip
 
-Jens Henrik Goebbert <jens.goebbert@post.rwth-aachen.de>
-	* levels
-
 Rob Gietema <tycoon@planetdescent.com>,
 Robin Hogan <R.J.Hogan@reading.ac.uk>
 	* see xpenguins
@@ -122,7 +119,7 @@ Robin Hogan <R.J.Hogan@reading.ac.uk>
 
 Yuri Sucupira <yuri_sucupira@hotmail.com>
 	* music (success_*.it, rough_journey.it,
-          the_big_march_in_space.it, goin_march.it)
+	  the_big_march_in_space.it, goin_march.it)
 
 Giray Devlet <giray@devlet.cc>
 Cagri Coltekin <cagri@metu.edu.tr>
@@ -142,21 +139,21 @@ Alberto Curro <acurrop@wanadoo.es>
 Mattias Andersson <mattiasa@neod.com>
 	* some fixes for Win32 Port
 
-"Fischer, Björn Christoph" <B.Fischer@dmt.de>
+"Fischer, Bjoern Christoph" <B.Fischer@dmt.de>
 "Neil Mitchell" <neil__mitchell@hotmail.com>
 	* Misc win32 fixes/cleanups/etc.
 
 Misc little compile patches:
-  Giuseppe D'Aqui' <kumber@tiscalinet.it>
+  Giuseppe D'Aqui <kumber@tiscalinet.it>
 
 "Henri Manson" <hfmanson@home.nl>:
-        * MemLeak at application shutdown fixes   
+	* MemLeak at application shutdown fixes
 
 Milan Babuskov <milanb@yu.net>
-        * Serbian (sr) translation
+	* Serbian (sr) translation
 
 Philippe Saint-Pierre <stpere@linuxmail.org>
-        * French (fr) translation
+	* French (fr) translation
 
 Jason Green <jave27@gmail.com>
 	* SDL porting
@@ -171,6 +168,6 @@ Nehal Mistry <nehalmistry@gmx.net>
 	* SDL porting
 
 Karl Ove Hufthammer <karl@huftis.org>
-    * Norwegian Nynorsk translation
+	* Norwegian Nynorsk translation
 
 -- EOF --
