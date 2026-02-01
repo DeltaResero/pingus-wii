@@ -171,8 +171,8 @@ OptionMenu::OptionMenu() :
 
   x_pos = 1;
   y_pos = 0;
-  add_item("Resolution:",    std::unique_ptr<GUI::RectComponent>(resolution_box));
-  add_item("Renderer:",      std::unique_ptr<GUI::RectComponent>(renderer_box));
+  add_item("Resolution:",    std::unique_ptr<pingus::gui::RectComponent>(resolution_box));
+  add_item("Renderer:",      std::unique_ptr<pingus::gui::RectComponent>(renderer_box));
   y_pos += 1;
   add_item("Master Volume:", std::unique_ptr<pingus::gui::RectComponent>(master_volume_box));
   add_item("Sound Volume:", std::unique_ptr<pingus::gui::RectComponent>(sound_volume_box));

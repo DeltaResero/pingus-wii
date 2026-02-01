@@ -57,34 +57,34 @@ void read_events(std::istream& out, std::vector<pingus::input::Event>& events)
   }
 }
 
-void read_event(std::istream& out, Input::Event& event)
+void read_event(std::istream& out, pingus::input::Event& event)
 {
   read(out, event.type);
   switch(event.type)
   {
-    case Input::BUTTON_EVENT_TYPE:
+    case pingus::input::BUTTON_EVENT_TYPE:
       read(out, event.button.name);
       read(out, event.button.state);
       break;
 
-    case Input::POINTER_EVENT_TYPE:
+    case pingus::input::POINTER_EVENT_TYPE:
       read(out, event.pointer.name);
       read(out, event.pointer.x);
       read(out, event.pointer.y);
       break;
 
-    case Input::AXIS_EVENT_TYPE:
+    case pingus::input::AXIS_EVENT_TYPE:
       read(out, event.axis.name);
       read(out, event.axis.dir);
       break;
 
-    case Input::SCROLLER_EVENT_TYPE:
+    case pingus::input::SCROLLER_EVENT_TYPE:
       read(out, event.scroll.name);
       read(out, event.scroll.x_delta);
       read(out, event.scroll.y_delta);
       break;
 
-    case Input::KEYBOARD_EVENT_TYPE:
+    case pingus::input::KEYBOARD_EVENT_TYPE:
       read(out, event.keyboard);
       break;
 
@@ -93,34 +93,34 @@ void read_event(std::istream& out, Input::Event& event)
   }
 }
 
-void write_event(std::ostream& out, const Input::Event& event)
+void write_event(std::ostream& out, const pingus::input::Event& event)
 {
   write(out, event.type);
   switch(event.type)
   {
-    case Input::BUTTON_EVENT_TYPE:
+    case pingus::input::BUTTON_EVENT_TYPE:
       write(out, event.button.name);
       write(out, event.button.state);
       break;
 
-    case Input::POINTER_EVENT_TYPE:
+    case pingus::input::POINTER_EVENT_TYPE:
       write(out, event.pointer.name);
       write(out, event.pointer.x);
       write(out, event.pointer.y);
       break;
 
-    case Input::AXIS_EVENT_TYPE:
+    case pingus::input::AXIS_EVENT_TYPE:
       write(out, event.axis.name);
       write(out, event.axis.dir);
       break;
 
-    case Input::SCROLLER_EVENT_TYPE:
+    case pingus::input::SCROLLER_EVENT_TYPE:
       write(out, event.scroll.name);
       write(out, event.scroll.x_delta);
       write(out, event.scroll.y_delta);
       break;
 
-    case Input::KEYBOARD_EVENT_TYPE:
+    case pingus::input::KEYBOARD_EVENT_TYPE:
       write(out, event.keyboard);
       break;
 
