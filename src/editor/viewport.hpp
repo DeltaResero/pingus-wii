@@ -24,7 +24,7 @@
 class DrawingContext;
 class SceneContext;
 
-namespace Editor {
+namespace pingus::editor {
 
 class LevelObj;
 class EditorScreen;

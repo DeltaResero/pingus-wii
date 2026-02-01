@@ -16,7 +16,7 @@
 #include "engine/display/surface.hpp"
 #include "editor/level_obj.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 /** Generic Level Object (groundpiece, sign, etc.)  Only special objects will have
     to inherit from this class - most objects will be able to use this class alone */
@@ -306,7 +306,7 @@ private:
   GenericLevelObj & operator=(const GenericLevelObj&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

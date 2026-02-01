@@ -17,7 +17,7 @@
 #include "engine/gui/component.hpp"
 #include "engine/gui/group_component.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class EditorScreen;
 
@@ -47,7 +47,7 @@ private:
   Panel& operator= (const Panel&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

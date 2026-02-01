@@ -14,7 +14,7 @@
 
 #include "engine/gui/group_component.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class EditorScreen;
 class EditorLevel;
@@ -66,7 +66,7 @@ private:
   LevelProperties& operator= (const LevelProperties&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

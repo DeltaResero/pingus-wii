@@ -17,7 +17,7 @@
 #include "editor/object_selector_list.hpp"
 #include "math/size.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class ObjectSelectorSet
 {
@@ -53,7 +53,7 @@ private:
   ObjectSelectorSet& operator= (const ObjectSelectorSet&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

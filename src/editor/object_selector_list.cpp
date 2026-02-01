@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-namespace Editor {
+namespace pingus::editor {
 
 ObjectSelectorList::ObjectSelectorList(EditorScreen* editor_, ObjectSelector* object_selector_, const Rect& rect_) :
   RectComponent(rect_),
@@ -247,6 +247,6 @@ ObjectSelectorList::update_layout()
   drawing_context->set_rect(rect);
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

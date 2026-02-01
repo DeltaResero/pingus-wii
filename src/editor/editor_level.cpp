@@ -24,7 +24,7 @@
 #include "util/system.hpp"
 #include "util/sexpr_file_writer.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class LevelImpl
 {
@@ -512,6 +512,6 @@ EditorLevel::object_at(int x, int y)
   return LevelObjPtr();
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

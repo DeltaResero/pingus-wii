@@ -14,7 +14,7 @@
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 Label::Label(const Rect& rect_, const std::string& text_) :
   RectComponent(rect_),
@@ -40,6 +40,6 @@ Label::update (float /*delta*/)
 {
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

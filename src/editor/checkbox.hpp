@@ -16,7 +16,7 @@
 
 #include "engine/gui/rect_component.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class Checkbox : public GUI::RectComponent
 {
@@ -42,7 +42,7 @@ private:
   Checkbox& operator= (const Checkbox&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

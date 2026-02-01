@@ -22,7 +22,7 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 ObjectProperties::ObjectProperties(EditorScreen* editor_, const Rect& rect_) :
   GUI::GroupComponent(rect_, false),
@@ -794,6 +794,6 @@ ObjectProperties::update_layout()
   GroupComponent::update_layout();
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

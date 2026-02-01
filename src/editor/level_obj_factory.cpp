@@ -15,7 +15,7 @@
 #include "editor/group_level_obj.hpp"
 #include "util/file_reader.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 LevelObjPtr
 LevelObjFactory::create(const FileReader& reader)
@@ -194,6 +194,6 @@ LevelObjFactory::create(const FileReader& reader)
   }
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

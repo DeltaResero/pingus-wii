@@ -26,7 +26,7 @@
 #include "util/system.hpp"
 #include "util/string_util.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class ObjectSelectorButton : public GUI::RectComponent
 {
@@ -423,6 +423,6 @@ ObjectSelector::update_layout()
   object_list->set_rect(Rect(2, 2 + 60 + 2, rect.get_width() - 2, rect.get_height() - 2));
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

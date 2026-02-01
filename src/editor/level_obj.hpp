@@ -22,7 +22,7 @@
 
 class DrawingContext;
 
-namespace Editor {
+namespace pingus::editor {
 
 const unsigned HAS_TYPE =         1 << 0;
 const unsigned HAS_SPEED =        1 << 1;
@@ -244,7 +244,7 @@ public:
   virtual LevelObjPtr duplicate(const Vector2i& offset) const = 0;
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

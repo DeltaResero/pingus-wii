@@ -17,7 +17,7 @@
 #include "engine/gui/group_component.hpp"
 #include "editor/button.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class MessageBox : public GUI::GroupComponent
 {
@@ -49,7 +49,7 @@ private:
   MessageBox& operator=(const MessageBox&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

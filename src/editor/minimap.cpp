@@ -17,7 +17,7 @@
 #include "editor/level_obj.hpp"
 #include "editor/viewport.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 Minimap::Minimap(EditorScreen* editor_, const Rect& rect_)
   : RectComponent(rect_),
@@ -138,6 +138,6 @@ Minimap::update_layout()
   drawing_context->set_rect(rect.grow(-3));
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

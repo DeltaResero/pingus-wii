@@ -17,7 +17,7 @@
 #include "engine/gui/group_component.hpp"
 #include "pingus/action_name.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class Checkbox;
 class Inputbox;
@@ -59,7 +59,7 @@ private:
   ActionProperties& operator= (const ActionProperties&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

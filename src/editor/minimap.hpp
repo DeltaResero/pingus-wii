@@ -16,7 +16,7 @@
 
 #include "engine/gui/rect_component.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class EditorScreen;
 
@@ -45,7 +45,7 @@ private:
   Minimap & operator=(const Minimap&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

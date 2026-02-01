@@ -14,7 +14,7 @@
 
 #include "engine/display/drawing_context.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class GUIStyle
 {
@@ -26,7 +26,7 @@ private:
                                const Color& color = Color(237, 233, 227), int border = 1);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

@@ -22,7 +22,7 @@ class DrawingContext;
 class FileDialog;
 class Pathname;
 
-namespace Editor {
+namespace pingus::editor {
 
 class ActionProperties;
 class EditorLevel;
@@ -147,7 +147,7 @@ private:
   EditorScreen& operator= (const EditorScreen&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

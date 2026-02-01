@@ -17,7 +17,7 @@
 #include "engine/gui/gui_manager.hpp"
 #include "pingus/fonts.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class PanelSeparator : public GUI::Component
 {
@@ -244,6 +244,6 @@ Panel::add_separator()
   pos.x += comp->get_width();
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

@@ -16,7 +16,7 @@
 
 #include "engine/gui/rect_component.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 class Button : public GUI::RectComponent
 {
@@ -50,7 +50,7 @@ private:
   Button& operator= (const Button&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

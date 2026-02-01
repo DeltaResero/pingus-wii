@@ -18,7 +18,7 @@
 
 class DrawingContext;
 
-namespace Editor {
+namespace pingus::editor {
 
 class EditorScreen;
 class ObjectSelectorList;
@@ -80,7 +80,7 @@ private:
   ObjectSelector& operator= (const ObjectSelector&);
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 

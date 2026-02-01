@@ -16,7 +16,7 @@
 #include "util/log.hpp"
 #include "util/file_reader.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 std::shared_ptr<GroupLevelObj>
 GroupLevelObj::from_prefab(const std::string& name)
@@ -278,6 +278,6 @@ GroupLevelObj::duplicate(const Vector2i& offset) const
   return group;
 }
 
-} // namespace Editor
+} // namespace pingus::editor
 
 // EOF

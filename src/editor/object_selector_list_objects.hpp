@@ -16,7 +16,7 @@
 #include "util/string_util.hpp"
 #include "util/log.hpp"
 
-namespace Editor {
+namespace pingus::editor {
 
 struct Groundpiece : public ObjectSelectorList::Object
 {
@@ -402,7 +402,7 @@ public:
   }
 };
 
-} // namespace Editor
+} // namespace pingus::editor
 
 #endif
 
