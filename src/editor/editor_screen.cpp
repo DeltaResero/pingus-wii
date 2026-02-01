@@ -70,6 +70,8 @@ EditorScreen::EditorScreen() :
 
   object_selector = gui_manager->create<ObjectSelector>(this, Rect());
 
+  object_properties = gui_manager->create<ObjectProperties>(this, Rect());
+
   file_load_dialog = gui_manager->create<FileDialog>(this, Rect(Vector2i(50, 50),
                                                                 Size(size.width  - 100,
                                                                      size.height - 100)),
