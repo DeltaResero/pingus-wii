@@ -17,7 +17,7 @@
 #include "pingus/pingu.hpp"
 #include "util/log.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Walker::Walker (Pingu* p) :
   PinguAction(p),
@@ -208,6 +208,6 @@ Walker::draw (SceneContext& gc)
   }
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

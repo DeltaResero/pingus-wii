@@ -15,7 +15,7 @@
 #include "pingus/groundtype.hpp"
 #include "pingus/pingu.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Slider::Slider (Pingu* p) :
   PinguAction(p),
@@ -69,6 +69,6 @@ Slider::draw (SceneContext& gc)
   gc.color().draw(sprite[pingu->direction], pingu->get_pos() + Vector3f(0, -2));
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

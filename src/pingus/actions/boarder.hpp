@@ -15,7 +15,7 @@
 #include "pingus/pingu_action.hpp"
 #include "pingus/state_sprite.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 /** The Boarder action causes a pingu to use a skateboard to move
     forward. */
@@ -40,7 +40,7 @@ private:
   Boarder& operator= (const Boarder&);
 };
 
-} // namespace Actions
+} // namespace pingus::action
 
 #endif
 

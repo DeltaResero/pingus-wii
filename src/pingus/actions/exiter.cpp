@@ -15,7 +15,7 @@
 #include "engine/sound/sound.hpp"
 #include "pingus/pingu.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Exiter::Exiter (Pingu* p) :
   PinguAction(p),
@@ -54,6 +54,6 @@ Exiter::draw (SceneContext& gc)
   gc.color().draw(sprite[pingu->direction], pingu->get_pos());
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

@@ -18,7 +18,7 @@
 #include "pingus/worldobj.hpp"
 #include "util/string_util.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Bridger::Bridger (Pingu* p) :
   PinguAction(p),
@@ -221,6 +221,6 @@ Bridger::get_name () const
   return name;
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

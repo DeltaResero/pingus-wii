@@ -19,7 +19,7 @@
 #include "pingus/world.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Faller::Faller (Pingu* p) :
   PinguAction(p),
@@ -161,6 +161,6 @@ Faller::change_allowed (ActionName::Enum new_action)
     new_action == ActionName::BOMBER;
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

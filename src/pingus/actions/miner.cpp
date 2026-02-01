@@ -19,7 +19,7 @@
 #include "pingus/worldobj.hpp"
 #include "util/log.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Miner::Miner (Pingu* p) :
   PinguAction(p),
@@ -103,6 +103,6 @@ Miner::draw (SceneContext& gc)
   gc.color().draw(sprite[pingu->direction], pingu->get_pos());
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

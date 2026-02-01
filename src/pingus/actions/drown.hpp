@@ -15,7 +15,7 @@
 #include "pingus/pingu_action.hpp"
 #include "pingus/state_sprite.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 class Drown : public PinguAction
 {
@@ -37,7 +37,7 @@ private:
   Drown& operator= (const Drown&);
 };
 
-} // namespace Actions
+} // namespace pingus::action
 
 #endif
 

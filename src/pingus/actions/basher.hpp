@@ -16,7 +16,7 @@
 #include "pingus/pingu_action.hpp"
 #include "pingus/state_sprite.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 class Basher : public PinguAction
 {
@@ -59,7 +59,7 @@ private:
   Basher& operator= (const Basher&);
 };
 
-} // namespace Actions
+} // namespace pingus::action
 
 #endif
 

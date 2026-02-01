@@ -15,7 +15,7 @@
 #include "pingus/groundtype.hpp"
 #include "pingus/pingu.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Floater::Floater(Pingu* p) :
   PinguAction(p),
@@ -60,6 +60,6 @@ Floater::change_allowed(ActionName::Enum action)
   return action == ActionName::BOMBER;
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF

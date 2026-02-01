@@ -15,7 +15,7 @@
 #include "pingus/pingu_action.hpp"
 #include "pingus/state_sprite.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 class Slider : public PinguAction
 {
@@ -35,7 +35,7 @@ private:
   Slider& operator= (const Slider&);
 };
 
-} // namespace Actions
+} // namespace pingus::action
 
 #endif
 

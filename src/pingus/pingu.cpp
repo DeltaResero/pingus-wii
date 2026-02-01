@@ -46,7 +46,7 @@
 
 #include "util/log.hpp"
 
-using namespace Actions;
+using namespace pingus::action;
 
 // Init a pingu at the given position while falling
 Pingu::Pingu (int arg_id, const Vector3f& arg_pos, int owner) :

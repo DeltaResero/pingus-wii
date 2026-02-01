@@ -19,7 +19,7 @@
 #include "pingus/pingu_enums.hpp"
 #include "pingus/world.hpp"
 
-namespace Actions {
+namespace pingus::action {
 
 Bomber::Bomber (Pingu* p) :
   PinguAction(p),
@@ -107,6 +107,6 @@ Bomber::update ()
   }
 }
 
-} // namespace Actions
+} // namespace pingus::action
 
 // EOF
