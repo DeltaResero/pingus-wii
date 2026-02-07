@@ -52,8 +52,6 @@ private:
   int world_delay; ///< how many milliseconds is the world behind the actual time
 
   // -- Client stuff
-  bool is_finished;
-
   ButtonPanel*   button_panel;
   PingusCounter* pcounter;
   Playfield*     playfield;
@@ -80,7 +78,6 @@ public:
 
   void do_restart();
   bool finished();
-  void set_finished();
 
   /** Update all parts of the world */
   void update (float delta);
