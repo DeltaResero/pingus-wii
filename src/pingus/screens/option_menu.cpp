@@ -110,7 +110,6 @@ OptionMenu::OptionMenu() :
 
   ChoiceBox* renderer_box = new ChoiceBox(Rect());
   renderer_box->add_choice("sdl");
-  renderer_box->add_choice("delta");
 #ifdef HAVE_OPENGL
   renderer_box->add_choice("opengl");
 #endif
@@ -118,9 +117,8 @@ OptionMenu::OptionMenu() :
   switch(config_manager.get_renderer())
   {
     case SDL_FRAMEBUFFER:    renderer_box->set_current_choice(0); break;
-    case DELTA_FRAMEBUFFER:  renderer_box->set_current_choice(1); break;
 #ifdef HAVE_OPENGL
-    case OPENGL_FRAMEBUFFER: renderer_box->set_current_choice(2); break;
+    case OPENGL_FRAMEBUFFER: renderer_box->set_current_choice(1); break;
 #endif
     default:
       log_error("OptionMenu: Unsupported renderer type found in config. Defaulting UI to SDL.");

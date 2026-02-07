@@ -121,7 +121,7 @@ SurfaceBackground::update()
 {
   bg_sprite.update();
 
-  if (!bg_sprite || globals::static_graphics)
+  if (!bg_sprite)
     return;
 
   if (scroll_x)

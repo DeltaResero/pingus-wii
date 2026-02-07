@@ -20,7 +20,6 @@
 #ifdef HAVE_OPENGL
 #  include "engine/display/opengl/opengl_framebuffer.hpp"
 #endif
-#include "engine/display/delta/delta_framebuffer.hpp"
 #include "engine/display/null_framebuffer.hpp"
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
@@ -104,12 +103,6 @@ Display::create_window(FramebufferType framebuffer_type, const Size& size, bool 
 
     case NULL_FRAMEBUFFER:
       s_framebuffer = std::unique_ptr<Framebuffer>(new NullFramebuffer());
-      s_framebuffer->set_video_mode(size, fullscreen, resizable);
-      break;
-
-    case DELTA_FRAMEBUFFER:
-      globals::static_graphics = true;
-      s_framebuffer = std::unique_ptr<Framebuffer>(new DeltaFramebuffer());
       s_framebuffer->set_video_mode(size, fullscreen, resizable);
       break;
 
