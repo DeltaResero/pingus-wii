@@ -21,15 +21,19 @@ act as a wall and cause them to reverse direction.
 The game fonts were originally generated using `fontgen`.
 
 ### Tools
+
 * **fontgen**: https://github.com/Grumbel/fontgen
 
 ### Source Fonts
+
 * **Pingus Main Font**: Based on `ExpletiveDeletedEnhanced.ttf`
 
 ### Chalk Effect (GIMP Workflow)
+
 The "Chalk" style fonts require manual post-processing after generation to
 achieve their look. The original workflow using GIMP on the generated `.pgm`
 (Portable Gray Map) file is:
+
 1. Add Alpha channel.
 2. Select white, delete.
 3. Invert selection, delete.
