@@ -12,8 +12,9 @@
 #ifndef HEADER_PINGUS_ENGINE_DISPLAY_DELTA_DRAW_OP_BUFFER_HPP
 #define HEADER_PINGUS_ENGINE_DISPLAY_DELTA_DRAW_OP_BUFFER_HPP
 
+#include <vector>
+#include "math/rect.hpp"
 #include "util/memory_pool.hpp"
-#include "math/quad_tree.hpp"
 
 #include "engine/display/delta/rect_merger.hpp"
 #include "engine/display/delta/draw_op.hpp"
