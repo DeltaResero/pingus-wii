@@ -17,7 +17,6 @@ namespace pingus {
 Mover::Mover(World* const world_arg, const Vector3f& pos_arg)
   : world(world_arg),
     pos(pos_arg),
-    remaining_move(0.0f, 0.0f, 0.0f),
     collision(false)
 {
 }
@@ -29,11 +28,6 @@ Mover::~Mover ()
 Vector3f Mover::get_pos() const
 {
   return pos;
-}
-
-Vector3f Mover::remaining() const
-{
-  return remaining_move;
 }
 
 bool Mover::collided() const

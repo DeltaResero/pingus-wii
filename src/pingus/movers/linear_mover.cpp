@@ -48,8 +48,6 @@ void LinearMover::update(const Vector3f& move, const Collider& collision_check)
   // If on a collision pixel, back away from it.
   if (collision)
     pos -= step_vector;
-
-  remaining_move = target_pos - pos;
 }
 
 } // namespace pingus::movers
