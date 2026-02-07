@@ -15,6 +15,9 @@
 #include "math/math.hpp"
 #include "vector2i.hpp"
 
+namespace pingus {
+
+
 /** Simple two dimensional vector. */
 class Vector2f
 {
@@ -142,6 +145,8 @@ public:
 
 std::ostream& operator<<(std::ostream& s, const Vector2f& v);
 
+
+} // namespace pingus
 #endif
 
 // EOF

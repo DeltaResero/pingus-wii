@@ -23,7 +23,10 @@
 #include "pingus/string_format.hpp"
 #include "util/string_util.hpp"
 
-class StartScreenComponent : public pingus::gui::Component
+namespace pingus {
+
+
+class StartScreenComponent : public gui::Component
 {
 private:
   PingusLevel plf;
@@ -41,13 +44,13 @@ private:
   const std::string& format_description(int length);
 };
 
-class StartScreenOkButton : public pingus::gui::SurfaceButton
+class StartScreenOkButton : public gui::SurfaceButton
 {
 private:
   StartScreen* parent;
 public:
   StartScreenOkButton(StartScreen* p)
-    : pingus::gui::SurfaceButton(Display::get_width()/2 + 245,
+    : gui::SurfaceButton(Display::get_width()/2 + 245,
                          Display::get_height()/2 + 150,
                          "core/start/ok",
                          "core/start/ok_clicked",
@@ -58,7 +61,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(pingus::fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 20), "Play");
+    gc.print_center(fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 20), "Play");
   }
 
   bool is_at(int x, int y) {
@@ -68,14 +71,14 @@ public:
 
   void on_click()
   {
-    pingus::sound::PingusSound::play_sound("yipee");
+    sound::PingusSound::play_sound("yipee");
     parent->start_game();
   }
 
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound ("tick");
   }
 
 private:
@@ -84,14 +87,14 @@ private:
 };
 
 class StartScreenAbortButton
-  : public pingus::gui::SurfaceButton
+  : public gui::SurfaceButton
 {
 private:
   StartScreen* parent;
 
 public:
   StartScreenAbortButton(StartScreen* p)
-    : pingus::gui::SurfaceButton(Display::get_width()/2 - 300,
+    : gui::SurfaceButton(Display::get_width()/2 - 300,
                          Display::get_height()/2 + 200,
                          "core/start/back",
                          "core/start/back_clicked",
@@ -102,7 +105,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(pingus::fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), "Back");
+    gc.print_center(fonts::chalk_normal, Vector2i(x_pos + 55, y_pos), "Back");
   }
 
   void on_click() {
@@ -112,7 +115,7 @@ public:
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound ("tick");
   }
 
 private:
@@ -144,12 +147,12 @@ StartScreenComponent::draw(DrawingContext& gc)
   int right_x = gc.get_width()/2 + 150;
   int y = gc.get_height()/2 + 40;
 
-  gc.print_center(pingus::fonts::chalk_large,
+  gc.print_center(fonts::chalk_large,
                   Vector2i(gc.get_width() /2,
                            gc.get_height()/2 - 230),
                   plf.get_levelname());
 
-  gc.print_left(pingus::fonts::chalk_normal,
+  gc.print_left(fonts::chalk_normal,
                 Vector2i(gc.get_width() /2 - 300,
                          gc.get_height()/2 - 170),
                 format_description(800 - 200));
@@ -157,23 +160,23 @@ StartScreenComponent::draw(DrawingContext& gc)
   y += 32;
   y += 45;
 
-  gc.print_left (pingus::fonts::chalk_normal, Vector2i(left_x,  y), "Number of Pingus: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_of_pingus()));
+  gc.print_left (fonts::chalk_normal, Vector2i(left_x,  y), "Number of Pingus: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_of_pingus()));
 
-  gc.print_left (pingus::fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Number to Save: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_to_save()));
+  gc.print_left (fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Number to Save: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(plf.get_number_to_save()));
 
-  gc.print_left (pingus::fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Time: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), time_str);
+  gc.print_left (fonts::chalk_normal, Vector2i(left_x,  (y += 30)), "Time: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), time_str);
 
-  gc.print_center(pingus::fonts::chalk_small,
+  gc.print_center(fonts::chalk_small,
                   Vector2i(gc.get_width()/2,
                            gc.get_height()/2 + 215),
                   std::string("Author: ") + plf.get_author());
 
   if (globals::developer_mode)
   {
-    gc.print_center(pingus::fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()-50), plf.get_resname());
+    gc.print_center(fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()-50), plf.get_resname());
   }
 }
 
@@ -188,7 +191,7 @@ StartScreenComponent::format_description(int length)
   if (description == "")
     return description;
 
-  description = StringFormat::break_line(description, length, pingus::fonts::chalk_normal);
+  description = StringFormat::break_line(description, length, fonts::chalk_normal);
 
   return description;
 }
@@ -246,5 +249,8 @@ StartScreen::resize(const Size& size_)
   abort_button->set_pos(size.width /2 - 300, size.height/2 + 200);
   ok_button   ->set_pos(size.width/2 + 245, size.height/2 + 150);
 }
+
+
+} // namespace pingus
 
 // EOF

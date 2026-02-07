@@ -25,6 +25,9 @@
 #include <stdexcept>
 #include <vector>
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -123,6 +126,8 @@ private:
 
 } // end of namespace lisp
 
+
+} // namespace pingus
 #endif
 
 // EOF

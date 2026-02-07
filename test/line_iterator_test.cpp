@@ -20,7 +20,7 @@ void test(const std::string& str)
 
   std::cout << "out: " << std::flush;
 
-  LineIterator it(str);
+  pingus::LineIterator it(str);
   while(it.next())
     std::cout << "\"" << it.get() << "\" " << std::flush;
 

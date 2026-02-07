@@ -14,6 +14,8 @@
 
 #include "engine/display/framebuffer.hpp"
 
+namespace pingus {
+
 class SDLFramebuffer : public Framebuffer
 {
 private:
@@ -50,6 +52,8 @@ private:
   SDLFramebuffer& operator= (const SDLFramebuffer&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -48,6 +48,9 @@
 
 using namespace pingus::actions;
 
+namespace pingus {
+
+
 // Init a pingu at the given position while falling
 Pingu::Pingu (int arg_id, const Vector3f& arg_pos, int owner) :
   action(),
@@ -350,7 +353,7 @@ Pingu::draw(SceneContext& gc)
     // FIXME: in ticks, should probally be in seconds]
     snprintf(str, 16, "%d", action_time/3);
 
-    gc.color().print_center(pingus::fonts::chalk_normal, Vector2i(static_cast<int>(pos_x), static_cast<int>(pos_y) - 48), str);
+    gc.color().print_center(fonts::chalk_normal, Vector2i(static_cast<int>(pos_x), static_cast<int>(pos_y) - 48), str);
   }
 }
 
@@ -470,5 +473,8 @@ Pingu::create_action(ActionName::Enum action_)
     default: assert(!"Invalid action name provied");
   }
 }
+
+
+} // namespace pingus
 
 // EOF

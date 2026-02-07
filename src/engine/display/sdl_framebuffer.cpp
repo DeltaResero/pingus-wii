@@ -16,6 +16,9 @@
 #include "engine/display/sdl_framebuffer_surface_impl.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 namespace {
 
 typedef void (*draw_pixel_func)(SDL_Surface* screen, int, int, const Color&);
@@ -475,5 +478,8 @@ SDLFramebuffer::pop_cliprect()
   else
     SDL_SetClipRect(screen, &cliprect_stack.back());
 }
+
+
+} // namespace pingus
 
 // EOF

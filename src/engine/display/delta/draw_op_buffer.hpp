@@ -19,6 +19,9 @@
 #include "engine/display/delta/draw_op.hpp"
 #include "engine/display/sdl_framebuffer.hpp"
 
+namespace pingus {
+
+
 inline int calculate_area(const std::vector<Rect>& rects)
 {
   int area = 0;
@@ -60,6 +63,8 @@ public:
   void render(SDLFramebuffer& fb, DrawOpBuffer& frontbuffer);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

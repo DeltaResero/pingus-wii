@@ -23,11 +23,14 @@
 #include "util/string_util.hpp"
 #include <algorithm>
 
+namespace pingus {
+
+
 TimeDisplay::TimeDisplay (GameSession* c) :
   server(c->get_server()),
   font()
 {
-  font = pingus::fonts::pingus_small_fixnum;
+  font = fonts::pingus_small_fixnum;
 }
 
 void
@@ -48,5 +51,8 @@ TimeDisplay::draw (DrawingContext& gc)
     gc.print_right(font, Vector2i(Display::get_width() - 30, 3), time_string, 150);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

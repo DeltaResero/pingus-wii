@@ -18,6 +18,9 @@
 #include "pingus/resource.hpp"
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 class WorldObjRenderer
 {
 private:
@@ -54,6 +57,8 @@ private:
   void process_object_with_surface(const FileReader& reader);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

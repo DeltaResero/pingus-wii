@@ -19,6 +19,8 @@
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
 
+namespace pingus {
+
 Playfield::Playfield(Server* server_, GameSession* session_, const Rect& rect_) :
   RectComponent(rect_),
   server(server_),
@@ -159,7 +161,7 @@ Playfield::update(float delta)
 }
 
 void
-Playfield::on_key_pressed(const pingus::input::KeyboardEvent& ev)
+Playfield::on_key_pressed(const input::KeyboardEvent& ev)
 {
   if (globals::developer_mode)
   {
@@ -285,5 +287,8 @@ Playfield::update_layout()
   state.set_size(rect.get_width(), rect.get_height());
   scene_context->set_rect(rect);
 }
+
+
+} // namespace pingus
 
 // EOF

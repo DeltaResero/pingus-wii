@@ -12,6 +12,8 @@
 #ifndef HEADER_PINGUS_PINGUS_GOAL_MANAGER_HPP
 #define HEADER_PINGUS_PINGUS_GOAL_MANAGER_HPP
 
+namespace pingus {
+
 class Server;
 
 /** Class that looks at the server and searches for goal conditions,
@@ -48,6 +50,8 @@ private:
   GoalManager& operator= (const GoalManager&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -18,6 +18,9 @@
 #include "pingus/direction.hpp"
 #include "pingus/action_name.hpp"
 
+namespace pingus {
+
+
 class ActionHolder;
 class PinguAction;
 class SceneContext;
@@ -230,6 +233,8 @@ private:
   Pingu& operator= (const Pingu&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

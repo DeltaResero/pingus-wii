@@ -17,6 +17,8 @@
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
 
+namespace pingus {
+
 SliderBox::SliderBox(const Rect& rect_, int steps)
   : RectComponent(rect_),
     m_steps(steps),
@@ -34,21 +36,21 @@ SliderBox::draw(DrawingContext& gc)
 
   if (value == 0)
   {
-    gc.print_center(pingus::fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top), "off");
+    gc.print_center(fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top), "off");
   }
   else
   {
     for(int i = 0; i < m_steps; ++i)
     {
       if (i < value)
-        gc.print_left(pingus::fonts::chalk_normal, Vector2i(rect.left + i*(rect.get_width()-12)/m_steps + 6, rect.top), "|");
-      //gc.print_left(pingus::fonts::chalk_normal, rect.left + i*(rect.get_width()-12)/20 + 6, rect.top, "l");
+        gc.print_left(fonts::chalk_normal, Vector2i(rect.left + i*(rect.get_width()-12)/m_steps + 6, rect.top), "|");
+      //gc.print_left(fonts::chalk_normal, rect.left + i*(rect.get_width()-12)/20 + 6, rect.top, "l");
     }
   }
 
-  gc.print_left(pingus::fonts::chalk_normal, Vector2i(rect.left, rect.top),
+  gc.print_left(fonts::chalk_normal, Vector2i(rect.left, rect.top),
                 "[");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(rect.right, rect.top),
+  gc.print_right(fonts::chalk_normal, Vector2i(rect.right, rect.top),
                  "]");
 }
 
@@ -89,5 +91,8 @@ SliderBox::set_value(int v)
 {
   value = v * m_steps / 100; // FIXME: rounding errors
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -14,6 +14,8 @@
 
 #include <string>
 
+namespace pingus {
+
 namespace ResourceModifier {
 
 /** This array contains possible modifications of a surface */
@@ -39,6 +41,8 @@ ResourceModifier::Enum from_string(const std::string& name);
 
 } // namespace ResourceModifier
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -14,6 +14,9 @@
 
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 /** Replacement character for invalid UTF-8 sequences */
 static const uint32_t INVALID_UTF8_SEQUENCE = 0xFFFD;
 
@@ -316,5 +319,8 @@ UTF8::iterator::operator*() const
 {
   return chr;
 }
+
+
+} // namespace pingus
 
 // EOF

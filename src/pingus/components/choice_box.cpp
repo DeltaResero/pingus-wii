@@ -15,6 +15,8 @@
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
 
+namespace pingus {
+
 ChoiceBox::ChoiceBox(const Rect& rect_) :
   RectComponent(rect_),
   current_choice(0),
@@ -36,13 +38,13 @@ ChoiceBox::draw(DrawingContext& gc)
       if (is_enabled())
       {
         //if (current_choice != 0)
-        gc.print_left(pingus::fonts::chalk_normal,  Vector2i(rect.left, rect.top), "<");
+        gc.print_left(fonts::chalk_normal,  Vector2i(rect.left, rect.top), "<");
 
         //if (current_choice != int(choices.size())-1)
-        gc.print_right(pingus::fonts::chalk_normal, Vector2i(rect.right, rect.top), ">");
+        gc.print_right(fonts::chalk_normal, Vector2i(rect.right, rect.top), ">");
       }
 
-      gc.print_center(pingus::fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top),
+      gc.print_center(fonts::chalk_normal, Vector2i(rect.left + rect.get_width()/2, rect.top),
                       choices[current_choice]);
     }
   }
@@ -91,5 +93,8 @@ ChoiceBox::set_current_choice(int choice)
   if (choice >= 0 && choice < int(choices.size()))
     current_choice = choice;
 }
+
+
+} // namespace pingus
 
 // EOF

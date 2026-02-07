@@ -16,6 +16,8 @@
 
 #include "engine/resource/resource.hpp"
 
+namespace pingus {
+
 namespace resource {
 
 template<typename Key,
@@ -69,6 +71,8 @@ private:
 
 } // namespace resource
 
+
+} // namespace pingus
 #endif
 
 // EOF

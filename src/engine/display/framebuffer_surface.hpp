@@ -14,6 +14,8 @@
 
 #include "engine/display/surface.hpp"
 
+namespace pingus {
+
 class FramebufferSurfaceImpl
 {
 public:
@@ -47,6 +49,8 @@ private:
   std::shared_ptr<FramebufferSurfaceImpl> impl;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

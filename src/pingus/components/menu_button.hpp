@@ -18,11 +18,14 @@
 #include "engine/display/sprite.hpp"
 #include "engine/gui/component.hpp"
 
+namespace pingus {
+
+
 class PingusMenu;
 class Vector2i;
 
 /** Framework for menu buttons */
-class MenuButton : public pingus::gui::Component
+class MenuButton : public gui::Component
 {
 protected:
   PingusMenu* menu;
@@ -66,6 +69,8 @@ private:
   MenuButton& operator= (const MenuButton&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

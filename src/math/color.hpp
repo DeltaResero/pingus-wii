@@ -14,6 +14,8 @@
 
 #include <SDL.h>
 
+namespace pingus {
+
 class Color
 {
 public:
@@ -39,6 +41,8 @@ public:
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

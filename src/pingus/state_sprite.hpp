@@ -16,6 +16,8 @@
 
 #include "engine/display/sprite.hpp"
 
+namespace pingus {
+
 /** Simple Wrapper class around Sprite that allows to have multiple
     sprites for different states (running, walking, left, right) */
 class StateSprite
@@ -35,6 +37,8 @@ public:
   Sprite& operator[](int state);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

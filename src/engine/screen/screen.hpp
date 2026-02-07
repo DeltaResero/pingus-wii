@@ -13,10 +13,9 @@
 #define HEADER_PINGUS_ENGINE_SCREEN_SCREEN_HPP
 
 #include "math/size.hpp"
+#include "fwd.hpp"
 
-namespace pingus::input {
-struct Event;
-}
+namespace pingus {
 
 class DrawingContext;
 
@@ -36,7 +35,7 @@ public:
   virtual void draw(DrawingContext& gc) =0;
 
   /** Pass a delta to the screen */
-  virtual void update (const pingus::input::Event& event) =0;
+  virtual void update (const input::Event& event) =0;
   virtual void update (float delta) =0;
 
   /** Called once the screen gets activated and becomes the current
@@ -52,6 +51,8 @@ private:
   Screen& operator= (const Screen&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

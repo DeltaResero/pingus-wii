@@ -37,6 +37,8 @@
 #define snprintf _snprintf
 #endif
 
+namespace pingus {
+
 CommandLine_Generic::CommandLine_Generic() :
   help_indent(18),
   programm(),
@@ -57,7 +59,8 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
       if (argv[i][1] == '-')
       {
         // We got a long option
-        if (argv[i][2] == '\0') {
+        if (argv[i][2] == '\0')
+        {
           // Got a '--', so we stop evaluating arguments
           ++i;
           while(i < argc)
@@ -104,7 +107,8 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
                 if (i == argc - 1)
                 {
                   raise_exception(std::runtime_error,
-                                  "option '" << std::string(argv[i]) << "' requires an argument");
+                                  "option '" << std::string(argv[i])
+                                             << "' requires an argument");
                 }
                 else
                 {
@@ -116,7 +120,9 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
           }
           else
           {
-            raise_exception(std::runtime_error, "unrecognized option '" << std::string(argv[i]) << "'");
+            raise_exception(std::runtime_error, "unrecognized option '"
+                                                    << std::string(argv[i])
+                                                    << "'");
           }
         }
       }
@@ -125,7 +131,8 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
         // We got a short option
         char* p = argv[i] + 1;
 
-        if (*p != '\0') {
+        if (*p != '\0')
+        {
           // Handle option chains
           while (*p)
           {
@@ -143,7 +150,9 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
                 if (i == argc - 1 || *(p+1) != '\0')
                 {
                   // No more arguments
-                  raise_exception(std::runtime_error, "option requires an argument -- " << std::string(1, *p));
+                  raise_exception(std::runtime_error,
+                                  "option requires an argument -- "
+                                      << std::string(1, *p));
                 }
                 else
                 {
@@ -154,7 +163,8 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
             }
             else
             {
-              raise_exception(std::runtime_error, "invalid option -- " << std::string(1, *p));
+              raise_exception(std::runtime_error,
+                              "invalid option -- " << std::string(1, *p));
             }
             ++p;
           }
@@ -184,7 +194,7 @@ CommandLine_Generic::Option *CommandLine_Generic::lookup_short_option(char short
   return nullptr;
 }
 
-CommandLine_Generic::Option *CommandLine_Generic::lookup_long_option(const std::string& long_option)
+CommandLine_Generic::Option *CommandLine_Generic::lookup_long_option(const std::string &long_option)
 {
   for(Options::iterator i = options.begin(); i != options.end(); ++i)
   {
@@ -203,7 +213,6 @@ void CommandLine_Generic::read_option(int key, const std::string& argument)
 
   parsed_options.push_back(parsed_option);
 }
-
 void CommandLine_Generic::print_help()
 {
   bool first_usage = true;
@@ -215,7 +224,7 @@ void CommandLine_Generic::print_help()
       {
         if (first_usage)
         {
-          std::cout << "Usage: " << programm << " " <<  i->help << std::endl;
+          std::cout << "Usage: " << programm << " " << i->help << std::endl;
           first_usage = false;
         }
         else
@@ -255,10 +264,10 @@ void CommandLine_Generic::print_help()
             snprintf(argument, 256, "=%s", i->argument.c_str());
         }
 
-        std::cout << "  "
-                  << std::setiosflags(std::ios::left) << std::setw(help_indent)
-                  << (std::string(option) + std::string(argument)) << std::setw(0)
-                  << " " << i->help << std::endl;
+        std::cout << "  " << std::setiosflags(std::ios::left)
+                  << std::setw(help_indent)
+                  << (std::string(option) + std::string(argument))
+                  << std::setw(0) << " " << i->help << std::endl;
       }
     }
   }
@@ -337,5 +346,8 @@ std::string CommandLine_Generic::get_argument()
 {
   return current_option->argument;
 }
+
+
+} // namespace pingus
 
 // EOF

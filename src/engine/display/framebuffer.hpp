@@ -21,6 +21,8 @@
 #include "math/size.hpp"
 #include "math/vector2i.hpp"
 
+namespace pingus {
+
 class Surface;
 
 class Framebuffer
@@ -50,6 +52,8 @@ public:
   virtual Size get_size() const =0;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

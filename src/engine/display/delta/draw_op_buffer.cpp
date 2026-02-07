@@ -13,6 +13,9 @@
 
 #include <algorithm>
 
+namespace pingus {
+
+
 DrawOpBuffer::DrawOpBuffer() :
   draw_ops(),
   mempool()
@@ -179,5 +182,8 @@ DrawOpBuffer::render(SDLFramebuffer& fb, DrawOpBuffer& frontbuffer)
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

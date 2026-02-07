@@ -16,6 +16,9 @@
 
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 class Pathname;
 class FileReader;
 class PingusLevelImpl;
@@ -82,6 +85,8 @@ protected:
   std::shared_ptr<PingusLevelImpl> impl;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

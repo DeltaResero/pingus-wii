@@ -15,6 +15,9 @@
 #include <algorithm>
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 namespace {
 
 // Set max texture size to 1024.
@@ -164,5 +167,8 @@ OpenGLFramebufferSurfaceImpl::~OpenGLFramebufferSurfaceImpl()
     glDeleteTextures(1, &i->handle);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

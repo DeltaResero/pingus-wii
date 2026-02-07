@@ -27,6 +27,9 @@
 #include "engine/display/opengl/opengl_framebuffer.hpp"
 #include "engine/display/opengl/opengl_framebuffer_surface_impl.hpp"
 
+namespace pingus {
+
+
 #ifdef __WII__
 #  include <GL/gl.h>
 #else
@@ -390,5 +393,8 @@ Font::bounding_rect(int x, int y, const std::string& str) const
   else
     return Rect();
 }
+
+
+} // namespace pingus
 
 // EOF

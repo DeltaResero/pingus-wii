@@ -11,6 +11,9 @@
 
 #include "getters.hpp"
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -50,5 +53,8 @@ bool get(const Lisp* lisp, std::string& val)
 }
 
 }
+
+
+} // namespace pingus
 
 // EOF

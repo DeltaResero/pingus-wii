@@ -36,6 +36,9 @@
 #include "math/size.hpp"
 #include "vector2i.hpp"
 
+namespace pingus {
+
+
 //: Alignment origins.
 //- !group=Core/Math!
 //- !header=core.h!
@@ -57,6 +60,8 @@ std::string origin2string(Origin origin);
 
 Vector2i calc_origin(Origin origin, const Size& size);
 
+
+} // namespace pingus
 #endif
 
 // EOF

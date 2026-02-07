@@ -18,6 +18,8 @@
 #include "engine/gui/rect_component.hpp"
 #include "pingus/capture_rectangle.hpp"
 
+namespace pingus {
+
 class Pingu;
 class World;
 class Server;
@@ -27,7 +29,7 @@ class Controller;
 class View;
 
 /** This class encapsulates all the different Views */
-class Playfield : public pingus::gui::RectComponent
+class Playfield : public gui::RectComponent
 {
 private:
   Server* server;
@@ -68,7 +70,7 @@ public:
   void on_secondary_button_press (int x, int y);
   void on_secondary_button_release (int x, int y);
   void on_pointer_move (int x, int y);
-  void on_key_pressed(const pingus::input::KeyboardEvent& ev);
+  void on_key_pressed(const input::KeyboardEvent& ev);
 
   void enable_scroll_mode();
   void do_scrolling();
@@ -81,6 +83,8 @@ private:
   Playfield& operator= (const Playfield&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

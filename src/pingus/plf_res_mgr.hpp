@@ -15,6 +15,8 @@
 #include "pingus/pingus_level.hpp"
 #include <SDL.h>
 
+namespace pingus {
+
 class Pathname;
 
 class PLFResMgr
@@ -51,6 +53,8 @@ public:
   static PingusLevel load_plf_from_filename(const Pathname& filename);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

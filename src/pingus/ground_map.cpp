@@ -18,6 +18,9 @@
 #include "pingus/collision_map.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 class MapTile
 {
 private:
@@ -321,5 +324,8 @@ GroundMap::get_tile(int x, int y)
 {
   return tiles[y*tile_width + x].get();
 }
+
+
+} // namespace pingus
 
 // EOF

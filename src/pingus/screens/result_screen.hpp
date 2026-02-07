@@ -14,18 +14,17 @@
 
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/result.hpp"
+#include "fwd.hpp"
 
-namespace pingus::gui {
-class SurfaceButton;
-} // namespace pingus::gui
+namespace pingus {
 
 class ResultScreen : public GUIScreen
 {
 private:
   Result result;
-  pingus::gui::SurfaceButton*   ok_button;
-  pingus::gui::SurfaceButton* abort_button;
-  pingus::gui::SurfaceButton* retry_button;
+  gui::SurfaceButton*   ok_button;
+  gui::SurfaceButton* abort_button;
+  gui::SurfaceButton* retry_button;
 
 public:
   ResultScreen(Result result);
@@ -44,6 +43,8 @@ private:
   ResultScreen& operator= (const ResultScreen&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

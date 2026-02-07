@@ -18,6 +18,8 @@
 #include "pingus/res_descriptor.hpp"
 #include "pingus/resource_manager.hpp"
 
+namespace pingus {
+
 class Resource
 {
 public:
@@ -43,6 +45,8 @@ private:
   Resource& operator= (const Resource&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

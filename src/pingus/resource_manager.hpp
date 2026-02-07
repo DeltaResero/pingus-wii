@@ -18,6 +18,9 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
+
 class FileReader;
 class Pathname;
 class SpriteDescription;
@@ -48,6 +51,8 @@ private:
   ResourceManager& operator= (const ResourceManager&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

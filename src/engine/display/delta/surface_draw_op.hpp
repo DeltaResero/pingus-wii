@@ -12,6 +12,9 @@
 #ifndef HEADER_PINGUS_ENGINE_DISPLAY_DELTA_SURFACE_DRAW_OP_HPP
 #define HEADER_PINGUS_ENGINE_DISPLAY_DELTA_SURFACE_DRAW_OP_HPP
 
+namespace pingus {
+
+
 struct SurfaceDrawOp : public DrawOp
 {
   Vector2i           pos;
@@ -45,6 +48,8 @@ struct SurfaceDrawOp : public DrawOp
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

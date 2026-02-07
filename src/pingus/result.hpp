@@ -14,6 +14,8 @@
 
 #include "pingus/pingus_level.hpp"
 
+namespace pingus {
+
 /** Result of a Pingus game */
 struct Result
 {
@@ -53,6 +55,8 @@ struct Result
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

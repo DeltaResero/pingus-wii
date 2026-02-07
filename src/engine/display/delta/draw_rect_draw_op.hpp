@@ -12,6 +12,9 @@
 #ifndef HEADER_PINGUS_ENGINE_DISPLAY_DELTA_DRAW_RECT_DRAW_OP_HPP
 #define HEADER_PINGUS_ENGINE_DISPLAY_DELTA_DRAW_RECT_DRAW_OP_HPP
 
+namespace pingus {
+
+
 struct DrawRectDrawOp : public DrawOp
 {
   Rect  rect;
@@ -40,6 +43,8 @@ struct DrawRectDrawOp : public DrawOp
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

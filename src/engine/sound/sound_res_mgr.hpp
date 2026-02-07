@@ -16,6 +16,9 @@
 #include <string>
 #include <SDL_mixer.h>
 
+namespace pingus {
+
+
 typedef Mix_Chunk* SoundHandle;
 
 class SoundResMgr
@@ -32,6 +35,8 @@ private:
   SoundResMgr& operator= (const SoundResMgr&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

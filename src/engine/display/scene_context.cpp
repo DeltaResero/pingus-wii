@@ -15,6 +15,9 @@
 
 #define SCALE_FACTOR 8.0f
 
+namespace pingus {
+
+
 class SceneContextImpl
 {
 public:
@@ -187,5 +190,8 @@ SceneContextDrawingRequest::render(Framebuffer& fb, const Rect& rect)
 {
   sc->render(fb, rect);
 }
+
+
+} // namespace pingus
 
 // EOF

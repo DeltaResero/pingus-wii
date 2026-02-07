@@ -14,6 +14,9 @@
 
 #include <string>
 
+namespace pingus {
+
+
 class Vector3f;
 class Size;
 class Color;
@@ -51,6 +54,8 @@ public:
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -26,8 +26,10 @@
 #include "pingus/screens/option_menu.hpp"
 #include "pingus/screens/start_screen.hpp"
 #include "pingus/screens/story_screen.hpp"
-#include "pingus/worldmap/worldmap_screen.hpp"
 #include "pingus/stat_manager.hpp"
+#include "pingus/worldmap/worldmap_screen.hpp"
+
+namespace pingus {
 
 PingusMenu::PingusMenu() :
   is_init(),
@@ -49,14 +51,13 @@ PingusMenu::PingusMenu() :
   // Initialize buttons with dummy positions (0,0).
   // The actual layout is applied immediately after via layout_buttons()
 
-
   // Add buttons to GUI manager
-  quit_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Exit", "..:: Bye, bye ::..");
-  options_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Options", "..:: Configure the game ::..");
-  contrib_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Levelsets", "..:: Play User Built levels ::..");
-  start_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Story", "..:: Start the game ::..");
+  quit_button = gui_manager->create<MenuButton>(this, Vector2i(0, 0), "Exit", "..:: Bye, bye ::..");
+  options_button = gui_manager->create<MenuButton>(this, Vector2i(0, 0), "Options", "..:: Configure the game ::..");
+  contrib_button = gui_manager->create<MenuButton>(this, Vector2i(0, 0), "Levelsets", "..:: Play User Built levels ::..");
+  start_button = gui_manager->create<MenuButton>(this, Vector2i(0, 0), "Story", "..:: Start the game ::..");
 #ifndef DISABLE_EDITOR
-  editor_button = gui_manager->create<MenuButton>(this, Vector2i(0,0), "Editor", "..:: Create your own levels ::..");
+  editor_button = gui_manager->create<MenuButton>(this, Vector2i(0, 0), "Editor", "..:: Create your own levels ::..");
 #endif
 
   logo = Sprite("core/misc/logo");
@@ -65,9 +66,10 @@ PingusMenu::PingusMenu() :
   create_background(Size(Display::get_width(), Display::get_height()));
   layout_buttons(Size(Display::get_width(), Display::get_height()));
 
-  help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: fullscreen   ::   F12: screenshot ::..";
+  help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: "
+         "fullscreen   ::   F12: screenshot ::..";
 
-  pingus::sound::PingusSound::play_music("pingus-1.it");
+  sound::PingusSound::play_music("pingus-1.it");
 }
 
 PingusMenu::~PingusMenu()
@@ -108,22 +110,23 @@ PingusMenu::layout_buttons(const Size& size)
 void
 PingusMenu::show_credits()
 {
-  ScreenManager::instance()
-    ->push_screen(std::make_shared<Credits>(Pathname("credits/pingus.credits", Pathname::DATA_PATH)));
+  ScreenManager::instance()->push_screen(std::make_shared<Credits>(
+      Pathname("credits/pingus.credits", Pathname::DATA_PATH)));
 }
 
 void
 PingusMenu::do_quit()
 {
-  ScreenManager::instance ()->pop_screen ();
+  ScreenManager::instance()->pop_screen();
 }
 
 void
 PingusMenu::do_start(const std::string &filename)
 { // Start the story or worldmap mode
-  pingus::sound::PingusSound::play_sound ("letsgo");
+  sound::PingusSound::play_sound("letsgo");
 
-  std::shared_ptr<pingus::worldmap::WorldmapScreen> worldmap_screen = std::make_shared<pingus::worldmap::WorldmapScreen>();
+  std::shared_ptr<worldmap::WorldmapScreen> worldmap_screen =
+      std::make_shared<worldmap::WorldmapScreen>();
   worldmap_screen->load(Pathname(filename, Pathname::DATA_PATH));
   ScreenManager::instance()->push_screen(worldmap_screen);
 
@@ -139,23 +142,23 @@ PingusMenu::do_start(const std::string &filename)
 
 void PingusMenu::do_contrib(const std::string &levelfile)
 { // Launch the specified level - don't bother checking for it, it has to exist
-  pingus::sound::PingusSound::play_sound ("letsgo");
+  sound::PingusSound::play_sound("letsgo");
   ScreenManager::instance()->push_screen
     (std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(Pathname(levelfile, Pathname::SYSTEM_PATH))));
 }
 
 #ifndef DISABLE_EDITOR
 void PingusMenu::do_edit()
-{       // Launch the level editor
-  pingus::sound::PingusSound::stop_music();
-  ScreenManager::instance()->push_screen(std::make_shared<pingus::editor::EditorScreen>());
+{ // Launch the level editor
+  sound::PingusSound::stop_music();
+  ScreenManager::instance()->push_screen(
+      std::make_shared<editor::EditorScreen>());
 }
 #endif
 
-void
-PingusMenu::on_escape_press ()
+void PingusMenu::on_escape_press()
 {
-  //FIXME: get_manager()->show_exit_menu ();
+  // FIXME: get_manager()->show_exit_menu ();
 }
 
 void
@@ -163,32 +166,35 @@ PingusMenu::draw_background(DrawingContext& gc)
 {
   background->draw(gc);
 
-  gc.draw(logo, Vector2i((gc.get_width()/2) - (logo.get_width()/2),
-                         gc.get_height()/2 - 280));
+  gc.draw(logo, Vector2i((gc.get_width() / 2) - (logo.get_width() / 2),
+                         gc.get_height() / 2 - 280));
 
-  gc.print_left(pingus::fonts::pingus_small, Vector2i(gc.get_width()/2 - 400 + 25, gc.get_height()-140),
-                "Pingus " VERSION " - Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
+  gc.print_left(fonts::pingus_small,
+                Vector2i(gc.get_width() / 2 - 400 + 25, gc.get_height() - 140),
+                "Pingus " VERSION
+                " - Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
                 "See the file AUTHORS for a complete list of contributors.\n"
-                "Pingus comes with ABSOLUTELY NO WARRANTY. This is free software, and you are\n"
-                "welcome to redistribute it under certain conditions; see the file LICENSE for details.\n");
+                "Pingus comes with ABSOLUTELY NO WARRANTY. This is free "
+                "software, and you are\n welcome to redistribute it under "
+                "certain conditions; see the file LICENSE for details.\n");
 
-  gc.draw_fillrect(Rect(0,
-                        Display::get_height () - 26,
-                        Display::get_width (),
-                        Display::get_height ()),
+  gc.draw_fillrect(Rect(0, Display::get_height() - 26, Display::get_width(),
+                        Display::get_height()),
                    Color(0, 0, 0, 255));
 
-  gc.print_center(pingus::fonts::pingus_small,
-                  Vector2i(gc.get_width() / 2,
-                           gc.get_height() - pingus::fonts::pingus_small.get_height() - 8),
-                  help);
+  gc.print_center(
+      fonts::pingus_small,
+      Vector2i(gc.get_width() / 2,
+               gc.get_height() - fonts::pingus_small.get_height() - 8),
+      help);
 
   if (0) // display hint
   {
-    gc.print_center(pingus::fonts::pingus_small,
-                    Vector2i(gc.get_width() / 2,
-                             gc.get_height() - pingus::fonts::pingus_small.get_height()),
-                    hint);
+    gc.print_center(
+        fonts::pingus_small,
+        Vector2i(gc.get_width() / 2,
+                 gc.get_height() - fonts::pingus_small.get_height()),
+        hint);
   }
 }
 
@@ -255,7 +261,8 @@ PingusMenu::create_background(const Size& size_)
     layer2 = layer2.scale(w, 362 * h / globals::default_screen_height);
     layer3 = layer3.scale(w, 306 * h / globals::default_screen_height);
     layer4 = layer4.scale(w, 171 * h / globals::default_screen_height);
-    layer5 = layer5.scale(302 * w / globals::default_screen_width, 104 * h / globals::default_screen_height);
+    layer5 = layer5.scale(302 * w / globals::default_screen_width,
+                          104 * h / globals::default_screen_height);
 
     background->add_layer(Sprite(layer1), 0, 0, 12, 0);
     background->add_layer(Sprite(layer2), 0, 150 * static_cast<float>(h) / static_cast<float>(globals::default_screen_height), 25, 0);
@@ -277,8 +284,10 @@ void
 PingusMenu::resize(const Size& size_)
 {
   GUIScreen::resize(size_);
-  create_background(size);
-  layout_buttons(size);
+  create_background(size_);
+  layout_buttons(size_);
 }
+
+} // namespace pingus
 
 // EOF

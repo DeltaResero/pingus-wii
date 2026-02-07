@@ -14,6 +14,8 @@
 
 #include "engine/display/framebuffer.hpp"
 
+namespace pingus {
+
 /** NullFramebuffer is an empty dummy class for debugging purposes */
 class NullFramebuffer : public Framebuffer
 {
@@ -47,6 +49,8 @@ public:
   Size get_size() const;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

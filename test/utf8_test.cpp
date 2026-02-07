@@ -14,6 +14,8 @@
 
 #include "util/utf8.hpp"
 
+using namespace pingus;
+
 int main(int argc, char** argv)
 {
   if (argc != 2)

@@ -27,9 +27,12 @@
 #include "pingus/world.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 static bool false_func() { return false; }
 
-class BButton : public pingus::gui::SurfaceButton
+class BButton : public gui::SurfaceButton
 {
 private:
   Sprite highlight;
@@ -272,5 +275,8 @@ DemoSession::resize(const Size& size_)
 
   small_map->set_rect(Rect(Vector2i(5, size.height - 105), Size(175, 100)));
 }
+
+
+} // namespace pingus
 
 // EOF

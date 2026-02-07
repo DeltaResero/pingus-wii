@@ -15,13 +15,16 @@
 #include "engine/display/sprite.hpp"
 #include "engine/gui/rect_component.hpp"
 
+namespace pingus {
+
+
 class Playfield;
 class Server;
 class Vector3f;
 class SmallMapImage;
 
 /** This is the map that appears in the corner of the screen */
-class SmallMap : public pingus::gui::RectComponent
+class SmallMap : public gui::RectComponent
 {
 private:
   Server*    server;
@@ -75,6 +78,8 @@ private:
   SmallMap& operator= (const SmallMap&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

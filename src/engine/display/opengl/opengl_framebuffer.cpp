@@ -17,6 +17,9 @@
 
 #include "engine/display/opengl/opengl_framebuffer_surface_impl.hpp"
 
+namespace pingus {
+
+
 OpenGLFramebuffer::OpenGLFramebuffer() :
   screen(),
   cliprect_stack(),
@@ -347,5 +350,8 @@ OpenGLFramebuffer::invalidate_state()
   m_texture_enabled = false;
   m_texcoord_array_enabled = false;
 }
+
+
+} // namespace pingus
 
 // EOF

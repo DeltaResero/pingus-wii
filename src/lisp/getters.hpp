@@ -26,6 +26,9 @@
 
 #include "lisp.hpp"
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -68,6 +71,8 @@ static inline bool property_get(const Lisp* lisp, std::vector<T>& list)
 
 }
 
+
+} // namespace pingus
 #endif
 
 // EOF

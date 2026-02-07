@@ -17,6 +17,8 @@
 #include "math/rect.hpp"
 #include "math/vector2i.hpp"
 
+namespace pingus {
+
 class Framebuffer;
 
 class DrawingRequest
@@ -46,6 +48,8 @@ private:
   DrawingRequest& operator= (const DrawingRequest&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -11,6 +11,9 @@
 
 #include "util/string_util.hpp"
 
+namespace pingus {
+
+
 // Code based on clanstring.cpp from ClanLib 0.8
 
 std::string
@@ -42,5 +45,8 @@ StringUtil::to_upper(const std::string& str)
 
   return upper_impl;
 }
+
+
+} // namespace pingus
 
 // EOF

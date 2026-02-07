@@ -31,6 +31,9 @@
 #define cl_min(a,b) ((a < b) ? a : b)
 #define cl_max(a,b) ((a > b) ? a : b)
 
+namespace pingus {
+
+
 std::ostream& operator<<(std::ostream& s, const Rect& rect)
 {
   return s << "Rect(" << rect.left << ", " << rect.top << ", "
@@ -42,5 +45,8 @@ std::ostream& operator<<(std::ostream& s, const Rectf& rect)
   return s << "Rect(" << rect.left << ", " << rect.top << ", "
            << rect.right << ", " << rect.bottom << ")";
 }
+
+
+} // namespace pingus
 
 // EOF

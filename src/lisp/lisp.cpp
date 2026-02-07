@@ -17,6 +17,9 @@
 
 #include "lisp.hpp"
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -103,5 +106,8 @@ Lisp::print(std::ostream& out, int indent) const
 }
 
 } // end of namespace lisp
+
+
+} // namespace pingus
 
 // EOF

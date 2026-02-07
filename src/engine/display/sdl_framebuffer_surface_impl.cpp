@@ -11,6 +11,9 @@
 
 #include "engine/display/sdl_framebuffer_surface_impl.hpp"
 
+namespace pingus {
+
+
 SDLFramebufferSurfaceImpl::SDLFramebufferSurfaceImpl(SDL_Surface* src) :
   surface()
 {
@@ -24,5 +27,8 @@ SDLFramebufferSurfaceImpl::~SDLFramebufferSurfaceImpl()
 {
   SDL_FreeSurface(surface);
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -17,12 +17,14 @@
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
 
+namespace pingus {
+
 PingusCounter::PingusCounter(Server* s) :
   server(s),
   font(),
   background("core/buttons/info")
 {
-  font = pingus::fonts::pingus_small_fixnum;
+  font = fonts::pingus_small_fixnum;
 }
 
 void
@@ -43,5 +45,8 @@ PingusCounter::draw(DrawingContext& gc)
 
   gc.print_center(font, Vector2i(gc.get_width()/2, -2), str);
 }
+
+
+} // namespace pingus
 
 // EOF

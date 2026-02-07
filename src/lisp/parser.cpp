@@ -19,6 +19,9 @@
 #include "lisp.hpp"
 #include "parser.hpp"
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -160,5 +163,8 @@ Parser::parse()
 }
 
 } // end of namespace lisp
+
+
+} // namespace pingus
 
 // EOF

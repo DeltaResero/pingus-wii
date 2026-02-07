@@ -16,6 +16,9 @@
 #include <stddef.h>
 #include <vector>
 
+namespace pingus {
+
+
 /** MemoryPool allows the allocation of small objects on a previous
     allocated chunk of memory, thus reducing the amount of new/delete
     calls that have to be done and providing a speed up. */
@@ -152,6 +155,8 @@ private:
   MemoryPool& operator= (const MemoryPool&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

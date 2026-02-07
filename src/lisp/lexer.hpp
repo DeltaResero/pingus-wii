@@ -14,6 +14,9 @@
 #ifndef __LISPLEXER_H__
 #define __LISPLEXER_H__
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -65,6 +68,8 @@ private:
 
 } // end of namespace lisp
 
+
+} // namespace pingus
 #endif
 
 // EOF

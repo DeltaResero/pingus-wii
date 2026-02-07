@@ -21,6 +21,9 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 Pathname Pathname::tmpfile(const std::string& /*prefix*/)
 {
   assert(!"Unimplemented");
@@ -296,5 +299,8 @@ Pathname::operator==(const Pathname& rhs) const
 {
   return type == rhs.type && pathname == rhs.pathname;
 }
+
+
+} // namespace pingus
 
 // EOF

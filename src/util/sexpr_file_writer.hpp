@@ -19,6 +19,9 @@
 #include "math/vector3f.hpp"
 #include "util/file_writer.hpp"
 
+namespace pingus {
+
+
 class SExprFileWriter : public FileWriter
 {
 private:
@@ -59,6 +62,8 @@ private:
   SExprFileWriter& operator= (const SExprFileWriter&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -15,6 +15,9 @@
 #include "math/vector3f.hpp"
 #include "pingus/action_name.hpp"
 
+namespace pingus {
+
+
 class FileReader;
 class Server;
 
@@ -75,6 +78,8 @@ public:
   static ServerEvent make_pingu_action_event(int t, int id, const Vector3f& pos, ActionName::Enum action);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

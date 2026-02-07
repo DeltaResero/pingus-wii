@@ -22,6 +22,9 @@
 #include "util/pathname.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 SDLSystem::SDLSystem()
 {
 #ifdef __WII__
@@ -89,5 +92,8 @@ SDLSystem::create_window(FramebufferType framebuffer_type, const Size& size, boo
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 }
+
+
+} // namespace pingus
 
 // EOF

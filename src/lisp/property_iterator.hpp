@@ -15,6 +15,9 @@
 #include <map>
 #include <string>
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -82,6 +85,8 @@ private:
 
 }
 
+
+} // namespace pingus
 #endif
 
 // EOF

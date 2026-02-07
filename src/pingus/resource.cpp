@@ -18,6 +18,9 @@
 #include "util/log.hpp"
 #include "util/pathname.hpp"
 
+namespace pingus {
+
+
 ResourceManager Resource::resmgr;
 
 void
@@ -128,5 +131,8 @@ Resource::load_thumb_sprite(const std::string& name)
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

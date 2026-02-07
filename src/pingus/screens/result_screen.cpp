@@ -21,7 +21,10 @@
 #include "pingus/screens/game_session.hpp"
 #include "util/string_util.hpp"
 
-class ResultScreenComponent : public pingus::gui::Component
+namespace pingus {
+
+
+class ResultScreenComponent : public gui::Component
 {
 public:
   Result result;
@@ -35,13 +38,13 @@ public:
 };
 
 class ResultScreenOkButton
-  : public pingus::gui::SurfaceButton
+  : public gui::SurfaceButton
 {
 private:
   ResultScreen* parent;
 public:
   ResultScreenOkButton(ResultScreen* p, int x, int y)
-    : pingus::gui::SurfaceButton(x, y,
+    : gui::SurfaceButton(x, y,
                          "core/start/ok",
                          "core/start/ok_clicked",
                          "core/start/ok_hover"),
@@ -52,13 +55,13 @@ public:
   void on_pointer_enter ()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound("tick");
+    sound::PingusSound::play_sound("tick");
   }
 
   void on_click()
   {
     parent->close_screen();
-    pingus::sound::PingusSound::play_sound("yipee");
+    sound::PingusSound::play_sound("yipee");
   }
 
 private:
@@ -67,13 +70,13 @@ private:
 };
 
 class ResultScreenAbortButton
-  : public pingus::gui::SurfaceButton
+  : public gui::SurfaceButton
 {
 private:
   ResultScreen* parent;
 public:
   ResultScreenAbortButton(ResultScreen* p, int x, int y)
-    : pingus::gui::SurfaceButton(x, y,
+    : gui::SurfaceButton(x, y,
                          "core/start/back",
                          "core/start/back_clicked",
                          "core/start/back_hover"),
@@ -83,7 +86,7 @@ public:
 
   void draw(DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(pingus::fonts::chalk_normal, Vector2i(x_pos + 55, y_pos - 4), "Give up");
+    gc.print_center(fonts::chalk_normal, Vector2i(x_pos + 55, y_pos - 4), "Give up");
   }
 
   void on_click() {
@@ -93,7 +96,7 @@ public:
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound ("tick");
   }
 
 private:
@@ -101,14 +104,14 @@ private:
   ResultScreenAbortButton & operator=(const ResultScreenAbortButton&);
 };
 
-class ResultScreenRetryButton : public pingus::gui::SurfaceButton
+class ResultScreenRetryButton : public gui::SurfaceButton
 {
 private:
   ResultScreen* parent;
 
 public:
   ResultScreenRetryButton(ResultScreen* p, int x, int y)
-    : pingus::gui::SurfaceButton(x, y,
+    : gui::SurfaceButton(x, y,
                          "core/start/ok",
                          "core/start/ok_clicked",
                          "core/start/ok_hover"),
@@ -118,7 +121,7 @@ public:
 
   void draw (DrawingContext& gc) {
     SurfaceButton::draw(gc);
-    gc.print_center(pingus::fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 24), "Retry");
+    gc.print_center(fonts::chalk_normal, Vector2i(x_pos + 30, y_pos - 24), "Retry");
   }
 
   bool is_at(int x, int y) {
@@ -135,7 +138,7 @@ public:
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound ("tick");
   }
 
 private:
@@ -165,26 +168,26 @@ ResultScreenComponent::draw(DrawingContext& gc)
 
   gc.draw(blackboard, Vector2i(gc.get_width()/2, gc.get_height()/2));
 
-  gc.print_center(pingus::fonts::chalk_large,
+  gc.print_center(fonts::chalk_large,
                   Vector2i(gc.get_width()/2,
                            Display::get_height()/2 - 200),
                   result.plf.get_levelname());
 
   if (result.success())
   {
-    gc.print_center(pingus::fonts::chalk_large,
+    gc.print_center(fonts::chalk_large,
                     Vector2i(gc.get_width()/2,
                              Display::get_height()/2 - 140),
                     "Success!");
-    /*gc.print_center(pingus::fonts::pingus_small, gc.get_width()/2, gc.get_height()-30,
+    /*gc.print_center(fonts::pingus_small, gc.get_width()/2, gc.get_height()-30,
       "..:: Press Space to continue ::..");*/
   }
   else
   {
-    gc.print_center(pingus::fonts::chalk_large,
+    gc.print_center(fonts::chalk_large,
                     Vector2i(gc.get_width()/2, Display::get_height()/2 - 140),
                     "Failure!");
-    /*gc.print_center(pingus::fonts::pingus_normal, gc.get_width()/2, gc.get_height()-30,
+    /*gc.print_center(fonts::pingus_normal, gc.get_width()/2, gc.get_height()-30,
       "..:: Press Space to retry the level ::..");*/
   }
 
@@ -219,21 +222,21 @@ ResultScreenComponent::draw(DrawingContext& gc)
     else
       message = "Better luck next time!";
   }
-  gc.print_center(pingus::fonts::chalk_normal, Vector2i(gc.get_width()/2, gc.get_height()/2 - 70), message);
+  gc.print_center(fonts::chalk_normal, Vector2i(gc.get_width()/2, gc.get_height()/2 - 70), message);
 
   int left_x  = gc.get_width()/2 - 100;
   int right_x = gc.get_width()/2 + 100;
   int y = Display::get_height()/2 + 10;
 
-  gc.print_left(pingus::fonts::chalk_normal,  Vector2i(left_x,  y), "Saved: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.saved)
+  gc.print_left(fonts::chalk_normal,  Vector2i(left_x,  y), "Saved: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.saved)
                  + "/" + StringUtil::to_string(result.needed));;
 
-  gc.print_left(pingus::fonts::chalk_normal,  Vector2i(left_x,  (y+=30)), "Died: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.killed));
+  gc.print_left(fonts::chalk_normal,  Vector2i(left_x,  (y+=30)), "Died: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), StringUtil::to_string(result.killed));
 
-  gc.print_left(pingus::fonts::chalk_normal,  Vector2i(left_x, (y+=30)), "Time left: ");
-  gc.print_right(pingus::fonts::chalk_normal, Vector2i(right_x, y), time_str);
+  gc.print_left(fonts::chalk_normal,  Vector2i(left_x, (y+=30)), "Time left: ");
+  gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), time_str);
 }
 
 ResultScreen::ResultScreen(Result arg_result) :
@@ -262,7 +265,7 @@ ResultScreen::ResultScreen(Result arg_result) :
                                                                 Display::get_height()/2 + 150);
   }
 
-  //gui_manager->add(new pingus::gui::SurfaceButton(500, 500, cancel_desc, cancel_desc, cancel_desc), true);
+  //gui_manager->add(new gui::SurfaceButton(500, 500, cancel_desc, cancel_desc, cancel_desc), true);
 }
 
 void
@@ -270,11 +273,11 @@ ResultScreen::on_startup()
 {
   if (result.success())
   {
-    pingus::sound::PingusSound::play_music("success_1.it", 1.f, false);
+    sound::PingusSound::play_music("success_1.it", 1.f, false);
   }
   else
   {
-    pingus::sound::PingusSound::play_music("pingus-2.it", 1.f, false);
+    sound::PingusSound::play_music("pingus-2.it", 1.f, false);
   }
 }
 
@@ -325,5 +328,8 @@ ResultScreen::resize(const Size& size_)
   if (retry_button)
     retry_button->set_pos(size.width/2 + 245, size.height/2 + 150);
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -16,6 +16,9 @@
 
 #include "engine/display/framebuffer.hpp"
 
+namespace pingus {
+
+
 enum DrawOpType { SURFACE_DRAWOP, FILLRECT_DRAWOP, DRAWRECT_DRAWOP, CLIP_DRAWOP };
 
 /** Little id creation function that is meant to bring equal objects
@@ -57,6 +60,8 @@ inline bool ops_xy_sorter(DrawOp* lhs, DrawOp* rhs)
   return lhs->less(rhs);
 }
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -15,6 +15,9 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
+
 class Size;
 class Color;
 class Vector3f;
@@ -46,6 +49,8 @@ public:
   virtual std::vector<std::string> get_section_names() const =0;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

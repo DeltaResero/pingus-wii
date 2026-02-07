@@ -18,6 +18,9 @@
 #include "math/size.hpp"
 #include "pingus/options.hpp"
 
+namespace pingus {
+
+
 class Vector2i;
 class Rect;
 class Color;
@@ -53,6 +56,8 @@ private:
   Display& operator= (const Display&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

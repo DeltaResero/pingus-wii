@@ -24,6 +24,9 @@
 #define CACHE_SIZE 32
 #define SECTOR_SIZE 64
 
+namespace pingus {
+
+
 namespace {
 
 // Global state for mounted devices
@@ -149,6 +152,8 @@ std::string get_data_dir()
 
 } // namespace Wii
 
+
+} // namespace pingus
 #endif // __WII__
 
 // EOF

@@ -20,7 +20,9 @@
 #include "pingus/res_descriptor.hpp"
 #include "util/file_writer.hpp"
 
+namespace pingus {
 class DrawingContext;
+}
 
 namespace pingus::editor {
 

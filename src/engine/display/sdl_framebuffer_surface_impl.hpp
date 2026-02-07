@@ -14,6 +14,8 @@
 
 #include "engine/display/framebuffer_surface.hpp"
 
+namespace pingus {
+
 class SDLFramebufferSurfaceImpl : public FramebufferSurfaceImpl
 {
 private:
@@ -33,6 +35,8 @@ private:
   SDLFramebufferSurfaceImpl & operator=(const SDLFramebufferSurfaceImpl&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -18,6 +18,9 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 StatManager* StatManager::instance_ = nullptr;
 
 StatManager*
@@ -178,5 +181,8 @@ StatManager::set_bool(const std::string& name, bool value)
   stats[name] = StringUtil::to_string(value);
   flush();
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -15,13 +15,16 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
+namespace pingus {
+
+
+namespace worldobjsData {
 class SmasherData;
 }
 
 class Pingu;
 
-namespace pingus::worldobjs {
+namespace worldobjs {
 
 class Smasher : public WorldObj
 {
@@ -52,8 +55,10 @@ private:
   Smasher& operator= (const Smasher&);
 };
 
-} // namespace pingus::worldobjs
+} // namespace worldobjs
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -15,6 +15,8 @@
 #include "pingus/collision_map.hpp"
 #include "pingus/world.hpp"
 
+namespace pingus {
+
 Collider::Collider()
 {
 }
@@ -34,5 +36,8 @@ int Collider::getpixel(World* const world, const Vector3f& pos) const
   return world->get_colmap()->getpixel(static_cast<int>(pos.x),
                                        static_cast<int>(pos.y));
 }
+
+
+} // namespace pingus
 
 // EOF

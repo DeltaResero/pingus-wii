@@ -18,6 +18,8 @@
 #include "engine/display/sprite.hpp"
 #include "pingus/groundtype.hpp"
 
+namespace pingus {
+
 class CollisionMask;
 
 class DrawingContext;
@@ -110,6 +112,8 @@ private:
   CollisionMap& operator= (const CollisionMap&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

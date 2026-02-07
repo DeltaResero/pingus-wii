@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <string>
 
+namespace pingus {
+
 /** A collection of small math helper functions, some of them might be
     equal in functionality to standard STL functions, but provided
     here for portability and broken STL implementations
@@ -49,6 +51,8 @@ float string2float(const std::string& str);
 
 } // namespace Math
 
+
+} // namespace pingus
 #endif
 
 // EOF

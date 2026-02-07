@@ -12,6 +12,7 @@
 #include "pingus/pingus_main.hpp"
 
 #include <iostream>
+#include <memory>
 #include <signal.h>
 
 #ifndef DISABLE_EDITOR
@@ -23,8 +24,8 @@
 #include "engine/system/sdl_system.hpp"
 #include "pingus/config_manager.hpp"
 #include "pingus/screens/demo_session.hpp"
-#include "pingus/screens/pingus_menu.hpp"
 #include "pingus/screens/level_menu.hpp"
+#include "pingus/screens/pingus_menu.hpp"
 #include "pingus/worldmap/worldmap_screen.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
@@ -55,6 +56,8 @@
 // Disable stupid deprecation warnings
 #pragma warning( disable : 4996 )
 #endif
+
+namespace pingus {
 
 PingusMain::PingusMain() :
   cmd_options()
@@ -135,68 +138,53 @@ PingusMain::parse_args(int argc, char** argv)
 {
   CommandLine argp;
   argp.add_usage("[OPTIONS]... [FILE]");
-  argp.add_doc("Pingus is a puzzle game where you need to guide a bunch of little penguins around the world.");
+  argp.add_doc("Pingus is a puzzle game where you need to guide a bunch of "
+               "little penguins around the world.");
 
   argp.add_group("General Options:");
-  argp.add_option('h', "help", "",
-                  "Displays this help");
-  argp.add_option('V', "version", "",
-                  "Print version number and exit");
-  argp.add_option('v', "verbose", "",
-                  "Enable info level log output");
-  argp.add_option('D', "debug", "",
-                  "Enable debug level log output");
-  argp.add_option('Q', "quiet", "",
-                  "Disable all log output");
+  argp.add_option('h', "help", "", "Displays this help");
+  argp.add_option('V', "version", "", "Print version number and exit");
+  argp.add_option('v', "verbose", "", "Enable info level log output");
+  argp.add_option('D', "debug", "", "Enable debug level log output");
+  argp.add_option('Q', "quiet", "", "Disable all log output");
 
   argp.add_group("Display Options:");
-  argp.add_option('w', "window", "",
-                  "Start in Window Mode");
-  argp.add_option('f', "fullscreen", "",
-                  "Start in Fullscreen");
+  argp.add_option('w', "window", "", "Start in Window Mode");
+  argp.add_option('f', "fullscreen", "", "Start in Fullscreen");
   argp.add_option('r', "renderer", "RENDERER",
                   "Use the given renderer (default: sdl)");
   argp.add_option('g', "geometry", "{width}x{height}",
                   "Set the window resolution for pingus (default: 800x600)");
   argp.add_option('R', "fullscreen-resolution", "{width}x{height}",
                   "Set the resolution used in fullscreen mode (default: 800x600)");
-  argp.add_option(346, "software-cursor", "",
-                  "Enable software cursor");
+  argp.add_option(346, "software-cursor", "", "Enable software cursor");
 
   argp.add_group("Game Options:");
-  argp.add_option(337, "no-auto-scrolling", "",
-                  "Disable automatic scrolling");
+  argp.add_option(337, "no-auto-scrolling", "", "Disable automatic scrolling");
   argp.add_option(338, "drag-drop-scrolling", "",
                   "Enable drag'n drop scrolling");
 
   argp.add_group("Sound Options:");
-  argp.add_option('s', "disable-sound", "",
-                  "Disable sound");
-  argp.add_option('m', "disable-music", "",
-                  "Disable music");
+  argp.add_option('s', "disable-sound", "", "Disable sound");
+  argp.add_option('m', "disable-music", "", "Disable music");
 
 #ifndef DISABLE_EDITOR
   argp.add_group("Editor Options:");
-  argp.add_option('e', "editor", "",
-                  "Loads the level editor");
+  argp.add_option('e', "editor", "", "Loads the level editor");
 #endif
 
   argp.add_group("Directory Options:");
-  argp.add_option('d', "datadir", "DIR",
-                  "Load game datafiles from DIR");
+  argp.add_option('d', "datadir", "DIR", "Load game datafiles from DIR");
   argp.add_option('u', "userdir", "DIR",
                   "Load config files and store savegames in DIR");
-  argp.add_option('a', "addon", "DIR",
-                  "Load game modifications from DIR");
-  argp.add_option(342, "no-cfg-file", "",
-                  "Don't read ~/.pingus/config");
-  argp.add_option('c', "config", "FILE",
-                  "Read config options from FILE");
+  argp.add_option('a', "addon", "DIR", "Load game modifications from DIR");
+  argp.add_option(342, "no-cfg-file", "", "Don't read ~/.pingus/config");
+  argp.add_option('c', "config", "FILE", "Read config options from FILE");
   argp.add_option(360, "controller", "FILE",
                   "Uses the controller given in FILE");
 
   argp.add_group("Debug Options:");
-  argp.add_option(334, "developer-mode",  "",
+  argp.add_option(334, "developer-mode", "",
                   "Enables some special features for developers");
   argp.add_option('t', "speed", "SPEED",
                   "Set the game speed (0=fastest, >0=slower)");
@@ -224,7 +212,8 @@ PingusMain::parse_args(int argc, char** argv)
         }
         else
         {
-          cmd_options.framebuffer_type.set(framebuffer_type_from_string(argp.get_argument()));
+          cmd_options.framebuffer_type.set(
+              framebuffer_type_from_string(argp.get_argument()));
         }
         break;
 
@@ -289,12 +278,13 @@ PingusMain::parse_args(int argc, char** argv)
         break;
 
       case 'V':
-        std::cout <<
-          "Pingus " VERSION "\n"
-          "Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
-          "See the file AUTHORS for a complete list of contributors.\n"
-          "Pingus comes with ABSOLUTELY NO WARRANTY. This is free software, and you are\n"
-          "welcome to redistribute it under certain conditions; see the file LICENSE for details."
+        std::cout << "Pingus " VERSION "\n"
+                     "Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
+                     "See the file AUTHORS for a complete list of contributors.\n"
+                     "Pingus comes with ABSOLUTELY NO WARRANTY. This is free "
+                     "software, and you are\n"
+                     "welcome to redistribute it under certain conditions; see "
+                     "the file LICENSE for details."
                   << std::endl;
         exit(EXIT_SUCCESS);
         break;
@@ -376,7 +366,6 @@ PingusMain::parse_args(int argc, char** argv)
     }
   }
 }
-
 // Get all filenames and directories
 void
 PingusMain::init_path_finder()
@@ -442,8 +431,8 @@ PingusMain::print_greeting_message()
 void
 PingusMain::start_game ()
 {
-  pingus::input::Manager input_manager;
-  pingus::input::ControllerPtr input_controller;
+  input::Manager input_manager;
+  input::ControllerPtr input_controller;
 
   if (!cmd_options.controller.is_set())
   {
@@ -468,7 +457,8 @@ PingusMain::start_game ()
 #ifndef DISABLE_EDITOR
   if (cmd_options.editor.is_set() && cmd_options.editor.get())
   { // Editor
-    std::shared_ptr<pingus::editor::EditorScreen> editor = std::make_shared<pingus::editor::EditorScreen>();
+    std::shared_ptr<editor::EditorScreen> editor =
+        std::make_shared<editor::EditorScreen>();
     // optionally load a map in the editor if it was given
     if (cmd_options.rest.is_set())
       editor->load(Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH));
@@ -481,8 +471,8 @@ PingusMain::start_game ()
   { // just start the map that was passed on the command line
     if (StringUtil::has_suffix(cmd_options.rest.get(), ".pingus-demo"))
     { // Demo file
-      screen_manager.push_screen
-        (std::make_shared<DemoSession>(Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH)));
+      screen_manager.push_screen(std::make_shared<DemoSession>(
+          Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH)));
     }
     else if (StringUtil::has_suffix(cmd_options.rest.get(), ".font"))
     {
@@ -498,27 +488,30 @@ PingusMain::start_game ()
     {
       Pathname filename(cmd_options.rest.get(), Pathname::SYSTEM_PATH);
 
-      std::shared_ptr<pingus::worldmap::WorldmapScreen> worldmap_screen = std::make_shared<pingus::worldmap::WorldmapScreen>();
+      std::shared_ptr<::pingus::worldmap::WorldmapScreen> worldmap_screen =
+          std::make_shared<::pingus::worldmap::WorldmapScreen>();
       worldmap_screen->load(filename);
       ScreenManager::instance()->push_screen(worldmap_screen);
     }
     else if (StringUtil::has_suffix(cmd_options.rest.get(), ".story"))
     {
-      screen_manager.push_screen(std::make_shared<StoryScreen>(FileReader::parse(Pathname(cmd_options.rest.get(),
-                                                                                          Pathname::SYSTEM_PATH))));
+      screen_manager.push_screen(
+          std::make_shared<StoryScreen>(FileReader::parse(
+              Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH))));
     }
     else if (StringUtil::has_suffix(cmd_options.rest.get(), ".levelset"))
     {
       std::shared_ptr<LevelMenu> lvlm = std::make_shared<LevelMenu>();
-      std::unique_ptr<Levelset> levelset = Levelset::from_file(Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH));
+      std::unique_ptr<Levelset> levelset = Levelset::from_file(
+          Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH));
       lvlm->set_levelset(levelset.release());
       screen_manager.push_screen(lvlm);
     }
     else
     { // Level file
-      screen_manager.push_screen
-        (std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(Pathname(cmd_options.rest.get(),
-                                                                                  Pathname::SYSTEM_PATH))));
+      screen_manager.push_screen(
+          std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(
+              Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH))));
     }
   }
   else // start a normal game
@@ -611,8 +604,8 @@ PingusMain::run(int argc, char** argv)
 
     // FIXME: turn these into RAII
     Resource::init();
-    pingus::fonts::init();
-    pingus::sound::PingusSound::init();
+    fonts::init();
+    sound::PingusSound::init();
 
     config_manager.apply(cmd_options);
 
@@ -632,8 +625,8 @@ PingusMain::run(int argc, char** argv)
     std::cout << "Pingus: Unknown throw caught!" << std::endl;
   }
 
-  pingus::sound::PingusSound::deinit();
-  pingus::fonts::deinit();
+  sound::PingusSound::deinit();
+  fonts::deinit();
   WorldObjFactory::deinit();
   Resource::deinit();
 
@@ -646,5 +639,8 @@ PingusMain::on_exit_press()
   std::cout << "Exit pressed" << std::endl;
   ScreenManager::instance()->pop_all_screens();
 }
+
+
+} // namespace pingus
 
 // EOF

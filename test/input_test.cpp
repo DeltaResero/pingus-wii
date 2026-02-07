@@ -9,19 +9,19 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <SDL.h>
 #include <iostream>
 #include <stdexcept>
-#include <SDL.h>
 
-#include "util/pathname.hpp"
-#include "engine/input/manager.hpp"
 #include "engine/input/controller.hpp"
+#include "engine/input/manager.hpp"
+#include "util/pathname.hpp"
 
 int main()
 {
   try
   {
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
       std::cerr << "Unable to init SDL: " << SDL_GetError() << std::endl;
       exit(1);
@@ -32,16 +32,18 @@ int main()
 
     pingus::input::Manager manager;
 
-    pingus::input::ControllerPtr controller
-      = manager.create_controller(Pathname("../data/controller/input2.scm", Pathname::SYSTEM_PATH));
+    pingus::input::ControllerPtr controller =
+        manager.create_controller(pingus::Pathname(
+            "../data/controller/input2.scm", pingus::Pathname::SYSTEM_PATH));
 
-    while(true)
+    while (true)
     {
       std::vector<pingus::input::Event> events;
 
       controller->poll_events(events);
 
-      for(std::vector<pingus::input::Event>::iterator i = events.begin(); i != events.end(); ++i)
+      for (std::vector<pingus::input::Event>::iterator i = events.begin();
+           i != events.end(); ++i)
       {
         // insert code here
       }
@@ -51,7 +53,7 @@ int main()
       SDL_Flip(screen);
     }
   }
-  catch (std::exception& err)
+  catch (std::exception &err)
   {
     std::cout << "Exception: " << err.what() << std::endl;
   }

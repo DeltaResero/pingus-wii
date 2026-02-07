@@ -16,6 +16,8 @@
 
 #include "engine/display/scene_context.hpp"
 
+namespace pingus {
+
 class GraphicContextStateImpl;
 
 /** Helper class for capturing the state of a GraphicContext, with
@@ -59,6 +61,8 @@ private:
   std::shared_ptr<GraphicContextStateImpl> impl;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

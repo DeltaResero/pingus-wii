@@ -13,6 +13,9 @@
 
 #include <ostream>
 
+namespace pingus {
+
+
 Vector3f
 Vector3f::rotate (float angle, const Vector3f& pos) const
 {
@@ -37,5 +40,8 @@ std::ostream& operator<<(std::ostream& os, const Vector3f& v)
 {
   return os << "Vector3f(" << v.x << ", " << v.y << ", " << v.z << ")";
 }
+
+
+} // namespace pingus
 
 // EOF

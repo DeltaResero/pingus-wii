@@ -27,7 +27,7 @@ struct Thing {
 
 int main()
 {
-  MemoryPool<Thing> pool;
+  pingus::MemoryPool<Thing> pool;
   pool.create<Thing>(5);
   pool.create<Thing>(3);
   pool.create<Thing>(2);

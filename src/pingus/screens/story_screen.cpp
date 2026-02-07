@@ -10,6 +10,7 @@
 // (at your option) any later version.
 
 #include "pingus/screens/story_screen.hpp"
+#include "util/file_reader.hpp"
 
 #include <algorithm>
 
@@ -23,7 +24,9 @@
 #include "pingus/screens/credits.hpp"
 #include "util/utf8.hpp"
 
-class StoryScreenComponent : public pingus::gui::Component
+namespace pingus {
+
+class StoryScreenComponent : public gui::Component
 {
 private:
   Sprite background;
@@ -34,47 +37,46 @@ private:
 
   bool page_displayed_completly;
 
-  pingus::worldmap::WorldmapStory* story;
-  std::vector<StoryPage> pages;
+  worldmap::WorldmapStory *story;
+  std::vector<worldmap::StoryPage> pages;
   Sprite page_surface;
-  StoryPage  current_page;
+  worldmap::StoryPage current_page;
   bool m_credits;
 
 public:
-  StoryScreenComponent (pingus::worldmap::WorldmapStory *arg_pages, bool credits);
+  StoryScreenComponent(worldmap::WorldmapStory *arg_pages, bool credits);
   virtual ~StoryScreenComponent () {}
 
-  void draw (DrawingContext& gc);
+  void draw(DrawingContext& gc);
   void update(float delta);
 
   void skip_story();
   /** starts to display the next text page */
   void next_text();
-  pingus::worldmap::WorldmapStory* get_story() const { return story; }
+  worldmap::WorldmapStory *get_story() const { return story; }
 
 private:
   StoryScreenComponent(const StoryScreenComponent&);
   StoryScreenComponent & operator=(const StoryScreenComponent&);
 };
 
-class StoryScreenContinueButton : public pingus::gui::SurfaceButton
+class StoryScreenContinueButton : public gui::SurfaceButton
 {
 private:
   StoryScreenComponent* story_comp;
+
 public:
   StoryScreenContinueButton(StoryScreenComponent* arg_story_comp, int x, int y)
-    : pingus::gui::SurfaceButton(x, y,
-                         "core/misc/next",
-                         "core/misc/next",
-                         "core/misc/next_hover"),
-      story_comp(arg_story_comp)
+      : gui::SurfaceButton(x, y, "core/misc/next", "core/misc/next",
+                           "core/misc/next_hover"),
+        story_comp(arg_story_comp)
   {
   }
 
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound("tick");
   }
 
   void on_click()
@@ -87,36 +89,33 @@ private:
   StoryScreenContinueButton & operator=(const StoryScreenContinueButton&);
 };
 
-class StoryScreenSkipButton : public pingus::gui::SurfaceButton
+class StoryScreenSkipButton : public gui::SurfaceButton
 {
 private:
   StoryScreenComponent* story_comp;
 
 public:
   StoryScreenSkipButton(StoryScreenComponent* arg_story_comp, int x, int y)
-    : pingus::gui::SurfaceButton(x, y, "", "", ""), // FIXME: Little fugly way to do a text button
-      story_comp(arg_story_comp)
-  {
-  }
+      : gui::SurfaceButton(x, y, "", "",
+                           ""), // FIXME: Little fugly way to do a text button
+        story_comp(arg_story_comp) {}
 
   void draw (DrawingContext& gc)
   {
-    gc.print_right(pingus::fonts::chalk_small, Vector2i(x_pos, y_pos), "skip");
+    gc.print_right(fonts::chalk_small, Vector2i(x_pos, y_pos), "skip");
   }
 
   bool is_at(int x, int y)
   {
-    return
-      x > x_pos - static_cast<int>(pingus::fonts::chalk_small.get_width("skip")) &&
-      x < x_pos &&
-      y > y_pos &&
-      y < y_pos + static_cast<int>(pingus::fonts::chalk_small.get_height());
+    return x > x_pos - static_cast<int>(fonts::chalk_small.get_width("skip")) &&
+           x < x_pos && y > y_pos &&
+           y < y_pos + static_cast<int>(fonts::chalk_small.get_height());
   }
 
   void on_pointer_enter()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound ("tick");
+    sound::PingusSound::play_sound("tick");
   }
 
   void on_click()
@@ -130,7 +129,7 @@ private:
 };
 
 StoryScreen::StoryScreen(const FileReader& reader, bool credits) :
-  story(new pingus::worldmap::WorldmapStory(reader)),
+  story(new worldmap::WorldmapStory(reader)),
   story_comp(),
   continue_button(nullptr),
   skip_button(nullptr),
@@ -150,7 +149,7 @@ StoryScreen::~StoryScreen()
 {
 }
 
-StoryScreenComponent::StoryScreenComponent (pingus::worldmap::WorldmapStory *arg_story, bool credits) :
+StoryScreenComponent::StoryScreenComponent(worldmap::WorldmapStory *arg_story, bool credits) :
   background(),
   blackboard(),
   display_text(),
@@ -181,16 +180,15 @@ StoryScreenComponent::draw (DrawingContext& gc)
     for(int x = 0; x < gc.get_width(); x += background.get_width())
       gc.draw(background, Vector2i(x, y));
 
-  gc.draw(blackboard, Vector2i(gc.get_width()/2, gc.get_height()/2));
+  gc.draw(blackboard, Vector2i(gc.get_width() / 2, gc.get_height() / 2));
 
-  gc.print_center(pingus::fonts::chalk_large,
-                  Vector2i(gc.get_width()/2, gc.get_height()/2 - 200),
+  gc.print_center(fonts::chalk_large,
+                  Vector2i(gc.get_width() / 2, gc.get_height() / 2 - 200),
                   story->get_title());
-  gc.draw(page_surface, Vector2i(gc.get_width()/2, gc.get_height()/2 - 65));
+  gc.draw(page_surface, Vector2i(gc.get_width() / 2, gc.get_height() / 2 - 65));
 
-  gc.print_left(pingus::fonts::chalk_normal,
-                Vector2i(gc.get_width()/2  - 280,
-                         gc.get_height()/2 + 35),
+  gc.print_left(fonts::chalk_normal,
+                Vector2i(gc.get_width() / 2 - 280, gc.get_height() / 2 + 35),
                 display_text);
 }
 
@@ -229,7 +227,7 @@ void
 StoryScreen::on_startup()
 {
   // FIXME: Load the song from the WorldmapStory
-  pingus::sound::PingusSound::play_music(story_comp->get_story()->get_music(), .7f);
+  sound::PingusSound::play_music(story_comp->get_story()->get_music(), .7f);
 }
 
 void StoryScreenComponent::skip_story()
@@ -263,8 +261,8 @@ StoryScreenComponent::next_text()
     {
       if (m_credits)
       {
-        ScreenManager::instance()->replace_screen
-          (std::make_shared<Credits>(Pathname("credits/pingus.credits", Pathname::DATA_PATH)));
+        ScreenManager::instance()->replace_screen(std::make_shared<Credits>(
+            Pathname("credits/pingus.credits", Pathname::DATA_PATH)));
       }
       else
       {
@@ -280,10 +278,12 @@ StoryScreen::resize(const Size& size_)
   GUIScreen::resize(size_);
 
   continue_button->set_pos(size.width/2 + 220 + 40,
-                           size.height/2 + 180 +32);
+                           size.height/2 + 180 + 32);
   if (skip_button)
-    skip_button->set_pos(size.width  - 4,
-                         size.height - 26);
+    skip_button->set_pos(size.width - 4, size.height - 26);
 }
+
+
+} // namespace pingus
 
 // EOF

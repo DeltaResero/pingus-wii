@@ -14,6 +14,9 @@
 
 #include "engine/display/resource_modifier.hpp"
 
+namespace pingus {
+
+
 /// Resource descriptor, tells were to find a resource.
 class ResDescriptor
 {
@@ -34,6 +37,8 @@ public:
 /// Our own function to print out the ResDescriptor
 std::ostream& operator<<(std::ostream& s, const ResDescriptor& desc);
 
+
+} // namespace pingus
 #endif
 
 // EOF

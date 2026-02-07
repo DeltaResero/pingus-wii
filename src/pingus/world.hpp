@@ -19,6 +19,8 @@
 #include "pingus/collision_mask.hpp"
 #include "pingus/groundtype.hpp"
 
+namespace pingus {
+
 class Vector3f;
 class GroundMap;
 class PinguHolder;
@@ -29,12 +31,12 @@ class WorldObj;
 class SmallMap;
 class SceneContext;
 
-namespace pingus::particles {
+namespace particles {
 class PinguParticleHolder;
 class RainParticleHolder;
 class SmokeParticleHolder;
 class SnowParticleHolder;
-}
+} // namespace particles
 
 /** The World holds all objects of the pingu enviroment.
 
@@ -62,16 +64,16 @@ private:
   std::vector<WorldObj*> world_obj;
   typedef std::vector<WorldObj*>::iterator WorldObjIter;
 
-  pingus::particles::PinguParticleHolder* pingu_particle_holder;
-  pingus::particles::RainParticleHolder*  rain_particle_holder;
-  pingus::particles::SmokeParticleHolder* smoke_particle_holder;
-  pingus::particles::SnowParticleHolder*  snow_particle_holder;
-  PinguHolder*                    pingus;
+  particles::PinguParticleHolder *pingu_particle_holder;
+  particles::RainParticleHolder *rain_particle_holder;
+  particles::SmokeParticleHolder *smoke_particle_holder;
+  particles::SnowParticleHolder *snow_particle_holder;
+  PinguHolder *pingus;
 
   // Pointers which are references to objects from other classes
-  CollisionMap*         colmap;
+  CollisionMap *colmap;
 
-  void    init_worldobjs (const PingusLevel& plf);
+  void init_worldobjs(const PingusLevel &plf);
 
   /** Acceleration due to gravity in the world */
   const float gravitational_acceleration;
@@ -85,21 +87,21 @@ public:
   void add_object (WorldObj* obj);
 
   /** Draw the world onto the given SceneContext */
-  void    draw (SceneContext& gc);
+  void draw(SceneContext &gc);
 
   /** Draw the world onte the given SmallMap*/
-  void    draw_smallmap(SmallMap* smallmap);
+  void draw_smallmap(SmallMap *smallmap);
 
   /** Update the World */
-  void    update ();
+  void update();
 
   /** Issue an armageddon, all Pingus will explode in some seconds. */
-  void    armageddon ();
+  void armageddon();
 
   /** @return The absolute height of the world. */
-  int     get_height ();
+  int get_height();
   /** @return The absolute width of the world */
-  int     get_width();
+  int get_width();
 
   /** Returns the time passed since the level was started */
   int get_time();
@@ -115,19 +117,31 @@ public:
 
   void remove(const CollisionMask&, int x, int y);
 
-  WorldObj* get_worldobj(const std::string& id);
+  WorldObj *get_worldobj(const std::string& id);
 
   /** @return A pointer to the worlds pingu particle holder */
-  pingus::particles::PinguParticleHolder* get_pingu_particle_holder () { return pingu_particle_holder; }
+  particles::PinguParticleHolder *get_pingu_particle_holder()
+  {
+    return pingu_particle_holder;
+  }
 
   /** @return A pointer to the worlds rain particle holder */
-  pingus::particles::RainParticleHolder* get_rain_particle_holder () { return rain_particle_holder; }
+  particles::RainParticleHolder *get_rain_particle_holder()
+  {
+    return rain_particle_holder;
+  }
 
   /** @return A pointer to the worlds smoke particle holder */
-  pingus::particles::SmokeParticleHolder* get_smoke_particle_holder () { return smoke_particle_holder; }
+  particles::SmokeParticleHolder *get_smoke_particle_holder()
+  {
+    return smoke_particle_holder;
+  }
 
   /** @return A pointer to the worlds snow particle holder */
-  pingus::particles::SnowParticleHolder* get_snow_particle_holder () { return snow_particle_holder; }
+  particles::SnowParticleHolder *get_snow_particle_holder()
+  {
+    return snow_particle_holder;
+  }
 
   /** @return true if the world is currently doing an armageddon */
   bool check_armageddon() { return do_armageddon; }
@@ -140,12 +154,12 @@ public:
       going to be ignored) void play_sound (std::string name, const
       @param volume The volume of the sound
   */
-  void play_sound (std::string name, const Vector3f& pos, float volume = 0.5f);
+  void play_sound(std::string name, const Vector3f &pos, float volume = 0.5f);
 
-  PinguHolder* get_pingus(void);
+  PinguHolder *get_pingus(void);
 
   /** @return the pingu at the given word coordinates, 0 if none is there */
-  Pingu* get_pingu (const Vector3f& pos);
+  Pingu *get_pingu(const Vector3f &pos);
 
   /** Get the acceleration due to gravity in the world */
   float get_gravity();
@@ -154,9 +168,11 @@ public:
   Vector2i get_start_pos(int player_id);
 
 private:
-  World (const World&);
-  World& operator= (const World&);
+  World(const World &);
+  World& operator=(const World&);
 };
+
+} // namespace pingus
 
 #endif
 

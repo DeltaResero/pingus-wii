@@ -33,6 +33,9 @@
 #include "math/origin.hpp"
 #include "math/vector2f.hpp"
 
+namespace pingus {
+
+
 class Rectf;
 
 //: 2D (left,top,right,bottom) rectangle structure.
@@ -510,6 +513,8 @@ inline Rect::Rect(const Rectf& rect)
 std::ostream& operator<<(std::ostream& s, const Rect& rect);
 std::ostream& operator<<(std::ostream& s, const Rectf& rect);
 
+
+} // namespace pingus
 #endif
 
 // EOF

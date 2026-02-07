@@ -16,6 +16,9 @@
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
 
+namespace pingus {
+
+
 ArmageddonButton::ArmageddonButton(Server* s, int x, int y) :
   RectComponent(Rect(Vector2i(x, y), Size(38, 60))),
   server(s),
@@ -163,5 +166,8 @@ PauseButton::on_primary_button_click (int /*x*/, int /*y*/)
 {
   session->set_pause(!session->get_pause());
 }
+
+
+} // namespace pingus
 
 // EOF

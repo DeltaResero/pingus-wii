@@ -15,6 +15,8 @@
 #include "engine/display/framebuffer_surface.hpp"
 #include "math/vector2i.hpp"
 
+namespace pingus {
+
 class SpriteDescription;
 class Framebuffer;
 
@@ -56,6 +58,8 @@ public:
   void finish();
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

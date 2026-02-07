@@ -16,6 +16,9 @@
 #include "engine/display/delta/fill_rect_draw_op.hpp"
 #include "engine/display/delta/draw_rect_draw_op.hpp"
 
+namespace pingus {
+
+
 bool
 DrawOp::equal(DrawOp* op) const
 {
@@ -125,5 +128,8 @@ DrawOp::less(DrawOp* rhs) const
     return (lhs->type < rhs->type);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

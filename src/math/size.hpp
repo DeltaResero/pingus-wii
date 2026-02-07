@@ -33,6 +33,9 @@
 
 #include <iosfwd>
 
+namespace pingus {
+
+
 class Sizef;
 
 //: 2D (width,height) size structure.
@@ -204,6 +207,8 @@ inline Size::Size(const Sizef& s)
 
 std::ostream& operator<<(std::ostream& s, const Size& size);
 
+
+} // namespace pingus
 #endif
 
 // EOF

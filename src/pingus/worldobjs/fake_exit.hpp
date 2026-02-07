@@ -15,13 +15,16 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
+namespace pingus {
+
+
 class Pingu;
 
-namespace pingus::worldobjsData {
+namespace worldobjsData {
 class FakeExitData;
-} // namespace pingus::worldobjsData
+} // namespace worldobjsData
 
-namespace pingus::worldobjs {
+namespace worldobjs {
 
 /** The FakeExit is an object that looks similar to the traditional
     IceExit, but is really a trap that smashed all pingus that try to
@@ -57,8 +60,10 @@ private:
   FakeExit& operator= (const FakeExit&);
 };
 
-} // namespace pingus::worldobjs
+} // namespace worldobjs
 
+
+} // namespace pingus
 #endif
 
 // EOF

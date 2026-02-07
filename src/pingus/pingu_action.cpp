@@ -11,15 +11,17 @@
 
 #include "pingus/pingu_action.hpp"
 
+#include "pingus/action_name.hpp"
 #include "pingus/collision_map.hpp"
 #include "pingus/pingu.hpp"
 #include "pingus/pingu_enums.hpp"
-#include "pingus/action_name.hpp"
 #include "pingus/world.hpp"
 #include "pingus/worldobj.hpp"
 
-PinguAction::PinguAction (Pingu* p)
-  : pingu (p)
+namespace pingus {
+
+PinguAction::PinguAction(Pingu *p)
+  : pingu(p)
 {
 }
 
@@ -181,10 +183,8 @@ PinguAction::move_with_forces ()
   Vector3f force_counter = resultant_force;
 
   // Keep moving the Pingu until there is only a fraction left
-  while (   force_counter.x <= -1
-            || force_counter.x >=  1
-            || force_counter.y <= -1
-            || force_counter.y >=  1)
+  while (force_counter.x <= -1 || force_counter.x >= 1 ||
+         force_counter.y <= -1 || force_counter.y >= 1)
   {
     x_numerator += x_inc;
 
@@ -265,9 +265,9 @@ PinguAction::move_with_forces ()
       }
     }
   }
+
 #endif
 }
-
 
 ActionType
 PinguAction::get_activation_mode(ActionName::Enum action_name)
@@ -284,5 +284,7 @@ PinguAction::get_activation_mode(ActionName::Enum action_name)
       return INSTANT;
   }
 }
+
+} // namespace pingus
 
 // EOF

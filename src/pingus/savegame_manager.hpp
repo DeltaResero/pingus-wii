@@ -14,6 +14,8 @@
 
 #include "pingus/savegame.hpp"
 
+namespace pingus {
+
 class SavegameManager
 {
 private:
@@ -42,6 +44,8 @@ private:
   SavegameManager& operator= (const SavegameManager&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

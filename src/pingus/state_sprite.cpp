@@ -16,6 +16,8 @@
 
 #include "util/raise_exception.hpp"
 
+namespace pingus {
+
 StateSprite::StateSprite() :
   sprites()
 {
@@ -59,5 +61,8 @@ StateSprite::operator[](int state)
     raise_exception(std::runtime_error, "StateSprite error: state " << state << " not available");
   }
 }
+
+
+} // namespace pingus
 
 // EOF

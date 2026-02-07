@@ -15,6 +15,9 @@
 #include "lisp/lisp.hpp"
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 class SExprFileReader : public FileReader
 {
 private:
@@ -22,6 +25,8 @@ public:
   SExprFileReader(std::shared_ptr<lisp::Lisp> lisp);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

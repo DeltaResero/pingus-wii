@@ -57,7 +57,7 @@ struct ScrollEvent;
 namespace pingus::gui {
 class GUIManager;
 class SurfaceButton;
-} // pingus::gui
+} // gui
 
 namespace pingus::particles {
 class PinguParticleHolder;

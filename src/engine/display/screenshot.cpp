@@ -28,6 +28,9 @@
 #include "util/log.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 // Saves a screenshot to file, it return the filename the screenshot
 // was saved to.
 std::string
@@ -234,5 +237,8 @@ Screenshot::get_date()
 
   return std::string(buffer);
 }
+
+
+} // namespace pingus
 
 // EOF

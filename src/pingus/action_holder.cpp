@@ -14,6 +14,8 @@
 #include "pingus/globals.hpp"
 #include "pingus/pingus_level.hpp"
 
+namespace pingus {
+
 ActionHolder::ActionHolder(const PingusLevel& plf) :
   m_actions()
 {
@@ -105,5 +107,8 @@ ActionHolder::get_used(ActionName::Enum name)
     return 0;
   }
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -14,6 +14,9 @@
 
 #include <sstream>
 
+namespace pingus {
+
+
 class StringUtil
 {
 private:
@@ -78,6 +81,8 @@ private:
   StringUtil& operator= (const StringUtil&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

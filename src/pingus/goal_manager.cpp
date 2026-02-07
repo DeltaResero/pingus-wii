@@ -15,6 +15,8 @@
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
 
+namespace pingus {
+
 GoalManager::GoalManager(Server* s)
   : server(s), goal(GT_NONE), exit_time(0)
 {
@@ -83,5 +85,8 @@ GoalManager::set_abort_goal()
 {
   goal = GT_GAME_ABORTED;
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -19,6 +19,9 @@
 #include "pingus/screens/option_menu.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 GlobalEvent global_event;
 
 GlobalEvent::GlobalEvent ()
@@ -141,5 +144,8 @@ void
 GlobalEvent::on_button_release(const SDL_KeyboardEvent& /*event*/)
 {
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -19,9 +19,11 @@
 #include "pingus/action_name.hpp"
 #include "pingus/components/action_button.hpp"
 
+namespace pingus {
+
 class Server;
 
-class ButtonPanel : public pingus::gui::RectComponent
+class ButtonPanel : public gui::RectComponent
 {
 private:
   struct ActionButton
@@ -74,6 +76,8 @@ private:
   ButtonPanel& operator= (const ButtonPanel&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

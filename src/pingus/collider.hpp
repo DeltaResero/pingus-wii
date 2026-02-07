@@ -12,6 +12,9 @@
 #ifndef HEADER_PINGUS_PINGUS_COLLIDER_HPP
 #define HEADER_PINGUS_PINGUS_COLLIDER_HPP
 
+namespace pingus {
+
+
 class Vector3f;
 class World;
 
@@ -34,6 +37,8 @@ protected:
   int getpixel(World* const world, const Vector3f& pos) const;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

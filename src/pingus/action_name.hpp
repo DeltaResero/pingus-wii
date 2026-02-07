@@ -14,6 +14,8 @@
 
 #include <string>
 
+namespace pingus {
+
 namespace ActionName {
 
 /** The order of the actions here are the same as the order of actions
@@ -59,6 +61,8 @@ std::string to_screenname(Enum action);
 
 } // namespace ActionName
 
+
+} // namespace pingus
 #endif
 
 // EOF

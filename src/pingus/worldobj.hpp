@@ -16,6 +16,9 @@
 #include "math/vector3f.hpp"
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 class FileReader;
 class SceneContext;
 class SmallMap;
@@ -81,6 +84,8 @@ public:
   virtual void update ();
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -13,6 +13,8 @@
 
 #include "util/system.hpp"
 
+using namespace pingus;
+
 int main(int argc, char** argv)
 {
   assert(System::normalize_path("") == "");

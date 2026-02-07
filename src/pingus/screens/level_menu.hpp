@@ -15,13 +15,9 @@
 #include "engine/display/sprite.hpp"
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/levelset.hpp"
+#include "fwd.hpp"
 
-namespace pingus::gui {
-class SurfaceButton;
-} // namespace pingus::gui
-
-class LevelSelector;
-class LevelsetSelector;
+namespace pingus {
 
 class LevelMenu : public GUIScreen
 {
@@ -36,9 +32,9 @@ private:
   LevelSelector*    level_selector;
   LevelsetSelector* levelset_selector;
 
-  pingus::gui::SurfaceButton* abort_button;
-  pingus::gui::SurfaceButton* next_button;
-  pingus::gui::SurfaceButton* prev_button;
+  gui::SurfaceButton* abort_button;
+  gui::SurfaceButton* next_button;
+  gui::SurfaceButton* prev_button;
 
 public:
   LevelMenu();
@@ -61,6 +57,8 @@ private:
   LevelMenu& operator= (const LevelMenu&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

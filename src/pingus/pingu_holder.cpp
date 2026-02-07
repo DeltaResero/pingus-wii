@@ -14,6 +14,8 @@
 #include "pingus/pingu.hpp"
 #include "pingus/pingus_level.hpp"
 
+namespace pingus {
+
 PinguHolder::PinguHolder(const PingusLevel& plf) :
   number_of_allowed(plf.get_number_of_pingus()),
   number_of_exited(0),
@@ -172,5 +174,8 @@ PinguHolder::get_end_id()
 {
   return static_cast<unsigned int>(all_pingus.size());
 }
+
+
+} // namespace pingus
 
 // EOF

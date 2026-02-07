@@ -15,6 +15,8 @@
 #include <functional>
 #include <memory>
 
+namespace pingus {
+
 namespace resource {
 
 template<typename Data>
@@ -82,6 +84,8 @@ private:
 
 } // namespace resource
 
+
+} // namespace pingus
 #endif
 
 // EOF

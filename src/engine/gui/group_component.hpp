@@ -56,7 +56,7 @@ public:
   void on_primary_button_click(int /*x*/, int /*y*/) {}
   void on_secondary_button_click(int /*x*/, int /*y*/) {}
 
-  void on_key_pressed(const pingus::input::KeyboardEvent& ev);
+  void on_key_pressed(const ::pingus::input::KeyboardEvent& ev);
 
   void on_pointer_enter();
   void on_pointer_leave();
@@ -84,6 +84,7 @@ public:
   void ungrab(Component* comp);
 
   Component* component_at (const Vector2i& pos);
+
 private:
   GroupComponent(const GroupComponent&);
   GroupComponent& operator=(const GroupComponent&);

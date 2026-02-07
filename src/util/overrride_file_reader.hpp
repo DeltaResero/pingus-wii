@@ -14,6 +14,9 @@
 
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 /** */
 class OverrideFileReader : public FileReader
 {
@@ -22,6 +25,8 @@ public:
                      const FileReader& overrides);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

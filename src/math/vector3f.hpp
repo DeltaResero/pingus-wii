@@ -14,6 +14,9 @@
 
 #include "math/vector2f.hpp"
 
+namespace pingus {
+
+
 class Vector3f
 {
 public:
@@ -125,6 +128,8 @@ public:
 
 std::ostream& operator<< (std::ostream& os, const Vector3f& v);
 
+
+} // namespace pingus
 #endif
 
 // EOF

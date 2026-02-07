@@ -11,6 +11,9 @@
 
 #include "util/line_iterator.hpp"
 
+namespace pingus {
+
+
 LineIterator::LineIterator(const std::string& str)
   : first(str.begin()),
     last(str.end()),
@@ -51,5 +54,8 @@ LineIterator::get()
 {
   return std::string(first, line_end);
 }
+
+
+} // namespace pingus
 
 // EOF

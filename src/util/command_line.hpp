@@ -34,6 +34,9 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
+
 class CommandLine_Generic;
 
 //: Helper class to parse command line arguments
@@ -152,6 +155,8 @@ private:
   CommandLine & operator=(const CommandLine&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

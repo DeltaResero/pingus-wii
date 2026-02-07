@@ -14,8 +14,9 @@
 
 #include "engine/display/delta/rect_merger.hpp"
 
-int main(int argc, char** argv)
-{
+using namespace pingus;
+
+int main(int argc, char **argv) {
   int t = 1216020230; // 20
   //1216032809 // 20
   //int t = time(NULL);
@@ -30,13 +31,10 @@ int main(int argc, char** argv)
 
   // Generate random rectangles
   if (0)
-    for(int i = 0; i < 400; ++i)
-      {
-        rects_in.push_back(Rect(Vector2i(rand() % 800,
-                                         rand() % 800),
-                                Size(rand() % 60 + 10,
-                                     rand() % 60 + 10)));
-      }
+    for (int i = 0; i < 400; ++i) {
+      rects_in.push_back(Rect(Vector2i(rand() % 800, rand() % 800),
+                              Size(rand() % 60 + 10, rand() % 60 + 10)));
+    }
 
   rects_in.push_back(Rect(380, 279, 412, 311));
   rects_in.push_back(Rect(307, 280, 339, 312));
@@ -60,27 +58,33 @@ int main(int argc, char** argv)
   merge_rectangles(rects_in, rects_out);
 
   if (1) // print results as SVG
-    {
-      std::cout << "<?xml version='1.0' standalone='no'?>\n"
-                << "<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' "
-                << "'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>\n"
-                << "<svg width='800' height='800' "
-                << "xmlns='http://www.w3.org/2000/svg' version='1.1'>" << std::endl;
+  {
+    std::cout << "<?xml version='1.0' standalone='no'?>\n"
+              << "<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' "
+              << "'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>\n"
+              << "<svg width='800' height='800' "
+              << "xmlns='http://www.w3.org/2000/svg' version='1.1'>"
+              << std::endl;
 
-      std::cout << "<g>" << std::endl;
-      for(std::vector<Rect>::iterator i = rects_in.begin(); i != rects_in.end(); ++i)
-        std::cout << "  <rect fill='blue' style='fill-opacity:0.5' x='" << i->left << "' y='" << i->top
-                  << "' width='" << i->get_width() << "' height='" << i->get_height() << "' />" << std::endl;
-      std::cout << "</g>" << std::endl;
-      std::cout << std::endl;
+    std::cout << "<g>" << std::endl;
+    for (std::vector<Rect>::iterator i = rects_in.begin(); i != rects_in.end();
+         ++i)
+      std::cout << "  <rect fill='blue' style='fill-opacity:0.5' x='" << i->left
+                << "' y='" << i->top << "' width='" << i->get_width()
+                << "' height='" << i->get_height() << "' />" << std::endl;
+    std::cout << "</g>" << std::endl;
+    std::cout << std::endl;
 
-      std::cout << "<g>" << std::endl;
-      for(std::vector<Rect>::iterator i = rects_out.begin(); i != rects_out.end(); ++i)
-        std::cout << "  <rect fill='yellow' stroke='black' style='fill-opacity:0.5;stroke-width:1px' x='" << i->left << "' y='" << i->top
-                  << "' width='" << i->get_width() << "' height='" << i->get_height() << "' />" << std::endl;
-      std::cout << "</g>" << std::endl;
-      std::cout << "</svg>" << std::endl;
-    }
+    std::cout << "<g>" << std::endl;
+    for (std::vector<Rect>::iterator i = rects_out.begin();
+         i != rects_out.end(); ++i)
+      std::cout << "  <rect fill='yellow' stroke='black' "
+                   "style='fill-opacity:0.5;stroke-width:1px' x='"
+                << i->left << "' y='" << i->top << "' width='" << i->get_width()
+                << "' height='" << i->get_height() << "' />" << std::endl;
+    std::cout << "</g>" << std::endl;
+    std::cout << "</svg>" << std::endl;
+  }
 
   return 0;
 }

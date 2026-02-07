@@ -15,6 +15,9 @@
 #include "math/vector3f.hpp"
 #include "pingus/action_name.hpp"
 
+namespace pingus {
+
+
 class ActionHolder;
 class SceneContext;
 class Pingu;
@@ -106,6 +109,8 @@ private:
   PinguAction& operator= (const PinguAction&);
 };
 
+
+} // namespace pingus
 #endif /* PINGU_ACTION_HH */
 
 // EOF

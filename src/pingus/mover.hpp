@@ -14,6 +14,9 @@
 
 #include "math/vector3f.hpp"
 
+namespace pingus {
+
+
 class Collider;
 class World;
 
@@ -56,6 +59,8 @@ private:
   Mover & operator=(const Mover&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

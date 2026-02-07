@@ -40,7 +40,7 @@ public:
   virtual ~GUIManager ();
 
   virtual void update(float delta);
-  virtual void update(const pingus::input::Event& event);
+  virtual void update(const ::pingus::input::Event &event);
 
 private:
   GUIManager (const GUIManager&);

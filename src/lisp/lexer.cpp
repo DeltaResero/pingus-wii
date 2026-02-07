@@ -17,6 +17,9 @@
 
 #include "lexer.hpp"
 
+namespace pingus {
+
+
 namespace lisp
 {
 
@@ -218,5 +221,8 @@ Lexer::getNextToken()
 }
 
 } // end of namespace lisp
+
+
+} // namespace pingus
 
 // EOF

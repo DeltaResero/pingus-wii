@@ -26,6 +26,9 @@
 
 #include "util/command_line_generic.hpp"
 
+namespace pingus {
+
+
 CommandLine::CommandLine() :
   impl(new CommandLine_Generic())
 {
@@ -90,5 +93,8 @@ std::string CommandLine::get_argument()
 {
   return impl->get_argument();
 }
+
+
+} // namespace pingus
 
 // EOF

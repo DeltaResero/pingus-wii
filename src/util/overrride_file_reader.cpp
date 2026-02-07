@@ -14,6 +14,9 @@
 #include "util/file_reader_impl.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 class OverrideFileReaderImpl : public FileReaderImpl
 {
 private:
@@ -211,5 +214,8 @@ OverrideFileReader::OverrideFileReader(const FileReader& reader,
   FileReader(std::shared_ptr<FileReaderImpl>(new OverrideFileReaderImpl(reader, overrides)))
 {
 }
+
+
+} // namespace pingus
 
 // EOF

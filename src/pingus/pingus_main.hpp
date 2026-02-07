@@ -14,6 +14,8 @@
 
 #include "pingus/options.hpp"
 
+namespace pingus {
+
 void segfault_handler(int);
 
 class PingusMain
@@ -47,6 +49,8 @@ private:
   PingusMain& operator= (const PingusMain&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

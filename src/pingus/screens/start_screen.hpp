@@ -14,17 +14,16 @@
 
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/pingus_level.hpp"
+#include "fwd.hpp"
 
-namespace pingus::gui {
-class SurfaceButton;
-} // namespace pingus::gui
+namespace pingus {
 
 class StartScreen : public GUIScreen
 {
 private:
   PingusLevel plf;
-  pingus::gui::SurfaceButton* abort_button;
-  pingus::gui::SurfaceButton* ok_button;
+  gui::SurfaceButton* abort_button;
+  gui::SurfaceButton* ok_button;
 
 public:
   StartScreen(const PingusLevel& plf);
@@ -44,6 +43,8 @@ private:
   StartScreen& operator= (const StartScreen&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -17,6 +17,8 @@
 
 #include "math/rect.hpp"
 
+namespace pingus {
+
 class FontImpl;
 class FontDescription;
 class Framebuffer;
@@ -40,6 +42,8 @@ private:
   std::shared_ptr<FontImpl> impl;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

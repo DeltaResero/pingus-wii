@@ -16,6 +16,9 @@
 
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
+
 class SExprFileWriter;
 
 /** The Savegame class holds savegame informations for a single
@@ -58,6 +61,8 @@ public:
   int get_saved_pingus() const { return saved_pingus; }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

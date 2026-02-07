@@ -16,9 +16,11 @@
 
 #include "util/file_reader.hpp"
 
+namespace pingus {
+
 class DrawingContext;
 
-namespace pingus::worldmap {
+namespace worldmap {
 
 /** An drawable object on the worldmap, such has a background or a
     sprite, interface only */
@@ -44,7 +46,7 @@ public:
   {
   }
 
-  Drawable(const FileReader& reader) :
+  Drawable(const FileReader &reader) :
     name(),
     visible(true)
   {
@@ -64,8 +66,9 @@ private:
   Drawable& operator= (const Drawable&);
 };
 
-} // namespace pingus::worldmap
+} // namespace worldmap
 
+} // namespace pingus
 #endif
 
 // EOF

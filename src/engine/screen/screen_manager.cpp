@@ -22,6 +22,9 @@
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
 
+namespace pingus {
+
+
 template<class C>
 void write(std::ostream& out, const C& value)
 {
@@ -34,10 +37,10 @@ void read(std::istream& out, C& value)
   out.read(reinterpret_cast<char*>(&value), sizeof(value));
 }
 
-void write_events(std::ostream& out, const std::vector<pingus::input::Event>& events)
+void write_events(std::ostream& out, const std::vector<input::Event>& events)
 {
   write(out, events.size());
-  for(std::vector<pingus::input::Event>::const_iterator i = events.begin();
+  for(std::vector<input::Event>::const_iterator i = events.begin();
       i != events.end();
       ++i)
   {
@@ -45,46 +48,46 @@ void write_events(std::ostream& out, const std::vector<pingus::input::Event>& ev
   }
 }
 
-void read_events(std::istream& out, std::vector<pingus::input::Event>& events)
+void read_events(std::istream& out, std::vector<input::Event>& events)
 {
-  std::vector<pingus::input::Event>::size_type len;
+  std::vector<input::Event>::size_type len;
   read(out, len);
-  for(std::vector<pingus::input::Event>::size_type i = 0; i < len; ++i)
+  for(std::vector<input::Event>::size_type i = 0; i < len; ++i)
   {
-    pingus::input::Event event;
+    input::Event event;
     read(out, event);
     events.push_back(event);
   }
 }
 
-void read_event(std::istream& out, pingus::input::Event& event)
+void read_event(std::istream& out, input::Event& event)
 {
   read(out, event.type);
   switch(event.type)
   {
-    case pingus::input::BUTTON_EVENT_TYPE:
+    case input::BUTTON_EVENT_TYPE:
       read(out, event.button.name);
       read(out, event.button.state);
       break;
 
-    case pingus::input::POINTER_EVENT_TYPE:
+    case input::POINTER_EVENT_TYPE:
       read(out, event.pointer.name);
       read(out, event.pointer.x);
       read(out, event.pointer.y);
       break;
 
-    case pingus::input::AXIS_EVENT_TYPE:
+    case input::AXIS_EVENT_TYPE:
       read(out, event.axis.name);
       read(out, event.axis.dir);
       break;
 
-    case pingus::input::SCROLLER_EVENT_TYPE:
+    case input::SCROLLER_EVENT_TYPE:
       read(out, event.scroll.name);
       read(out, event.scroll.x_delta);
       read(out, event.scroll.y_delta);
       break;
 
-    case pingus::input::KEYBOARD_EVENT_TYPE:
+    case input::KEYBOARD_EVENT_TYPE:
       read(out, event.keyboard);
       break;
 
@@ -93,34 +96,34 @@ void read_event(std::istream& out, pingus::input::Event& event)
   }
 }
 
-void write_event(std::ostream& out, const pingus::input::Event& event)
+void write_event(std::ostream& out, const input::Event& event)
 {
   write(out, event.type);
   switch(event.type)
   {
-    case pingus::input::BUTTON_EVENT_TYPE:
+    case input::BUTTON_EVENT_TYPE:
       write(out, event.button.name);
       write(out, event.button.state);
       break;
 
-    case pingus::input::POINTER_EVENT_TYPE:
+    case input::POINTER_EVENT_TYPE:
       write(out, event.pointer.name);
       write(out, event.pointer.x);
       write(out, event.pointer.y);
       break;
 
-    case pingus::input::AXIS_EVENT_TYPE:
+    case input::AXIS_EVENT_TYPE:
       write(out, event.axis.name);
       write(out, event.axis.dir);
       break;
 
-    case pingus::input::SCROLLER_EVENT_TYPE:
+    case input::SCROLLER_EVENT_TYPE:
       write(out, event.scroll.name);
       write(out, event.scroll.x_delta);
       write(out, event.scroll.y_delta);
       break;
 
-    case pingus::input::KEYBOARD_EVENT_TYPE:
+    case input::KEYBOARD_EVENT_TYPE:
       write(out, event.keyboard);
       break;
 
@@ -131,8 +134,8 @@ void write_event(std::ostream& out, const pingus::input::Event& event)
 
 ScreenManager* ScreenManager::instance_ = nullptr;
 
-ScreenManager::ScreenManager(pingus::input::Manager& arg_input_manager,
-                             pingus::input::ControllerPtr arg_input_controller) :
+ScreenManager::ScreenManager(input::Manager& arg_input_manager,
+                             input::ControllerPtr arg_input_controller) :
   input_manager(arg_input_manager),
   input_controller(arg_input_controller),
   display_gc(new DrawingContext()),
@@ -162,13 +165,13 @@ ScreenManager::display()
 
   Uint32 last_ticks = SDL_GetTicks();
   float previous_frame_time;
-  std::vector<pingus::input::Event> events;
+  std::vector<input::Event> events;
 
   while (!screens.empty())
   {
     events.clear();
 
-    // Get time and update pingus::input::Events
+    // Get time and update input::Events
     if (playback_input)
     {
       // Get Time
@@ -225,7 +228,7 @@ ScreenManager::display()
 }
 
 void
-ScreenManager::update(float delta, const std::vector<pingus::input::Event>& events)
+ScreenManager::update(float delta, const std::vector<input::Event>& events)
 {
   ScreenPtr last_screen = get_current_screen();
 
@@ -233,9 +236,9 @@ ScreenManager::update(float delta, const std::vector<pingus::input::Event>& even
   if (!last_screen)
     return;
 
-  for(std::vector<pingus::input::Event>::const_iterator i = events.begin(); i != events.end(); ++i)
+  for(std::vector<input::Event>::const_iterator i = events.begin(); i != events.end(); ++i)
   {
-    if (i->type == pingus::input::POINTER_EVENT_TYPE && i->pointer.name == pingus::input::STANDARD_POINTER)
+    if (i->type == input::POINTER_EVENT_TYPE && i->pointer.name == input::STANDARD_POINTER)
       mouse_pos = Vector2i(static_cast<int>(i->pointer.x),
                            static_cast<int>(i->pointer.y));
 
@@ -273,13 +276,13 @@ ScreenManager::update(float delta, const std::vector<pingus::input::Event>& even
     fps_counter->draw();
     if (globals::developer_mode)
     {
-      pingus::fonts::pingus_small.render(origin_center, Display::get_width()/2, 60,
+      fonts::pingus_small.render(origin_center, Display::get_width()/2, 60,
                                          "Developer Mode", *Display::get_framebuffer());
     }
   }
   else if (globals::developer_mode)
   {
-    pingus::fonts::pingus_small.render(origin_center, Display::get_width()/2, 35,
+    fonts::pingus_small.render(origin_center, Display::get_width()/2, 35,
                                        "Developer Mode", *Display::get_framebuffer());
   }
 
@@ -401,5 +404,8 @@ ScreenManager::show_software_cursor(bool visible)
     SDL_ShowCursor(SDL_ENABLE);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

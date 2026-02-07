@@ -25,6 +25,9 @@
 #include "engine/display/framebuffer_surface.hpp"
 #include "math/rect.hpp"
 
+namespace pingus {
+
+
 struct OpenGLTile {
   GLuint handle;
   Rect   rect;         // Position and size in the original image
@@ -54,6 +57,8 @@ private:
   OpenGLFramebufferSurfaceImpl& operator=(const OpenGLFramebufferSurfaceImpl&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

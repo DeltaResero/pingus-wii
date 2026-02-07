@@ -18,6 +18,8 @@
 
 using namespace pingus::worldmap;
 
+namespace pingus {
+
 class PingusWorldmapImpl
 {
 public:
@@ -203,5 +205,8 @@ PingusWorldmap::get_end_story() const
 {
   return impl->end_story;
 }
+
+
+} // namespace pingus
 
 // EOF

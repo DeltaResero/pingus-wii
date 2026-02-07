@@ -14,6 +14,9 @@
 
 #include "engine/display/delta/draw_op.hpp"
 
+namespace pingus {
+
+
 class ClipDrawOp : public DrawOp
 {
 public:
@@ -62,6 +65,8 @@ private:
   ClipDrawOp& operator=(const ClipDrawOp&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

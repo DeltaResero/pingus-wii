@@ -18,6 +18,8 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
 class PingusLevelImpl
 {
 public:
@@ -61,6 +63,8 @@ public:
   std::vector<FileReader> objects;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

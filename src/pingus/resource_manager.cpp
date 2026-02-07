@@ -21,6 +21,9 @@
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 ResourceManager::ResourceManager() :
   m_cache(),
   m_resources()
@@ -138,5 +141,8 @@ ResourceManager::get_sprite_description(const std::string& name)
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

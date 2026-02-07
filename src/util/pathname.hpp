@@ -16,6 +16,9 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
+
 /** Simple class to allow a distinction of paths that refer to the
  *  filesystem and paths that refer to the datadir, it also hides
  *  path_manager from the rest of the code. */
@@ -80,6 +83,8 @@ public:
 
 std::ostream& operator<< (std::ostream& os, const Pathname& p);
 
+
+} // namespace pingus
 #endif
 
 // EOF

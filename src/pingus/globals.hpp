@@ -17,6 +17,8 @@
 
 #include <string>
 
+namespace pingus {
+
 namespace globals {
 
 extern int         game_speed;                      ///< -t, --set-speed
@@ -44,6 +46,8 @@ extern std::string  default_language;                ///< The default language, 
 
 } // namespace globals
 
+
+} // namespace pingus
 #endif
 
 // EOF

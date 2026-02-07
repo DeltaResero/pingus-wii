@@ -18,6 +18,9 @@
 #include "engine/display/sprite_description.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 static std::map<std::pair<Pathname, ResourceModifier::Enum>, FramebufferSurface> surface_cache;
 
 FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceModifier::Enum modifier)
@@ -171,5 +174,8 @@ SpriteImpl::finish()
 {
   finished = true;
 }
+
+
+} // namespace pingus
 
 // EOF

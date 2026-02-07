@@ -18,21 +18,9 @@
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/server_event.hpp"
 #include "util/pathname.hpp"
+#include "fwd.hpp"
 
-namespace pingus::input {
-struct Event;
-struct ScrollEvent;
-} // namespace pingus::input
-
-class Server;
-class XMLPDF;
-class DemoPlayer;
-class PingusCounter;
-class PingusDemo;
-class Playfield;
-class SmallMap;
-class BButton;
-class ButtonPanel;
+namespace pingus {
 
 /** A DemoSession is analog to a GameSession, but instead of loading a
     level and letting the player play a game, a demo file will be
@@ -86,6 +74,8 @@ private:
   DemoSession& operator= (const DemoSession&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -14,6 +14,8 @@
 #include "pingus/path_manager.hpp"
 #include "util/pathname.hpp"
 
+using namespace pingus;
+
 int main(int argc, char** argv)
 {
   g_path_manager.set_path("data");

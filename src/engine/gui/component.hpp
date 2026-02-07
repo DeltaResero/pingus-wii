@@ -14,7 +14,7 @@
 
 #include "engine/input/event.hpp"
 
-class DrawingContext;
+#include "fwd.hpp"
 
 namespace pingus::gui {
 
@@ -83,7 +83,7 @@ public:
 
   /** Emitted whenever a keyboard character is pressed.  Only certain
       components should implement this */
-  virtual void on_key_pressed(const pingus::input::KeyboardEvent& /*ev*/) {}
+  virtual void on_key_pressed(const ::pingus::input::KeyboardEvent& /*ev*/) {}
 
   GroupComponent* get_parent() const;
   void set_parent(GroupComponent* p);

@@ -19,6 +19,9 @@
 #include "math/vector3f.hpp"
 #include "util/memory_pool.hpp"
 
+namespace pingus {
+
+
 class Framebuffer;
 class Font;
 class Sprite;
@@ -113,6 +116,8 @@ private:
   DrawingContext& operator= (const DrawingContext&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

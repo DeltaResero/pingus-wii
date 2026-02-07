@@ -13,10 +13,16 @@
 
 #include <ostream>
 
+namespace pingus {
+
+
 std::ostream& operator<<(std::ostream& s, const Vector2f& v)
 {
   s << "Vector2f(" << v.x << ", " << v.y << ")";
   return s;
 }
+
+
+} // namespace pingus
 
 // EOF

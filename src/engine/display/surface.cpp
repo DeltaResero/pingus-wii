@@ -20,6 +20,9 @@
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
 
+namespace pingus {
+
+
 class SurfaceImpl
 {
 public:
@@ -552,5 +555,8 @@ Surface::print(std::ostream& out)
     SDL_UnlockSurface(impl->surface);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

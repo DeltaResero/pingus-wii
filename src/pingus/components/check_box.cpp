@@ -15,6 +15,8 @@
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
 
+namespace pingus {
+
 CheckBox::CheckBox(const Rect& rect_) :
   RectComponent(rect_),
   m_checkbox_marked("core/menu/checkbox_marked_small"),
@@ -59,5 +61,8 @@ CheckBox::set_state(bool v, bool send_signal)
   if (send_signal && on_change)
     on_change(state);
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -25,14 +25,17 @@
 #include "util/log.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 class OptionMenuCloseButton
-  : public pingus::gui::SurfaceButton
+  : public gui::SurfaceButton
 {
 private:
   OptionMenu* parent;
 public:
   OptionMenuCloseButton(OptionMenu* p, int x, int y)
-    : pingus::gui::SurfaceButton(x, y,
+    : gui::SurfaceButton(x, y,
                          "core/start/ok",
                          "core/start/ok_clicked",
                          "core/start/ok_hover"),
@@ -43,13 +46,13 @@ public:
   void on_pointer_enter ()
   {
     SurfaceButton::on_pointer_enter();
-    pingus::sound::PingusSound::play_sound("tick");
+    sound::PingusSound::play_sound("tick");
   }
 
   void on_click()
   {
     parent->on_escape_press();
-    pingus::sound::PingusSound::play_sound("yipee");
+    sound::PingusSound::play_sound("yipee");
   }
 
 private:
@@ -160,23 +163,23 @@ OptionMenu::OptionMenu() :
 
   x_pos = 0;
   y_pos = 0;
-  add_item("Fullscreen", std::unique_ptr<pingus::gui::RectComponent>(fullscreen_box));
-  add_item("Mouse Grab", std::unique_ptr<pingus::gui::RectComponent>(mousegrab_box));
+  add_item("Fullscreen", std::unique_ptr<gui::RectComponent>(fullscreen_box));
+  add_item("Mouse Grab", std::unique_ptr<gui::RectComponent>(mousegrab_box));
   y_pos += 1;
-  add_item("Software Cursor", std::unique_ptr<pingus::gui::RectComponent>(software_cursor_box));
-  add_item("Autoscrolling", std::unique_ptr<pingus::gui::RectComponent>(autoscroll_box));
-  add_item("Drag&Drop Scrolling", std::unique_ptr<pingus::gui::RectComponent>(dragdrop_scroll_box));
+  add_item("Software Cursor", std::unique_ptr<gui::RectComponent>(software_cursor_box));
+  add_item("Autoscrolling", std::unique_ptr<gui::RectComponent>(autoscroll_box));
+  add_item("Drag&Drop Scrolling", std::unique_ptr<gui::RectComponent>(dragdrop_scroll_box));
   y_pos += 1;
-  add_item("Print FPS", std::unique_ptr<pingus::gui::RectComponent>(printfps_box));
+  add_item("Print FPS", std::unique_ptr<gui::RectComponent>(printfps_box));
 
   x_pos = 1;
   y_pos = 0;
-  add_item("Resolution:",    std::unique_ptr<pingus::gui::RectComponent>(resolution_box));
-  add_item("Renderer:",      std::unique_ptr<pingus::gui::RectComponent>(renderer_box));
+  add_item("Resolution:",    std::unique_ptr<gui::RectComponent>(resolution_box));
+  add_item("Renderer:",      std::unique_ptr<gui::RectComponent>(renderer_box));
   y_pos += 1;
-  add_item("Master Volume:", std::unique_ptr<pingus::gui::RectComponent>(master_volume_box));
-  add_item("Sound Volume:", std::unique_ptr<pingus::gui::RectComponent>(sound_volume_box));
-  add_item("Music Volume:", std::unique_ptr<pingus::gui::RectComponent>(music_volume_box));
+  add_item("Master Volume:", std::unique_ptr<gui::RectComponent>(master_volume_box));
+  add_item("Sound Volume:", std::unique_ptr<gui::RectComponent>(sound_volume_box));
+  add_item("Music Volume:", std::unique_ptr<gui::RectComponent>(music_volume_box));
 
   // Connect with ConfigManager
   mousegrab_box->set_state(config_manager.get_mouse_grab(), false);
@@ -206,7 +209,7 @@ OptionMenu::OptionMenu() :
 }
 
 void
-OptionMenu::add_item(const std::string& label, std::unique_ptr<pingus::gui::RectComponent> control)
+OptionMenu::add_item(const std::string& label, std::unique_ptr<gui::RectComponent> control)
 {
   int x_offset = (Display::get_width()  - 800) / 2;
   int y_offset = (Display::get_height() - 600) / 2;
@@ -293,14 +296,14 @@ OptionMenu::draw_background(DrawingContext& gc)
   // gc.draw_fillrect(Rect(100, 100, 400, 400), Color(255, 0, 0));
   gc.draw(m_blackboard, Vector2i(gc.get_width()/2, gc.get_height()/2));
 
-  gc.print_center(pingus::fonts::chalk_large,
+  gc.print_center(fonts::chalk_large,
                   Vector2i(gc.get_width()/2,
                            gc.get_height()/2 - 240),
                   "Option Menu");
 
-  gc.print_center(pingus::fonts::chalk_normal, Vector2i(gc.get_width()/2 + 245 + 30, gc.get_height()/2 + 150 - 20), "Close");
+  gc.print_center(fonts::chalk_normal, Vector2i(gc.get_width()/2 + 245 + 30, gc.get_height()/2 + 150 - 20), "Close");
 
-  gc.print_left(pingus::fonts::chalk_normal,
+  gc.print_left(fonts::chalk_normal,
                 Vector2i(gc.get_width()/2 - 320, gc.get_height()/2 + 200),
                 "Some options require a restart of the game to take effect.");
 }
@@ -426,5 +429,8 @@ OptionMenu::on_renderer_change(const std::string& str)
 {
   config_manager.set_renderer(framebuffer_type_from_string(str));
 }
+
+
+} // namespace pingus
 
 // EOF

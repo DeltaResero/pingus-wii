@@ -16,6 +16,9 @@
 #include <vector>
 #include <string>
 
+namespace pingus {
+
+
 class Size;
 class Color;
 class Vector3f;
@@ -82,6 +85,8 @@ private:
   std::shared_ptr<FileReaderImpl> impl;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

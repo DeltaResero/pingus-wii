@@ -15,6 +15,9 @@
 #include "pingus/path_manager.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 SoundResMgr::SoundMap SoundResMgr::sound_map;
 
 SoundHandle
@@ -59,5 +62,8 @@ void SoundResMgr::free_sound_map()
     Mix_FreeChunk(i->second);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

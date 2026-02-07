@@ -14,7 +14,9 @@
 
 #include "editor/level_obj_ptr.hpp"
 
+namespace pingus {
 class FileReader;
+}
 
 namespace pingus::editor {
 
@@ -22,7 +24,7 @@ class LevelObjFactory
 {
 private:
 public:
-  static LevelObjPtr create(const FileReader& reader);
+  static LevelObjPtr create(const pingus::FileReader &reader);
 
 private:
   LevelObjFactory(const LevelObjFactory&);

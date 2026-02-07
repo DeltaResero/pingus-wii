@@ -42,8 +42,8 @@ private:
   std::unique_ptr<Worldmap> worldmap;
   std::unique_ptr<Worldmap> new_worldmap;
 
-  pingus::gui::SurfaceButton* close_button;
-  pingus::gui::SurfaceButton* credits_button;
+  ::pingus::gui::SurfaceButton *close_button;
+  ::pingus::gui::SurfaceButton *credits_button;
   WorldmapComponent* m_worldmap_component;
 
 public:
@@ -79,12 +79,13 @@ public:
   void show_end_story();
 
   void resize(const Size& size);
+
 private:
   /** Startup Hook of the Screen */
   void on_startup ();
 
   WorldmapScreen (const WorldmapScreen&);
-  WorldmapScreen& operator= (const WorldmapScreen&);
+  WorldmapScreen& operator=(const WorldmapScreen &);
 };
 
 } // namespace pingus::worldmap

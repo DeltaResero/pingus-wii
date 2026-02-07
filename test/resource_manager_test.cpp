@@ -15,6 +15,8 @@
 #include "engine/resource/resource_manager.hpp"
 #include "engine/display/sprite.hpp"
 
+using namespace pingus;
+
 class SpriteLoader
 {
 private:

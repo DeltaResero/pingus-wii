@@ -13,6 +13,8 @@
 
 #include "engine/display/display.hpp"
 
+namespace pingus {
+
 class GraphicContextStateImpl
 {
 public:
@@ -172,5 +174,8 @@ GraphicContextState::get_height() const
 {
   return impl->rect.get_height();
 }
+
+
+} // namespace pingus
 
 // EOF

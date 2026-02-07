@@ -14,6 +14,9 @@
 
 #include <string>
 
+namespace pingus {
+
+
 /** Splits a given string at newlines, a new line at the end of the
  *  string is ignored, others are returned as empty lines. Newlines
  *  aren't included in the returned string.Use via:
@@ -42,6 +45,8 @@ public:
   std::string get();
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

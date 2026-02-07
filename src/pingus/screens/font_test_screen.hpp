@@ -15,6 +15,8 @@
 #include "engine/display/font.hpp"
 #include "engine/screen/screen.hpp"
 
+namespace pingus {
+
 class Pathname;
 
 class FontTestScreen : public Screen
@@ -29,7 +31,7 @@ public:
   FontTestScreen(const Pathname& fontfile);
 
   void draw(DrawingContext& gc);
-  void update(const pingus::input::Event& event);
+  void update(const input::Event& event);
   void update(float /*delta*/) {}
 
 private:
@@ -37,6 +39,8 @@ private:
   FontTestScreen& operator= (const FontTestScreen&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

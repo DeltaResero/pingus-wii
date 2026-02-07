@@ -19,6 +19,9 @@
 #include "pingus/server.hpp"
 #include "util/string_util.hpp"
 
+namespace pingus {
+
+
 ButtonPanel::ButtonPanel(Server* s, const Vector2i& pos) :
   RectComponent(Rect()),
   server(s),
@@ -75,17 +78,17 @@ ButtonPanel::draw(DrawingContext& gc)
       out << aholder->get_available(buttons[i].name)
           << " / "
           << aholder->get_used(buttons[i].name);
-      gc.print_left(pingus::fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), out.str());
+      gc.print_left(fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), out.str());
     }
     else
     {
       std::string str = StringUtil::to_string(aholder->get_available(buttons[i].name));
-      gc.print_center(pingus::fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), str);
+      gc.print_center(fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), str);
     }
 
     if (show_tip && tip_button == i)
     {
-      gc.print_left(pingus::fonts::pingus_small, Vector2i(rect.left + 65, rect.top + 5 + 38*static_cast<int>(i)),
+      gc.print_left(fonts::pingus_small, Vector2i(rect.left + 65, rect.top + 5 + 38*static_cast<int>(i)),
                     ActionName::to_screenname(buttons[i].name));
     }
   }
@@ -180,5 +183,8 @@ ButtonPanel::set_pos(const Vector2i& pos)
   set_rect(Rect(Vector2i(pos.x, pos.y - (static_cast<int>(buttons.size()) * 38)/2),
                 Size(60, static_cast<int>(buttons.size()) * 38)));
 }
+
+
+} // namespace pingus
 
 // EOF

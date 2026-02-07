@@ -15,6 +15,8 @@
 #include "engine/gui/rect_component.hpp"
 #include "pingus/state_sprite.hpp"
 
+namespace pingus {
+
 class Server;
 class GameSession;
 class ActionHolder;
@@ -24,7 +26,7 @@ class Vector;
     pingus into bomber
 
     \sa Client */
-class ArmageddonButton : public pingus::gui::RectComponent
+class ArmageddonButton : public gui::RectComponent
 {
 private:
   Server* server;
@@ -51,7 +53,7 @@ private:
     again to return to normal speed
 
     \sa Client */
-class ForwardButton : public pingus::gui::RectComponent
+class ForwardButton : public gui::RectComponent
 {
 private:
   GameSession* session;
@@ -76,7 +78,7 @@ private:
     continue
 
     \sa Client */
-class PauseButton : public pingus::gui::RectComponent
+class PauseButton : public gui::RectComponent
 {
 private:
   GameSession* session;
@@ -98,6 +100,8 @@ private:
   PauseButton& operator= (const PauseButton&);
 };
 
+
+} // namespace pingus
 #endif /* ACTIONBUTTON */
 
 // EOF

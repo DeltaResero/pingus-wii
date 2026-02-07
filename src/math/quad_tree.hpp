@@ -17,6 +17,9 @@
 
 #include "math/rect.hpp"
 
+namespace pingus {
+
+
 /**
     +----+----+
     | nw | ne |
@@ -208,6 +211,8 @@ public:
   }
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

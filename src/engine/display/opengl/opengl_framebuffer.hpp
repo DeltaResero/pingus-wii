@@ -24,6 +24,9 @@
 
 #include <vector>
 
+namespace pingus {
+
+
 class OpenGLFramebuffer : public Framebuffer
 {
 private:
@@ -66,6 +69,8 @@ private:
   OpenGLFramebuffer& operator=(const OpenGLFramebuffer&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

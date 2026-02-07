@@ -16,6 +16,8 @@
 #include "math/vector2i.hpp"
 #include "pingus/screens/pingus_menu.hpp"
 
+namespace pingus {
+
 MenuButton::MenuButton(PingusMenu* menu_,
                        const Vector2i& pos_,
                        const std::string& text_, const std::string& desc_) :
@@ -40,8 +42,8 @@ MenuButton::MenuButton(PingusMenu* menu_,
   x_pos = pos_.x;
   y_pos = pos_.y;
 
-  font       = pingus::fonts::pingus_small;
-  font_large = pingus::fonts::chalk_large;
+  font       = fonts::pingus_small;
+  font_large = fonts::chalk_large;
 
   mouse_over = false;
   pressed    = false;
@@ -83,7 +85,7 @@ void
 MenuButton::on_pointer_enter ()
 {
   mouse_over = true;
-  pingus::sound::PingusSound::play_sound ("tick");
+  sound::PingusSound::play_sound ("tick");
   //log_info("X: {} enter", (void*)this);
   menu->set_hint(desc);
 }
@@ -123,5 +125,8 @@ MenuButton::set_pos(int x, int y)
   x_pos = x;
   y_pos = y;
 }
+
+
+} // namespace pingus
 
 // EOF

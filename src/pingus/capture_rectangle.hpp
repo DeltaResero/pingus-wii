@@ -15,6 +15,8 @@
 #include "engine/display/font.hpp"
 #include "engine/display/sprite.hpp"
 
+namespace pingus {
+
 class Font;
 class Pingu;
 class PinguAction;
@@ -57,6 +59,8 @@ private:
   CaptureRectangle& operator= (const CaptureRectangle&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

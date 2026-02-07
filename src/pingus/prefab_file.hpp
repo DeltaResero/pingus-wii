@@ -17,6 +17,9 @@
 #include "util/file_reader.hpp"
 #include "util/pathname.hpp"
 
+namespace pingus {
+
+
 class PrefabFile
 {
 public:
@@ -37,6 +40,8 @@ public:
   FileReader get_overrides() const;
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

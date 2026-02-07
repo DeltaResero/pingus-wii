@@ -16,24 +16,17 @@
 
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/worldmap/worldmap_story.hpp"
+#include "fwd.hpp"
 
-class StoryScreenComponent;
-
-namespace pingus::worldmap {
-class WorldmapStory;
-} // namespace pingus::worldmap
-
-namespace pingus::gui {
-class SurfaceButton;
-}
+namespace pingus {
 
 class StoryScreen : public GUIScreen
 {
 private:
-  std::unique_ptr<pingus::worldmap::WorldmapStory> story;
+  std::unique_ptr<worldmap::WorldmapStory> story;
   StoryScreenComponent* story_comp;
-  pingus::gui::SurfaceButton* continue_button;
-  pingus::gui::SurfaceButton* skip_button;
+  gui::SurfaceButton* continue_button;
+  gui::SurfaceButton* skip_button;
   bool m_credits;
 
 public:
@@ -51,6 +44,8 @@ private:
   StoryScreen& operator= (const StoryScreen&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

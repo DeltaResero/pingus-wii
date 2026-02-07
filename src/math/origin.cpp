@@ -28,6 +28,8 @@
 
 #include "math/origin.hpp"
 
+namespace pingus {
+
 Origin string2origin(const std::string& str)
 {
   if (str == "top_left")
@@ -122,5 +124,8 @@ Vector2i calc_origin(Origin origin, const Size &size)
       break;
   }
 }
+
+
+} // namespace pingus
 
 // EOF

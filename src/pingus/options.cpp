@@ -21,6 +21,9 @@
 #include "util/sexpr_file_writer.hpp"
 #include "util/system.hpp"
 
+namespace pingus {
+
+
 std::string framebuffer_type_to_string(FramebufferType type)
 {
   switch(type)
@@ -273,5 +276,8 @@ CommandLineOptions::merge(const CommandLineOptions& rhs)
   editor.merge(rhs.editor);
   no_config_file.merge(rhs.no_config_file);
 }
+
+
+} // namespace pingus
 
 // EOF

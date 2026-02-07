@@ -13,6 +13,9 @@
 
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 World* WorldObj::world;
 
 void
@@ -54,5 +57,8 @@ void
 WorldObj::draw_smallmap(SmallMap* /*smallmap*/)
 {
 }
+
+
+} // namespace pingus
 
 // EOF

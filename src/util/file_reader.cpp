@@ -16,6 +16,9 @@
 #include "util/pathname.hpp"
 #include "util/sexpr_file_reader.hpp"
 
+namespace pingus {
+
+
 FileReader::FileReader(std::shared_ptr<FileReaderImpl> impl_) :
   impl(impl_)
 {
@@ -231,5 +234,8 @@ FileReader::parse_many(const Pathname& pathname)
     return std::vector<FileReader>();
   }
 }
+
+
+} // namespace pingus
 
 // EOF

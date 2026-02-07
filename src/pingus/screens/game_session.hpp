@@ -18,11 +18,13 @@
 #include "pingus/action_name.hpp"
 #include "pingus/pingus_level.hpp"
 
-namespace pingus::input {
+namespace pingus {
+
+namespace input {
 struct ScrollEvent;
 struct AxisEvent;
 struct Event;
-}
+} // namespace input
 
 class ButtonPanel;
 class PingusCounter;
@@ -73,7 +75,7 @@ public:
   /** Pass a delta to the screen */
   void update_server(float delta);
 
-  Server*    get_server() { return server.get(); }
+  Server* get_server() { return server.get(); }
   Playfield* get_playfield() { return playfield; }
 
   void do_restart();
@@ -82,7 +84,7 @@ public:
 
   /** Update all parts of the world */
   void update (float delta);
-  void update (const pingus::input::Event& event);
+  void update (const input::Event& event);
   void draw_background (DrawingContext& gc);
 
   ButtonPanel* get_button_panel () { return button_panel; }
@@ -109,14 +111,15 @@ public:
   void resize(const Size&);
 
 private:
-  void process_scroll_event (const pingus::input::ScrollEvent&);
-  void process_axis_event (const pingus::input::AxisEvent&);
+  void process_scroll_event (const input::ScrollEvent&);
+  void process_axis_event (const input::AxisEvent&);
 
 private:
   GameSession (const GameSession&);
   GameSession& operator= (const GameSession&);
 };
 
+} // namespace pingus
 #endif
 
 // EOF

@@ -16,6 +16,9 @@
 
 #include "pingus/options.hpp"
 
+namespace pingus {
+
+
 class Size;
 
 class SDLSystem
@@ -32,6 +35,8 @@ private:
   SDLSystem& operator=(const SDLSystem&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

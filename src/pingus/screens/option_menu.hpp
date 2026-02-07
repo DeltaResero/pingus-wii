@@ -22,6 +22,9 @@
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/components/label.hpp"
 
+namespace pingus {
+
+
 class CheckBox;
 class SliderBox;
 
@@ -30,15 +33,15 @@ class OptionMenu : public GUIScreen
 private:
   Sprite m_background;
   Sprite m_blackboard;
-  pingus::gui::SurfaceButton* ok_button;
+  gui::SurfaceButton* ok_button;
   int x_pos;
   int y_pos;
 
   struct Option {
     Label*         label;
-    pingus::gui::RectComponent* control;
+    gui::RectComponent* control;
 
-    Option(Label* label_, pingus::gui::RectComponent* control_) :
+    Option(Label* label_, gui::RectComponent* control_) :
       label(label_), control(control_)
     {}
   };
@@ -67,7 +70,7 @@ public:
   void draw_background (DrawingContext& gc);
   void on_escape_press ();
 
-  void add_item(const std::string& label, std::unique_ptr<pingus::gui::RectComponent> control);
+  void add_item(const std::string& label, std::unique_ptr<gui::RectComponent> control);
 
   void resize(const Size&);
   void close_screen();
@@ -94,6 +97,8 @@ private:
   OptionMenu& operator= (const OptionMenu&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

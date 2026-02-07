@@ -16,7 +16,9 @@
 
 #include "engine/gui/rect_component.hpp"
 
-class ChoiceBox : public pingus::gui::RectComponent
+namespace pingus {
+
+class ChoiceBox : public gui::RectComponent
 {
 private:
   int current_choice;
@@ -38,6 +40,8 @@ private:
   ChoiceBox& operator= (const ChoiceBox&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

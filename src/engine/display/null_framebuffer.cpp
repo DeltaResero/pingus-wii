@@ -13,6 +13,9 @@
 
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 class NullFramebufferSurfaceImpl : public FramebufferSurfaceImpl
 {
 private:
@@ -114,5 +117,8 @@ NullFramebuffer::get_size() const
 {
   return m_size;
 }
+
+
+} // namespace pingus
 
 // EOF

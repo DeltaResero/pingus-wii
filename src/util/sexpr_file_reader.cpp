@@ -17,6 +17,9 @@
 #include "pingus/res_descriptor.hpp"
 #include "util/file_reader_impl.hpp"
 
+namespace pingus {
+
+
 class SExprFileReaderImpl: public FileReaderImpl
 {
 public:
@@ -271,5 +274,8 @@ SExprFileReader::SExprFileReader(std::shared_ptr<lisp::Lisp> lisp) :
   FileReader(std::shared_ptr<FileReaderImpl>(new SExprFileReaderImpl(lisp)))
 {
 }
+
+
+} // namespace pingus
 
 // EOF

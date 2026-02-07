@@ -16,8 +16,13 @@
 
 #include "math/rect.hpp"
 
+namespace pingus {
+
+
 void merge_rectangles(const std::vector<Rect>& rects_in, std::vector<Rect>& rects_out);
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -14,6 +14,9 @@
 #include "util/sexpr_file_writer.hpp"
 #include "util/string_util.hpp"
 
+namespace pingus {
+
+
 std::string
 Savegame::status_to_string(S_Status status)
 {
@@ -92,5 +95,8 @@ Savegame::read_sexpr(const FileReader& reader)
   reader.read_int    ("time",     needed_time);
   reader.read_int    ("saved-pingus", saved_pingus);
 }
+
+
+} // namespace pingus
 
 // EOF

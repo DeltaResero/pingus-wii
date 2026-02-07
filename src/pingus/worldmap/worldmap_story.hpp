@@ -17,11 +17,13 @@
 
 #include "pingus/res_descriptor.hpp"
 
+namespace pingus {
 
 class FileReader;
 
-class StoryPage
-{
+namespace worldmap {
+
+class StoryPage {
 public:
   StoryPage() :
     image(),
@@ -37,8 +39,6 @@ public:
   std::string   text;
   std::string   page_name;
 };
-
-namespace pingus::worldmap {
 
 class WorldmapStory
 {
@@ -56,10 +56,11 @@ private:
   std::vector<StoryPage> pages;
 };
 
-} // namespace pingus::worldmap
+} // namespace worldmap
 
 #endif
 
-/*EOF*/
+
+} // namespace pingus
 
 // EOF

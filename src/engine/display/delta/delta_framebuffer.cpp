@@ -23,6 +23,9 @@
 #include "engine/display/sdl_framebuffer.hpp"
 #include "util/memory_pool.hpp"
 
+namespace pingus {
+
+
 DeltaFramebuffer::DeltaFramebuffer() :
   framebuffer(new SDLFramebuffer()),
   frontbuffer(new DrawOpBuffer()),
@@ -110,5 +113,8 @@ DeltaFramebuffer::get_size() const
 {
   return framebuffer->get_size();
 }
+
+
+} // namespace pingus
 
 // EOF

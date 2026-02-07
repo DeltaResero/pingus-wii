@@ -19,6 +19,9 @@
 #include "pingus/screens/game_session.hpp"
 #include "util/string_util.hpp"
 
+namespace pingus {
+
+
 CaptureRectangle::CaptureRectangle(GameSession* session_) :
   session(session_),
   pingu(nullptr),
@@ -28,7 +31,7 @@ CaptureRectangle::CaptureRectangle(GameSession* session_) :
   bad("game/cursors/capbad"),
   arrow_left("game/cursors/arrow_left"),
   arrow_right("game/cursors/arrow_right"),
-  font(pingus::fonts::courier_small)
+  font(fonts::courier_small)
 {
 }
 
@@ -98,5 +101,8 @@ CaptureRectangle::set_pingu (Pingu* p)
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

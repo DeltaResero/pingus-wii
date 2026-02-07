@@ -16,6 +16,9 @@
 
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 struct Mark {
   enum Type { START_MARK = 0, END_MARK = 1 } type;
   int pos;
@@ -300,5 +303,8 @@ void merge_rectangles(const std::vector<Rect>& rects_, std::vector<Rect>& rects_
   merge_vertical_rectangles(rects_out_step1, rects_out);
   //print_rects(std::cerr, rects_out);
 }
+
+
+} // namespace pingus
 
 // EOF

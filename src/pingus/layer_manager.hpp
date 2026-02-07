@@ -17,6 +17,8 @@
 #include "engine/display/sprite.hpp"
 #include "pingus/globals.hpp"
 
+namespace pingus {
+
 class LayerManager
 {
 private:
@@ -80,6 +82,8 @@ private:
   LayerManager& operator= (const LayerManager&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

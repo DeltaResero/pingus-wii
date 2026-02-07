@@ -18,9 +18,11 @@
 #include "engine/screen/gui_screen.hpp"
 #include "pingus/fonts.hpp"
 
-namespace pingus::gui {
+namespace pingus {
+
+namespace gui {
 class GUIManager;
-} // namespace pingus::gui
+} // namespace gui
 
 class SurfaceButton;
 class GameDelta;
@@ -69,7 +71,7 @@ public:
   /// Load all images and other stuff for the menu
   void do_contrib(const std::string&);
 
-  void on_escape_press ();
+  void on_escape_press();
   void draw_background(DrawingContext& gc);
 
   void update(float delta);
@@ -77,10 +79,11 @@ public:
   void resize(const Size& size);
 
 private:
-  PingusMenu (const PingusMenu&);
-  PingusMenu& operator= (const PingusMenu&);
+  PingusMenu(const PingusMenu&);
+  PingusMenu &operator=(const PingusMenu&);
 };
 
+} // namespace pingus
 #endif
 
 // EOF

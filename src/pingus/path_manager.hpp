@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+namespace pingus {
+
 class PathManager
 {
 private:
@@ -45,6 +47,8 @@ public:
 
 extern PathManager g_path_manager;
 
+
+} // namespace pingus
 #endif
 
 // EOF

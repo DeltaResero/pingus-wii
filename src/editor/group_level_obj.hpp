@@ -16,7 +16,9 @@
 
 #include <list>
 
+namespace pingus {
 class FileReader;
+}
 
 namespace pingus::editor {
 
@@ -55,7 +57,7 @@ public:
 
   std::list<LevelObjPtr>& get_objects() { return m_objects; }
 
-  void set_overrides(const FileReader& reader);
+  void set_overrides(const pingus::FileReader &reader);
 
 public:
   /** Retrieve the object's position */

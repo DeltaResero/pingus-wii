@@ -14,6 +14,9 @@
 
 #include "engine/display/framebuffer.hpp"
 
+namespace pingus {
+
+
 class SDLFramebuffer;
 class DrawOpBuffer;
 
@@ -52,6 +55,8 @@ private:
   DeltaFramebuffer& operator= (const DeltaFramebuffer&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

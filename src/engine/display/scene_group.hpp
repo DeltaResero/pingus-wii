@@ -12,6 +12,8 @@
 #ifndef HEADER_PINGUS_ENGINE_DISPLAY_SCENE_GROUP_HPP
 #define HEADER_PINGUS_ENGINE_DISPLAY_SCENE_GROUP_HPP
 
+namespace pingus {
+
 class Scene_Group
 {
 private:
@@ -22,6 +24,8 @@ private:
   Scene_Group& operator= (const Scene_Group&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

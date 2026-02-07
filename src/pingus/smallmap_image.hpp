@@ -15,6 +15,8 @@
 #include "engine/display/sprite.hpp"
 #include "engine/display/surface.hpp"
 
+namespace pingus {
+
 class Server;
 
 /** The base image of the small map, it doesn't handle any userinput,
@@ -50,6 +52,8 @@ private:
   SmallMapImage& operator= (const SmallMapImage&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

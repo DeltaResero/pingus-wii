@@ -18,6 +18,9 @@
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
 
+namespace pingus {
+
+
 PingusDemo::PingusDemo(const Pathname& pathname) :
   m_levelname(),
   m_checksum(),
@@ -51,5 +54,8 @@ PingusDemo::PingusDemo(const Pathname& pathname) :
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -17,6 +17,9 @@
 #include "math/size.hpp"
 #include "pingus/options.hpp"
 
+namespace pingus {
+
+
 class Options;
 
 class ConfigManager
@@ -88,6 +91,8 @@ private:
 
 extern ConfigManager config_manager;
 
+
+} // namespace pingus
 #endif
 
 // EOF

@@ -16,6 +16,9 @@
 #include "engine/display/surface.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 /** A collection of helper functions for the blitter class */
 namespace BlitterImpl {
 
@@ -164,6 +167,8 @@ Surface modify(Surface source)
 
 } // namespace BlitterImpl
 
+
+} // namespace pingus
 #endif
 
 // EOF

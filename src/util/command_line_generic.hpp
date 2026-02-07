@@ -33,6 +33,9 @@
 
 #include "util/command_line.hpp"
 
+namespace pingus {
+
+
 class CommandLine_Generic
 {
 private:
@@ -113,6 +116,8 @@ private:
   Option* lookup_long_option (const std::string& long_option);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

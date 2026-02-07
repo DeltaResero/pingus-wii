@@ -15,6 +15,9 @@
 #include "math/vector3f.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 WorldObjRenderer::WorldObjRenderer() :
   m_draw_op(),
   m_translate_stack()
@@ -243,5 +246,8 @@ WorldObjRenderer::process_object_with_surface(const FileReader& reader)
     }
   }
 }
+
+
+} // namespace pingus
 
 // EOF

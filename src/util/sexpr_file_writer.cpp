@@ -15,6 +15,9 @@
 
 #include "util/pathname.hpp"
 
+namespace pingus {
+
+
 SExprFileWriter::SExprFileWriter(std::ostream& out_) :
   out(&out_),
   level(0)
@@ -147,5 +150,8 @@ SExprFileWriter::write_path(const char* name, const Pathname& path)
 {
   write_string(name, path.get_raw_path());
 }
+
+
+} // namespace pingus
 
 // EOF

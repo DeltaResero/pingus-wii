@@ -19,6 +19,9 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
+namespace pingus {
+
+
 FontTestScreen::FontTestScreen(const Pathname& fontfile) :
   Screen(Display::get_size()),
   font(),
@@ -48,7 +51,7 @@ FontTestScreen::draw(DrawingContext& gc)
                          dark ? Color(0, 0, 0) : Color(200,200,200));
     }
 
-  gc.print_left(pingus::fonts::chalk_large, Vector2i(10, 10), "Pingus - Font Test");
+  gc.print_left(fonts::chalk_large, Vector2i(10, 10), "Pingus - Font Test");
 
   gc.push_modelview();
   gc.translate(scroll.x, scroll.y);
@@ -94,17 +97,17 @@ FontTestScreen::draw(DrawingContext& gc)
 }
 
 void
-FontTestScreen::update(const pingus::input::Event& event)
+FontTestScreen::update(const input::Event& event)
 {
   switch (event.type)
   {
-    case pingus::input::BUTTON_EVENT_TYPE:
-      if (event.button.state == pingus::input::BUTTON_PRESSED &&
-          event.button.name == pingus::input::PRIMARY_BUTTON)
+    case input::BUTTON_EVENT_TYPE:
+      if (event.button.state == input::BUTTON_PRESSED &&
+          event.button.name == input::PRIMARY_BUTTON)
         dark = !dark;
       break;
 
-    case pingus::input::SCROLLER_EVENT_TYPE:
+    case input::SCROLLER_EVENT_TYPE:
       scroll.x += static_cast<int>(event.scroll.x_delta);
       scroll.y += static_cast<int>(event.scroll.y_delta);
       break;
@@ -113,5 +116,8 @@ FontTestScreen::update(const pingus::input::Event& event)
       break;
   }
 }
+
+
+} // namespace pingus
 
 // EOF

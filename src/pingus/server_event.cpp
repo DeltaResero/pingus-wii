@@ -17,6 +17,9 @@
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
 
+namespace pingus {
+
+
 ServerEvent::ServerEvent() :
   type(PINGU_ACTION_EVENT),
   time_stamp(0),
@@ -181,5 +184,8 @@ ServerEvent::send(Server* server)
       assert(!"Unknown type");
   }
 }
+
+
+} // namespace pingus
 
 // EOF

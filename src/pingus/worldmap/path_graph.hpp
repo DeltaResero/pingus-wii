@@ -21,7 +21,9 @@
 #include "pingus/worldmap/pathfinder.hpp"
 #include "util/file_reader.hpp"
 
-namespace pingus::worldmap {
+namespace pingus {
+
+namespace worldmap {
 
 class Dot;
 class Worldmap;
@@ -40,8 +42,8 @@ public:
   std::vector<Dot*> dots;
   typedef std::vector<Pathfinder<Dot*, Path*>* > PFinderCache;
   PFinderCache pathfinder_cache;
-private:
 
+private:
   // FIXME: This could/should probally be moved inside the graph (or not?!)
   /** Map to look up node names and get the coresponding id's */
   std::map<std::string, NodeId> node_lookup;
@@ -84,8 +86,9 @@ private:
   PathGraph& operator= (const PathGraph&);
 };
 
-} // namespace pingus::worldmap
+} // namespace worldmap
 
+} // namespace pingus
 #endif
 
 // EOF

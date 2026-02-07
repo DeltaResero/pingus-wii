@@ -11,6 +11,8 @@
 
 #include "pingus/layer_manager.hpp"
 
+namespace pingus {
+
 LayerManager::LayerManager () :
   layers()
 {
@@ -41,5 +43,8 @@ LayerManager::update (float delta)
        i != layers.end (); ++i)
     i->update(delta);
 }
+
+
+} // namespace pingus
 
 // EOF

@@ -13,9 +13,11 @@
 #ifndef HEADER_PINGUS_UTIL_WII_HPP
 #define HEADER_PINGUS_UTIL_WII_HPP
 
-#ifdef __WII__
-
 #include <string>
+
+namespace pingus {
+
+#ifdef __WII__
 
 namespace Wii {
 
@@ -48,6 +50,7 @@ std::string get_data_dir();
 
 #endif // __WII__
 
+} // namespace pingus
 #endif // HEADER_PINGUS_UTIL_WII_HPP
 
 // EOF

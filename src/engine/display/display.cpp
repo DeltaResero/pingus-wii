@@ -25,6 +25,9 @@
 #include "util/log.hpp"
 #include "util/raise_exception.hpp"
 
+namespace pingus {
+
+
 std::unique_ptr<Framebuffer> Display::s_framebuffer;
 
 void
@@ -233,5 +236,8 @@ Display::get_fullscreen_video_modes()
 
   return video_modes;
 }
+
+
+} // namespace pingus
 
 // EOF

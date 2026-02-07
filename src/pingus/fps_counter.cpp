@@ -17,6 +17,9 @@
 #include "engine/display/display.hpp"
 #include "pingus/fonts.hpp"
 
+namespace pingus {
+
+
 FPSCounter fps_counter;
 
 FPSCounter::FPSCounter() :
@@ -36,7 +39,7 @@ void
 FPSCounter::draw()
 {
   update_fps_counter();
-  pingus::fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
+  fonts::pingus_small.render(origin_center, Display::get_width()/2, 35, fps_string, *Display::get_framebuffer());
 }
 
 void
@@ -59,5 +62,8 @@ FPSCounter::update_fps_counter()
     fps_string = str.str();
   }
 }
+
+
+} // namespace pingus
 
 // EOF

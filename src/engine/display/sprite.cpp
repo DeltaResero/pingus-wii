@@ -16,6 +16,9 @@
 #include "pingus/resource.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 Sprite::Sprite() :
   impl()
 {
@@ -186,5 +189,8 @@ Sprite::set_hotspot(Origin origin, int x, int y)
     impl->offset = calc_origin(origin, impl->frame_size) - Vector2i(x, y);
   }
 }
+
+
+} // namespace pingus
 
 // EOF

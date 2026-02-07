@@ -15,6 +15,8 @@
 #include "engine/display/sprite.hpp"
 #include "engine/screen/gui_screen.hpp"
 
+namespace pingus {
+
 class AddOnMenu : public GUIScreen
 {
 private:
@@ -48,6 +50,8 @@ private:
   AddOnMenu& operator= (const AddOnMenu&);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

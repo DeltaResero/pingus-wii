@@ -17,6 +17,9 @@
 #include "math/size.hpp"
 #include "util/pathname.hpp"
 
+namespace pingus {
+
+
 class FileReader;
 
 template<class T>
@@ -161,6 +164,8 @@ struct CommandLineOptions : public Options
   void merge(const CommandLineOptions& rhs);
 };
 
+
+} // namespace pingus
 #endif
 
 // EOF

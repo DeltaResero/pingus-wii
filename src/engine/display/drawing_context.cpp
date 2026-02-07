@@ -19,6 +19,9 @@
 #include "engine/display/sprite.hpp"
 #include "util/log.hpp"
 
+namespace pingus {
+
+
 struct DrawingRequestsSorter
 {
   bool operator()(DrawingRequest* a, DrawingRequest* b) {
@@ -395,5 +398,8 @@ DrawingContext::world_to_screen(const Vector2i pos)
   return pos + Vector2i(int(translate_stack.back().x + rect.left),
                         int(translate_stack.back().y + rect.top));
 }
+
+
+} // namespace pingus
 
 // EOF
