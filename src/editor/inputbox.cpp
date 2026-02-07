@@ -19,7 +19,8 @@
 namespace pingus::editor {
 
 Inputbox::Inputbox() :
-  text(),
+  m_text(),
+  m_faulty_input(false),
   on_change(),
   on_enter()
 {
@@ -27,7 +28,8 @@ Inputbox::Inputbox() :
 
 Inputbox::Inputbox(const Rect& rect_) :
   RectComponent(rect_),
-  text(),
+  m_text(),
+  m_faulty_input(false),
   on_change(),
   on_enter()
 {
@@ -36,19 +38,21 @@ Inputbox::Inputbox(const Rect& rect_) :
 void
 Inputbox::draw(DrawingContext& gc)
 {
-  gc.draw_fillrect(rect, Color(255,255,255));
-  gc.draw_rect(rect, has_focus() ? Color(255,128,0) : Color(0,0,0));
+  Color const bg_color = m_faulty_input ? Color(255, 128, 128) : Color(255, 255, 255);
+
+  gc.draw_fillrect(rect, bg_color);
+  gc.draw_rect(rect, has_focus() ? Color(255, 128, 0) : Color(0, 0, 0));
 
   gc.print_left(pingus::fonts::verdana11,
                 Vector2i(rect.left + 5,
                          rect.top + rect.get_height()/2 - pingus::fonts::verdana11.get_height()/2),
-                text);
+                m_text);
 }
 
 void
 Inputbox::set_text(const std::string& text_)
 {
-  text = text_;
+  m_text = text_;
 }
 
 void
@@ -56,34 +60,40 @@ Inputbox::on_key_pressed(const input::KeyboardEvent& ev)
 {
   if (ev.keysym.sym == SDLK_BACKSPACE) // backspace
   {
-    if (!text.empty())
+    if (!m_text.empty())
     {
-      text = text.substr(0, text.size()-1);
+      m_text = m_text.substr(0, m_text.size() - 1);
       try {
-        on_change(text);
+        if (on_change) on_change(m_text);
+        m_faulty_input = false;
       } catch (const std::exception& err) {
-        log_error("Inputbox: on_change failed: {}", err.what());
+        m_faulty_input = true;
+        log_debug("Inputbox: on_change failed: {}", err.what());
       }
     }
   }
   else if (ev.keysym.sym == SDLK_RETURN) // enter
   {
     try {
-      on_change(text);
-      on_enter(text);
+      if (on_change) on_change(m_text);
+      if (on_enter) on_enter(m_text);
+      m_faulty_input = false;
     } catch (const std::exception& err) {
-      log_error("Inputbox: on_change/on_enter failed: {}", err.what());
+      m_faulty_input = true;
+      log_debug("Inputbox: on_change/on_enter failed: {}", err.what());
     }
   }
   else
   {
     if (ev.keysym.unicode)
     {
-      text += UTF8::encode_utf8(ev.keysym.unicode);
+      m_text += UTF8::encode_utf8(ev.keysym.unicode);
       try {
-        on_change(text);
+        if (on_change) on_change(m_text);
+        m_faulty_input = false;
       } catch (const std::exception& err) {
-        log_error("Inputbox: on_change failed: {}", err.what());
+        m_faulty_input = true;
+        log_debug("Inputbox: on_change failed: {}", err.what());
       }
     }
   }

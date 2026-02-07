@@ -21,7 +21,8 @@ namespace pingus::editor {
 class Inputbox : public gui::RectComponent
 {
 private:
-  std::string text;
+  std::string m_text;
+  bool m_faulty_input;
 
 public:
   Inputbox(const Rect& rect);
@@ -30,7 +31,7 @@ public:
   void draw(DrawingContext& gc);
 
   void set_text(const std::string& text);
-  std::string get_text() const { return text; }
+  std::string get_text() const { return m_text; }
   void on_key_pressed(const input::KeyboardEvent& ev);
 
   void update_layout() {}
