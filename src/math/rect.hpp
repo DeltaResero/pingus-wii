@@ -60,6 +60,9 @@ public:
       bottom(0)
   {}
 
+  Rect(const Rect&) = default;
+  Rect& operator=(const Rect&) = default;
+
   explicit Rect(const Rectf& rect);
 
   Rect(int new_left, int new_top, int new_right, int new_bottom)
@@ -75,22 +78,6 @@ public:
       right(left + size.width),
       bottom(top + size.height)
   {}
-
-  Rect(const Rect &rect)
-    : left(rect.left),
-      top(rect.top),
-      right(rect.right),
-      bottom(rect.bottom)
-  {}
-
-  Rect& operator=(const Rect &rect)
-  {
-    left = rect.left;
-    top = rect.top;
-    right = rect.right;
-    bottom = rect.bottom;
-    return *this;
-  }
 
   Rect grow(int b) const {
     return Rect(left   - b,
@@ -272,6 +259,9 @@ public:
       bottom(0.0f)
   {}
 
+  Rectf(const Rectf&) = default;
+  Rectf& operator=(const Rectf&) = default;
+
   Rectf(const Rect& rect)
     : left(static_cast<float>(rect.left)),
       top(static_cast<float>(rect.top)),
@@ -299,22 +289,6 @@ public:
        right(p2.x),
        bottom(p2.y)
   {}
-
-  Rectf(const Rectf &rect)
-    : left(rect.left),
-      top(rect.top),
-      right(rect.right),
-      bottom(rect.bottom)
-  {}
-
-  Rectf& operator=(const Rectf &rect)
-  {
-    left = rect.left;
-    top = rect.top;
-    right = rect.right;
-    bottom = rect.bottom;
-    return *this;
-  }
 
   //: Rect += Rect operator.
   Rectf &operator+=(const Rectf &r)

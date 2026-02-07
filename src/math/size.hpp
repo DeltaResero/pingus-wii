@@ -57,17 +57,8 @@ public:
     : width(width_), height(height_)
   {}
 
-  Size(const Size &s)
-    : width(s.width),
-      height(s.height)
-  {}
-
-  Size& operator=(const Size &s)
-  {
-    width = s.width;
-    height = s.height;
-    return *this;
-  }
+  Size(const Size&) = default;
+  Size& operator=(const Size&) = default;
 
   explicit Size(const Sizef& s);
 
@@ -140,17 +131,8 @@ public:
       height(height_)
   {}
 
-  Sizef(const Sizef &s)
-    : width(s.width),
-      height(s.height)
-  {}
-
-  Sizef& operator=(const Sizef &s)
-  {
-    width = s.width;
-    height = s.height;
-    return *this;
-  }
+  Sizef(const Sizef&) = default;
+  Sizef& operator=(const Sizef&) = default;
 
   //! Attributes:
 public:
