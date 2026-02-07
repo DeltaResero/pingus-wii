@@ -11,6 +11,7 @@
 
 #include "editor/inputbox.hpp"
 
+#include "util/log.hpp"
 #include "util/utf8.hpp"
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
@@ -58,20 +59,32 @@ Inputbox::on_key_pressed(const input::KeyboardEvent& ev)
     if (!text.empty())
     {
       text = text.substr(0, text.size()-1);
-      on_change(text);
+      try {
+        on_change(text);
+      } catch (const std::exception& err) {
+        log_error("Inputbox: on_change failed: {}", err.what());
+      }
     }
   }
   else if (ev.keysym.sym == SDLK_RETURN) // enter
   {
-    on_change(text);
-    on_enter(text);
+    try {
+      on_change(text);
+      on_enter(text);
+    } catch (const std::exception& err) {
+      log_error("Inputbox: on_change/on_enter failed: {}", err.what());
+    }
   }
   else
   {
     if (ev.keysym.unicode)
     {
       text += UTF8::encode_utf8(ev.keysym.unicode);
-      on_change(text);
+      try {
+        on_change(text);
+      } catch (const std::exception& err) {
+        log_error("Inputbox: on_change failed: {}", err.what());
+      }
     }
   }
 }
