@@ -26,7 +26,7 @@ namespace pingus::editor {
  *
  */
 ActionProperties::ActionProperties(EditorScreen* editor_, const Rect& rect_) :
-  GroupComponent(rect_),
+  GroupComponent(Rect(rect_.left, rect_.top, rect_.left + 240, rect_.top)),
   editor(editor_),
   level(),
   y_pos(0),
@@ -118,7 +118,12 @@ ActionProperties::on_checkbox_change(bool t, ActionName::Enum id)
 void
 ActionProperties::on_inputbox_change(const std::string& value, ActionName::Enum id)
 {
-  level->set_action(ActionName::to_string(id), StringUtil::to<int>(value));
+  int val;
+  if (!StringUtil::from_string(value, val))
+  {
+    throw std::runtime_error("Invalid integer");
+  }
+  level->set_action(ActionName::to_string(id), val);
 }
 
 } // namespace pingus::editor

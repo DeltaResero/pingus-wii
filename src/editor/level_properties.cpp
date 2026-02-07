@@ -32,7 +32,7 @@
 namespace pingus::editor {
 
 LevelProperties::LevelProperties(EditorScreen* editor_, const Rect& rect_) :
-  GroupComponent(rect_),
+  GroupComponent(Rect(rect_.left, rect_.top, rect_.left + 240, rect_.top)),
   editor(editor_),
   level(nullptr),
   author(),
@@ -139,16 +139,28 @@ LevelProperties::on_description_change(const std::string& str)
 void
 LevelProperties::on_width_change(const std::string& str)
 {
+  int val;
+  if (!StringUtil::from_string(str, val))
+  {
+    throw std::runtime_error("Invalid integer");
+  }
+
   Size s = level->get_size();
-  level->set_size(Size(StringUtil::to<int>(str), s.height));
+  level->set_size(Size(val, s.height));
   editor->get_viewport()->refresh();
 }
 
 void
 LevelProperties::on_height_change(const std::string& str)
 {
+  int val;
+  if (!StringUtil::from_string(str, val))
+  {
+    throw std::runtime_error("Invalid integer");
+  }
+
   Size s = level->get_size();
-  level->set_size(Size(s.width, StringUtil::to<int>(str)));
+  level->set_size(Size(s.width, val));
   editor->get_viewport()->refresh();
 }
 
@@ -162,7 +174,7 @@ LevelProperties::on_number_to_save_change(const std::string& str)
   }
   else
   {
-    log_error("LevelProperties::on_number_to_save_change: '{}' not an integer", str);
+    throw std::runtime_error("Invalid integer");
   }
 
 }
@@ -177,14 +189,20 @@ LevelProperties::on_number_of_pingus_change(const std::string& str)
   }
   else
   {
-    log_error("LevelProperties::on_number_of_pingus_change: '{}' not an integer", str);
+    throw std::runtime_error("Invalid integer");
   }
 }
 
 void
 LevelProperties::on_time_change(const std::string& str)
 {
-  level->set_time(GameTime::seconds_to_ticks(StringUtil::to<int>(str)));
+  int val;
+  if (!StringUtil::from_string(str, val))
+  {
+    throw std::runtime_error("Invalid integer");
+  }
+
+  level->set_time(GameTime::seconds_to_ticks(val));
 }
 
 void

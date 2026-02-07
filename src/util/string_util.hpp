@@ -38,12 +38,7 @@ public:
   {
     std::istringstream str(s);
     T tmp;
-    str >> tmp;
-    if (str.fail())
-    {
-      return false;
-    }
-    else
+    if (str >> tmp && (str >> std::ws).eof())
     {
       t = tmp;
       return true;

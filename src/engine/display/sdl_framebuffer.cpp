@@ -350,7 +350,7 @@ SDLFramebuffer::fill_rect(const Rect& rect_, const Color& color)
     srcrect.w = static_cast<Uint16>(rect.get_width());
     srcrect.h = static_cast<Uint16>(rect.get_height());
 
-    SDL_FillRect(screen, &srcrect, SDL_MapRGB(screen->format, color.r, color.g, color.b));
+    SDL_FillRect(screen, &srcrect, SDL_MapRGBA(screen->format, color.r, color.g, color.b, 255));
   }
   else if (color.a != 0)
   {
