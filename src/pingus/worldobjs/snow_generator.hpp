@@ -14,10 +14,6 @@
 
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
-class SnowGeneratorData;
-}
-
 namespace pingus::worldobjs {
 
 class SnowGenerator : public WorldObj

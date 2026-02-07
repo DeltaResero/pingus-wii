@@ -16,10 +16,6 @@
 #include "math/color.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
-class SurfaceBackgroundData;
-}
-
 namespace pingus::worldobjs {
 
 class SurfaceBackground : public WorldObj

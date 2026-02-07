@@ -16,10 +16,6 @@
 
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
-class StarfieldBackgroundData;
-}
-
 namespace pingus::worldobjs {
 
 class StarfieldBackgroundStars;

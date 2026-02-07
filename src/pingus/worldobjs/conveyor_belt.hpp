@@ -15,10 +15,6 @@
 #include "math/vector3f.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
-class ConveyorBeltData;
-}
-
 namespace pingus::worldobjs {
 
 class ConveyorBelt : public  WorldObj

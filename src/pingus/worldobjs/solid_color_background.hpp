@@ -15,10 +15,6 @@
 #include "math/color.hpp"
 #include "pingus/worldobj.hpp"
 
-namespace pingus::worldobjsData {
-class SolidColorBackgroundData;
-}
-
 namespace pingus::worldobjs {
 
 class SolidColorBackground : public WorldObj
