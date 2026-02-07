@@ -85,13 +85,7 @@ GroupLevelObj::add_child(LevelObjPtr obj)
 }
 
 void
-GroupLevelObj::remove_child(LevelObjPtr obj)
-{
-  m_objects.push_back(obj);
-}
-
-void
-GroupLevelObj::set_overrides(const pingus::FileReader &reader)
+GroupLevelObj::set_overrides(const pingus::FileReader& reader)
 {
   if (reader.read_int("repeat", m_repeat))
   {
