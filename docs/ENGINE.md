@@ -22,7 +22,7 @@ The game fonts were originally generated using `fontgen`.
 
 ### Tools
 
-* **fontgen**: https://github.com/Grumbel/fontgen
+* **fontgen**: <https://github.com/Grumbel/fontgen>
 
 ### Source Fonts
 
