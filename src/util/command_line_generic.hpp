@@ -27,10 +27,6 @@
 #ifndef HEADER_PINGUS_UTIL_COMMAND_LINE_GENERIC_HPP
 #define HEADER_PINGUS_UTIL_COMMAND_LINE_GENERIC_HPP
 
-#if _MSC_VER > 1000
-#pragma once
-#endif
-
 #include "util/command_line.hpp"
 
 namespace pingus {
