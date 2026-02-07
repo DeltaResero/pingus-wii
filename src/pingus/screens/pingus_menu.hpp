@@ -68,9 +68,7 @@ public:
   void on_click(MenuButton* button);
   void set_hint(const std::string& str);
 
-  /// Load all images and other stuff for the menu
-  void do_contrib(const std::string&);
-
+  // Load all images and other stuff for the menu
   void on_escape_press();
   void draw_background(DrawingContext& gc);
 

@@ -140,13 +140,6 @@ PingusMenu::do_start(const std::string &filename)
   }
 }
 
-void PingusMenu::do_contrib(const std::string &levelfile)
-{ // Launch the specified level - don't bother checking for it, it has to exist
-  sound::PingusSound::play_sound("letsgo");
-  ScreenManager::instance()->push_screen
-    (std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(Pathname(levelfile, Pathname::SYSTEM_PATH))));
-}
-
 #ifndef DISABLE_EDITOR
 void PingusMenu::do_edit()
 { // Launch the level editor
