@@ -633,13 +633,6 @@ PingusMain::run(int argc, char** argv)
   return 0;
 }
 
-void
-PingusMain::on_exit_press()
-{
-  std::cout << "Exit pressed" << std::endl;
-  ScreenManager::instance()->pop_all_screens();
-}
-
 
 } // namespace pingus
 
