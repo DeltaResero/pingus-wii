@@ -34,7 +34,7 @@ int main()
 
     pingus::input::ControllerPtr controller =
         manager.create_controller(pingus::Pathname(
-            "../data/controller/input2.scm", pingus::Pathname::SYSTEM_PATH));
+            "../data/controller/default.scm", pingus::Pathname::SYSTEM_PATH));
 
     while (true)
     {
