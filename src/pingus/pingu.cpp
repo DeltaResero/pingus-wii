@@ -301,7 +301,7 @@ Pingu::dist(int x, int y)
 {
   Vector3f p = get_center_pos ();
 
-  return Math::sqrt(((p.x - static_cast<float>(x)) * (p.x - static_cast<float>(x)) +
+  return std::sqrt(((p.x - static_cast<float>(x)) * (p.x - static_cast<float>(x)) +
                      (p.y - static_cast<float>(y)) * (p.y - static_cast<float>(y))));
 }
 

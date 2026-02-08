@@ -19,8 +19,8 @@ namespace pingus {
 Vector3f
 Vector3f::rotate (float angle, const Vector3f& pos) const
 {
-  const float s = Math::sin(angle);
-  const float c = Math::cos(angle);
+  const float s = std::sin(angle);
+  const float c = std::cos(angle);
 
   return Vector3f(x * (pos.x * pos.x * (1-c) + c)
                   + y * (pos.x * pos.y * (1-c) - pos.z *s)

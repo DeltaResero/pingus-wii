@@ -111,7 +111,7 @@ public:
   Vector2f rotate(float angle) const
   {
     float len = magnitude();
-    return Vector2f(len * Math::cos(angle), len * Math::sin(angle));
+    return Vector2f(len * std::cos(angle), len * std::sin(angle));
   }
 
   /// Scalar product of 2 vectors
@@ -122,7 +122,7 @@ public:
 
   float magnitude() const
   {
-    return Math::sqrt(x*x + y*y);
+    return std::sqrt(x*x + y*y);
   }
   float length() const { return magnitude(); }
 

@@ -84,7 +84,7 @@ public:
 
   void normalize ()
   {
-    float f = Math::sqrt(x * x + y * y + z * z);
+    float f = std::sqrt(x * x + y * y + z * z);
 
     if (f != 0.0f)
     {
@@ -96,7 +96,7 @@ public:
 
   float length() const
   {
-    return Math::sqrt(x * x + y * y + z * z);
+    return std::sqrt(x * x + y * y + z * z);
   }
 
   Vector3f rotate (float angle, const Vector3f& pos) const;
@@ -107,14 +107,14 @@ public:
     float y = b.y - a.y;
     float z = b.z - a.z;
 
-    return Math::abs(Math::sqrt((x * x) + (y * y) + (z * z)));
+    return std::abs(std::sqrt((x * x) + (y * y) + (z * z)));
   }
   static float distance2d(const Vector3f& a, const Vector3f& b)
   {
     float x = b.x - a.x;
     float y = b.y - a.y;
 
-    return Math::abs(Math::sqrt((x * x) + (y * y)));
+    return std::abs(std::sqrt((x * x) + (y * y)));
   }
 
   /** Calculate a position between a and b, relative to the value of
