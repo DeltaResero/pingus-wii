@@ -243,44 +243,26 @@ System::exist(std::string filename)
 void
 System::create_dir(std::string directory)
 {
-#ifndef WIN32
-  if (!exist(directory))
+  // Use std::filesystem::path to handle separators and trailing slashes automatically
+  std::filesystem::path path(directory);
+  std::error_code ec;
+
+  // Check existence first to avoid redundant "Success" logs
+  if (!std::filesystem::exists(path, ec))
   {
-    std::string::iterator end = directory.end() - 1;
-    if(*end == '/') {
-      directory.erase(end);
-    }
-    log_info("System::create_dir: {}", directory);
-    if (!std::filesystem::create_directories(directory.c_str()))
+    log_info("System::create_dir: {}", path.string());
+
+    // create_directories is recursive (fixing the Windows bug) and cross-platform
+    if (std::filesystem::create_directories(path, ec))
     {
-      throw std::runtime_error(std::format("System::create_dir: {}: {}", directory, strerror(errno)));
+      log_info("Successfully created: {}", path.string());
     }
-    else
+    // Only throw if the error code indicates a real failure
+    else if (ec)
     {
-      log_info("Successfully created: {}", directory);
+      throw std::runtime_error(std::format("System::create_dir: {}: {}", path.string(), ec.message()));
     }
   }
-#else
-  if (!CreateDirectory(directory.c_str(), 0))
-  {
-    DWORD dwError = GetLastError();
-    if (dwError == ERROR_ALREADY_EXISTS)
-    {
-    }
-    else if (dwError == ERROR_PATH_NOT_FOUND)
-    {
-      throw std::runtime_error(std::format("CreateDirectory: {}: One or more intermediate directories do not exist; this function will only create the final directory in the path.", directory));
-    }
-    else
-    {
-      throw std::runtime_error(std::format("CreateDirectory: {}: failed with error {}", directory, StringUtil::to_string(dwError)));
-    }
-  }
-  else
-  {
-    log_info("Successfully created: {}", directory);
-  }
-#endif
 }
 
 std::string
