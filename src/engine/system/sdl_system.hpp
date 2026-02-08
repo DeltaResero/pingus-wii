@@ -23,7 +23,6 @@ class Size;
 
 class SDLSystem
 {
-private:
 public:
   SDLSystem();
   ~SDLSystem();

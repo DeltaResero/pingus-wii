@@ -22,7 +22,6 @@ namespace pingus::editor {
 
 class LevelObjFactory
 {
-private:
 public:
   static LevelObjPtr create(const pingus::FileReader &reader);
 
