@@ -14,7 +14,6 @@
 #include <stdexcept>
 
 #include "util/file_reader.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -57,7 +56,7 @@ FontDescription::FontDescription(const Pathname& pathname_) :
 
   if (reader.get_name() != "pingus-font")
   {
-    raise_exception(std::runtime_error, "FontDescription: not a pingus-font file");
+    throw std::runtime_error("FontDescription: not a pingus-font file");
   }
   else
   {

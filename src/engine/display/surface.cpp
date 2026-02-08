@@ -18,7 +18,6 @@
 #include "engine/display/blitter.hpp"
 #include "math/rect.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -67,7 +66,7 @@ Surface::Surface(const Pathname& pathname) :
   SDL_Surface* surface = IMG_Load(pathname.get_sys_path().c_str());
   if (!surface)
   {
-    raise_exception(std::runtime_error, "couldn't load " << pathname.get_sys_path() << "\n  IMG_GetError: " << IMG_GetError());
+    throw std::runtime_error(std::format("couldn't load {}\n  IMG_GetError: {}", pathname.get_sys_path(), IMG_GetError()));
   }
   else
   {

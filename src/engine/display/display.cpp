@@ -22,7 +22,6 @@
 #endif
 #include "engine/display/null_framebuffer.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -97,7 +96,7 @@ Display::create_window(FramebufferType framebuffer_type, const Size& size, bool 
       s_framebuffer = std::unique_ptr<Framebuffer>(new OpenGLFramebuffer());
       s_framebuffer->set_video_mode(size, fullscreen, resizable);
 #else
-      raise_exception(std::runtime_error, "OpenGL support was not compiled in");
+      throw std::runtime_error("OpenGL support was not compiled in");
 #endif
       break;
 

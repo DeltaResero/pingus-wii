@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "editor/generic_level_obj.hpp"
 
 #include <stdexcept>
@@ -16,7 +17,6 @@
 #include "engine/display/drawing_context.hpp"
 #include "pingus/resource.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus::editor {
 
@@ -140,7 +140,7 @@ GenericLevelObj::get_attributes(std::string obj_type)
     return HAS_SPRITE_FAKE | HAS_TARGET_ID;
   else
   {
-    raise_exception(std::runtime_error, "unknown object type: '" << obj_type << "'");
+    throw std::runtime_error(std::format("unknown object type: '{}'", obj_type));
   }
 }
 

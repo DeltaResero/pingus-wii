@@ -9,12 +9,12 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/state_sprite.hpp"
 
 #include <sstream>
 #include <stdexcept>
 
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -58,7 +58,7 @@ StateSprite::operator[](int state)
   }
   else
   {
-    raise_exception(std::runtime_error, "StateSprite error: state " << state << " not available");
+    throw std::runtime_error(std::format("StateSprite error: state {} not available", state));
   }
 }
 

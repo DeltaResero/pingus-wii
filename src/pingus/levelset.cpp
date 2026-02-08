@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/levelset.hpp"
 
 #include <algorithm>
@@ -19,7 +20,6 @@
 #include "pingus/globals.hpp"
 #include "pingus/savegame_manager.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -60,7 +60,7 @@ Levelset::from_file(const Pathname& pathname)
   FileReader reader = FileReader::parse(pathname);
   if (reader.get_name() != "pingus-levelset")
   {
-    raise_exception(std::runtime_error, "Error: " << pathname.str() << ": not a 'pingus-levelset' file");
+    throw std::runtime_error(std::format("Error: {}: not a 'pingus-levelset' file", pathname.str()));
   }
   else
   {

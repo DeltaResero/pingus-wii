@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "engine/input/manager.hpp"
 
 #include <stdexcept>
@@ -16,7 +17,6 @@
 #include "engine/input/driver_factory.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
-#include "util/raise_exception.hpp"
 #include "util/string_util.hpp"
 
 namespace pingus::input {
@@ -82,8 +82,7 @@ Manager::create_controller(const Pathname& filename)
 
   if (reader.get_name() != "pingus-controller")
   {
-    raise_exception(std::runtime_error,
-                    "Controller: invalid config file '" << filename.str() << "'");
+    throw std::runtime_error(std::format("Controller: invalid config file '{}'", filename.str()));
   }
   else
   {
@@ -165,8 +164,7 @@ Manager::create_controller(const Pathname& filename)
       }
       else
       {
-        raise_exception(std::runtime_error, "Manager: Unkown Element in Controller Config: "
-                        << i->get_name());
+        throw std::runtime_error(std::format("Manager: Unkown Element in Controller Config: {}", i->get_name()));
       }
     }
   }

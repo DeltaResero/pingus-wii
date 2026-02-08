@@ -17,7 +17,6 @@
 #include "pingus/fonts.hpp"
 #include "pingus/string_format.hpp"
 #include "util/file_reader.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus::worldmap {
 
@@ -50,7 +49,7 @@ WorldmapStory::WorldmapStory(const FileReader& reader) :
   std::reverse(pages.begin(), pages.end());
 
   if (pages.empty())
-    raise_exception(std::runtime_error, "WorldmapStory: Worldmap does not include a valid story");
+    throw std::runtime_error("WorldmapStory: Worldmap does not include a valid story");
 }
 
 } // namespace pingus::worldmap

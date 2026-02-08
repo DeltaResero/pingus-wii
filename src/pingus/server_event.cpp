@@ -9,13 +9,13 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/pingu.hpp"
 #include "pingus/pingu_holder.hpp"
 #include "pingus/server.hpp"
 #include "pingus/world.hpp"
 #include "util/file_reader.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -72,7 +72,7 @@ ServerEvent::ServerEvent(const FileReader& reader) :
   }
   else
   {
-    raise_exception(std::runtime_error, "ServerEvent: Parse error: Unknown event: " << reader.get_name());
+    throw std::runtime_error(std::format("ServerEvent: Parse error: Unknown event: {}", reader.get_name()));
   }
 }
 

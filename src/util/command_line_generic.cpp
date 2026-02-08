@@ -24,6 +24,7 @@
 //   Magnus Norddahl
 //   (if your name is missing here, please add it)
 
+#include <format>
 #include "util/command_line_generic.hpp"
 
 #include <iomanip>
@@ -31,7 +32,6 @@
 #include <stdexcept>
 #include <stdio.h>
 
-#include "util/raise_exception.hpp"
 
 #ifdef WIN32
 #define snprintf _snprintf
@@ -106,9 +106,7 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
               {
                 if (i == argc - 1)
                 {
-                  raise_exception(std::runtime_error,
-                                  "option '" << std::string(argv[i])
-                                             << "' requires an argument");
+                  throw std::runtime_error(std::format("option '{}' requires an argument", std::string(argv[i])));
                 }
                 else
                 {
@@ -120,9 +118,7 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
           }
           else
           {
-            raise_exception(std::runtime_error, "unrecognized option '"
-                                                    << std::string(argv[i])
-                                                    << "'");
+            throw std::runtime_error(std::format("unrecognized option '{}'", std::string(argv[i])));
           }
         }
       }
@@ -150,9 +146,7 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
                 if (i == argc - 1 || *(p+1) != '\0')
                 {
                   // No more arguments
-                  raise_exception(std::runtime_error,
-                                  "option requires an argument -- "
-                                      << std::string(1, *p));
+                  throw std::runtime_error(std::format("option requires an argument -- {}", std::string(1, *p)));
                 }
                 else
                 {
@@ -163,8 +157,7 @@ void CommandLine_Generic::parse_args(int argc, char** argv)
             }
             else
             {
-              raise_exception(std::runtime_error,
-                              "invalid option -- " << std::string(1, *p));
+              throw std::runtime_error(std::format("invalid option -- {}", std::string(1, *p)));
             }
             ++p;
           }

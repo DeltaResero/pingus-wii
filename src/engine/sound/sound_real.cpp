@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "engine/sound/sound_real.hpp"
 
 #include <SDL.h>
@@ -17,7 +18,6 @@
 #include "engine/sound/sound_res_mgr.hpp"
 #include "pingus/globals.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus::sound {
 
@@ -31,14 +31,14 @@ PingusSoundReal::PingusSoundReal() :
 
   if (SDL_Init(SDL_INIT_AUDIO) == -1)
   {
-    raise_exception(std::runtime_error, "Unable to initialize SDL: " << SDL_GetError());
+    throw std::runtime_error(std::format("Unable to initialize SDL: {}", SDL_GetError()));
   }
 
   log_info("Initializing SDL_Mixer");
 
   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
   {
-    raise_exception(std::runtime_error, "Unable to initialize SDL_Mixer: " << Mix_GetError());
+    throw std::runtime_error(std::format("Unable to initialize SDL_Mixer: {}", Mix_GetError()));
   }
 }
 

@@ -9,11 +9,11 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "engine/input/controller_description.hpp"
 
 #include <stdexcept>
 
-#include "util/raise_exception.hpp"
 
 namespace pingus::input {
 
@@ -98,7 +98,7 @@ ControllerDescription::get_definition(int id) const
   std::map<int, InputEventDefinition>::const_iterator i = id_to_event.find(id);
   if (i == id_to_event.end())
   {
-    raise_exception(std::runtime_error, "Unknown event id");
+    throw std::runtime_error("Unknown event id");
   }
   return i->second;
 }
@@ -108,7 +108,7 @@ ControllerDescription::get_definition(const std::string& name) const
 {
   std::map<std::string, InputEventDefinition>::const_iterator i = str_to_event.find(name);
   if (i == str_to_event.end())
-    raise_exception(std::runtime_error, "Unknown event str: " << name);
+    throw std::runtime_error(std::format("Unknown event str: {}", name));
 
   return i->second;
 }

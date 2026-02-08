@@ -9,13 +9,13 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/prefab_file.hpp"
 
 #include <stdexcept>
 
 #include "util/file_reader.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 #include "util/system.hpp"
 
 namespace pingus {
@@ -27,7 +27,7 @@ PrefabFile::from_path(const Pathname& filename)
 
   if (reader.get_name() != "pingus-prefab")
   {
-    raise_exception(std::runtime_error, "Error: " << filename.str() << ": not a 'pingus-prefab' file");
+    throw std::runtime_error(std::format("Error: {}: not a 'pingus-prefab' file", filename.str()));
   }
   else
   {
@@ -37,7 +37,7 @@ PrefabFile::from_path(const Pathname& filename)
     FileReader objects;
     if (!reader.read_section("objects", objects) || objects.get_sections().empty())
     {
-      raise_exception(std::runtime_error, "Error: " << filename.str() << ": empty prefab file");
+      throw std::runtime_error(std::format("Error: {}: empty prefab file", filename.str()));
     }
     else
     {

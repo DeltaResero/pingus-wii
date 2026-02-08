@@ -17,7 +17,6 @@
 #include "pingus/worldmap/path_drawable.hpp"
 #include "pingus/worldmap/worldmap.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus::worldmap {
 
@@ -146,7 +145,7 @@ PathGraph::parse_edges(const FileReader& reader)
     }
     else
     {
-      raise_exception(std::runtime_error, "PathGraph: unhandled: ");
+      throw std::runtime_error("PathGraph: unhandled: ");
     }
   }
 }

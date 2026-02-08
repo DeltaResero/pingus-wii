@@ -9,12 +9,12 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/worldmap/pingus_worldmap.hpp"
 
 #include <stdexcept>
 
 #include "util/pathname.hpp"
-#include "util/raise_exception.hpp"
 
 using namespace pingus::worldmap;
 
@@ -81,7 +81,7 @@ PingusWorldmap::parse_file(const FileReader& reader)
   {
     if (!reader.read_section("graph", impl->path_graph))
     {
-      raise_exception(std::runtime_error, "Worldmap: " << impl->filename << " is missed 'graph' section");
+      throw std::runtime_error(std::format("Worldmap: {} is missed 'graph' section", impl->filename));
     }
 
     impl->objects = reader.read_section("objects").get_sections();
@@ -103,7 +103,7 @@ PingusWorldmap::parse_file(const FileReader& reader)
   }
   else
   {
-    raise_exception(std::runtime_error, "Worldmap:" << impl->filename << ": not a Worldmap file");
+    throw std::runtime_error(std::format("Worldmap:{}: not a Worldmap file", impl->filename));
   }
 }
 

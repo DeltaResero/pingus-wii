@@ -9,6 +9,8 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <sstream>
+#include <format>
 #include "pingus/options.hpp"
 
 #include <stdexcept>
@@ -16,7 +18,6 @@
 #include "util/file_reader.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
-#include "util/raise_exception.hpp"
 #include "util/sexpr_file_reader.hpp"
 #include "util/sexpr_file_writer.hpp"
 #include "util/system.hpp"
@@ -79,7 +80,7 @@ Options::from_file(const Pathname& filename)
 
   if (reader.get_name() != "pingus-config")
   {
-    raise_exception(std::runtime_error, "Error: " << filename << ": not a (pingus-config) file");
+    throw std::runtime_error(std::format("Error: {}: not a (pingus-config) file", filename.str()));
   }
 
   return from_file_reader(reader);

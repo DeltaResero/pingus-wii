@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "util/system.hpp"
 
 #include <algorithm>
@@ -45,7 +46,6 @@
 #include "pingus/globals.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
-#include "util/raise_exception.hpp"
 #include "util/string_util.hpp"
 
 namespace pingus {
@@ -109,7 +109,7 @@ System::opendir(const std::string& pathname, const std::string& pattern)
 
   if (dp == nullptr)
   {
-    raise_exception(std::runtime_error, pathname << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", pathname, strerror(errno)));
   }
   else
   {
@@ -253,7 +253,7 @@ System::create_dir(std::string directory)
     log_info("System::create_dir: {}", directory);
     if (!std::filesystem::create_directories(directory.c_str()))
     {
-      raise_exception(std::runtime_error, "System::create_dir: " << directory << ": " << strerror(errno));
+      throw std::runtime_error(std::format("System::create_dir: {}: {}", directory, strerror(errno)));
     }
     else
     {
@@ -269,14 +269,11 @@ System::create_dir(std::string directory)
     }
     else if (dwError == ERROR_PATH_NOT_FOUND)
     {
-      raise_exception(std::runtime_error,
-                      "CreateDirectory: " << directory <<
-                      ": One or more intermediate directories do not exist; this function will only create the final directory in the path.");
+      throw std::runtime_error(std::format("CreateDirectory: {}: One or more intermediate directories do not exist; this function will only create the final directory in the path.", directory));
     }
     else
     {
-      raise_exception(std::runtime_error,
-                      "CreateDirectory: " << directory << ": failed with error " << StringUtil::to_string(dwError));
+      throw std::runtime_error(std::format("CreateDirectory: {}: failed with error {}", directory, StringUtil::to_string(dwError)));
     }
   }
   else
@@ -336,7 +333,7 @@ System::find_userdir()
     }
     else
     {
-      raise_exception(std::runtime_error, "can't find userdir as neither $HOME nor $XDG_CONFIG_HOME is set");
+      throw std::runtime_error("can't find userdir as neither $HOME nor $XDG_CONFIG_HOME is set");
     }
   }
   else
@@ -499,7 +496,7 @@ System::checksum(std::string filename)
 
     if (bytes_read != 4096 && !feof(in))
     {
-      raise_exception(std::runtime_error, "System:checksum: file read error");
+      throw std::runtime_error("System:checksum: file read error");
     }
 
     for (size_t i=0; i < bytes_read; ++i)
@@ -707,12 +704,12 @@ System::write_file(const std::string& filename, const std::string& content)
   std::ofstream out(filename, std::ios::binary | std::ios::trunc);
   if (!out)
   {
-    raise_exception(std::runtime_error, filename << ": failed to open for writing");
+    throw std::runtime_error(std::format("{}: failed to open for writing", filename));
   }
   out.write(content.data(), content.size());
   if (!out)
   {
-    raise_exception(std::runtime_error, filename << ": write failed");
+    throw std::runtime_error(std::format("{}: write failed", filename));
   }
 #else
   // build the filename: "/home/foo/outfile.pngXXXXXX"
@@ -726,31 +723,31 @@ System::write_file(const std::string& filename, const std::string& content)
   umask(old_mask);
   if (fd < 0)
   {
-    raise_exception(std::runtime_error, tmpfile.get() << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", tmpfile.get(), strerror(errno)));
   }
 
   // write the data to the temporary file
   if (write(fd, content.data(), content.size()) < 0)
   {
-    raise_exception(std::runtime_error, tmpfile.get() << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", tmpfile.get(), strerror(errno)));
   }
 
   if (close(fd) < 0)
   {
-    raise_exception(std::runtime_error, tmpfile.get() << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", tmpfile.get(), strerror(errno)));
   }
 
   // rename the temporary file to it's final location
   if (rename(tmpfile.get(), filename.c_str()) < 0)
   {
-    raise_exception(std::runtime_error, tmpfile.get() << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", tmpfile.get(), strerror(errno)));
   }
 
   // adjust permissions to normal default permissions, as mkstemp
   // might not honor umask
   if (chmod(filename.c_str(), ~old_mask & 0666) < 0)
   {
-    raise_exception(std::runtime_error, tmpfile.get() << ": " << strerror(errno));
+    throw std::runtime_error(std::format("{}: {}", tmpfile.get(), strerror(errno)));
   }
 #endif
 }

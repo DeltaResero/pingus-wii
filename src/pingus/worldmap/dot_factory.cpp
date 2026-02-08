@@ -9,13 +9,13 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/worldmap/dot_factory.hpp"
 
 #include <stdexcept>
 
 #include "pingus/worldmap/level_dot.hpp"
 #include "pingus/worldmap/story_dot.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus::worldmap {
 
@@ -32,7 +32,7 @@ DotFactory::create(const FileReader& reader)
   }
   else
   {
-    raise_exception(std::runtime_error, "DotFactory: unknown tag: " <<  reader.get_name());
+    throw std::runtime_error(std::format("DotFactory: unknown tag: {}", reader.get_name()));
     return {};
   }
 }

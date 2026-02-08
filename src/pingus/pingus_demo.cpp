@@ -9,6 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <format>
 #include "pingus/pingus_demo.hpp"
 
 #include <stdexcept>
@@ -16,7 +17,6 @@
 #include "util/file_reader.hpp"
 #include "util/pathname.hpp"
 #include "util/log.hpp"
-#include "util/raise_exception.hpp"
 
 namespace pingus {
 
@@ -30,7 +30,7 @@ PingusDemo::PingusDemo(const Pathname& pathname) :
 
   if (lines.empty())
   {
-    raise_exception(std::runtime_error, "'" << pathname.str() << "', demo file is empty");
+    throw std::runtime_error(std::format("'{}', demo file is empty", pathname.str()));
   }
   else
   {
@@ -39,7 +39,7 @@ PingusDemo::PingusDemo(const Pathname& pathname) :
       const FileReader& reader = lines.front();
       if (!reader.read_string("name", m_levelname))
       {
-        raise_exception(std::runtime_error, "(level (name ...)) entry missing in demo file '" << pathname.str() << "'");
+        throw std::runtime_error(std::format("(level (name ...)) entry missing in demo file '{}'", pathname.str()));
       }
 
       reader.read_string("checksum", m_checksum);
