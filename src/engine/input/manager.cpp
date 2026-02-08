@@ -91,7 +91,7 @@ Manager::create_controller(const Pathname& filename)
     for (std::vector<FileReader>::const_iterator i = sections.begin();
          i != sections.end(); ++i)
     {
-      if (StringUtil::has_suffix(i->get_name(), "pointer"))
+      if (i->get_name().ends_with("pointer"))
       {
         const std::vector<FileReader>& pointers = i->get_sections();
         for(std::vector<FileReader>::const_iterator j = pointers.begin(); j != pointers.end(); ++j)
@@ -106,7 +106,7 @@ Manager::create_controller(const Pathname& filename)
         }
 
       }
-      else if (StringUtil::has_suffix(i->get_name(), "scroller"))
+      else if (i->get_name().ends_with("scroller"))
       {
         const std::vector<FileReader>& scrollers = i->get_sections();
         for(std::vector<FileReader>::const_iterator j = scrollers.begin(); j != scrollers.end(); ++j)
@@ -121,7 +121,7 @@ Manager::create_controller(const Pathname& filename)
         }
 
       }
-      else if (StringUtil::has_suffix(i->get_name(), "button"))
+      else if (i->get_name().ends_with("button"))
       {
         const std::vector<FileReader>& buttons = i->get_sections();
         for(std::vector<FileReader>::const_iterator j = buttons.begin(); j != buttons.end(); ++j)
@@ -135,7 +135,7 @@ Manager::create_controller(const Pathname& filename)
             log_error("Manager: button: Couldn't create button {}", j->get_name());
         }
       }
-      else if (StringUtil::has_suffix(i->get_name(), "axis"))
+      else if (i->get_name().ends_with("axis"))
       {
         const std::vector<FileReader>& axes = i->get_sections();
         for(std::vector<FileReader>::const_iterator j = axes.begin(); j != axes.end(); ++j)
@@ -149,7 +149,7 @@ Manager::create_controller(const Pathname& filename)
             log_error("Manager: axis: Couldn't create axis {}", j->get_name());
         }
       }
-      else if (StringUtil::has_suffix(i->get_name(), "keyboard"))
+      else if (i->get_name().ends_with("keyboard"))
       {
         const std::vector<FileReader>& keyboards = i->get_sections();
         for(std::vector<FileReader>::const_iterator j = keyboards.begin(); j != keyboards.end(); ++j)

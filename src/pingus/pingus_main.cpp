@@ -463,22 +463,22 @@ PingusMain::start_game ()
 #endif
   if (cmd_options.rest.is_set())
   { // just start the map that was passed on the command line
-    if (StringUtil::has_suffix(cmd_options.rest.get(), ".pingus-demo"))
+    if (cmd_options.rest.get().ends_with(".pingus-demo"))
     { // Demo file
       screen_manager.push_screen(std::make_shared<DemoSession>(
           Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH)));
     }
-    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".font"))
+    else if (cmd_options.rest.get().ends_with(".font"))
     {
       Pathname filename(cmd_options.rest.get(), Pathname::SYSTEM_PATH);
       screen_manager.push_screen(std::make_shared<FontTestScreen>(filename));
     }
-    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".credits"))
+    else if (cmd_options.rest.get().ends_with(".credits"))
     {
       Pathname filename(cmd_options.rest.get(), Pathname::SYSTEM_PATH);
       screen_manager.push_screen(std::make_shared<Credits>(filename));
     }
-    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".worldmap"))
+    else if (cmd_options.rest.get().ends_with(".worldmap"))
     {
       Pathname filename(cmd_options.rest.get(), Pathname::SYSTEM_PATH);
 
@@ -487,13 +487,13 @@ PingusMain::start_game ()
       worldmap_screen->load(filename);
       ScreenManager::instance()->push_screen(worldmap_screen);
     }
-    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".story"))
+    else if (cmd_options.rest.get().ends_with(".story"))
     {
       screen_manager.push_screen(
           std::make_shared<StoryScreen>(FileReader::parse(
               Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH))));
     }
-    else if (StringUtil::has_suffix(cmd_options.rest.get(), ".levelset"))
+    else if (cmd_options.rest.get().ends_with(".levelset"))
     {
       std::shared_ptr<LevelMenu> lvlm = std::make_shared<LevelMenu>();
       std::unique_ptr<Levelset> levelset = Levelset::from_file(
