@@ -171,15 +171,15 @@ public:
     return false;
   }
 
-  bool read_colorf(const char* name, Color& v) const
+  bool read_colorf(const char* name, Colorf& v) const
   {
     std::shared_ptr<lisp::Lisp> sub = get_subsection(name);
     if (sub && sub->get_list_size() == 5)
     {
-      v = Color(static_cast<char>(sub->get_list_elem(1)->get_float() * 255),
-                static_cast<char>(sub->get_list_elem(2)->get_float() * 255),
-                static_cast<char>(sub->get_list_elem(3)->get_float() * 255),
-                static_cast<char>(sub->get_list_elem(4)->get_float() * 255));
+      v.r = sub->get_list_elem(1)->get_float();
+      v.g = sub->get_list_elem(2)->get_float();
+      v.b = sub->get_list_elem(3)->get_float();
+      v.a = sub->get_list_elem(4)->get_float();
       return true;
     }
     return false;

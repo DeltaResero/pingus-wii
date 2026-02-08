@@ -104,7 +104,7 @@ FileReader::read_vector(const char* name, Vector3f& value) const
 }
 
 bool
-FileReader::read_colorf(const char* name, Color& value) const
+FileReader::read_colorf(const char* name, Colorf& value) const
 {
   if (impl.get())
     return impl->read_colorf(name, value);

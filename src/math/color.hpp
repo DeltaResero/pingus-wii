@@ -42,6 +42,23 @@ public:
 };
 
 
+
+class Colorf
+{
+public:
+  float r = 0.0f;
+  float g = 0.0f;
+  float b = 0.0f;
+  float a = 1.0f;
+
+  Color to_color() const {
+    return Color(static_cast<uint8_t>(255 * r),
+                 static_cast<uint8_t>(255 * g),
+                 static_cast<uint8_t>(255 * b),
+                 static_cast<uint8_t>(255 * a));
+  }
+};
+
 } // namespace pingus
 #endif
 

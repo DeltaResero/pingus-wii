@@ -130,9 +130,15 @@ LevelObjFactory::create(const pingus::FileReader& reader)
     }
     if (attribs & HAS_COLOR)
     {
-      if (!reader.read_colori("colori", tmp_color))
-        reader.read_colorf("color", tmp_color);
-      obj->set_color(tmp_color);
+      Colorf tmp_colorf;
+      if (reader.read_colori("colori", tmp_color))
+      {
+        obj->set_color(tmp_color);
+      }
+      else if (reader.read_colorf("color", tmp_colorf))
+      {
+        obj->set_color(tmp_colorf.to_color());
+      }
     }
     if (attribs & HAS_SCROLL)
     {

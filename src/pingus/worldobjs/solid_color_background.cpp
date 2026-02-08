@@ -19,7 +19,13 @@ SolidColorBackground::SolidColorBackground(const FileReader& reader) :
   color()
 {
   if (!reader.read_colori("colori", color))
-    reader.read_colorf("color", color);
+  {
+    Colorf tmp;
+    if (reader.read_colorf("color", tmp))
+    {
+      color = tmp.to_color();
+    }
+  }
 }
 
 void

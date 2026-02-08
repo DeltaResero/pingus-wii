@@ -21,6 +21,7 @@ namespace pingus {
 
 class Size;
 class Color;
+class Colorf;
 class Vector3f;
 class Vector2i;
 class Rect;
@@ -49,13 +50,13 @@ public:
   bool read_path  (const char* name, Pathname&)      const;
   bool read_vector(const char* name, Vector3f&)      const;
   bool read_vector2i(const char* name, Vector2i&)    const;
-  bool read_rect(const char* name, Rect&)    const;
+  bool read_rect(const char* name, Rect&)            const;
   bool read_size  (const char* name, Size&)          const;
-  bool read_colorf(const char* name, Color&)         const;
+  bool read_colorf(const char* name, Colorf&)        const;
   bool read_colori(const char* name, Color&)         const;
   bool read_desc  (const char* name, ResDescriptor&) const;
   bool read_section(const char* name, FileReader&)   const;
-  FileReader read_section(const char* name)   const;
+  FileReader read_section(const char* name)          const;
 
   template<class E, class T>
   bool read_enum  (const char* name, E& value, T enum2string) const

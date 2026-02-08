@@ -39,7 +39,13 @@ SurfaceBackground::SurfaceBackground(const FileReader& reader) :
 
   reader.read_desc("surface", desc);
   if (!reader.read_colori("colori", color))
-    reader.read_colorf("color", color);
+  {
+    Colorf tmp_colorf;
+    if (reader.read_colorf("color", tmp_colorf))
+    {
+      color = tmp_colorf.to_color();
+    }
+  }
 
   reader.read_float("para-x", para_x);
   reader.read_float("para-y", para_y);
