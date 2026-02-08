@@ -10,6 +10,8 @@
 // (at your option) any later version.
 
 #include <format>
+#include <ostream>
+
 #include "pingus/pingu.hpp"
 #include "pingus/pingu_holder.hpp"
 #include "pingus/server.hpp"

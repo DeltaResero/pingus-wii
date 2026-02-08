@@ -13,6 +13,7 @@
 
 #include <SDL_image.h>
 #include <format>
+#include <ostream>
 #include <stdexcept>
 
 #include "engine/display/blitter.hpp"
