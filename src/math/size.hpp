@@ -45,11 +45,11 @@ public:
   //param width: Initial width of size structure.
   //param height: Initial height of size structure.
   //param size: Size structure to construct this one from.
-  Size()
+  constexpr Size() noexcept
     : width(0), height(0)
   {}
 
-  Size(int width_, int height_)
+  constexpr Size(int width_, int height_) noexcept
     : width(width_), height(height_)
   {}
 
@@ -69,38 +69,38 @@ public:
   //! Operations:
 public:
   //: Size += Size operator.
-  Size &operator+=(const Size &s)
+  constexpr Size &operator+=(const Size &s) noexcept
   { width += s.width; height += s.height; return *this; }
 
   //: Size -= Size operator.
-  Size &operator-=(const Size &s)
+  constexpr Size &operator-=(const Size &s) noexcept
   { width -= s.width; height -= s.height; return *this; }
 
   //: Size + Size operator.
-  Size operator+(const Size &s) const
+  constexpr Size operator+(const Size &s) const noexcept
   { return Size(width + s.width, height + s.height); }
 
   //: Size - Size operator.
-  Size operator-(const Size &s) const
+  constexpr Size operator-(const Size &s) const noexcept
   { return Size(width - s.width, height - s.height); }
 
   //: Size == Size operator (deep compare).
-  bool operator==(const Size &s) const
+  constexpr bool operator==(const Size &s) const noexcept
   { return (width == s.width) && (height == s.height); }
 
   //: Size != Size operator (deep compare).
-  bool operator!=(const Size &s) const
+  constexpr bool operator!=(const Size &s) const noexcept
   { return (width != s.width) || (height != s.height); }
 
   //: Size / int operator.
-  Size operator/(int a)
+  constexpr Size operator/(int a) noexcept
   { return Size(width / a, height / a); }
 
   //: Size /= Size operator.
-  Size &operator/=(int a)
+  constexpr Size &operator/=(int a) noexcept
   { width /= a; height /= a; return *this; }
 
-  int get_area() const { return width * height; }
+  constexpr int get_area() const noexcept { return width * height; }
 };
 
 //: 2D (width,height) floating point size structure.
@@ -112,17 +112,17 @@ public:
   //param width: Initial width of size structure.
   //param height: Initial height of size structure.
   //param size: Size structure to construct this one from.
-  Sizef()
+  constexpr Sizef() noexcept
     : width(0.0f),
       height(0.0f)
   {}
 
-  Sizef(const Size& s)
+  constexpr Sizef(const Size& s) noexcept
     : width(static_cast<float>(s.width)),
       height(static_cast<float>(s.height))
   {}
 
-  Sizef(float width_, float height_)
+  constexpr Sizef(float width_, float height_) noexcept
     : width(width_),
       height(height_)
   {}
@@ -141,39 +141,39 @@ public:
   //! Operations:
 public:
   //: Size += Size operator.
-  Sizef &operator+=(const Sizef &s)
+  constexpr Sizef &operator+=(const Sizef &s) noexcept
   { width += s.width; height += s.height; return *this; }
 
   //: Size -= Size operator.
-  Sizef &operator-=(const Sizef &s)
+  constexpr Sizef &operator-=(const Sizef &s) noexcept
   { width -= s.width; height -= s.height; return *this; }
 
   //: Size + Size operator.
-  Sizef operator+(const Sizef &s) const
+  constexpr Sizef operator+(const Sizef &s) const noexcept
   { return Sizef(width + s.width, height + s.height); }
 
   //: Size - Size operator.
-  Sizef operator-(const Sizef &s) const
+  constexpr Sizef operator-(const Sizef &s) const noexcept
   { return Sizef(width - s.width, height - s.height); }
 
   //: Size == Size operator (deep compare).
-  bool operator==(const Sizef &s) const
+  constexpr bool operator==(const Sizef &s) const noexcept
   { return (width == s.width) && (height == s.height); }
 
   //: Size != Size operator (deep compare).
-  bool operator!=(const Size &s) const
+  constexpr bool operator!=(const Size &s) const noexcept
   { return (width != s.width) || (height != s.height); }
 
   //: Size *= Size operator.
-  Sizef &operator*=(float v)
+  constexpr Sizef &operator*=(float v) noexcept
   { width *= v; height *= v; return *this; }
 
   //: Size /= Size operator.
-  Sizef &operator/=(float v)
+  constexpr Sizef &operator/=(float v) noexcept
   { width /= v; height /= v; return *this; }
 };
 
-inline Sizef operator*(const Sizef& s, float f)
+constexpr Sizef operator*(const Sizef& s, float f) noexcept
 {
   return Sizef(s.width * f, s.height * f);
 }

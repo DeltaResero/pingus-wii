@@ -24,15 +24,15 @@ public:
   uint8_t b;
   uint8_t a;
 
-  Color()
+  constexpr Color() noexcept
     : r(0), g(0), b(0), a(255)
   {}
 
-  Color(uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ = 255)
+  constexpr Color(uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ = 255) noexcept
     : r(r_), g(g_), b(b_), a(a_)
   {}
 
-  bool operator==(const Color& rhs) const {
+  constexpr bool operator==(const Color& rhs) const noexcept {
     return
       r == rhs.r &&
       g == rhs.g &&
@@ -51,7 +51,7 @@ public:
   float b = 0.0f;
   float a = 1.0f;
 
-  Color to_color() const {
+  constexpr Color to_color() const noexcept {
     return Color(static_cast<uint8_t>(255 * r),
                  static_cast<uint8_t>(255 * g),
                  static_cast<uint8_t>(255 * b),

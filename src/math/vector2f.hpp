@@ -22,84 +22,84 @@ namespace pingus {
 class Vector2f
 {
 public:
-  Vector2f(float nx, float ny)
+  constexpr Vector2f(float nx, float ny) noexcept
     : x(nx), y(ny)
   { }
-  Vector2f(const Vector2f& other)
+  constexpr Vector2f(const Vector2f& other) noexcept
     : x(other.x), y(other.y)
   { }
-  Vector2f(const Vector2i& other)
+  constexpr Vector2f(const Vector2i& other) noexcept
     : x(static_cast<float>(other.x)),
       y(static_cast<float>(other.y))
   {}
-  Vector2f()
+  constexpr Vector2f() noexcept
     : x(0), y(0)
   { }
 
-  bool operator ==(const Vector2f& other) const
+  constexpr bool operator ==(const Vector2f& other) const noexcept
   {
     return x == other.x && y == other.y;
   }
 
-  bool operator !=(const Vector2f& other) const
+  constexpr bool operator !=(const Vector2f& other) const noexcept
   {
     return !(x == other.x && y == other.y);
   }
 
-  const Vector2f& operator=(const Vector2f& other)
+  constexpr const Vector2f& operator=(const Vector2f& other) noexcept
   {
     x = other.x;
     y = other.y;
     return *this;
   }
 
-  Vector2f operator+(const Vector2f& other) const
+  constexpr Vector2f operator+(const Vector2f& other) const noexcept
   {
     return Vector2f(x + other.x, y + other.y);
   }
 
-  Vector2f operator-(const Vector2f& other) const
+  constexpr Vector2f operator-(const Vector2f& other) const noexcept
   {
     return Vector2f(x - other.x, y - other.y);
   }
 
-  Vector2f operator*(float s) const
+  constexpr Vector2f operator*(float s) const noexcept
   {
     return Vector2f(x * s, y * s);
   }
 
-  Vector2f operator/(float s) const
+  constexpr Vector2f operator/(float s) const noexcept
   {
     return Vector2f(x / s, y / s);
   }
 
-  Vector2f operator-() const
+  constexpr Vector2f operator-() const noexcept
   {
     return Vector2f(-x, -y);
   }
 
-  const Vector2f& operator +=(const Vector2f& other)
+  constexpr const Vector2f& operator +=(const Vector2f& other) noexcept
   {
     x += other.x;
     y += other.y;
     return *this;
   }
 
-  const Vector2f& operator -=(const Vector2f& other)
+  constexpr const Vector2f& operator -=(const Vector2f& other) noexcept
   {
     x -= other.x;
     y -= other.y;
     return *this;
   }
 
-  const Vector2f& operator *=(float val)
+  constexpr const Vector2f& operator *=(float val) noexcept
   {
     x *= val;
     y *= val;
     return *this;
   }
 
-  const Vector2f& operator /=(float val)
+  constexpr const Vector2f& operator /=(float val) noexcept
   {
     x /= val;
     y /= val;
@@ -115,7 +115,7 @@ public:
   }
 
   /// Scalar product of 2 vectors
-  float operator*(const Vector2f& other) const
+  constexpr float operator*(const Vector2f& other) const noexcept
   {
     return x*other.x + y*other.y;
   }

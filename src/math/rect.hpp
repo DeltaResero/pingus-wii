@@ -53,7 +53,7 @@ public:
   //param point: Initial top-left position of rectangle.
   //param size: Initial size of rectangle.
   //param rect: Initial rectangle position and size.
-  Rect()
+  constexpr Rect() noexcept
     : left(0),
       top(0),
       right(0),
@@ -63,23 +63,23 @@ public:
   Rect(const Rect&) = default;
   Rect& operator=(const Rect&) = default;
 
-  explicit Rect(const Rectf& rect);
+  explicit constexpr Rect(const Rectf& rect) noexcept;
 
-  Rect(int new_left, int new_top, int new_right, int new_bottom)
+  constexpr Rect(int new_left, int new_top, int new_right, int new_bottom) noexcept
     : left(new_left),
       top(new_top),
       right(new_right),
       bottom(new_bottom)
   {}
 
-  Rect(const Vector2i &p, const Size &size)
+  constexpr Rect(const Vector2i &p, const Size &size) noexcept
     : left(p.x),
       top(p.y),
       right(left + size.width),
       bottom(top + size.height)
   {}
 
-  Rect grow(int b) const {
+  constexpr Rect grow(int b) const noexcept {
     return Rect(left   - b,
                 top    - b,
                 right  + b,
@@ -87,43 +87,43 @@ public:
   }
 
   //: Rect += Rect operator.
-  Rect &operator+=(const Rect &r)
+  constexpr Rect &operator+=(const Rect &r) noexcept
   { left += r.left; top += r.top; right += r.right; bottom += r.bottom; return *this; }
 
   //: Rect -= Rect operator.
-  Rect &operator-=(const Rect &r)
+  constexpr Rect &operator-=(const Rect &r) noexcept
   { left -= r.left; top -= r.top; right -= r.right; bottom -= r.bottom; return *this; }
 
   //: Rect += Vector2i operator.
-  Rect &operator+=(const Vector2i &p)
+  constexpr Rect &operator+=(const Vector2i &p) noexcept
   { left += p.x; top += p.y; right += p.x; bottom += p.y; return *this; }
 
   //: Rect -= Vector2i operator.
-  Rect &operator-=(const Vector2i &p)
+  constexpr Rect &operator-=(const Vector2i &p) noexcept
   { left -= p.x; top -= p.y; right -= p.x; bottom -= p.y; return *this; }
 
   //: Rect + Rect operator.
-  Rect operator+(const Rect &r) const
+  constexpr Rect operator+(const Rect &r) const noexcept
   { return Rect(left + r.left, top + r.top, right + r.right, bottom + r.bottom); }
 
   //: Rect - Rect operator.
-  Rect operator-(const Rect &r) const
+  constexpr Rect operator-(const Rect &r) const noexcept
   { return Rect(left - r.left, top - r.top, right - r.right, bottom - r.bottom); }
 
   //: Rect + Vector2i operator.
-  Rect operator+(const Vector2i &p) const
+  constexpr Rect operator+(const Vector2i &p) const noexcept
   { return Rect(left + p.x, top + p.y, right + p.x, bottom + p.y); }
 
   //: Rect - Vector2i operator.
-  Rect operator-(const Vector2i &p) const
+  constexpr Rect operator-(const Vector2i &p) const noexcept
   { return Rect(left - p.x, top - p.y, right - p.x, bottom - p.y); }
 
   //: Rect == Rect operator.
-  bool operator==(const Rect &r) const
+  constexpr bool operator==(const Rect &r) const noexcept
   { return (left == r.left && top == r.top && right == r.right && bottom == r.bottom); }
 
   //: Rect != Rect operator.
-  bool operator!=(const Rect &r) const
+  constexpr bool operator!=(const Rect &r) const noexcept
   { return (left != r.left || top != r.top || right != r.right || bottom != r.bottom); }
 
   //! Attributes:
@@ -141,21 +141,21 @@ public:
   int bottom;
 
   //: Returns the width of the rectangle.
-  int get_width() const { return right - left; }
+  constexpr int get_width() const noexcept { return right - left; }
 
   //: Returns the height of the rectangle.
-  int get_height() const { return bottom - top; }
+  constexpr int get_height() const noexcept { return bottom - top; }
 
   //: Returns the size of the rectangle.
-  Size get_size() const { return Size(right - left, bottom - top); }
+  constexpr Size get_size() const noexcept { return Size(right - left, bottom - top); }
 
   //: Returns true if rectangle passed is overlapping or inside this rectangle.
-  bool is_overlapped(const Rect &r) const
+  constexpr bool is_overlapped(const Rect &r) const noexcept
   {
     return (r.left < right && r.right > left && r.top < bottom && r.bottom > top);
   }
 
-  bool contains(const Vector2i& pos) const
+  constexpr bool contains(const Vector2i& pos) const noexcept
   {
     return
       left <= pos.x && pos.x < right &&
@@ -163,7 +163,7 @@ public:
   }
 
   //: Check if rect is inside this
-  bool contains(const Rect& rect) const
+  constexpr bool contains(const Rect& rect) const noexcept
   {
     return
       left   <= rect.left  &&
@@ -183,14 +183,14 @@ public:
   //! Operations:
 public:
   //: Sets the size of the rectangle, maintaining top/left position.
-  void set_size(const Size &size)
+  constexpr void set_size(const Size &size) noexcept
   {
     right = left + size.width;
     bottom = top + size.height;
   }
 
   //: Calculates and returns the union of two rectangles.
-  Rect calc_union(const Rect &rect)
+  constexpr Rect calc_union(const Rect &rect) noexcept
   {
     Rect result;
     if (left   > rect.left)   result.left   = left;   else result.left   = rect.left;
@@ -200,13 +200,13 @@ public:
     return result;
   }
 
-  bool is_normal() const
+  constexpr bool is_normal() const noexcept
   {
     return left <= right && top <= bottom;
   }
 
   //: Normalize rectangle. Ensures that left is less than right and top is less than bottom.
-  void normalize()
+  constexpr void normalize() noexcept
   {
     if (left > right)
     {
@@ -252,7 +252,7 @@ public:
   //param point: Initial top-left position of rectangle.
   //param size: Initial size of rectangle.
   //param rect: Initial rectangle position and size.
-  Rectf()
+  constexpr Rectf() noexcept
     : left(0.0f),
       top(0.0f),
       right(0.0f),
@@ -262,28 +262,28 @@ public:
   Rectf(const Rectf&) = default;
   Rectf& operator=(const Rectf&) = default;
 
-  Rectf(const Rect& rect)
+  explicit constexpr Rectf(const Rect& rect) noexcept
     : left(static_cast<float>(rect.left)),
       top(static_cast<float>(rect.top)),
       right(static_cast<float>(rect.right)),
       bottom(static_cast<float>(rect.bottom))
   {}
 
-  Rectf(float new_left, float new_top, float new_right, float new_bottom)
+  constexpr Rectf(float new_left, float new_top, float new_right, float new_bottom) noexcept
     : left(new_left),
       top(new_top),
       right(new_right),
       bottom(new_bottom)
   {}
 
-  Rectf(const Vector2f &p, const Sizef &size)
+  constexpr Rectf(const Vector2f &p, const Sizef &size) noexcept
     : left(p.x),
       top(p.y),
       right(left + size.width),
       bottom(top + size.height)
   {}
 
-  Rectf(const Vector2f& p1, const Vector2f& p2)
+  constexpr Rectf(const Vector2f& p1, const Vector2f& p2) noexcept
     :  left(p1.x),
        top(p1.y),
        right(p2.x),
@@ -291,43 +291,43 @@ public:
   {}
 
   //: Rect += Rect operator.
-  Rectf &operator+=(const Rectf &r)
+  constexpr Rectf &operator+=(const Rectf &r) noexcept
   { left += r.left; top += r.top; right += r.right; bottom += r.bottom; return *this; }
 
   //: Rect -= Rect operator.
-  Rectf &operator-=(const Rectf &r)
+  constexpr Rectf &operator-=(const Rectf &r) noexcept
   { left -= r.left; top -= r.top; right -= r.right; bottom -= r.bottom; return *this; }
 
   //: Rect += Vector2i operator.
-  Rectf &operator+=(const Vector2f &p)
+  constexpr Rectf &operator+=(const Vector2f &p) noexcept
   { left += p.x; top += p.y; right += p.x; bottom += p.y; return *this; }
 
   //: Rect -= Vector2i operator.
-  Rectf &operator-=(const Vector2f &p)
+  constexpr Rectf &operator-=(const Vector2f &p) noexcept
   { left -= p.x; top -= p.y; right -= p.x; bottom -= p.y; return *this; }
 
   //: Rect + Rect operator.
-  Rectf operator+(const Rectf &r) const
+  constexpr Rectf operator+(const Rectf &r) const noexcept
   { return Rectf(left + r.left, top + r.top, right + r.right, bottom + r.bottom); }
 
   //: Rect - Rect operator.
-  Rectf operator-(const Rectf &r) const
+  constexpr Rectf operator-(const Rectf &r) const noexcept
   { return Rectf(left - r.left, top - r.top, right - r.right, bottom - r.bottom); }
 
   //: Rect + Vector2i operator.
-  Rectf operator+(const Vector2f &p) const
+  constexpr Rectf operator+(const Vector2f &p) const noexcept
   { return Rectf(left + p.x, top + p.y, right + p.x, bottom + p.y); }
 
   //: Rect - Vector2i operator.
-  Rectf operator-(const Vector2f &p) const
+  constexpr Rectf operator-(const Vector2f &p) const noexcept
   { return Rectf(left - p.x, top - p.y, right - p.x, bottom - p.y); }
 
   //: Rect == Rect operator.
-  bool operator==(const Rectf &r) const
+  constexpr bool operator==(const Rectf &r) const noexcept
   { return (left == r.left && top == r.top && right == r.right && bottom == r.bottom); }
 
   //: Rect != Rect operator.
-  bool operator!=(const Rect &r) const
+  constexpr bool operator!=(const Rect &r) const noexcept
   { return (left != r.left || top != r.top || right != r.right || bottom != r.bottom); }
 
   //! Attributes:
@@ -345,19 +345,19 @@ public:
   float bottom;
 
   //: Returns the width of the rectangle.
-  float get_width() const { return right - left; }
+  constexpr float get_width() const noexcept { return right - left; }
 
   //: Returns the height of the rectangle.
-  float get_height() const { return bottom - top; }
+  constexpr float get_height() const noexcept { return bottom - top; }
 
   //: Returns the size of the rectangle.
-  Sizef get_size() const { return Sizef(right - left, bottom - top); }
+  constexpr Sizef get_size() const noexcept { return Sizef(right - left, bottom - top); }
 
   //: Returns true if point is inside the rectangle.
-  bool is_inside(const Vector2f &p) const { return (p.x >= left && p.y >= top && p.x <= right && p.y <= bottom); }
+  constexpr bool is_inside(const Vector2f &p) const noexcept { return (p.x >= left && p.y >= top && p.x <= right && p.y <= bottom); }
 
   //: Returns true if rectangle passed is overlapping or inside this rectangle.
-  bool is_overlapped(const Rectf &r) const
+  constexpr bool is_overlapped(const Rectf &r) const noexcept
   {
     return (r.left < right && r.right > left && r.top < bottom && r.bottom > top);
   }
@@ -365,14 +365,14 @@ public:
   //! Operations:
 public:
   //: Sets the size of the rectangle, maintaining top/left position.
-  void set_size(const Size &size)
+  constexpr void set_size(const Size &size) noexcept
   {
     right  = left + static_cast<float>(size.width);
     bottom = top  + static_cast<float>(size.height);
   }
 
   //: Calculates and returns the union of two rectangles.
-  Rectf calc_union(const Rectf &rect)
+  constexpr Rectf calc_union(const Rectf &rect) noexcept
   {
     Rectf result;
     if (left   > rect.left)   result.left   = left;   else result.left   = rect.left;
@@ -382,13 +382,13 @@ public:
     return result;
   }
 
-  bool is_normal() const
+  constexpr bool is_normal() const noexcept
   {
     return left <= right && top <= bottom;
   }
 
   //: Normalize rectangle. Ensures that left<right and top<bottom.
-  void normalize()
+  constexpr void normalize() noexcept
   {
     if (left > right)
     {
@@ -422,20 +422,20 @@ public:
   }
   */
 
-  Vector2f get_center() const {
+  constexpr Vector2f get_center() const noexcept {
     return Vector2f((left + right) / 2.0f,
                     (top + bottom) / 2.0f);
   }
 
   // Moves each edge f away from the center, thus width = old_width + 2*f
-  Rectf grow(float f) const {
+  constexpr Rectf grow(float f) const noexcept {
     return Rectf(left   - f,
                  top    - f,
                  right  + f,
                  bottom + f);
   }
 
-  Rectf grow(float x, float y) const {
+  constexpr Rectf grow(float x, float y) const noexcept {
     return Rectf(left   - x,
                  top    - y,
                  right  + x,
@@ -443,7 +443,7 @@ public:
   }
 
   // Construct a rectangle large enough
-  Rectf grow(const Rectf& rect) const {
+  constexpr Rectf grow(const Rectf& rect) const noexcept {
     return Rectf(std::min(left, rect.left),
                  std::min(top, rect.top),
                  std::max(right, rect.right),
@@ -456,10 +456,10 @@ public:
   }
 
   //: Returns true if point is inside the rectangle.
-  bool contains(const Vector2f &p) const { return (p.x >= left && p.y >= top && p.x <= right && p.y <= bottom); }
+  constexpr bool contains(const Vector2f &p) const noexcept { return (p.x >= left && p.y >= top && p.x <= right && p.y <= bottom); }
 
   //: Check if rect is inside this
-  bool contains(const Rectf& rect) const
+  constexpr bool contains(const Rectf& rect) const noexcept
   {
     return
       left   <= rect.left  &&
@@ -468,7 +468,7 @@ public:
       bottom >= rect.bottom;
   }
 
-  Rectf clip_to(const Rectf& cliprect) const
+  constexpr Rectf clip_to(const Rectf& cliprect) const noexcept
   {
     return Rectf(std::max(left,   cliprect.left),
                  std::max(top,    cliprect.top),
@@ -477,7 +477,7 @@ public:
   }
 };
 
-inline Rect::Rect(const Rectf& rect)
+inline constexpr Rect::Rect(const Rectf& rect) noexcept
   : left(static_cast<int>(rect.left)),
     top(static_cast<int>(rect.top)),
     right(static_cast<int>(rect.right)),

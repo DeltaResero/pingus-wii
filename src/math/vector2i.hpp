@@ -23,61 +23,61 @@ public:
   int x;
   int y;
 
-  Vector2i()
+  constexpr Vector2i() noexcept
     : x(0), y(0) {}
 
   explicit Vector2i(const Vector2f& v);
 
-  Vector2i(int x_, int y_)
+  constexpr Vector2i(int x_, int y_) noexcept
     : x(x_), y(y_) {}
 
-  Vector2i operator+ (const Vector2i& add) const
+  constexpr Vector2i operator+ (const Vector2i& add) const noexcept
   {
     return Vector2i(x + add.x, y + add.y);
   }
 
-  Vector2i operator- () const
+  constexpr Vector2i operator- () const noexcept
   {
     return Vector2i(-x, -y);
   }
 
-  Vector2i operator- (const Vector2i& sub) const
+  constexpr Vector2i operator- (const Vector2i& sub) const noexcept
   {
     return Vector2i(x - sub.x, y - sub.y);
   }
 
-  Vector2i operator* (int  mul) const
+  constexpr Vector2i operator* (int  mul) const noexcept
   {
     return Vector2i(x * mul, y * mul);
   }
 
-  Vector2i& operator+= (const Vector2i& add)
+  constexpr Vector2i& operator+= (const Vector2i& add) noexcept
   {
     x += add.x;
     y += add.y;
     return *this;
   }
 
-  Vector2i& operator-= (const Vector2i& sub)
+  constexpr Vector2i& operator-= (const Vector2i& sub) noexcept
   {
     x -= sub.x;
     y -= sub.y;
     return *this;
   }
 
-  Vector2i& operator*= (int mul)
+  constexpr Vector2i& operator*= (int mul) noexcept
   {
     x *= mul;
     y *= mul;
     return *this;
   }
 
-  bool operator== (const Vector2i& other) const
+  constexpr bool operator== (const Vector2i& other) const noexcept
   {
     return (other.x == x && other.y == y);
   }
 
-  bool operator!= (const Vector2i& other) const
+  constexpr bool operator!= (const Vector2i& other) const noexcept
   {
     return (other.x != x || other.y != y);
   }
