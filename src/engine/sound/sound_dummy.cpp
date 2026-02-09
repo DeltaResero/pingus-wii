@@ -17,14 +17,14 @@
 namespace pingus::sound {
 
 void
-PingusSoundDummy::real_play_sound(const std::string & filename, float /*volume*/, float /*panning*/)
+PingusSoundDummy::real_play_sound(std::string_view filename, float /*volume*/, float /*panning*/)
 {
   (void)filename;
   log_info("PingusSoundDummy::real_play_sound: {}", filename);
 }
 
 void
-PingusSoundDummy::real_play_music(const std::string & filename, float /*volume*/, bool /*loop*/)
+PingusSoundDummy::real_play_music(std::string_view filename, float /*volume*/, bool /*loop*/)
 {
   (void)filename;
   log_info("PingusSoundDummy::real_play_music: {}", filename);

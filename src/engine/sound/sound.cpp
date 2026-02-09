@@ -60,7 +60,7 @@ PingusSound::deinit()
     @param volume The desired volume level
     @param panning The desired panning level (stereo only) */
 void
-PingusSound::play_sound(const std::string& name, float volume, float panning)
+PingusSound::play_sound(std::string_view name, float volume, float panning)
 {
   assert(sound);
   sound->real_play_sound(name, volume, panning);
@@ -71,10 +71,11 @@ PingusSound::play_sound(const std::string& name, float volume, float panning)
     @param name
     @param volume   volume */
 void
-PingusSound::play_music(const std::string & name, float volume, bool loop)
+PingusSound::play_music(std::string_view name, float volume, bool loop)
 {
   assert (sound);
-  sound->real_play_music(g_path_manager.complete ("music/" + name), volume, loop);
+  // Construct string here as path_manager likely expects std::string
+  sound->real_play_music(g_path_manager.complete("music/" + std::string(name)), volume, loop);
 }
 
 void

@@ -21,9 +21,10 @@ namespace pingus {
 SoundResMgr::SoundMap SoundResMgr::sound_map;
 
 SoundHandle
-SoundResMgr::load(const std::string& name)
+SoundResMgr::load(std::string_view name)
 {
-  SoundMap::iterator i = sound_map.find(name);
+  // Transparent lookup using string_view
+  auto i = sound_map.find(name);
 
   if (i == sound_map.end())
   {
@@ -40,27 +41,28 @@ SoundResMgr::load(const std::string& name)
     if (!chunk)
     {
       log_error("SoundResMgr: Failed to load sound '{}' from '{}': {}", name, full_path, Mix_GetError());
-      sound_map[name] = nullptr; // Negative cache: prevent repeated load attempts
+      // Negative cache: prevent repeated load attempts
+      sound_map.emplace(std::string(name), nullptr);
       return nullptr;
     }
 
     log_info("SoundResMgr: Loaded sound '{}' from disk: {}", name, full_path);
-    sound_map[name] = chunk;
-    return chunk;
+
+    // Store in map with ownership
+    auto& stored_ptr = sound_map.emplace(std::string(name), SoundPtr(chunk)).first->second;
+    return stored_ptr.get();
   }
   else
   {
     // Cache hit - return immediately without logging (console I/O is slow on Wii)
-    return i->second;
+    return i->second.get();
   }
 }
 
 void SoundResMgr::free_sound_map()
 {
-  for (SoundMap::iterator i = sound_map.begin(); i != sound_map.end(); ++i)
-  {
-    Mix_FreeChunk(i->second);
-  }
+  // unique_ptr handles deletion automatically
+  sound_map.clear();
 }
 
 

@@ -13,7 +13,7 @@
 #define HEADER_PINGUS_ENGINE_SOUND_SOUND_HPP
 
 #include <memory>
-#include <string>
+#include <string_view>
 
 #include "engine/sound/sound_impl.hpp"
 
@@ -38,9 +38,9 @@ public:
       @param name     Name of the sound, aka 'ohno'
       @param volume   volume
       @param panning  panning */
-  static void play_sound(const std::string & name, float volume = 1.0f, float panning = 0.0f);
+  static void play_sound(std::string_view name, float volume = 1.0f, float panning = 0.0f);
 
-  static void play_music(const std::string & name, float volume = 1.0f, bool loop = true);
+  static void play_music(std::string_view name, float volume = 1.0f, bool loop = true);
   static void stop_music();
 
   static void set_sound_volume(float volume);

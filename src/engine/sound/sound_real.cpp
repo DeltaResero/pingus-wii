@@ -51,7 +51,7 @@ PingusSoundReal::~PingusSoundReal()
 }
 
 void
-PingusSoundReal::real_play_sound(const std::string& name, float volume, float panning)
+PingusSoundReal::real_play_sound(std::string_view name, float volume, float panning)
 {
   if (globals::sound_enabled &&
       m_master_volume > 0 &&
@@ -92,7 +92,7 @@ PingusSoundReal::real_stop_music ()
 }
 
 void
-PingusSoundReal::real_play_music(const std::string& filename, float volume, bool loop)
+PingusSoundReal::real_play_music(std::string_view filename, float volume, bool loop)
 {
   if (globals::music_enabled &&
       m_master_volume > 0 &&
@@ -102,7 +102,11 @@ PingusSoundReal::real_play_music(const std::string& filename, float volume, bool
 
     real_stop_music();
 
-    music_sample = Mix_LoadMUS(filename.c_str());
+    // Mix_LoadMUS requires a C-string.
+    // Ensure we have a null-terminated string.
+    std::string safe_filename(filename);
+
+    music_sample = Mix_LoadMUS(safe_filename.c_str());
     if (!music_sample)
     {
       log_error("Can't load music: {}' -- skipping\n  Mix_Error: {}", filename, Mix_GetError());

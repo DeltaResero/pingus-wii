@@ -12,8 +12,10 @@
 #ifndef HEADER_PINGUS_ENGINE_SOUND_SOUND_RES_MGR_HPP
 #define HEADER_PINGUS_ENGINE_SOUND_SOUND_RES_MGR_HPP
 
-#include <map>
+#include <unordered_map>
 #include <string>
+#include <string_view>
+#include <memory>
 #include <SDL_mixer.h>
 
 namespace pingus {
@@ -21,14 +23,31 @@ namespace pingus {
 
 typedef Mix_Chunk* SoundHandle;
 
+// Custom deleter for Mix_Chunk to work with unique_ptr
+struct MixChunkDeleter {
+  void operator()(Mix_Chunk* chunk) const {
+    if (chunk) Mix_FreeChunk(chunk);
+  }
+};
+
+using SoundPtr = std::unique_ptr<Mix_Chunk, MixChunkDeleter>;
+
 class SoundResMgr
 {
 private:
-  typedef std::map<std::string, Mix_Chunk*> SoundMap;
+  // Transparent hashing allows looking up std::string keys using std::string_view
+  struct StringHash {
+    using is_transparent = void;
+    size_t operator()(std::string_view sv) const {
+      return std::hash<std::string_view>{}(sv);
+    }
+  };
+
+  typedef std::unordered_map<std::string, SoundPtr, StringHash, std::equal_to<>> SoundMap;
   static SoundMap sound_map;
 
 public:
-  static SoundHandle load(const std::string& name);
+  static SoundHandle load(std::string_view name);
   static void free_sound_map();
 private:
   SoundResMgr (const SoundResMgr&);
