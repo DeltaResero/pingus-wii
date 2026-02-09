@@ -107,14 +107,14 @@ public:
     float y = b.y - a.y;
     float z = b.z - a.z;
 
-    return std::abs(std::sqrt((x * x) + (y * y) + (z * z)));
+    return std::sqrt((x * x) + (y * y) + (z * z));
   }
   static float distance2d(const Vector3f& a, const Vector3f& b)
   {
     float x = b.x - a.x;
     float y = b.y - a.y;
 
-    return std::abs(std::sqrt((x * x) + (y * y)));
+    return std::sqrt((x * x) + (y * y));
   }
 
   /** Calculate a position between a and b, relative to the value of

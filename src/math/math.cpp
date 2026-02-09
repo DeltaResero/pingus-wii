@@ -12,6 +12,7 @@
 #include "math/math.hpp"
 
 #include <cmath>
+#include <cstring>
 
 namespace pingus {
 
@@ -22,12 +23,14 @@ static char num2hex[] = "0123456789abcdef";
 std::string float2string(float value)
 {
   std::string str(2*sizeof(float), '0');
+  unsigned char bytes[sizeof(float)];
+
+  std::memcpy(bytes, &value, sizeof(float));
 
   for(size_t i = 0; i < sizeof(float); ++i)
   {
-    char v = reinterpret_cast<char*>(&value)[i];
-    str[2*i + 0] = num2hex[(v & 0xf0) >> 4];
-    str[2*i + 1] = num2hex[v & 0x0f];
+    str[2*i + 0] = num2hex[(bytes[i] & 0xf0) >> 4];
+    str[2*i + 1] = num2hex[bytes[i] & 0x0f];
   }
   return str;
 }
@@ -46,13 +49,14 @@ float string2float(const std::string& str)
 {
   assert(str.size() == 2*sizeof(float));
 
-  float value;
+  unsigned char bytes[sizeof(float)];
   for(size_t i = 0; i < sizeof(float); ++i)
   {
-    char& v = reinterpret_cast<char*>(&value)[i];
-    v = static_cast<char>((hex2int(str[2*i+0]) << 4) | hex2int(str[2*i+1]));
+    bytes[i] = static_cast<unsigned char>((hex2int(str[2*i+0]) << 4) | hex2int(str[2*i+1]));
   }
 
+  float value;
+  std::memcpy(&value, bytes, sizeof(float));
   return value;
 }
 
