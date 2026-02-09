@@ -24,8 +24,8 @@
 //   Magnus Norddahl
 //   (if your name is missing here, please add it)
 
-#ifndef header_origin
-#define header_origin
+#ifndef HEADER_PINGUS_MATH_ORIGIN_HPP
+#define HEADER_PINGUS_MATH_ORIGIN_HPP
 
 #include <string>
 

@@ -24,11 +24,11 @@
 //   Magnus Norddahl
 //   (if your name is missing here, please add it)
 
-#ifndef __MATH_RECT_HPP__
-#define __MATH_RECT_HPP__
+#ifndef HEADER_PINGUS_MATH_RECT_HPP
+#define HEADER_PINGUS_MATH_RECT_HPP
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 #include "math/origin.hpp"
 #include "math/vector2f.hpp"
@@ -452,7 +452,7 @@ public:
 
   float get_diagonal() const
   {
-    return sqrtf((get_width() * get_width()) + (get_height() * get_height()));
+    return std::sqrt((get_width() * get_width()) + (get_height() * get_height()));
   }
 
   //: Returns true if point is inside the rectangle.

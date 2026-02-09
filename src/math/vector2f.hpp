@@ -9,8 +9,8 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-#ifndef SUPERTUX_VECTOR_H
-#define SUPERTUX_VECTOR_H
+#ifndef HEADER_PINGUS_MATH_VECTOR2F_HPP
+#define HEADER_PINGUS_MATH_VECTOR2F_HPP
 
 #include "math/math.hpp"
 #include "vector2i.hpp"
