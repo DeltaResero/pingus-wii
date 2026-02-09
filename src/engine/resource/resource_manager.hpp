@@ -12,7 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_RESOURCE_RESOURCE_MANAGER_HPP
 #define HEADER_PINGUS_ENGINE_RESOURCE_RESOURCE_MANAGER_HPP
 
-#include <map>
+#include <unordered_map>
 
 #include "engine/resource/resource.hpp"
 
@@ -26,7 +26,7 @@ template<typename Key,
 class ResourceManager
 {
 private:
-  std::map<Key, Resource<Data> > m_resources;
+  std::unordered_map<Key, Resource<Data> > m_resources;
 
 public:
   ResourceManager() :
@@ -47,19 +47,18 @@ public:
     }
     else
     {
-      Resource<Data> res = Resource<Data>(Loader(key));
-      m_resources[key] = res;
-      return res;
+      auto [new_it, inserted] = m_resources.emplace(key, Resource<Data>(Loader(key)));
+      return new_it->second;
     }
   }
 
   void reload()
   {
-    for(auto it = m_resources.begin(); it != m_resources.end(); ++it)
+    for(const auto& pair : m_resources)
     {
-      if (*it)
+      if (pair.second)
       {
-        (*it)->load();
+        pair.second.load();
       }
     }
   }

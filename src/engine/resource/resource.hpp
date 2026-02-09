@@ -12,6 +12,7 @@
 #ifndef HEADER_PINGUS_ENGINE_RESOURCE_RESOURCE_HPP
 #define HEADER_PINGUS_ENGINE_RESOURCE_RESOURCE_HPP
 
+#include <cassert>
 #include <functional>
 #include <memory>
 
@@ -23,7 +24,7 @@ template<typename Data>
 class ResourceImpl
 {
 public:
-  Data data;
+  mutable Data data;
   std::function<Data()> loader;
 
   ResourceImpl(const std::function<Data()>& loader_) :
@@ -42,7 +43,7 @@ public:
   }
 
   Resource(const std::function<Data()>& loader) :
-    m_impl(new ResourceImpl<Data>(loader))
+    m_impl(std::make_shared<ResourceImpl<Data>>(loader))
   {
   }
 
@@ -58,7 +59,7 @@ public:
     return m_impl->data;
   }
 
-  void load()
+  void load() const
   {
     if (m_impl)
     {
@@ -74,7 +75,7 @@ public:
     }
   }
 
-  explicit operator bool(){
+  explicit operator bool() const {
     return m_impl && m_impl->data;
   }
 
