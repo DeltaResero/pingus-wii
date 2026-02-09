@@ -150,7 +150,7 @@ ScreenManager::ScreenManager(input::Manager& arg_input_manager,
   instance_ = this;
 
   cursor = Sprite("core/cursors/animcross");
-  fps_counter = std::unique_ptr<FPSCounter>(new FPSCounter());
+  fps_counter = std::make_unique<FPSCounter>();
 }
 
 ScreenManager::~ScreenManager()
@@ -236,13 +236,13 @@ ScreenManager::update(float delta, const std::vector<input::Event>& events)
   if (!last_screen)
     return;
 
-  for(std::vector<input::Event>::const_iterator i = events.begin(); i != events.end(); ++i)
+  for(const auto& event : events)
   {
-    if (i->type == input::POINTER_EVENT_TYPE && i->pointer.name == input::STANDARD_POINTER)
-      mouse_pos = Vector2i(static_cast<int>(i->pointer.x),
-                           static_cast<int>(i->pointer.y));
+    if (event.type == input::POINTER_EVENT_TYPE && event.pointer.name == input::STANDARD_POINTER)
+      mouse_pos = Vector2i(static_cast<int>(event.pointer.x),
+                           static_cast<int>(event.pointer.y));
 
-    last_screen->update(*i);
+    last_screen->update(event);
 
     if (last_screen != get_current_screen())
     {

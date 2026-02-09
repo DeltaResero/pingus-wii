@@ -21,7 +21,7 @@ namespace pingus {
 
 GUIScreen::GUIScreen() :
   Screen(Display::get_size()),
-  gui_manager(new gui::GUIManager())
+  gui_manager(std::make_unique<gui::GUIManager>())
 {
 }
 
