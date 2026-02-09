@@ -83,8 +83,10 @@ SDLSystem::~SDLSystem()
 void
 SDLSystem::create_window(FramebufferType framebuffer_type, const Size& size, bool fullscreen, bool resizable)
 {
+#ifndef __WII__
   SDL_WM_SetCaption("Pingus " VERSION, "Pingus " VERSION);
   SDL_WM_SetIcon(IMG_Load(Pathname("images/icons/pingus.png", Pathname::DATA_PATH).get_sys_path().c_str()), 0);
+#endif
 
   Display::create_window(framebuffer_type, size, fullscreen, resizable);
 
