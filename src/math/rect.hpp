@@ -327,7 +327,7 @@ public:
   { return (left == r.left && top == r.top && right == r.right && bottom == r.bottom); }
 
   //: Rect != Rect operator.
-  constexpr bool operator!=(const Rect &r) const noexcept
+  constexpr bool operator!=(const Rectf &r) const noexcept
   { return (left != r.left || top != r.top || right != r.right || bottom != r.bottom); }
 
   //! Attributes:
@@ -404,23 +404,6 @@ public:
       top = temp;
     }
   }
-
-  /*
-  //: Applies an origin and offset pair to this rectangle
-  //param origin: The new origin to adjust to from default upper-left position
-  //param x, y: Offsets applied negatively to each corner of the rectangle
-  void apply_alignment(Origin origin, float x, float y)
-  {
-  Vector2f offset = calc_origin(origin, get_size());
-  offset.x -= x;
-  offset.y -= y;
-
-  left += offset.x;
-  top += offset.y;
-  right += offset.x;
-  bottom += offset.y;
-  }
-  */
 
   constexpr Vector2f get_center() const noexcept {
     return Vector2f((left + right) / 2.0f,
