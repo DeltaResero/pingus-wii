@@ -43,6 +43,9 @@ private:
   worldmap::StoryPage current_page;
   bool m_credits;
 
+  size_t current_byte_count;
+  size_t displayed_char_count;
+
 public:
   StoryScreenComponent(worldmap::WorldmapStory *arg_pages, bool credits);
   virtual ~StoryScreenComponent () {}
@@ -159,7 +162,9 @@ StoryScreenComponent::StoryScreenComponent(worldmap::WorldmapStory *arg_story, b
   pages(),
   page_surface(),
   current_page(),
-  m_credits(credits)
+  m_credits(credits),
+  current_byte_count(0),
+  displayed_char_count(0)
 {
   page_displayed_completly = false;
   time_passed  = 0;
@@ -199,12 +204,24 @@ StoryScreenComponent::update(float delta)
 
   if (!page_displayed_completly)
   {
-    std::string::size_type len = static_cast<std::string::size_type>(20.0f * time_passed);
-    std::string::size_type text_len = UTF8::length(current_page.text);
+    // Calculate how many characters should be visible now
+    size_t target_char_count = static_cast<size_t>(20.0f * time_passed);
 
-    display_text = UTF8::substr(current_page.text, 0, std::min(text_len, len));
+    // Advance the byte index until we match the target char count or hit end of string
+    while (displayed_char_count < target_char_count && current_byte_count < current_page.text.size())
+    {
+      // UTF8::decode_utf8 advances the index (current_byte_count) automatically
+      uint32_t c = UTF8::decode_utf8(current_page.text, current_byte_count);
+      if (c != 0xFFFD) // Check for invalid sequence, though decode_utf8 handles advancement
+      {
+        displayed_char_count++;
+      }
+    }
 
-    if (text_len < len)
+    // Update the display string
+    display_text = current_page.text.substr(0, current_byte_count);
+
+    if (current_byte_count >= current_page.text.size())
     {
       page_displayed_completly = true;
     }
@@ -245,6 +262,7 @@ StoryScreenComponent::next_text()
   {
     page_displayed_completly = true;
     display_text = current_page.text;
+    current_byte_count = current_page.text.size();
   }
   else
   {
@@ -256,6 +274,8 @@ StoryScreenComponent::next_text()
       display_text = "";
       time_passed = 0;
       page_displayed_completly = false;
+      current_byte_count = 0;
+      displayed_char_count = 0;
     }
     else
     {
