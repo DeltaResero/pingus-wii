@@ -13,6 +13,9 @@
 #define HEADER_PINGUS_UTIL_STRING_UTIL_HPP
 
 #include <sstream>
+#include <string>
+#include <format>
+#include <type_traits>
 
 namespace pingus {
 
@@ -49,9 +52,14 @@ public:
   template<class T>
   static std::string to_string(const T& t)
   {
-    std::ostringstream str;
-    str << t;
-    return str.str();
+    if constexpr (std::is_arithmetic_v<T>)
+    {
+      return std::to_string(t);
+    }
+    else
+    {
+      return std::format("{}", t);
+    }
   }
 
 
