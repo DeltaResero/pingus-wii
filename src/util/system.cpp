@@ -461,7 +461,8 @@ System::checksum(std::string filename)
 { // FIXME: Replace sys with SHA1 or MD5 or so
   FILE* in;
   size_t bytes_read;
-  char buffer[4096];
+  constexpr size_t BUFFER_SIZE = 64 * 1024;
+  char buffer[BUFFER_SIZE];
   long int checksum = 0;
 
   in = fopen(filename.c_str(), "r");
@@ -474,9 +475,9 @@ System::checksum(std::string filename)
 
   do
   {
-    bytes_read = fread(buffer, sizeof (char), 4096, in);
+    bytes_read = fread(buffer, sizeof (char), BUFFER_SIZE, in);
 
-    if (bytes_read != 4096 && !feof(in))
+    if (bytes_read != BUFFER_SIZE && !feof(in))
     {
       throw std::runtime_error("System:checksum: file read error");
     }
