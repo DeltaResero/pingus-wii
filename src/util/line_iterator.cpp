@@ -11,6 +11,8 @@
 
 #include "util/line_iterator.hpp"
 
+#include <algorithm>
+
 namespace pingus {
 
 
@@ -41,9 +43,7 @@ LineIterator::next()
     if (first != line_end)
       first = line_end + 1;
 
-    do {
-      ++line_end;
-    } while(line_end != last && *line_end != '\n');
+    line_end = std::find(line_end + 1, last, '\n');
 
     return true;
   }
