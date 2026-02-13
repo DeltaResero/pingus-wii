@@ -43,14 +43,15 @@ private:
   float end_offset;
   float offset;
 
-  /** The string's which are shown in the scrolling text, the first
-      character of the string can be used to apply a special format.
+  struct CreditLine
+  {
+    std::string text;
+    Font font;
+    float relative_y;
+  };
 
-      'n' - Inserts a newline
-      '_' - Use small font
-      '-' - Use large font
-  */
-  std::vector<std::string> credits;
+  /** Pre-calculated list of lines to display */
+  std::vector<CreditLine> credits;
 
 public:
   Credits(const Pathname& filename);

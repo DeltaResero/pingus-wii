@@ -79,10 +79,7 @@ Credits::Credits(const Pathname& filename) :
   font       = fonts::chalk_normal;
   font_small = fonts::chalk_large;
 
-  // The credits vector holds the strings to display. The first
-  // character of each string is a special character, which indicates
-  // the size of the font or other special stuff. "-" means large
-  // font, "_" is a small font and "n" means a newline.
+  std::vector<std::string> raw_lines;
 
   { // read credit information from filename
     std::ifstream in(filename.get_sys_path());
@@ -92,34 +89,44 @@ Credits::Credits(const Pathname& filename) :
 
       std::ostringstream out;
       out << "couldn't open " << filename;
-      credits.push_back(out.str());
+      raw_lines.push_back(out.str());
     }
     else
     {
       std::string line;
       while(std::getline(in, line))
       {
-        credits.push_back(line);
+        raw_lines.push_back(line);
       }
     }
   }
 
+  // Pre-calculate layout
   end_offset = -static_cast<float>(Display::get_height())/2 - 50; // screen height + grace time
-  for (std::vector<std::string>::iterator i = credits.begin(); i != credits.end(); ++i)
+  float current_y = 0;
+
+  for (const std::string& line : raw_lines)
   {
-    switch ((*i)[0])
+    if (line.empty()) continue;
+
+    switch (line[0])
     {
       case '-':
+        credits.push_back({line.substr(1), font, current_y});
+        current_y += static_cast<float>(font.get_height() + 5);
         end_offset += static_cast<float>(font.get_height() + 5);
         break;
       case '_':
+        credits.push_back({line.substr(1), font_small, current_y});
+        current_y += static_cast<float>(font_small.get_height() + 5);
         end_offset += static_cast<float>(font_small.get_height() + 5);
         break;
       case 'n':
+        current_y += 50;
         end_offset += 50;
         break;
       default:
-        log_error("Credits: Syntax error: Unknown format: '{}'", (*i)[0]);
+        log_error("Credits: Syntax error: Unknown format: '{}'", line[0]);
         break;
     }
   }
@@ -157,43 +164,25 @@ Credits::draw_background (DrawingContext& gc)
         gc.draw(background, Vector2i(x, y));
   }
 
-  int x;
-  int y;
-  int yof;
-
-  x = Display::get_width()/2;
-  y = static_cast<int>(offset);
+  int x = Display::get_width()/2;
+  int y = static_cast<int>(offset);
 
   gc.draw(blackboard, Vector2i(gc.get_width()/2, gc.get_height()/2));
-
   gc.draw(pingu, Vector2i(gc.get_width()/2, gc.get_height()/2 - 20));
-
-  yof = 0;
 
   scene_context->clear();
   scene_context->set_cliprect(Rect(gc.get_width()/2 - 685/2, gc.get_height()/2 - 250,
                                    gc.get_width()/2 + 685/2, gc.get_height()/2 + 250));
 
-  for (std::vector<std::string>::iterator i = credits.begin(); i != credits.end(); ++i)
+  // Only draw lines that are potentially visible
+  // Note: Since we use a scene_context, we might still need to push them all,
+  // but simple culling could be added here if the list is huge.
+  // For now, iterating the pre-calculated vector is fast enough.
+  for (const auto& line : credits)
   {
-    switch ((*i)[0])
-    {
-      case '-':
-        scene_context->color().print_center(font, Vector2i(x, (y + yof)), i->substr(1));
-        yof += font.get_height() + 5;
-        break;
-      case '_':
-        scene_context->color().print_center(font_small, Vector2i(x, (y + yof)), i->substr(1));
-        yof += font_small.get_height() + 5;
-        break;
-      case 'n':
-        yof += 50;
-        break;
-      default:
-        log_error("Credits: Syntax error: Unknown format: '{}'", (*i)[0]);
-        break;
-    }
+    scene_context->color().print_center(line.font, Vector2i(x, y + static_cast<int>(line.relative_y)), line.text);
   }
+
   gc.draw(new SceneContextDrawingRequest(scene_context.get(), Vector2i(0,0), 100));
 }
 
