@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <vector>
+#include <type_traits>
 
 namespace pingus {
 
@@ -71,7 +72,11 @@ private:
 
   T* keep(T* t)
   {
-    objects.push_back(t);
+    // Only store the pointer if the destructor actually does something
+    if constexpr (!std::is_trivially_destructible_v<T>)
+    {
+      objects.push_back(t);
+    }
     return t;
   }
 
@@ -91,16 +96,23 @@ public:
     }
 
     // Pre-reserve object storage to prevent vector reallocation
-    size_t estimated_objects = (initial_chunks * chunk_size) / 80;
-    objects.reserve(estimated_objects);
+    // Only reserve if we are actually going to store objects
+    if constexpr (!std::is_trivially_destructible_v<T>)
+    {
+      size_t estimated_objects = (initial_chunks * chunk_size) / 80;
+      objects.reserve(estimated_objects);
+    }
   }
 
   ~MemoryPool()
   {
     // Call destructors on all objects
-    for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
-      (*i)->~T();
-    objects.clear();
+    if constexpr (!std::is_trivially_destructible_v<T>)
+    {
+      for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
+        (*i)->~T();
+      objects.clear();
+    }
 
     // Free all memory chunks
     for(typename Chunks::reverse_iterator i = chunks.rbegin(); i != chunks.rend(); ++i)
@@ -113,9 +125,12 @@ public:
   void clear()
   {
     // Call destructors on all objects
-    for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
-      (*i)->~T();
-    objects.clear();
+    if constexpr (!std::is_trivially_destructible_v<T>)
+    {
+      for(typename Objects::reverse_iterator i = objects.rbegin(); i != objects.rend(); ++i)
+        (*i)->~T();
+      objects.clear();
+    }
 
     // Reset chunk recycling state
     current_chunk_index = 0;
