@@ -12,12 +12,13 @@
 #include "math/vector3f.hpp"
 
 #include <ostream>
+#include <cmath>
 
 namespace pingus {
 
 
 Vector3f
-Vector3f::rotate (float angle, const Vector3f& pos) const
+Vector3f::rotate (float angle, Vector3f pos) const
 {
   const float s = std::sin(angle);
   const float c = std::cos(angle);
@@ -36,7 +37,7 @@ Vector3f::rotate (float angle, const Vector3f& pos) const
     );
 }
 
-std::ostream& operator<<(std::ostream& os, const Vector3f& v)
+std::ostream& operator<<(std::ostream& os, Vector3f v)
 {
   return os << "Vector3f(" << v.x << ", " << v.y << ", " << v.z << ")";
 }

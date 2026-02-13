@@ -32,7 +32,7 @@ public:
     : r(r_), g(g_), b(b_), a(a_)
   {}
 
-  constexpr bool operator==(const Color& rhs) const noexcept {
+  constexpr bool operator==(Color rhs) const noexcept {
     return
       r == rhs.r &&
       g == rhs.g &&

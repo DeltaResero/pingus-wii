@@ -12,6 +12,8 @@
 #ifndef HEADER_PINGUS_MATH_VECTOR2I_HPP
 #define HEADER_PINGUS_MATH_VECTOR2I_HPP
 
+#include <ostream>
+
 namespace pingus {
 
 
@@ -31,7 +33,7 @@ public:
   constexpr Vector2i(int x_, int y_) noexcept
     : x(x_), y(y_) {}
 
-  constexpr Vector2i operator+ (const Vector2i& add) const noexcept
+  constexpr Vector2i operator+ (Vector2i add) const noexcept
   {
     return Vector2i(x + add.x, y + add.y);
   }
@@ -41,7 +43,7 @@ public:
     return Vector2i(-x, -y);
   }
 
-  constexpr Vector2i operator- (const Vector2i& sub) const noexcept
+  constexpr Vector2i operator- (Vector2i sub) const noexcept
   {
     return Vector2i(x - sub.x, y - sub.y);
   }
@@ -51,14 +53,14 @@ public:
     return Vector2i(x * mul, y * mul);
   }
 
-  constexpr Vector2i& operator+= (const Vector2i& add) noexcept
+  constexpr Vector2i& operator+= (Vector2i add) noexcept
   {
     x += add.x;
     y += add.y;
     return *this;
   }
 
-  constexpr Vector2i& operator-= (const Vector2i& sub) noexcept
+  constexpr Vector2i& operator-= (Vector2i sub) noexcept
   {
     x -= sub.x;
     y -= sub.y;
@@ -72,18 +74,18 @@ public:
     return *this;
   }
 
-  constexpr bool operator== (const Vector2i& other) const noexcept
+  constexpr bool operator== (Vector2i other) const noexcept
   {
     return (other.x == x && other.y == y);
   }
 
-  constexpr bool operator!= (const Vector2i& other) const noexcept
+  constexpr bool operator!= (Vector2i other) const noexcept
   {
     return (other.x != x || other.y != y);
   }
 };
 
-std::ostream& operator<<(std::ostream& s, const Vector2i& v);
+std::ostream& operator<<(std::ostream& s, Vector2i v);
 
 
 } // namespace pingus
