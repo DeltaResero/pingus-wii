@@ -39,14 +39,19 @@ Pathname::join(const std::string& lhs, const std::string& rhs)
   }
   else
   {
-    if (*lhs.rbegin() == '/')
+    std::string result;
+    // Pre-calculate size to perform exactly one allocation
+    size_t len = lhs.length() + rhs.length() + 1;
+    result.reserve(len);
+
+    result.append(lhs);
+    if (lhs.back() != '/')
     {
-      return lhs + rhs;
+      result.push_back('/');
     }
-    else
-    {
-      return lhs + "/" + rhs;
-    }
+    result.append(rhs);
+
+    return result;
   }
 }
 
