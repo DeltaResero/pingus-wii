@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <ostream>
 #include <set>
+#include <utility>
 
 #include "pingus/path_manager.hpp"
 #include "util/log.hpp"
@@ -62,8 +63,9 @@ Pathname::Pathname() :
 {
 }
 
-Pathname::Pathname(const std::string& pathname_, Type type_)
-  : pathname(pathname_), type(type_)
+// Move the string into place
+Pathname::Pathname(std::string pathname_, Type type_)
+  : pathname(std::move(pathname_)), type(type_)
 {
 }
 
@@ -87,7 +89,8 @@ Pathname::get_sys_path() const
   return "";
 }
 
-std::string
+// Return const reference
+const std::string&
 Pathname::get_raw_path() const
 {
   return pathname;

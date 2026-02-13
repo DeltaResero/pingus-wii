@@ -48,7 +48,8 @@ private:
 
 public:
   Pathname();
-  explicit Pathname(const std::string& pathname, Type type = DATA_PATH);
+  // Pass by value to allow move semantics
+  explicit Pathname(std::string pathname, Type type = DATA_PATH);
 
   std::vector<Pathname> opendir(const std::string& pattern = "*") const;
   std::vector<Pathname> opendir_recursive() const;
@@ -61,7 +62,8 @@ public:
   std::string get_sys_path() const;
 
   /** Return the pathname as is */
-  std::string get_raw_path() const;
+  // Return const reference to avoid copy
+  const std::string& get_raw_path() const;
 
   Type get_type() const;
 

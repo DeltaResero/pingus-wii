@@ -11,6 +11,8 @@
 
 #include "util/file_reader.hpp"
 
+#include <utility>
+
 #include "lisp/parser.hpp"
 #include "util/file_reader_impl.hpp"
 #include "util/pathname.hpp"
@@ -82,7 +84,8 @@ FileReader::read_path(const char* name, Pathname& value) const
     std::string filename;
     if (impl->read_string(name, filename))
     {
-      value = Pathname(filename, Pathname::DATA_PATH);
+      // Move the string into the Pathname constructor
+      value = Pathname(std::move(filename), Pathname::DATA_PATH);
       return true;
     }
     else
