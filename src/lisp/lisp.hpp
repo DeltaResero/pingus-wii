@@ -16,6 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #ifndef __LISP_HPP__
 #define __LISP_HPP__
 
@@ -23,6 +24,8 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <variant>
 #include <vector>
 
 namespace pingus {
@@ -44,45 +47,46 @@ public:
   };
 
   /// construct a new Lisp object symbol or string object
-  Lisp(LispType newtype, const std::string& value);
-  Lisp(const std::vector<std::shared_ptr<Lisp> >& list_elements);
+  Lisp(LispType newtype, std::string value);
+  Lisp(std::vector<std::shared_ptr<Lisp> > list_elements);
   Lisp(int val);
   Lisp(float val);
   Lisp(bool val);
-  ~Lisp();
+  ~Lisp() = default;
 
   LispType get_type() const
   { return type; }
 
   size_t get_list_size() const
   {
-    return v.list.size;
+    return std::get<std::vector<std::shared_ptr<Lisp>>>(v).size();
   }
   std::shared_ptr<Lisp> get_list_elem(size_t i) const
   {
-    assert(i < v.list.size);
-    return v.list.entries[i];
+    const auto& list = std::get<std::vector<std::shared_ptr<Lisp>>>(v);
+    assert(i < list.size());
+    return list[i];
   }
 
   const char* get_string() const
   {
     if(type != TYPE_STRING)
       throw std::runtime_error("Lisp is not a string");
-    return v.string;
+    return std::get<std::string>(v).c_str();
   }
 
   const char* get_symbol() const
   {
     if(type != TYPE_SYMBOL)
       throw std::runtime_error("Lisp is not a symbol");
-    return v.string;
+    return std::get<std::string>(v).c_str();
   }
 
   int get_int() const
   {
     if(type != TYPE_INT)
       throw std::runtime_error("Lisp is not an int");
-    return v.int_;
+    return std::get<int>(v);
   }
 
   float get_float() const
@@ -92,11 +96,11 @@ public:
       if(type != TYPE_INT)
         throw std::runtime_error("Lisp is not a float");
       else
-        return static_cast<float>(v.int_);
+        return static_cast<float>(std::get<int>(v));
     }
     else
     {
-      return v.float_;
+      return std::get<float>(v);
     }
   }
 
@@ -104,23 +108,19 @@ public:
   {
     if(type != TYPE_BOOL)
       throw std::runtime_error("Lisp is not a bool");
-    return v.bool_;
+    return std::get<bool>(v);
   }
 
   void print(std::ostream& out = std::cout, int indent = 0) const;
 
 private:
-  union
-  {
-    struct {
-      std::shared_ptr<Lisp>* entries;
-      size_t size;
-    } list;
-    char* string;
-    int int_;
-    bool bool_;
-    float float_;
-  } v;
+  std::variant<
+    std::vector<std::shared_ptr<Lisp>>,
+    std::string,
+    int,
+    float,
+    bool
+  > v;
   LispType type;
 };
 

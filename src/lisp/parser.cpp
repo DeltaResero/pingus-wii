@@ -111,7 +111,7 @@ Parser::parse()
           token = lexer->getNextToken();
           if(token != Lexer::TOKEN_STRING)
             throw ParseError(this, "Expected string after '(_' sequence");
-          entries.push_back(std::shared_ptr<Lisp>(new Lisp(Lisp::TYPE_STRING, lexer->getString())));
+          entries.push_back(std::make_shared<Lisp>(Lisp::TYPE_STRING, lexer->getString()));
 
           token = lexer->getNextToken();
           if(token != Lexer::TOKEN_CLOSE_PAREN)
@@ -128,28 +128,28 @@ Parser::parse()
         }
         break;
       case Lexer::TOKEN_SYMBOL:
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(Lisp::TYPE_SYMBOL, lexer->getString())));
+        entries.push_back(std::make_shared<Lisp>(Lisp::TYPE_SYMBOL, lexer->getString()));
         break;
       case Lexer::TOKEN_STRING:
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(Lisp::TYPE_STRING, lexer->getString())));
+        entries.push_back(std::make_shared<Lisp>(Lisp::TYPE_STRING, lexer->getString()));
         break;
       case Lexer::TOKEN_INTEGER: {
         int val;
         sscanf(lexer->getString(), "%d", &val);
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(val)));
+        entries.push_back(std::make_shared<Lisp>(val));
         break;
       }
       case Lexer::TOKEN_REAL: {
         float val;
         sscanf(lexer->getString(), "%f", &val);
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(val)));
+        entries.push_back(std::make_shared<Lisp>(val));
         break;
       }
       case Lexer::TOKEN_TRUE:
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(true)));
+        entries.push_back(std::make_shared<Lisp>(true));
         break;
       case Lexer::TOKEN_FALSE:
-        entries.push_back(std::shared_ptr<Lisp>(new Lisp(false)));
+        entries.push_back(std::make_shared<Lisp>(false));
         break;
       default:
         // this should never happen
@@ -159,7 +159,7 @@ Parser::parse()
     token = lexer->getNextToken();
   }
 
-  return std::shared_ptr<Lisp>(new Lisp(entries));
+  return std::make_shared<Lisp>(std::move(entries));
 }
 
 } // end of namespace lisp

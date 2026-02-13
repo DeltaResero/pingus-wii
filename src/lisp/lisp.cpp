@@ -24,48 +24,29 @@ namespace lisp
 {
 
 Lisp::Lisp(int val) :
-  v(), type(TYPE_INT)
+  v(val), type(TYPE_INT)
 {
-  v.int_ = val;
 }
 
 Lisp::Lisp(float val) :
-  v(), type(TYPE_FLOAT)
+  v(val), type(TYPE_FLOAT)
 {
-  v.float_ = val;
 }
 
 Lisp::Lisp(bool val) :
-  v(), type(TYPE_BOOL)
+  v(val), type(TYPE_BOOL)
 {
-  v.bool_ = val;
 }
 
-Lisp::Lisp(LispType newtype, const std::string& str) :
-  v(), type(newtype)
+Lisp::Lisp(LispType newtype, std::string str) :
+  v(std::move(str)), type(newtype)
 {
   assert(newtype == TYPE_SYMBOL || type == TYPE_STRING);
-  v.string = new char[str.size()+1];
-  memcpy(v.string, str.c_str(), str.size()+1);
 }
 
-Lisp::Lisp(const std::vector<std::shared_ptr<Lisp> >& list_elements) :
-  v(), type(TYPE_LIST)
+Lisp::Lisp(std::vector<std::shared_ptr<Lisp> > list_elements) :
+  v(std::move(list_elements)), type(TYPE_LIST)
 {
-  v.list.size = list_elements.size();
-  v.list.entries = new std::shared_ptr<Lisp> [v.list.size];
-  for(size_t i = 0; i < v.list.size; ++i) {
-    v.list.entries[i] = list_elements[i];
-  }
-}
-
-Lisp::~Lisp()
-{
-  if(type == TYPE_SYMBOL || type == TYPE_STRING) {
-    delete[] v.string;
-  } else if(type == TYPE_LIST) {
-    delete[] v.list.entries;
-  }
 }
 
 void
@@ -77,26 +58,29 @@ Lisp::print(std::ostream& out, int indent) const
   switch(type) {
     case TYPE_LIST:
       out << "(\n";
-      for(size_t i = 0; i < v.list.size; ++i)
-        v.list.entries[i]->print(out, indent+2);
+      {
+        const auto& list = std::get<std::vector<std::shared_ptr<Lisp>>>(v);
+        for(size_t i = 0; i < list.size(); ++i)
+          list[i]->print(out, indent+2);
+      }
       for(int i = 0; i < indent; ++i)
         out << ' ';
       out << ")";
       break;
     case TYPE_STRING:
-      out << '\'' << v.string << '\'';
+      out << '\'' << std::get<std::string>(v) << '\'';
       break;
     case TYPE_INT:
-      out << v.int_;
+      out << std::get<int>(v);
       break;
     case TYPE_FLOAT:
-      out << v.float_;
+      out << std::get<float>(v);
       break;
     case TYPE_SYMBOL:
-      out << v.string;
+      out << std::get<std::string>(v);
       break;
     case TYPE_BOOL:
-      out << (v.bool_ ? "true" : "false");
+      out << (std::get<bool>(v) ? "true" : "false");
       break;
     default:
       out << "UNKNOWN?!?";
