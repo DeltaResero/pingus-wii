@@ -30,10 +30,10 @@ class EOFException
 Lexer::Lexer(std::istream& newstream) :
   stream(newstream),
   eof(false),
-  linenumber(0),
+  linenumber(1),
   bufend(),
   c(),
-  token_length()
+  token_string()
 {
   try {
     // trigger a refill of the buffer
@@ -84,7 +84,7 @@ Lexer::getNextToken()
       nextChar();
     };
 
-    token_length = 0;
+    token_string.clear();
 
     switch(*c) {
       case ';': // comment
@@ -128,10 +128,8 @@ Lexer::getNextToken()
                   break;
               }
             }
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
+            token_string += *c;
           }
-          token_string[token_length] = 0;
         } catch(EOFException& ) {
           std::stringstream msg;
           msg << "Parse error in line " << startline << ": "
@@ -146,11 +144,9 @@ Lexer::getNextToken()
           nextChar();
 
           while(isalnum(*c) || *c == '_') {
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
+            token_string += *c;
             nextChar();
           }
-          token_string[token_length] = 0;
         } catch(EOFException& ) {
           std::stringstream msg;
           msg << "Parse Error in line " << linenumber << ": "
@@ -158,9 +154,9 @@ Lexer::getNextToken()
           throw std::runtime_error(msg.str());
         }
 
-        if(strcmp(token_string, "t") == 0)
+        if(token_string == "t")
           return TOKEN_TRUE;
-        if(strcmp(token_string, "f") == 0)
+        if(token_string == "f")
           return TOKEN_FALSE;
 
         // we only handle #t and #f constants at the moment...
@@ -186,13 +182,10 @@ Lexer::getNextToken()
             else if(isalnum(*c) || *c == '_')
               have_nondigits = true;
 
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
+            token_string += *c;
 
             nextChar();
           } while(!isspace(*c) && !strchr(delims, *c));
-
-          token_string[token_length] = 0;
 
           // no nextChar
 
@@ -204,11 +197,9 @@ Lexer::getNextToken()
             return TOKEN_INTEGER;
         } else {
           do {
-            if(token_length < MAX_TOKEN_LENGTH)
-              token_string[token_length++] = *c;
+            token_string += *c;
             nextChar();
           } while(!isspace(*c) && !strchr(delims, *c));
-          token_string[token_length] = 0;
 
           // no nextChar
 

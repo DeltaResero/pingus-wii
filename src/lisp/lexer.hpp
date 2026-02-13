@@ -14,6 +14,9 @@
 #ifndef __LISPLEXER_H__
 #define __LISPLEXER_H__
 
+#include <iostream>
+#include <string>
+
 namespace pingus {
 
 
@@ -39,14 +42,13 @@ public:
   ~Lexer();
 
   TokenType getNextToken();
-  const char* getString() const
+  const std::string& getString() const
   { return token_string; }
   int getLineNumber() const
   { return linenumber; }
 
 private:
   enum {
-    MAX_TOKEN_LENGTH = 16384,
     BUFFER_SIZE = 1024
   };
 
@@ -58,8 +60,7 @@ private:
   char buffer[BUFFER_SIZE+1];
   char* bufend;
   char* c;
-  char token_string[MAX_TOKEN_LENGTH + 1];
-  int token_length;
+  std::string token_string;
 
 private:
   Lexer(const Lexer&);

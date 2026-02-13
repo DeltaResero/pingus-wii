@@ -12,6 +12,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
+#include <charconv>
 #include <fstream>
 #include <sstream>
 #include <string.h>
@@ -107,7 +108,7 @@ Parser::parse()
 
         // Handle (_ "blup") strings that need to be translated
         if(token == Lexer::TOKEN_SYMBOL
-           && strcmp(lexer->getString(), "_") == 0) {
+           && lexer->getString() == "_") {
           token = lexer->getNextToken();
           if(token != Lexer::TOKEN_STRING)
             throw ParseError(this, "Expected string after '(_' sequence");
@@ -134,14 +135,16 @@ Parser::parse()
         entries.push_back(std::make_shared<Lisp>(Lisp::TYPE_STRING, lexer->getString()));
         break;
       case Lexer::TOKEN_INTEGER: {
-        int val;
-        sscanf(lexer->getString(), "%d", &val);
+        int val = 0;
+        const std::string& s = lexer->getString();
+        std::from_chars(s.data(), s.data() + s.size(), val);
         entries.push_back(std::make_shared<Lisp>(val));
         break;
       }
       case Lexer::TOKEN_REAL: {
-        float val;
-        sscanf(lexer->getString(), "%f", &val);
+        float val = 0.0f;
+        const std::string& s = lexer->getString();
+        std::from_chars(s.data(), s.data() + s.size(), val);
         entries.push_back(std::make_shared<Lisp>(val));
         break;
       }
