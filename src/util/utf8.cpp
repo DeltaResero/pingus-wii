@@ -45,9 +45,8 @@ UTF8::length(std::string_view str)
   // Not checking for valid UTF-8 sequences should be ok, since
   // incorrect ones are a character too.
   std::string::size_type len = 0;
-  for(size_t i = 0; i < str.size(); ++i)
+  for (unsigned char c : str)
   {
-    unsigned char c = static_cast<unsigned char>(str[i]);
     if (((c & 0xc0) == 0xc0) || (c < 0x80)) // 0xc0 == 1100_000
     {
       len += 1;
