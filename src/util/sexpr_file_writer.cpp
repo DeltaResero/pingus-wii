@@ -104,26 +104,19 @@ SExprFileWriter::write_bool(const char* name, bool value)
 void
 SExprFileWriter::write_string(const char* name, const std::string& value)
 {
-  // Perform basic XML encoding (turns apostrophes into &apos;, etc.
-  std::string new_value = value;
-  std::string::size_type pos;
+  (*out) << "\n" << indent() << "(" << name << " \"";
 
-  std::map<std::string, std::string> replacements;
-
-  replacements["\""] = "\\\"";
-  replacements["\\"] = "\\\\";
-
-  for (std::map<std::string, std::string>::iterator i = replacements.begin();
-       i != replacements.end(); i++)
+  for (char c : value)
   {
-    for (pos = new_value.find(i->first); pos != std::string::npos; pos = new_value.find(i->first))
-    {
-      // Replace character with encoding characters
-      new_value.replace(pos, 1, i->second);
-    }
+    if (c == '\"')
+      (*out) << "\\\"";
+    else if (c == '\\')
+      (*out) << "\\\\";
+    else
+      (*out) << c;
   }
 
-  (*out) << "\n" << indent() << "(" << name << " \"" << new_value << "\")";
+  (*out) << "\")";
 }
 
 void
