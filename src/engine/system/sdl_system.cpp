@@ -49,6 +49,19 @@ SDLSystem::SDLSystem()
     atexit(SDL_Quit);
   }
 
+  // Explicitly initialize SDL_image format support.
+  // Required when SDL_image is built with dynamic loaders (e.g. some platform
+  // ports). On builds with statically compiled format support this is a no-op,
+  // but calling it unconditionally is correct practice per SDL_image docs.
+  {
+    const int img_flags = IMG_INIT_JPG | IMG_INIT_PNG;
+    const int img_initted = IMG_Init(img_flags);
+    if ((img_initted & img_flags) != img_flags)
+    {
+      log_warn("IMG_Init failed to init JPG/PNG support: {}", IMG_GetError());
+    }
+  }
+
 #ifdef __WII__
   // Open joystick 0 to receive Wii Remote events
   SDL_JoystickEventState(SDL_ENABLE);
