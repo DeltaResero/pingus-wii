@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <assert.h>
+#include <stdexcept>
 #include <vector>
 
 #include "util/log.hpp"
@@ -163,9 +164,7 @@ public:
           && i->destination == destination)
         return *i;
     }
-    log_error("couldn't resolve edge: source={} destination={}", source, destination);
-    assert(false);
-    return *(static_cast<Edge<EdgeType>*>(0));
+    throw std::runtime_error("couldn't resolve edge");
   }
 
   /* FIXME: This might give problems under MSVC, so it could be better to not use it */
