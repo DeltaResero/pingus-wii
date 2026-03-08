@@ -10,7 +10,7 @@ One piece of advice: avoid dark places, follow the light.")
     (number-of-pingus 1)
     (number-to-save 1)
     (time -1)
-    (music "")
+    (music "sorcerer.it")
     (actions 
       (basher 10)
       (bridger 3)

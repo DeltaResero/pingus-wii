@@ -9,7 +9,7 @@ Good syncronization and timing is required.")
     (number-of-pingus 3)
     (number-to-save 3)
     (time -1)
-    (music "")
+    (music "pingus-4.it")
     (actions 
       (basher 1)
       (bridger 10)

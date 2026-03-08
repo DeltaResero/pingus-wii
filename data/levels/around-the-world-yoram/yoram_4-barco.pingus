@@ -9,7 +9,7 @@ Team work is a must if you want to succeed. Hope you are not afraid of hights no
     (number-of-pingus 3)
     (number-to-save 3)
     (time -1)
-    (music "")
+    (music "rough_journey.it")
     (actions 
       (basher 15)
       (blocker 4)

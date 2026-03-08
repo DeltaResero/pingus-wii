@@ -11,7 +11,7 @@ The exit is just straight ahead but it is about to sink.")
     (number-of-pingus 5)
     (number-to-save 5)
     (time -1)
-    (music "")
+    (music "gd-ite.it")
     (actions 
       (basher 4)
       (bridger 7)

@@ -9,7 +9,7 @@
     (number-of-pingus 15)
     (number-to-save 5)
     (time -1)
-    (music "")
+    (music "goin_march.it")
     (actions 
       (basher 10)
       (bomber 10)

@@ -10,7 +10,7 @@
     (number-of-pingus 4)
     (number-to-save 4)
     (time -1)
-    (music "")
+    (music "gd-giirm.it")
     (actions 
       (basher 3)
       (blocker 1)
