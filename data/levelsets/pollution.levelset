@@ -8,12 +8,9 @@
  (levels 
   (level (filename "pollution/free-fall-cbarratt"))
   (level (filename "pollution/desert3-cbarratt"))
-  (level (filename "pollution/desert-cbarratt"))
   (level (filename "pollution/desert6-cbarratt"))
   (level (filename "pollution/pillars-and-pedestals-cbarratt"))
   (level (filename "pollution/desert7-cbarratt"))
-  (level (filename "pollution/desert9-cbarratt"))
-  (level (filename "pollution/desert11-cbarratt"))
   (level (filename "pollution/christmas4-cbarratt"))
   (level (filename "pollution/christmas10-cbarratt"))
   (level (filename "pollution/snow-cbarratt"))
