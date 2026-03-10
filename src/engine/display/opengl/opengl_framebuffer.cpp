@@ -160,13 +160,13 @@ OpenGLFramebuffer::pop_cliprect()
 }
 
 void
-OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Vector2i& pos)
+OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, Vector2i pos)
 {
   draw_surface(src, Rect(Vector2i(0, 0), src.get_size()),  pos);
 }
 
 void
-OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos)
+OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos)
 {
   // Ensure texture rendering is enabled
   if (!m_texture_enabled)
@@ -242,7 +242,7 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
 }
 
 void
-OpenGLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color)
+OpenGLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
 {
   // Disable texturing if currently enabled
   if (m_texture_enabled)
@@ -270,7 +270,7 @@ OpenGLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const C
 }
 
 void
-OpenGLFramebuffer::draw_rect(const Rect& rect, const Color& color)
+OpenGLFramebuffer::draw_rect(const Rect& rect, Color color)
 {
   // Disable texturing if currently enabled
   if (m_texture_enabled)
@@ -300,7 +300,7 @@ OpenGLFramebuffer::draw_rect(const Rect& rect, const Color& color)
 }
 
 void
-OpenGLFramebuffer::fill_rect(const Rect& rect, const Color& color)
+OpenGLFramebuffer::fill_rect(const Rect& rect, Color color)
 {
   // Disable texturing if currently enabled
   if (m_texture_enabled)

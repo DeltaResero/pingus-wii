@@ -50,12 +50,12 @@ public:
   void push_cliprect(const Rect& rect);
   void pop_cliprect();
 
-  void draw_surface(const FramebufferSurface& src, const Vector2i& pos);
-  void draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos);
+  void draw_surface(const FramebufferSurface& src, Vector2i pos);
+  void draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos);
 
-  void draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color);
-  void draw_rect(const Rect& rect, const Color& color);
-  void fill_rect(const Rect& rect, const Color& color);
+  void draw_line(Vector2i pos1, Vector2i pos2, Color color);
+  void draw_rect(const Rect& rect, Color color);
+  void fill_rect(const Rect& rect, Color color);
 
   Size get_size() const;
   bool is_fullscreen() const;

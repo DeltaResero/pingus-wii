@@ -41,13 +41,13 @@ public:
   virtual void push_cliprect(const Rect&) =0;
   virtual void pop_cliprect() =0;
 
-  virtual void draw_surface(const FramebufferSurface& src, const Vector2i& pos) =0;
-  virtual void draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Vector2i& pos) =0;
+  virtual void draw_surface(const FramebufferSurface& src, Vector2i pos) =0;
+  virtual void draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos) =0;
 
-  virtual void draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color) =0;
+  virtual void draw_line(Vector2i pos1, Vector2i pos2, Color color) =0;
 
-  virtual void draw_rect(const Rect& rect, const Color& color) =0;
-  virtual void fill_rect(const Rect& rect, const Color& color) =0;
+  virtual void draw_rect(const Rect& rect, Color color) =0;
+  virtual void fill_rect(const Rect& rect, Color color) =0;
 
   virtual Size get_size() const =0;
 };

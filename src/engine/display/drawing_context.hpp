@@ -68,17 +68,17 @@ public:
       worth a try */
   void draw(DrawingContext& dc, float z = 0);
 
-  void draw(const Sprite& sprite, const Vector2i& pos, float z = 0);
-  void draw(const Sprite& sprite, const Vector3f& pos);
+  void draw(const Sprite& sprite, Vector2i pos, float z = 0);
+  void draw(const Sprite& sprite, Vector3f pos);
 
   /** Fills the screen with a given color, this is different from
       clear() in that it doesn't remove other DrawingRequest from the
       queue */
-  void fill_screen(const Color& color);
+  void fill_screen(Color color);
 
-  void draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color, float z = 0);
-  void draw_fillrect(const Rect& rect, const Color& color, float z = 0);
-  void draw_rect(const Rect& rect, const Color& color, float z = 0);
+  void draw_line(Vector2i pos1, Vector2i pos2, Color color, float z = 0);
+  void draw_fillrect(const Rect& rect, Color color, float z = 0);
+  void draw_rect(const Rect& rect, Color color, float z = 0);
   /*} */
 
   /** Translate the drawing context */
@@ -98,13 +98,13 @@ public:
   int get_height() const;
 
   /** Print a text left aligned */
-  void print_left(const Font& font, const Vector2i& pos, const std::string& str, float z = 0.0f);
+  void print_left(const Font& font, Vector2i pos, const std::string& str, float z = 0.0f);
 
   /** Print a text centred to the given position */
-  void print_center(const Font& font, const Vector2i& pos, const std::string& str, float z = 0.0f);
+  void print_center(const Font& font, Vector2i pos, const std::string& str, float z = 0.0f);
 
   /** Print a text right aligned */
-  void print_right(const Font& font, const Vector2i& pos, const std::string& str, float z = 0.0f);
+  void print_right(const Font& font, Vector2i pos, const std::string& str, float z = 0.0f);
 
   Vector2i screen_to_world(const Vector2i pos);
   Vector2i world_to_screen(const Vector2i pos);

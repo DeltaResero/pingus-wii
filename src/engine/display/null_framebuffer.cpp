@@ -88,27 +88,27 @@ NullFramebuffer::pop_cliprect()
 }
 
 void
-NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, const Vector2i& /*pos*/)
+NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, Vector2i /*pos*/)
 {
 }
 
 void
-NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, const Rect& /*srcrect*/, const Vector2i& /*pos*/)
+NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, const Rect& /*srcrect*/, Vector2i /*pos*/)
 {
 }
 
 void
-NullFramebuffer::draw_line(const Vector2i& /*pos1*/, const Vector2i& /*pos2*/, const Color& /*color*/)
+NullFramebuffer::draw_line(Vector2i /*pos1*/, Vector2i /*pos2*/, Color /*color*/)
 {
 }
 
 void
-NullFramebuffer::draw_rect(const Rect& /*rect*/, const Color& /*color*/)
+NullFramebuffer::draw_rect(const Rect& /*rect*/, Color /*color*/)
 {
 }
 
 void
-NullFramebuffer::fill_rect(const Rect& /*rect*/, const Color& /*color*/)
+NullFramebuffer::fill_rect(const Rect& /*rect*/, Color /*color*/)
 {
 }
 

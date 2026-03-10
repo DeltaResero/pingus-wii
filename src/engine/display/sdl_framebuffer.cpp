@@ -21,9 +21,9 @@ namespace pingus {
 
 namespace {
 
-typedef void (*draw_pixel_func)(SDL_Surface* screen, int, int, const Color&);
+typedef void (*draw_pixel_func)(SDL_Surface* screen, int, int, Color);
 
-inline void draw_pixel16(SDL_Surface* screen, int x, int y, const Color& c)
+inline void draw_pixel16(SDL_Surface* screen, int x, int y, Color c)
 {
   Uint32 color = SDL_MapRGBA(screen->format, c.r, c.g, c.b, c.a);
 
@@ -46,7 +46,7 @@ inline void draw_pixel16(SDL_Surface* screen, int x, int y, const Color& c)
   }
 }
 
-inline void draw_pixel32(SDL_Surface* screen, int x, int y, const Color& c)
+inline void draw_pixel32(SDL_Surface* screen, int x, int y, Color c)
 {
   Uint32 color = SDL_MapRGBA(screen->format, c.r, c.g, c.b, c.a);
 
@@ -88,7 +88,7 @@ draw_pixel_func get_draw_pixel(SDL_Surface* screen)
   return NULL;
 }
 
-void draw_vline(SDL_Surface* screen, int x, int y, int length, const Color& color)
+void draw_vline(SDL_Surface* screen, int x, int y, int length, Color color)
 {
   draw_pixel_func draw_pixel = get_draw_pixel(screen);
   if (!draw_pixel)
@@ -101,7 +101,7 @@ void draw_vline(SDL_Surface* screen, int x, int y, int length, const Color& colo
   SDL_UnlockSurface(screen);
 }
 
-void draw_hline(SDL_Surface* screen, int x, int y, int length, const Color& color)
+void draw_hline(SDL_Surface* screen, int x, int y, int length, Color color)
 {
   draw_pixel_func draw_pixel = get_draw_pixel(screen);
   if (!draw_pixel)
@@ -154,7 +154,7 @@ SDLFramebuffer::create_surface(const Surface& surface)
 }
 
 void
-SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Vector2i& pos)
+SDLFramebuffer::draw_surface(const FramebufferSurface& surface, Vector2i pos)
 {
   SDLFramebufferSurfaceImpl* impl = dynamic_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
   SDL_Surface* src = impl->get_surface();
@@ -169,7 +169,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Vector2i& 
 }
 
 void
-SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcrect, const Vector2i& pos)
+SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcrect, Vector2i pos)
 {
   SDLFramebufferSurfaceImpl* impl = dynamic_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
   SDL_Surface* src = impl->get_surface();
@@ -190,7 +190,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcr
 }
 
 void
-SDLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const Color& color)
+SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
 {
   int x, y, xlen, ylen, incr;
   int sx = pos1.x;
@@ -324,7 +324,7 @@ SDLFramebuffer::draw_line(const Vector2i& pos1, const Vector2i& pos2, const Colo
 }
 
 void
-SDLFramebuffer::draw_rect(const Rect& rect_, const Color& color)
+SDLFramebuffer::draw_rect(const Rect& rect_, Color color)
 {
   Rect rect = rect_;
   rect.normalize();
@@ -336,7 +336,7 @@ SDLFramebuffer::draw_rect(const Rect& rect_, const Color& color)
 }
 
 void
-SDLFramebuffer::fill_rect(const Rect& rect_, const Color& color)
+SDLFramebuffer::fill_rect(const Rect& rect_, Color color)
 {
   Rect rect = rect_;
   rect.normalize();

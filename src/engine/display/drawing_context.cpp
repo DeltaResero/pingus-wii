@@ -37,7 +37,7 @@ private:
   std::string text;
 
 public:
-  FontDrawingRequest(Font font_, Origin origin_, const Vector2i& pos_, const std::string& text_, float z_)
+  FontDrawingRequest(Font font_, Origin origin_, Vector2i pos_, const std::string& text_, float z_)
     : DrawingRequest(pos_, z_),
       font(font_),
       origin(origin_),
@@ -58,7 +58,7 @@ private:
   Sprite sprite;
 
 public:
-  SpriteDrawingRequest(const Sprite& sprite_, const Vector2i& pos_, float z_)
+  SpriteDrawingRequest(const Sprite& sprite_, Vector2i pos_, float z_)
     : DrawingRequest(pos_, z_),
       sprite(sprite_)
   {
@@ -77,7 +77,7 @@ private:
   Color color;
 
 public:
-  FillScreenDrawingRequest(const Color& color_)
+  FillScreenDrawingRequest(Color color_)
     : DrawingRequest(Vector2i(0, 0), -1000.0f),
       color(color_)
   {
@@ -97,9 +97,9 @@ private:
   Color    color;
 
 public:
-  LineDrawingRequest(const Vector2i& pos1_,
-                     const Vector2i& pos2_,
-                     const Color&  color_,
+  LineDrawingRequest(Vector2i pos1_,
+                     Vector2i pos2_,
+                     Color    color_,
                      float z_)
     : DrawingRequest(Vector2i(0, 0), z_),
       pos1(pos1_),
@@ -123,7 +123,7 @@ private:
   bool  filled;
 
 public:
-  RectDrawingRequest(const Rect& rect_, const Color& color_, bool filled_, float z_)
+  RectDrawingRequest(const Rect& rect_, Color color_, bool filled_, float z_)
     : DrawingRequest(Vector2i(0, 0), z_),
       d_rect(rect_), color(color_), filled(filled_)
   {}
@@ -243,13 +243,13 @@ DrawingContext::draw(DrawingContext& dc, float z)
 }
 
 void
-DrawingContext::draw(const Sprite& sprite, const Vector2i& pos, float z)
+DrawingContext::draw(const Sprite& sprite, Vector2i pos, float z)
 {
   draw(request_pool.create<SpriteDrawingRequest>(sprite, pos + translate_stack.back(), z));
 }
 
 void
-DrawingContext::draw(const Sprite& sprite, const Vector3f& pos)
+DrawingContext::draw(const Sprite& sprite, Vector3f pos)
 {
   draw(request_pool.create<SpriteDrawingRequest>(sprite,
                                                   Vector2i(translate_stack.back().x + static_cast<int>(pos.x),
@@ -258,8 +258,8 @@ DrawingContext::draw(const Sprite& sprite, const Vector3f& pos)
 }
 
 void
-DrawingContext::draw_line(const Vector2i& pos1, const Vector2i& pos2,
-                          const Color& color, float z)
+DrawingContext::draw_line(Vector2i pos1, Vector2i pos2,
+                          Color color, float z)
 {
   draw(request_pool.create<LineDrawingRequest>(pos1 + translate_stack.back(),
                                                 pos2 + translate_stack.back(),
@@ -267,7 +267,7 @@ DrawingContext::draw_line(const Vector2i& pos1, const Vector2i& pos2,
 }
 
 void
-DrawingContext::draw_fillrect(const Rect& rect_, const Color& color_, float z_)
+DrawingContext::draw_fillrect(const Rect& rect_, Color color_, float z_)
 {
   draw(request_pool.create<RectDrawingRequest>(Rect(int(rect_.left + translate_stack.back().x),
                                                      int(rect_.top + translate_stack.back().y),
@@ -279,7 +279,7 @@ DrawingContext::draw_fillrect(const Rect& rect_, const Color& color_, float z_)
 }
 
 void
-DrawingContext::draw_rect(const Rect& rect_, const Color& color_, float z_)
+DrawingContext::draw_rect(const Rect& rect_, Color color_, float z_)
 {
   draw(request_pool.create<RectDrawingRequest>(Rect(int(rect_.left   + translate_stack.back().x),
                                                      int(rect_.top    + translate_stack.back().y),
@@ -291,7 +291,7 @@ DrawingContext::draw_rect(const Rect& rect_, const Color& color_, float z_)
 }
 
 void
-DrawingContext::fill_screen(const Color& color)
+DrawingContext::fill_screen(Color color)
 {
   draw(request_pool.create<FillScreenDrawingRequest>(color));
 }
@@ -356,7 +356,7 @@ DrawingContext::get_height() const
 }
 
 void
-DrawingContext::print_left(const Font& font_, const Vector2i& pos, const std::string& str, float z)
+DrawingContext::print_left(const Font& font_, Vector2i pos, const std::string& str, float z)
 {
   draw(request_pool.create<FontDrawingRequest>(font_,
                                                 origin_top_left,
@@ -366,7 +366,7 @@ DrawingContext::print_left(const Font& font_, const Vector2i& pos, const std::st
 }
 
 void
-DrawingContext::print_center(const Font& font_, const Vector2i& pos, const std::string& str, float z)
+DrawingContext::print_center(const Font& font_, Vector2i pos, const std::string& str, float z)
 {
   draw(request_pool.create<FontDrawingRequest>(font_,
                                                 origin_top_center,
@@ -376,7 +376,7 @@ DrawingContext::print_center(const Font& font_, const Vector2i& pos, const std::
 }
 
 void
-DrawingContext::print_right(const Font& font_, const Vector2i& pos, const std::string& str, float z)
+DrawingContext::print_right(const Font& font_, Vector2i pos, const std::string& str, float z)
 {
   draw(request_pool.create<FontDrawingRequest>(font_,
                                                 origin_top_right,
