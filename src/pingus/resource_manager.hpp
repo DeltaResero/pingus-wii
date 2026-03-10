@@ -16,6 +16,7 @@
 #include <set>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace pingus {
@@ -28,7 +29,7 @@ class SpriteDescription;
 class ResourceManager
 {
 public:
-  typedef std::map<std::string, std::shared_ptr<SpriteDescription> > Resources;
+  typedef std::map<std::string, std::shared_ptr<SpriteDescription>, std::less<>> Resources;
 
 private:
   Resources m_cache;
@@ -41,7 +42,7 @@ public:
   void add_resources_from_directory(const Pathname& path);
 
   /** Returns a pointer to the requested SpriteDescription or 0 if it's not found */
-  SpriteDescription* get_sprite_description(const std::string& name);
+  SpriteDescription* get_sprite_description(std::string_view name);
   std::shared_ptr<SpriteDescription> get_sprite_description_from_file(const std::string& name);
 
   std::vector<std::string> get_section(const std::string& name);

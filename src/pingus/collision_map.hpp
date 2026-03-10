@@ -68,8 +68,8 @@ public:
 
   /** Get pixel value with bounds checking. Returns GP_OUTOFSCREEN if out of bounds.
       Optimized with unsigned cast trick for single comparison per axis. */
-  __attribute__((always_inline))
-  inline int getpixel(int x, int y) const
+  [[nodiscard]] __attribute__((always_inline))
+  inline int getpixel(int x, int y) const noexcept
   {
     // Unsigned cast trick: if x or y is negative, it becomes a very large unsigned value
     // This allows us to check both lower and upper bounds with just two comparisons
@@ -86,8 +86,8 @@ public:
 
   /** Same as getpixel() but without the range check.
       WARNING: Caller must ensure x and y are within bounds! */
-  __attribute__((always_inline))
-  inline int getpixel_fast(int x, int y) const
+  [[nodiscard]] __attribute__((always_inline))
+  inline int getpixel_fast(int x, int y) const noexcept
   {
     return colmap[x + y * width];
   }

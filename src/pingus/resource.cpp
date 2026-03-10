@@ -35,7 +35,7 @@ Resource::deinit()
 }
 
 SpriteDescription*
-Resource::load_sprite_desc(const std::string& res_name)
+Resource::load_sprite_desc(std::string_view res_name)
 {
   return resmgr.get_sprite_description(res_name);
 }

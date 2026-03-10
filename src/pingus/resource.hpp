@@ -12,6 +12,8 @@
 #ifndef HEADER_PINGUS_PINGUS_RESOURCE_HPP
 #define HEADER_PINGUS_PINGUS_RESOURCE_HPP
 
+#include <string_view>
+
 #include "engine/display/font.hpp"
 #include "engine/display/sprite.hpp"
 #include "engine/display/surface.hpp"
@@ -32,7 +34,7 @@ public:
   /** Loads a 48x48 size thumbnail of a sprite */
   static Sprite        load_thumb_sprite(const std::string&);
 
-  static SpriteDescription* load_sprite_desc(const std::string& res_name);
+  static SpriteDescription* load_sprite_desc(std::string_view res_name);
 
   static Surface       load_surface(const std::string& res_name);
   static Surface       load_surface(const ResDescriptor&);

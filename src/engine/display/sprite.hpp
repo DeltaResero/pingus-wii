@@ -14,6 +14,7 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include "math/origin.hpp"
 #include "engine/display/resource_modifier.hpp"

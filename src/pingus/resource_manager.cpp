@@ -120,7 +120,7 @@ ResourceManager::get_sprite_description_from_file(const std::string& resname)
 }
 
 SpriteDescription*
-ResourceManager::get_sprite_description(const std::string& name)
+ResourceManager::get_sprite_description(std::string_view name)
 {
   auto i = m_cache.find(name);
   if (i != m_cache.end())
@@ -129,10 +129,10 @@ ResourceManager::get_sprite_description(const std::string& name)
   }
   else
   {
-    SpriteDescriptionPtr desc = get_sprite_description_from_file(name);
+    SpriteDescriptionPtr desc = get_sprite_description_from_file(std::string(name));
     if (desc)
     {
-      m_cache[name] = desc;
+      m_cache[std::string(name)] = desc;
       return desc.get();
     }
     else
