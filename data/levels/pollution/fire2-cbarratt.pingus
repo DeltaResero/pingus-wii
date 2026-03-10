@@ -9,7 +9,7 @@ they button that switched of the smoke")
     (number-of-pingus 25)
     (number-to-save 20)
     (time -1)
-    (music "")
+    (music "pingus-9.it")
     (actions 
       (basher 4)
       (blocker 2)
