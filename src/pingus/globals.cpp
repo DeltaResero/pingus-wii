@@ -26,8 +26,6 @@ bool        auto_scrolling          = true;
 bool        drag_drop_scrolling     = false;
 int         tile_size               = 32;
 
-int         default_screen_width    = 800;
-int         default_screen_height   = 600;
 
 bool        draw_collision_map      = false;
 
