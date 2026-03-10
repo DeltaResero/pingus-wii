@@ -43,8 +43,11 @@ Hotspot::update()
 void
 Hotspot::draw (SceneContext& gc)
 {
-  // FIXME: para support doesnn't work correctly
-  gc.color().draw (sprite, pos);
+  // FIXME: para support doesn't work correctly
+  Rect bounds(Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)),
+              Size(sprite.get_width(), sprite.get_height()));
+  if (gc.color().get_world_clip_rect().is_overlapped(bounds))
+    gc.color().draw (sprite, pos);
 }
 
 float

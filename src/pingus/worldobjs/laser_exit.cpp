@@ -35,7 +35,10 @@ LaserExit::get_z_pos () const
 void
 LaserExit::draw (SceneContext& gc)
 {
-  gc.color().draw (surface, pos);
+  Rect bounds(Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)),
+              Size(surface.get_width(), surface.get_height()));
+  if (gc.color().get_world_clip_rect().is_overlapped(bounds))
+    gc.color().draw (surface, pos);
 }
 
 void

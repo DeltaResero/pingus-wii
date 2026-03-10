@@ -57,8 +57,13 @@ Exit::on_startup ()
 void
 Exit::draw (SceneContext& gc)
 {
-  gc.color().draw(sprite, pos);
-  gc.color().draw(flag, pos + Vector3f(40, 0));
+  Rect bounds(Vector2i(static_cast<int>(pos.x), static_cast<int>(pos.y)),
+              Size(sprite.get_width() + 40 + flag.get_width(), sprite.get_height()));
+  if (gc.color().get_world_clip_rect().is_overlapped(bounds))
+  {
+    gc.color().draw(sprite, pos);
+    gc.color().draw(flag, pos + Vector3f(40, 0));
+  }
 }
 
 void
