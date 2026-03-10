@@ -16,11 +16,13 @@
 #include "engine/display/display.hpp"
 #include "engine/display/drawing_context.hpp"
 #include "engine/display/framebuffer.hpp"
+#include "engine/display/sprite.hpp"
 #include "engine/input/manager.hpp"
 #include "engine/screen/screen.hpp"
 #include "pingus/fps_counter.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
+#include "pingus/resource.hpp"
 
 namespace pingus {
 
@@ -316,6 +318,11 @@ ScreenManager::pop_screen()
 {
   screens.pop_back();
 
+  // Purge unused textures and sprite metadata now that the popped
+  // screen's destructors have run and its sprites have been released.
+  Sprite::purge_cache();
+  Resource::clear_cache();
+
   if (!screens.empty())
   {
     if (screens.back()->get_size() != Display::get_size())
@@ -333,7 +340,13 @@ ScreenManager::pop_all_screens()
 void
 ScreenManager::replace_screen(ScreenPtr screen)
 {
+  // Overwriting screens.back() destroys the old ScreenPtr, running
+  // destructors for the outgoing screen and all its sprites.
   screens.back() = screen;
+
+  // Purge unused textures now that the old screen's sprites are gone.
+  Sprite::purge_cache();
+  Resource::clear_cache();
 
   if (screens.back()->get_size() != Display::get_size())
   {

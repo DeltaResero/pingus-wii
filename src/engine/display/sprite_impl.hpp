@@ -50,6 +50,8 @@ public:
   SpriteImpl(const Surface& surface_);
   ~SpriteImpl();
 
+  static void purge_surface_cache();
+
   void update(float delta);
 
   void render(int x, int y, Framebuffer& fb);

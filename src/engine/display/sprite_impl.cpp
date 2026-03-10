@@ -54,6 +54,17 @@ FramebufferSurface load_framebuffer_surface(const Pathname& filename, ResourceMo
   }
 }
 
+void
+SpriteImpl::purge_surface_cache()
+{
+  // Erase any cache entry where use_count == 1, meaning only the cache
+  // itself holds the texture and no live Sprite is using it.
+  std::erase_if(surface_cache, [](const auto& entry) {
+    return entry.second.use_count() <= 1;
+  });
+  log_info("SpriteImpl: surface_cache purged, {} entries remaining", surface_cache.size());
+}
+
 SpriteImpl::SpriteImpl() :
   filename(),
   framebuffer_surface(),

@@ -30,6 +30,7 @@ public:
 public:
   static void init();
   static void deinit();
+  static void clear_cache() { resmgr.clear(); }
 
   /** Loads a 48x48 size thumbnail of a sprite */
   static Sprite        load_thumb_sprite(const std::string&);

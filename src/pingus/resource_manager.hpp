@@ -45,6 +45,8 @@ public:
   SpriteDescription* get_sprite_description(std::string_view name);
   std::shared_ptr<SpriteDescription> get_sprite_description_from_file(const std::string& name);
 
+  void clear();
+
   std::vector<std::string> get_section(const std::string& name);
 
 private:

@@ -19,6 +19,12 @@
 namespace pingus {
 
 
+void
+Sprite::purge_cache()
+{
+  SpriteImpl::purge_surface_cache();
+}
+
 Sprite::Sprite() :
   impl()
 {

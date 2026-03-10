@@ -143,6 +143,13 @@ ResourceManager::get_sprite_description(std::string_view name)
 }
 
 
+void
+ResourceManager::clear()
+{
+  m_cache.clear();
+}
+
+
 } // namespace pingus
 
 // EOF

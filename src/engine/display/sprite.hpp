@@ -39,6 +39,8 @@ public:
   Sprite(const Surface& surface);
   ~Sprite();
 
+  static void purge_cache();
+
   int get_width()  const;
   int get_height() const;
 
