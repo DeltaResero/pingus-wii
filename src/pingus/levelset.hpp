@@ -12,8 +12,11 @@
 #ifndef HEADER_PINGUS_PINGUS_LEVELSET_HPP
 #define HEADER_PINGUS_PINGUS_LEVELSET_HPP
 
+#include <optional>
+
 #include "engine/display/sprite.hpp"
 #include "pingus/pingus_level.hpp"
+#include "pingus/plf_res_mgr.hpp"
 #include "util/pathname.hpp"
 
 namespace pingus {
@@ -24,16 +27,27 @@ public:
   struct Level
   {
     std::string resname;
+    std::string levelname;
     bool accessible;
     bool finished;
-    PingusLevel plf;
 
     Level() :
       resname(),
+      levelname(),
       accessible(),
-      finished(),
-      plf()
+      finished()
     {}
+
+    /** Returns the PingusLevel, loading it from disk on first call. */
+    const PingusLevel& get_plf() const
+    {
+      if (!m_plf)
+        m_plf = PLFResMgr::load_plf(resname);
+      return *m_plf;
+    }
+
+  private:
+    mutable std::optional<PingusLevel> m_plf;
   };
 
 private:

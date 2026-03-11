@@ -178,8 +178,9 @@ Levelset::add_level(const std::string& resname, bool accessible)
     auto level = std::make_unique<Level>();
 
     level->resname    = resname;
-    level->plf        = PLFResMgr::load_plf(level->resname);
-
+    // Load the PLF only to read the level name, then let it go.
+    // The PLFResMgr caches it briefly but it won't be retained here.
+    level->levelname  = PLFResMgr::load_plf(resname).get_levelname();
     level->accessible = accessible;
     level->finished   = false;
 

@@ -21,6 +21,7 @@
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
+#include "pingus/plf_res_mgr.hpp"
 #include "pingus/screens/start_screen.hpp"
 #include "util/log.hpp"
 #include "util/system.hpp"
@@ -152,6 +153,10 @@ public:
               [](const auto& lhs, const auto& rhs) {
                 return lhs->get_priority() > rhs->get_priority();
               });
+
+    // Level names have been extracted; drop the PLF cache so parsed
+    // level data doesn't sit in memory until a level is actually played.
+    PLFResMgr::clear();
   }
 
   ~LevelsetSelector()
@@ -329,11 +334,11 @@ public:
         // draw levelname
         if (globals::developer_mode)
         {
-          gc.print_left(fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), levelset->get_level(i)->plf.get_resname());
+          gc.print_left(fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), levelset->get_level(i)->resname);
         }
         else
         {
-          gc.print_left(fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), levelset->get_level(i)->plf.get_levelname());
+          gc.print_left(fonts::chalk_normal, Vector2i(list_rect.left + 40, y+4), levelset->get_level(i)->levelname);
         }
 
         // draw icon
@@ -415,7 +420,7 @@ public:
     {
       if (levelset->get_level(current_level)->accessible)
       {
-        ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(levelset->get_level(current_level)->plf));
+        ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(levelset->get_level(current_level)->get_plf()));
       }
     }
   }

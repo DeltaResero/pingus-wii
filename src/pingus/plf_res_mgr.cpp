@@ -94,6 +94,13 @@ PLFResMgr::load_plf(const std::string& res_name)
 }
 
 
+void
+PLFResMgr::clear()
+{
+  plf_map.clear();
+}
+
+
 } // namespace pingus
 
 // EOF

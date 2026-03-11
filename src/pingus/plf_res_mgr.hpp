@@ -51,6 +51,9 @@ public:
 
       @param filename The filename of the plf, aka "../data/levels/snow11-grumbel.pingus" */
   static PingusLevel load_plf_from_filename(const Pathname& filename);
+
+  /** Clears the PLF cache, freeing all cached level data. */
+  static void clear();
 };
 
 
