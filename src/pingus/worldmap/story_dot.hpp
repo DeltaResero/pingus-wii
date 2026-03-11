@@ -32,6 +32,7 @@ private:
   std::string m_story;
   bool m_credits;
   bool m_accessible;
+  bool m_auto_play;
 
 public:
   StoryDot(const FileReader& reader);
@@ -45,6 +46,7 @@ public:
   bool finished() { return false; }
   bool accessible() { return m_accessible; }
   void unlock() { m_accessible = true; }
+  void check_auto_play();
 
 private:
   StoryDot(const StoryDot&);

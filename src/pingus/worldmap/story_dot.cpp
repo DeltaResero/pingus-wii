@@ -15,6 +15,7 @@
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/screens/story_screen.hpp"
+#include "pingus/stat_manager.hpp"
 #include "util/file_reader.hpp"
 #include "util/file_reader.hpp"
 #include "util/log.hpp"
@@ -30,12 +31,14 @@ StoryDot::StoryDot(const FileReader& reader) :
   m_name(),
   m_story(),
   m_credits(false),
-  m_accessible(false)
+  m_accessible(false),
+  m_auto_play(false)
 {
   reader.read_string("name", m_name);
   reader.read_string("story", m_story);
   reader.read_bool("credits", m_credits);
   reader.read_bool("accessible", m_accessible);
+  reader.read_bool("auto-play", m_auto_play);
 }
 
 void
@@ -78,6 +81,32 @@ StoryDot::update(float /*delta*/)
 void
 StoryDot::on_click()
 {
+  try
+  {
+    FileReader reader = FileReader::parse(Pathname(m_story, Pathname::DATA_PATH));
+    ScreenManager::instance()->push_screen(std::make_shared<StoryScreen>(reader, m_credits));
+  }
+  catch(const std::exception& err)
+  {
+    log_error("{}", err.what());
+  }
+}
+
+void
+StoryDot::check_auto_play()
+{
+  if (!m_accessible || !m_auto_play)
+    return;
+
+  // Use the story path as a unique key so each story only auto-plays once.
+  std::string stat_key = "story-auto-played:" + m_story;
+  bool already_played = false;
+  StatManager::instance()->get_bool(stat_key, already_played);
+  if (already_played)
+    return;
+
+  StatManager::instance()->set_bool(stat_key, true);
+
   try
   {
     FileReader reader = FileReader::parse(Pathname(m_story, Pathname::DATA_PATH));

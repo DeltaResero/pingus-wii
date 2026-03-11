@@ -19,6 +19,7 @@
 #include "pingus/stat_manager.hpp"
 #include "pingus/worldmap/drawable_factory.hpp"
 #include "pingus/worldmap/level_dot.hpp"
+#include "pingus/worldmap/story_dot.hpp"
 #include "pingus/worldmap/pingus.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
@@ -272,30 +273,18 @@ struct unlock_nodes
 void
 Worldmap::update_locked_nodes()
 {
-  // FIXME: This shouldn't be a polling function
+  // First pass: unlock nodes adjacent to any finished node.
   path_graph->graph.for_each_node(unlock_nodes(path_graph.get()));
 
-#if 0
-  bool credits_unlocked = false;
-  StatManager::instance()->get_bool(worldmap.get_short_name() + "-endstory-seen", credits_unlocked);
-
-  if (!credits_unlocked)
+  // Second pass: auto-play any story dot that just became accessible
+  // and has not yet been played. Handles both the intro (accessible
+  // from the start) and the outro (unlocked by the first pass above).
+  for (Dot* dot : path_graph->dots)
   {
-    // See if the last level is finished
-    Dot* dot = path_graph->get_dot(final_node);
-    if (dot)
-    {
-      if (dot->finished())
-      {
-        ScreenManager::instance()->push_screen(new StoryScreen(worldmap.get_end_story()));
-      }
-    }
-    else
-    {
-      log_info("Error: Worldmap: Last level missing");
-    }
+    StoryDot* story_dot = dynamic_cast<StoryDot*>(dot);
+    if (story_dot)
+      story_dot->check_auto_play();
   }
-#endif
 }
 
 // Determine starting node

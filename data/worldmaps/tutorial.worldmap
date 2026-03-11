@@ -122,6 +122,7 @@
         (levelname "tutorial/snow22-grumbel"))
       (storydot 
        (name "Watch Ending")
+       (auto-play #t)
        (story "stories/tutorial_outro.story")
        (credits #t)
        (dot 
@@ -130,6 +131,7 @@
       (storydot 
        (name "Watch Intro")
        (accessible #t)
+       (auto-play #t)
        (story "stories/tutorial_intro.story")
        (dot 
         (name "introdot")
