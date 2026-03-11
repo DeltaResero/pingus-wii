@@ -22,6 +22,7 @@
 #include "pingus/fps_counter.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
+#include "pingus/plf_res_mgr.hpp"
 #include "pingus/resource.hpp"
 
 namespace pingus {
@@ -322,6 +323,7 @@ ScreenManager::pop_screen()
   // screen's destructors have run and its sprites have been released.
   Sprite::purge_cache();
   Resource::clear_cache();
+  PLFResMgr::clear();
 
   if (!screens.empty())
   {
@@ -344,9 +346,10 @@ ScreenManager::replace_screen(ScreenPtr screen)
   // destructors for the outgoing screen and all its sprites.
   screens.back() = screen;
 
-  // Purge unused textures now that the old screen's sprites are gone.
+  // Purge unused textures and level data now that the old screen's sprites are gone.
   Sprite::purge_cache();
   Resource::clear_cache();
+  PLFResMgr::clear();
 
   if (screens.back()->get_size() != Display::get_size())
   {
