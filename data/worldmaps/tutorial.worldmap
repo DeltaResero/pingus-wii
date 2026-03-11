@@ -129,6 +129,7 @@
         (position 1496 680 0)))
       (storydot 
        (name "Watch Intro")
+       (accessible #t)
        (story "stories/tutorial_intro.story")
        (dot 
         (name "introdot")
@@ -263,9 +264,9 @@
         (destination "leveldot_18")
         (positions ))
       (edge 
-        (name "egde_22")
-        (source "outrodot")
-        (destination "leveldot_19")
+        (name "egde_23")
+        (source "leveldot_19")
+        (destination "outrodot")
         (positions ))
 ))
   (objects 

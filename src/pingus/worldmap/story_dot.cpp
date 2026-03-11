@@ -26,31 +26,48 @@ StoryDot::StoryDot(const FileReader& reader) :
   Dot(reader.read_section("dot")),
   m_story_dot_highlight("core/worldmap/story_dot_highlight"),
   m_story_dot("core/worldmap/story_dot"),
+  m_inaccessible_dot("core/worldmap/dot_invalid"),
   m_name(),
   m_story(),
-  m_credits(false)
+  m_credits(false),
+  m_accessible(false)
 {
   reader.read_string("name", m_name);
   reader.read_string("story", m_story);
   reader.read_bool("credits", m_credits);
+  reader.read_bool("accessible", m_accessible);
 }
 
 void
 StoryDot::draw(DrawingContext& gc)
 {
-  gc.draw (m_story_dot, pos);
+  if (m_accessible)
+    gc.draw(m_story_dot, pos);
+  else
+    gc.draw(m_inaccessible_dot, pos);
 }
 
 void
 StoryDot::draw_hover(DrawingContext& gc)
 {
-  gc.draw (m_story_dot_highlight, pos);
-
-  gc.print_center(pingus::fonts::pingus_small,
-                  Vector2i(static_cast<int>(pos.x),
-                           static_cast<int>(pos.y) - 44),
-                  m_name,
-                  10000);
+  if (m_accessible)
+  {
+    gc.draw(m_story_dot_highlight, pos);
+    gc.print_center(pingus::fonts::pingus_small,
+                    Vector2i(static_cast<int>(pos.x),
+                             static_cast<int>(pos.y) - 44),
+                    m_name,
+                    10000);
+  }
+  else
+  {
+    gc.draw(m_inaccessible_dot, pos);
+    gc.print_center(pingus::fonts::pingus_small,
+                    Vector2i(static_cast<int>(pos.x),
+                             static_cast<int>(pos.y) - 44),
+                    "???",
+                    10000);
+  }
 }
 
 void

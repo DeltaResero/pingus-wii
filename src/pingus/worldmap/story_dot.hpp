@@ -26,10 +26,12 @@ class StoryDot : public Dot
 private:
   Sprite m_story_dot_highlight;
   Sprite m_story_dot;
+  Sprite m_inaccessible_dot;
 
   std::string m_name;
   std::string m_story;
   bool m_credits;
+  bool m_accessible;
 
 public:
   StoryDot(const FileReader& reader);
@@ -40,9 +42,9 @@ public:
   void update(float delta);
   void on_click();
 
-  bool finished() { return true; }
-  bool accessible() { return true; }
-  void unlock() {}
+  bool finished() { return false; }
+  bool accessible() { return m_accessible; }
+  void unlock() { m_accessible = true; }
 
 private:
   StoryDot(const StoryDot&);
