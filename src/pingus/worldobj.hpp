@@ -61,7 +61,7 @@ public:
   /** Returns the $z$-position of this object. */
   virtual float get_z_pos () const =0;
 
-  virtual void set_pos(const Vector3f& p) = 0;
+  virtual void set_pos(Vector3f p) = 0;
   virtual Vector3f get_pos() const = 0;
 
   /** Draw the WorldObj to the given SceneContext */

@@ -111,14 +111,14 @@ Pingu::set_pos (float x, float y)
 }
 
 void
-Pingu::set_pos (const Vector3f& arg_pos)
+Pingu::set_pos (Vector3f arg_pos)
 {
   set_x (arg_pos.x);
   set_y (arg_pos.y);
 }
 
 void
-Pingu::set_velocity (const Vector3f& velocity_)
+Pingu::set_velocity (Vector3f velocity_)
 {
   velocity = velocity_;
 

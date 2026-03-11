@@ -142,11 +142,11 @@ public:
   void set_y (float y);
 
   /// Set the pingu to the given coordinates
-  void set_pos (const Vector3f& arg_pos);
+  void set_pos (Vector3f arg_pos);
 
   Vector3f get_velocity () const { return velocity; }
 
-  void set_velocity (const Vector3f& velocity_);
+  void set_velocity (Vector3f velocity_);
 
   // Set the pingu in the gives direction
   void set_direction (Direction d);
