@@ -310,14 +310,20 @@ SDLDriver::update(float delta)
         break;
 
       case SDL_MOUSEMOTION:
-        // Sync virtual mouse with IR pointer
-        virtual_mouse_x = (float)event.motion.x;
-        virtual_mouse_y = (float)event.motion.y;
+        // SDL mouse events are in physical pixel coords on all platforms.
+        // On Wii, WPAD_SetVRes is kept at the physical resolution (640x480)
+        // because SDL clips coordinates to the physical screen before delivery.
+        // Scale physical->logical here uniformly for both Wii and desktop.
+        {
+          const Size physical = Display::get_physical_size();
+          virtual_mouse_x = (float)event.motion.x * Display::LOGICAL_WIDTH  / physical.width;
+          virtual_mouse_y = (float)event.motion.y * Display::LOGICAL_HEIGHT / physical.height;
+        }
 
         for(std::vector<PointerBinding>::iterator i = pointer_bindings.begin();
             i != pointer_bindings.end(); ++i)
         {
-          i->binding->set_pos(Vector2f(event.motion.x, event.motion.y));
+          i->binding->set_pos(Vector2f(virtual_mouse_x, virtual_mouse_y));
         }
 
         for(std::vector<ScrollerBinding>::iterator i = scroller_bindings.begin();

@@ -13,6 +13,8 @@
 
 #include <algorithm>
 
+#include "engine/display/display.hpp"
+
 #include "engine/display/sdl_framebuffer_surface_impl.hpp"
 #include "util/log.hpp"
 
@@ -139,6 +141,7 @@ void clip(int& i, int min, int max)
 
 SDLFramebuffer::SDLFramebuffer() :
   screen(nullptr),
+  logical_surface(nullptr),
   cliprect_stack()
 {
 }
@@ -165,7 +168,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, Vector2i pos)
   dstrect.w = 0;
   dstrect.h = 0;
 
-  SDL_BlitSurface(src, nullptr, screen, &dstrect);
+  SDL_BlitSurface(src, nullptr, logical_surface, &dstrect);
 }
 
 void
@@ -186,7 +189,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcr
   sdlsrcrect.w = static_cast<Uint16>(srcrect.get_width());
   sdlsrcrect.h = static_cast<Uint16>(srcrect.get_height());
 
-  SDL_BlitSurface(src, &sdlsrcrect, screen, &dstrect);
+  SDL_BlitSurface(src, &sdlsrcrect, logical_surface, &dstrect);
 }
 
 void
@@ -201,7 +204,7 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
   int clipx1, clipx2, clipy1, clipy2;
   SDL_Rect rect;
 
-  SDL_GetClipRect(screen, &rect);
+  SDL_GetClipRect(logical_surface, &rect);
   clipx1 = rect.x;
   clipx2 = rect.x + rect.w - 1;
   clipy1 = rect.y;
@@ -215,9 +218,9 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
     clip(sy, clipy1, clipy2);
     clip(dy, clipy1, clipy2);
     if (sy < dy) {
-      draw_vline(screen, sx, sy, dy - sy + 1, color);
+      draw_vline(logical_surface, sx, sy, dy - sy + 1, color);
     } else {
-      draw_vline(screen, dx, dy, sy - dy + 1, color);
+      draw_vline(logical_surface, dx, dy, sy - dy + 1, color);
     }
     return;
   }
@@ -230,14 +233,14 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
     clip(sx, clipx1, clipx2);
     clip(dx, clipx1, clipx2);
     if (sx < dx) {
-      draw_hline(screen, sx, sy, dx - sx + 1, color);
+      draw_hline(logical_surface, sx, sy, dx - sx + 1, color);
     } else {
-      draw_hline(screen, dx, dy, sx - dx + 1, color);
+      draw_hline(logical_surface, dx, dy, sx - dx + 1, color);
     }
     return;
   }
 
-  draw_pixel = get_draw_pixel(screen);
+  draw_pixel = get_draw_pixel(logical_surface);
   if (!draw_pixel) {
     return;
   }
@@ -274,10 +277,10 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
 
     int p = (ylen << 1) - xlen;
 
-    SDL_LockSurface(screen);
+    SDL_LockSurface(logical_surface);
     for (x = sx; x < dx; ++x) {
       if (x >= clipx1 && x <= clipx2 && y >= clipy1 && y <= clipy2) {
-        draw_pixel(screen, x, y, color);
+        draw_pixel(logical_surface, x, y, color);
       }
       if (p >= 0) {
         y += incr;
@@ -286,17 +289,17 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
         p += (ylen << 1);
       }
     }
-    SDL_UnlockSurface(screen);
+    SDL_UnlockSurface(logical_surface);
     return;
   }
 
   if (ylen > xlen) {
     int p = (xlen << 1) - ylen;
 
-    SDL_LockSurface(screen);
+    SDL_LockSurface(logical_surface);
     for (y = sy; y < dy; ++y) {
       if (x >= clipx1 && x <= clipx2 && y >= clipy1 && y <= clipy2) {
-        draw_pixel(screen, x, y, color);
+        draw_pixel(logical_surface, x, y, color);
       }
       if (p >= 0) {
         x += incr;
@@ -305,21 +308,21 @@ SDLFramebuffer::draw_line(Vector2i pos1, Vector2i pos2, Color color)
         p += (xlen << 1);
       }
     }
-    SDL_UnlockSurface(screen);
+    SDL_UnlockSurface(logical_surface);
     return;
   }
 
   // Draw a diagonal line
   if (ylen == xlen) {
-    SDL_LockSurface(screen);
+    SDL_LockSurface(logical_surface);
     while (y != dy) {
       if (x >= clipx1 && x <= clipx2 && y >= clipy1 && y <= clipy2) {
-        draw_pixel(screen, x, y, color);
+        draw_pixel(logical_surface, x, y, color);
       }
       x += incr;
       ++y;
     }
-    SDL_UnlockSurface(screen);
+    SDL_UnlockSurface(logical_surface);
   }
 }
 
@@ -350,7 +353,7 @@ SDLFramebuffer::fill_rect(const Rect& rect_, Color color)
     srcrect.w = static_cast<Uint16>(rect.get_width());
     srcrect.h = static_cast<Uint16>(rect.get_height());
 
-    SDL_FillRect(screen, &srcrect, SDL_MapRGBA(screen->format, color.r, color.g, color.b, 255));
+    SDL_FillRect(logical_surface, &srcrect, SDL_MapRGBA(logical_surface->format, color.r, color.g, color.b, 255));
   }
   else if (color.a != 0)
   {
@@ -358,7 +361,7 @@ SDLFramebuffer::fill_rect(const Rect& rect_, Color color)
     int clipx1, clipx2, clipy1, clipy2;
     SDL_Rect cliprect;
 
-    SDL_GetClipRect(screen, &cliprect);
+    SDL_GetClipRect(logical_surface, &cliprect);
     clipx1 = cliprect.x;
     clipx2 = cliprect.x + cliprect.w - 1;
     clipy1 = cliprect.y;
@@ -372,23 +375,25 @@ SDLFramebuffer::fill_rect(const Rect& rect_, Color color)
     left   = rect.left   < clipx1 ? clipx1 : rect.left;
     right  = rect.right  > clipx2 ? clipx2 : rect.right-1;
 
-    draw_pixel_func draw_pixel = get_draw_pixel(screen);
+    draw_pixel_func draw_pixel = get_draw_pixel(logical_surface);
     if (!draw_pixel)
       return;
 
-    SDL_LockSurface(screen);
+    SDL_LockSurface(logical_surface);
     for (int y = top; y <= bottom; ++y) {
       for (int x = left; x <= right; ++x) {
-        draw_pixel(screen, x, y, color);
+        draw_pixel(logical_surface, x, y, color);
       }
     }
-    SDL_UnlockSurface(screen);
+    SDL_UnlockSurface(logical_surface);
   }
 }
 
 void
 SDLFramebuffer::flip()
 {
+  // Scale the logical 800x600 render target to the physical screen size.
+  SDL_SoftStretch(logical_surface, nullptr, screen, nullptr);
   SDL_Flip(screen);
 }
 
@@ -437,6 +442,23 @@ SDLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resizable
     log_error("Unable to set video mode: {}", SDL_GetError());
     exit(1);
   }
+
+  // Create an offscreen surface at logical resolution.
+  // All drawing targets this surface; it is stretch-blitted to the
+  // physical screen on every flip().
+  if (logical_surface)
+    SDL_FreeSurface(logical_surface);
+  logical_surface = SDL_CreateRGBSurface(
+    SDL_SWSURFACE,
+    Display::LOGICAL_WIDTH, Display::LOGICAL_HEIGHT,
+    screen->format->BitsPerPixel,
+    screen->format->Rmask, screen->format->Gmask,
+    screen->format->Bmask, screen->format->Amask);
+  if (!logical_surface)
+  {
+    log_error("Unable to create logical surface: {}", SDL_GetError());
+    exit(1);
+  }
 }
 
 bool
@@ -466,7 +488,7 @@ SDLFramebuffer::push_cliprect(const Rect& rect)
   }
 
   cliprect_stack.push_back(sdl_rect);
-  SDL_SetClipRect(screen, &cliprect_stack.back());
+  SDL_SetClipRect(logical_surface, &cliprect_stack.back());
 }
 
 void
@@ -474,9 +496,9 @@ SDLFramebuffer::pop_cliprect()
 {
   cliprect_stack.pop_back();
   if (cliprect_stack.empty())
-    SDL_SetClipRect(screen, nullptr);
+    SDL_SetClipRect(logical_surface, nullptr);
   else
-    SDL_SetClipRect(screen, &cliprect_stack.back());
+    SDL_SetClipRect(logical_surface, &cliprect_stack.back());
 }
 
 

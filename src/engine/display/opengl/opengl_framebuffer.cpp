@@ -15,6 +15,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "engine/display/display.hpp"
 #include "engine/display/opengl/opengl_framebuffer_surface_impl.hpp"
 
 namespace pingus {
@@ -89,7 +90,7 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-  glOrtho(0, screen->w, screen->h, 0, -1, 1);
+  glOrtho(0, Display::LOGICAL_WIDTH, Display::LOGICAL_HEIGHT, 0, -1, 1);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -136,10 +137,17 @@ OpenGLFramebuffer::push_cliprect(const Rect& rect)
                                   std::min(cliprect_stack.back().bottom, rect.bottom)));
   }
 
-  glScissor(cliprect_stack.back().left,
-            screen->h - cliprect_stack.back().bottom,
-            cliprect_stack.back().get_width(),
-            cliprect_stack.back().get_height());
+  {
+    // Scale logical cliprect coords to physical pixel coords for glScissor.
+    // glScissor operates in physical pixels; cliprects are in logical space.
+    const float sx = static_cast<float>(screen->w) / Display::LOGICAL_WIDTH;
+    const float sy = static_cast<float>(screen->h) / Display::LOGICAL_HEIGHT;
+    const Rect& cr = cliprect_stack.back();
+    glScissor(static_cast<int>(cr.left   * sx),
+              static_cast<int>(screen->h - cr.bottom * sy),
+              static_cast<int>(cr.get_width()  * sx),
+              static_cast<int>(cr.get_height() * sy));
+  }
 }
 
 void
@@ -153,9 +161,16 @@ OpenGLFramebuffer::pop_cliprect()
   }
   else
   {
-    const Rect& rect = cliprect_stack.back();
-    glScissor(rect.left,        rect.top,
-              rect.get_width(), rect.get_height());
+    {
+      // Scale logical cliprect coords to physical pixel coords for glScissor.
+      const float sx = static_cast<float>(screen->w) / Display::LOGICAL_WIDTH;
+      const float sy = static_cast<float>(screen->h) / Display::LOGICAL_HEIGHT;
+      const Rect& rect = cliprect_stack.back();
+      glScissor(static_cast<int>(rect.left   * sx),
+                static_cast<int>(screen->h - rect.bottom * sy),
+                static_cast<int>(rect.get_width()  * sx),
+                static_cast<int>(rect.get_height() * sy));
+    }
   }
 }
 

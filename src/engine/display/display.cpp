@@ -37,19 +37,25 @@ Display::flip_display()
 int
 Display::get_width()
 {
-  return s_framebuffer.get() ? s_framebuffer->get_size().width : 0;
+  return LOGICAL_WIDTH;
 }
 
 int
 Display::get_height()
 {
-  return s_framebuffer.get() ? s_framebuffer->get_size().height : 0;
+  return LOGICAL_HEIGHT;
 }
 
 Size
 Display::get_size()
 {
-  return s_framebuffer.get() ? s_framebuffer->get_size() : Size(0, 0);
+  return Size(LOGICAL_WIDTH, LOGICAL_HEIGHT);
+}
+
+Size
+Display::get_physical_size()
+{
+  return s_framebuffer.get() ? s_framebuffer->get_size() : Size(LOGICAL_WIDTH, LOGICAL_HEIGHT);
 }
 
 void
@@ -67,7 +73,7 @@ Display::resize(const Size& size_)
   Display::set_video_mode(size, is_fullscreen(), true);
 
   if (ScreenManager::instance())
-    ScreenManager::instance()->resize(size);
+    ScreenManager::instance()->resize(Size(LOGICAL_WIDTH, LOGICAL_HEIGHT));
 }
 
 bool
@@ -131,7 +137,9 @@ Display::set_video_mode(const Size& size, bool fullscreen, bool resizable)
 
   if (ScreenManager::instance())
   {
-    ScreenManager::instance()->resize(s_framebuffer->get_size());
+    // Always notify screens using logical resolution, not physical framebuffer
+    // size. Screens lay out their content in logical coordinate space.
+    ScreenManager::instance()->resize(Size(LOGICAL_WIDTH, LOGICAL_HEIGHT));
   }
 }
 

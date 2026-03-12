@@ -19,7 +19,8 @@ namespace pingus {
 class SDLFramebuffer : public Framebuffer
 {
 private:
-  SDL_Surface* screen;
+  SDL_Surface* screen;          // physical display surface
+  SDL_Surface* logical_surface; // 800x600 offscreen render target
   std::vector<SDL_Rect> cliprect_stack;
 
 public:

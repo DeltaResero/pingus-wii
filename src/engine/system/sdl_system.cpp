@@ -31,6 +31,10 @@ SDLSystem::SDLSystem()
   // Initialize WPAD before SDL on Wii
   WPAD_Init();
   WPAD_SetDataFormat(WPAD_CHAN_ALL, WPAD_FMT_BTNS_ACC_IR);
+  // Keep VRes at the physical framebuffer size. SDL on Wii caps mouse event
+  // coordinates to the physical resolution before delivering them, so setting
+  // VRes larger than 640x480 would cause the upper range to be silently clipped.
+  // Scaling from physical to logical space is handled in sdl_driver.cpp instead.
   WPAD_SetVRes(WPAD_CHAN_ALL, 640, 480);
 
   log_info("Wii Remote initialized");

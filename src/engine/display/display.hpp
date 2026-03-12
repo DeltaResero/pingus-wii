@@ -32,11 +32,18 @@ private:
   static std::unique_ptr<Framebuffer> s_framebuffer;
 
 public:
+  // Logical resolution: the coordinate space the game always thinks it is running
+  // in, regardless of the physical framebuffer size. All UI layout, gameplay
+  // cameras, and input coordinates use these values.
+  static constexpr int LOGICAL_WIDTH  = 800;
+  static constexpr int LOGICAL_HEIGHT = 600;
+
   static void flip_display();
 
-  static int  get_width();
-  static int  get_height();
-  static Size get_size();
+  static int  get_width();          // returns LOGICAL_WIDTH
+  static int  get_height();         // returns LOGICAL_HEIGHT
+  static Size get_size();           // returns (LOGICAL_WIDTH, LOGICAL_HEIGHT)
+  static Size get_physical_size();  // returns actual framebuffer pixel dimensions
 
   static void create_window(FramebufferType framebuffer_type, const Size& size, bool fullscreen, bool resizable);
   static void set_video_mode(const Size& size, bool fullscreen, bool resizable);
