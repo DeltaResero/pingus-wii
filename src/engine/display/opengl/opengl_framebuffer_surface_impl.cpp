@@ -126,6 +126,40 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
 
       SDL_BlitSurface(src, &src_rect, convert, &dst_rect);
 
+      // Alpha bleed: fill transparent pixels with the colour of their nearest
+      // opaque neighbour. Colorkey blits leave transparent pixels as (0,0,0,0),
+      // so GL_LINEAR at non-native scales blends opaque content with transparent
+      // black, producing a dark fringe along every transparency boundary.
+      // Four axis-aligned passes propagate opaque colours into all transparent
+      // regions in O(w*h) time without allocating additional memory.
+      if (has_alpha && convert->format->BytesPerPixel == 4) {
+        SDL_LockSurface(convert);
+        Uint8* px    = static_cast<Uint8*>(convert->pixels);
+        int    bpp   = convert->format->BytesPerPixel;
+        int    pitch = convert->pitch;
+        int    a_off = convert->format->Ashift / 8;
+
+        auto get_alpha = [&](int x, int y) -> Uint8 {
+          return px[y * pitch + x * bpp + a_off];
+        };
+        auto copy_rgb = [&](int dx, int dy, int sx, int sy) {
+          Uint8*       d = px + dy * pitch + dx * bpp;
+          const Uint8* s = px + sy * pitch + sx * bpp;
+          for (int b = 0; b < bpp; ++b)
+            if (b != a_off) d[b] = s[b];
+        };
+
+        int W = tile.texture_size.width;
+        int H = tile.texture_size.height;
+
+        for (int ty = 1;   ty < H;  ++ty) for (int tx = 0;   tx < W;  ++tx) if (get_alpha(tx,ty)==0 && get_alpha(tx,ty-1)>0) copy_rgb(tx,ty,tx,ty-1); // top-down
+        for (int ty = H-2; ty >= 0; --ty) for (int tx = 0;   tx < W;  ++tx) if (get_alpha(tx,ty)==0 && get_alpha(tx,ty+1)>0) copy_rgb(tx,ty,tx,ty+1); // bottom-up
+        for (int ty = 0;   ty < H;  ++ty) for (int tx = 1;   tx < W;  ++tx) if (get_alpha(tx,ty)==0 && get_alpha(tx-1,ty)>0) copy_rgb(tx,ty,tx-1,ty); // left-right
+        for (int ty = 0;   ty < H;  ++ty) for (int tx = W-2; tx >= 0; --tx) if (get_alpha(tx,ty)==0 && get_alpha(tx+1,ty)>0) copy_rgb(tx,ty,tx+1,ty); // right-left
+
+        SDL_UnlockSurface(convert);
+      }
+
       // Restore alpha settings
       if (src->format->Amask != 0) {
         SDL_SetAlpha(src, saved_flags, saved_alpha);

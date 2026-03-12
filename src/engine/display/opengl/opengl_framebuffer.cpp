@@ -222,11 +222,21 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     int draw_width = intersection.get_width();
     int draw_height = intersection.get_height();
 
-    // Calculate UV coordinates using pre-calculated reciprocals
-    float u1 = static_cast<float>(intersection.left - tile.rect.left) * tile.u_scale;
-    float v1 = static_cast<float>(intersection.top  - tile.rect.top)  * tile.v_scale;
-    float u2 = static_cast<float>(intersection.right - tile.rect.left) * tile.u_scale;
-    float v2 = static_cast<float>(intersection.bottom - tile.rect.top) * tile.v_scale;
+    // Calculate UV coordinates from tile-local pixel offsets.
+    // When texture_size exceeds the content area (POT padding), inset u2/v2
+    // by 0.5 texels at the content boundary. Without this, GL_LINEAR blends
+    // the last content row/column with the transparent padding region,
+    // producing a dark seam at the sprite edge.
+    float u1 = static_cast<float>(intersection.left   - tile.rect.left) * tile.u_scale;
+    float v1 = static_cast<float>(intersection.top    - tile.rect.top)  * tile.v_scale;
+    float u2 = static_cast<float>(intersection.right  - tile.rect.left) * tile.u_scale;
+    float v2 = static_cast<float>(intersection.bottom - tile.rect.top)  * tile.v_scale;
+    if (intersection.right  == tile.rect.right  &&
+        tile.texture_size.width  > tile.rect.get_width())
+      u2 -= 0.5f * tile.u_scale;
+    if (intersection.bottom == tile.rect.bottom &&
+        tile.texture_size.height > tile.rect.get_height())
+      v2 -= 0.5f * tile.v_scale;
 
     // Only bind texture if it's different from the last one
     if (m_last_texture_id != tile.handle)
