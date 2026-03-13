@@ -137,7 +137,12 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
         Uint8* px    = static_cast<Uint8*>(convert->pixels);
         int    bpp   = convert->format->BytesPerPixel;
         int    pitch = convert->pitch;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        int    a_off = 3 - (convert->format->Ashift / 8);
+#else
         int    a_off = convert->format->Ashift / 8;
+#endif
 
         auto get_alpha = [&](int x, int y) -> Uint8 {
           return px[y * pitch + x * bpp + a_off];
