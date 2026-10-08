@@ -27,7 +27,8 @@ private:
   Sprite highlight_green_dot_sur;
   Sprite highlight_red_dot_sur;
 
-  PingusLevel plf;
+  std::string resname;
+  std::string levelname;
 
 public:
   LevelDot(const FileReader& reader);
@@ -36,7 +37,7 @@ public:
   void draw_hover(DrawingContext& gc);
 
   void update(float delta);
-  PingusLevel get_plf () const { return plf; }
+  PingusLevel get_plf () const;
   void on_click();
 
   bool is_finished() const override;
