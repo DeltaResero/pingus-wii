@@ -11,7 +11,10 @@
 
 #include "pingus/plf_res_mgr.hpp"
 
+#include <stdexcept>
+
 #include "pingus/globals.hpp"
+#include "util/file_reader.hpp"
 #include "util/log.hpp"
 #include "util/pathname.hpp"
 #include "util/system.hpp"
@@ -88,6 +91,21 @@ PLFResMgr::load_plf(const std::string& res_name)
   return load_plf_raw(res_name, Pathname("levels/" + res_name + ".pingus", Pathname::DATA_PATH));
 }
 
+std::string
+PLFResMgr::load_levelname(const std::string& res_name)
+{
+  PLFMap::iterator i = plf_map.find(res_name);
+  if (i != plf_map.end())
+    return i->second.plf.get_levelname();
+
+  FileReader reader = FileReader::parse(Pathname("levels/" + res_name + ".pingus", Pathname::DATA_PATH));
+  FileReader head;
+  std::string levelname;
+  if (reader.get_name() != "pingus-level" || !reader.read_section("head", head))
+    throw std::runtime_error("not a pingus-level file: " + res_name);
+  head.read_string("levelname", levelname);
+  return levelname;
+}
 
 void
 PLFResMgr::clear()

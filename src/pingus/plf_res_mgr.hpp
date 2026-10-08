@@ -46,6 +46,10 @@ public:
   */
   static PingusLevel load_plf(const std::string& res_name);
 
+  /** @returns only the (head (levelname ...)) of a level, without
+      checksumming it or adding it to the cache */
+  static std::string load_levelname(const std::string& res_name);
+
   /** @return a handle to the PLF, instead of loading it from a
       res_name, load it from a system dependend filename
 
