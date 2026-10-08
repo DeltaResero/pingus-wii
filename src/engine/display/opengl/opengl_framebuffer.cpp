@@ -62,15 +62,10 @@ OpenGLFramebuffer::set_video_mode(const Size& size, bool fullscreen, bool resiza
 
   Uint32 flags = SDL_WINDOW_OPENGL;
 
-#ifdef __WII__
-  // Wii always runs fullscreen
-  flags |= SDL_WINDOW_FULLSCREEN;
-#else
   if (fullscreen)
     flags |= SDL_WINDOW_FULLSCREEN;
   else if (resizable)
     flags |= SDL_WINDOW_RESIZABLE;
-#endif
 
   if (m_window == nullptr)
   {
