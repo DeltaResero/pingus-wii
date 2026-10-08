@@ -43,7 +43,7 @@ WorldmapComponent::draw (DrawingContext& gc)
 
   worldmap->draw(scene_context->color());
 
-  gc.draw(new SceneContextDrawingRequest(scene_context.get(), Vector2i(0,0), -1000));
+  gc.draw_pooled<SceneContextDrawingRequest>(scene_context.get(), Vector2i(0,0), -1000.0f);
 
   scene_context->pop_modelview();
 

@@ -60,7 +60,9 @@ public:
   void clear();
 
   /*{ */
-  void draw(DrawingRequest* request);
+  /** Builds a C in the request pool, which clear() reclaims every frame */
+  template<class C, class A1, class A2, class A3>
+  void draw_pooled(const A1& a1, const A2& a2, const A3& a3) { draw(request_pool.create<C>(a1, a2, a3)); }
 
   /** Inserts another DrawingContext into the pipeline, translation is
       ignored. DrawingContext ownership is transfered to this
@@ -112,6 +114,9 @@ public:
   void update_layout() {}
 
 private:
+  /** Raw requests must come from request_pool, or nothing frees them */
+  void draw(DrawingRequest* request);
+
   DrawingContext (const DrawingContext&);
   DrawingContext& operator= (const DrawingContext&);
 };

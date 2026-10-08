@@ -66,7 +66,7 @@ Playfield::draw(DrawingContext& gc)
 
   state.pop(*scene_context);
 
-  gc.draw(new SceneContextDrawingRequest(scene_context.get(), Vector2i(0,0), -10000));
+  gc.draw_pooled<SceneContextDrawingRequest>(scene_context.get(), Vector2i(0,0), -10000.0f);
 
   gc.push_modelview();
   gc.translate(rect.left, rect.top);

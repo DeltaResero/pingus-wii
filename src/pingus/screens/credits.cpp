@@ -183,7 +183,7 @@ Credits::draw_background (DrawingContext& gc)
     scene_context->color().print_center(line.font, Vector2i(x, y + static_cast<int>(line.relative_y)), line.text);
   }
 
-  gc.draw(new SceneContextDrawingRequest(scene_context.get(), Vector2i(0,0), 100));
+  gc.draw_pooled<SceneContextDrawingRequest>(scene_context.get(), Vector2i(0,0), 100.0f);
 }
 
 void
