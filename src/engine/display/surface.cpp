@@ -85,8 +85,12 @@ Surface::Surface(int width, int height, SDL_Palette* palette, int colorkey) :
   else
   {
     impl->surface = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
-    SDL_SetColorKey(impl->surface, SDL_TRUE, static_cast<Uint32>(colorkey));
+    if (impl->surface)
+      SDL_SetColorKey(impl->surface, SDL_TRUE, static_cast<Uint32>(colorkey));
   }
+
+  if (!impl->surface)
+    throw std::runtime_error(std::format("Surface: couldn't create {}x{} surface: {}", width, height, SDL_GetError()));
 
   SDL_SetPaletteColors(impl->surface->format->palette, palette->colors, 0, palette->ncolors);
 }
@@ -101,6 +105,8 @@ Surface::Surface(int width, int height) :
                                        0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
 #endif
     );
+  if (!impl->surface)
+    throw std::runtime_error(std::format("Surface: couldn't create {}x{} surface: {}", width, height, SDL_GetError()));
   //SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 0, 0));
 }
 

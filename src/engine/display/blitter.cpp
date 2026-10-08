@@ -13,10 +13,24 @@
 #include "engine/display/blitter_impl.hpp"
 
 #include <cassert>
+#include <stdexcept>
+#include <string>
 
 #include "engine/display/surface.hpp"
 
 namespace pingus {
+
+namespace {
+
+/** SDL hands back NULL when it runs out of memory; refuse to pass that on */
+SDL_Surface* checked(SDL_Surface* surface)
+{
+  if (!surface)
+    throw std::runtime_error(std::string("Blitter: couldn't create surface: ") + SDL_GetError());
+  return surface;
+}
+
+} // namespace
 
 
 SDL_Surface*
@@ -32,7 +46,7 @@ Blitter::scale_surface(SDL_Surface* surface, int width, int height)
     Uint32 colorkey = 0;
     bool useckey = (SDL_GetColorKey(surface, &colorkey) == 0);
 
-    new_surface = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
+    new_surface = checked(SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0));
     if (useckey)
       SDL_SetColorKey(new_surface, SDL_TRUE, colorkey);
 
@@ -63,12 +77,12 @@ Blitter::scale_surface(SDL_Surface* surface, int width, int height)
   }
   else
   {
-    new_surface = SDL_CreateRGBSurface(0, width, height,
-                                       surface->format->BitsPerPixel,
-                                       surface->format->Rmask,
-                                       surface->format->Gmask,
-                                       surface->format->Bmask,
-                                       surface->format->Amask);
+    new_surface = checked(SDL_CreateRGBSurface(0, width, height,
+                                               surface->format->BitsPerPixel,
+                                               surface->format->Rmask,
+                                               surface->format->Gmask,
+                                               surface->format->Bmask,
+                                               surface->format->Amask));
 
     SDL_LockSurface(surface);
     SDL_LockSurface(new_surface);
@@ -98,36 +112,36 @@ Blitter::scale_surface(SDL_Surface* surface, int width, int height)
 SDL_Surface*
 Blitter::create_surface_rgba(int w, int h)
 {
-  return SDL_CreateRGBSurface(0, w, h, 32,
+  return checked(SDL_CreateRGBSurface(0, w, h, 32,
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff
 #else
                               0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
 #endif
-    );
+    ));
 }
 
 SDL_Surface*
 Blitter::create_surface_rgb(int w, int h)
 {
-  return SDL_CreateRGBSurface(0, w, h, 24,
+  return checked(SDL_CreateRGBSurface(0, w, h, 24,
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
                               0xff0000, 0x00ff00, 0x0000ff, 0x000000
 #else
                               0x0000ff, 0x00ff00, 0xff0000, 0x000000
 #endif
-    );
+    ));
 }
 
 SDL_Surface*
 Blitter::create_surface_from_format(SDL_Surface* surface, int w, int h)
 {
-  SDL_Surface* new_surface = SDL_CreateRGBSurface(0, w, h,
+  SDL_Surface* new_surface = checked(SDL_CreateRGBSurface(0, w, h,
                               surface->format->BitsPerPixel,
                               surface->format->Rmask,
                               surface->format->Gmask,
                               surface->format->Bmask,
-                              surface->format->Amask);
+                              surface->format->Amask));
 
   // Propagate palette (for indexed/paletted surfaces)
   if (surface->format->palette && new_surface->format->palette)
