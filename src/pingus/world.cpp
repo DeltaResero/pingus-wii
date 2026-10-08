@@ -54,22 +54,36 @@ World::World(const PingusLevel& plf) :
 {
   WorldObj::set_world(this);
 
-  log_debug("create particle holder");
+  try
+  {
+    world_obj.push_back(gfx_map);
 
-  // These get deleted via the world_obj vector in the destructor
-  pingu_particle_holder = new particles::PinguParticleHolder();
-  rain_particle_holder  = new particles::RainParticleHolder();
-  smoke_particle_holder = new particles::SmokeParticleHolder();
-  snow_particle_holder  = new particles::SnowParticleHolder();
+    log_debug("create particle holder");
 
-  world_obj.push_back(gfx_map);
+    // These get deleted via the world_obj vector in the destructor
+    pingu_particle_holder = new particles::PinguParticleHolder();
+    world_obj.push_back(pingu_particle_holder);
+    rain_particle_holder  = new particles::RainParticleHolder();
+    world_obj.push_back(rain_particle_holder);
+    smoke_particle_holder = new particles::SmokeParticleHolder();
+    world_obj.push_back(smoke_particle_holder);
+    snow_particle_holder  = new particles::SnowParticleHolder();
+    world_obj.push_back(snow_particle_holder);
 
-  world_obj.push_back(pingu_particle_holder);
-  world_obj.push_back(rain_particle_holder);
-  world_obj.push_back(smoke_particle_holder);
-  world_obj.push_back(snow_particle_holder);
-
-  init_worldobjs(plf);
+    init_worldobjs(plf);
+  }
+  catch (...)
+  {
+    // ~World() won't run for a half-built World, so free what it owns
+    // here or a level that fails to load keeps its ground map forever.
+    if (std::find(world_obj.begin(), world_obj.end(), gfx_map) == world_obj.end())
+      delete gfx_map;
+    if (std::find(world_obj.begin(), world_obj.end(), pingus) == world_obj.end())
+      delete pingus;
+    for (WorldObjIter it = world_obj.begin(); it != world_obj.end(); ++it)
+      delete *it;
+    throw;
+  }
 }
 
 void
