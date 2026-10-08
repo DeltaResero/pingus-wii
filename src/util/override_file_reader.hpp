@@ -1,4 +1,4 @@
-// src/util/overrride_file_reader.hpp
+// src/util/override_file_reader.hpp
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Pingus - A free Lemmings clone

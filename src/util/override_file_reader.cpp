@@ -1,4 +1,4 @@
-// src/util/overrride_file_reader.cpp
+// src/util/override_file_reader.cpp
 // SPDX-License-Identifier: GPL-3.0-or-later
 //
 // Pingus - A free Lemmings clone
@@ -9,7 +9,7 @@
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-#include "util/overrride_file_reader.hpp"
+#include "util/override_file_reader.hpp"
 
 #include "util/file_reader_impl.hpp"
 #include "util/log.hpp"

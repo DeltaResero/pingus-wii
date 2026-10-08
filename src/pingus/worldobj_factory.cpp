@@ -37,7 +37,7 @@
 #include "pingus/worldobjs/teleporter.hpp"
 #include "pingus/worldobjs/teleporter_target.hpp"
 #include "util/log.hpp"
-#include "util/overrride_file_reader.hpp"
+#include "util/override_file_reader.hpp"
 
 using namespace pingus::worldobjs;
 
