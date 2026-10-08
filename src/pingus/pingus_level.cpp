@@ -180,7 +180,7 @@ PingusLevel::get_objects() const
   return impl->objects;
 }
 
-const std::string
+const std::string&
 PingusLevel::get_resname() const
 {
   return impl->resname;
