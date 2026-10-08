@@ -19,6 +19,7 @@
 #include "pingus/fonts.hpp"
 #include "pingus/game_time.hpp"
 #include "pingus/screens/game_session.hpp"
+#include "util/log.hpp"
 #include "util/string_util.hpp"
 
 namespace pingus {
@@ -284,7 +285,15 @@ ResultScreen::on_startup()
 void
 ResultScreen::retry_level()
 {
-  ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(result.plf, true));
+  try
+  {
+    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(result.plf, true));
+  }
+  catch(const std::exception& err)
+  {
+    log_error("couldn't restart level {}: {}", result.plf.get_resname(), err.what());
+    ScreenManager::instance()->pop_screen();
+  }
 }
 
 void

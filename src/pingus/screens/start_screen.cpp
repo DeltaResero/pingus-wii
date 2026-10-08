@@ -21,6 +21,7 @@
 #include "pingus/globals.hpp"
 #include "pingus/screens/game_session.hpp"
 #include "pingus/string_format.hpp"
+#include "util/log.hpp"
 #include "util/string_util.hpp"
 
 namespace pingus {
@@ -232,7 +233,16 @@ StartScreen::on_escape_press()
 void
 StartScreen::start_game()
 {
-  ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(plf, true));
+  try
+  {
+    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(plf, true));
+  }
+  catch(const std::exception& err)
+  {
+    // Out of memory on a big level shouldn't take the whole game down
+    log_error("couldn't start level {}: {}", plf.get_resname(), err.what());
+    ScreenManager::instance()->pop_screen();
+  }
 }
 
 void
