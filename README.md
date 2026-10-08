@@ -37,7 +37,7 @@ This port is designed for use through the [Homebrew Channel](http://wiibrew.org/
 
 This repository updates the port to be based on the upstream slightly newer release branch
 [0.7.7](https://github.com/Pingus/pingus/tree/release-0.7.7). When cross compiling for Wii,
-it relies on [SDL 1.2 for Wii](https://github.com/devkitPro/SDL/tree/ogc-sdl-1.2) and uses
+it relies on [SDL2 for Wii](https://github.com/devkitPro/SDL) and uses
 [OpenGL (via OpenGX)](https://github.com/devkitPro/opengx) for hardware-accelerated graphics.
 The [original Pingus](https://github.com/Pingus/pingus) repository is hosted on
 [GitHub](https://github.com/). For more information about the game, please visit the official
@@ -158,9 +158,9 @@ wii-pkg-config
 ```
 libogc
 libfat-ogc
-wii-sdl
-wii-sdl_image
-wii-sdl_mixer
+wii-sdl2
+wii-sdl2_image
+wii-sdl2_mixer
 ```
 
 **Graphics & Compression:**
@@ -255,9 +255,9 @@ level editor, append the following flag to your `cmake` command: `-DWITH_EDITOR=
 
    **Required Libraries:**
    ```
-   SDL 1.2
-   SDL_image
-   SDL_mixer
+   SDL2
+   SDL2_image
+   SDL2_mixer
    libpng
    zlib
    ```
@@ -301,9 +301,6 @@ Pingus supports multiple rendering backends which can be selected at runtime usi
   for compatibility.
 - **opengl:** Uses hardware acceleration to render graphics. It is much faster than the
   SDL renderer and is recommended if your hardware supports OpenGL.
-- **delta:** Uses SDL but attempts to optimize performance by only re-rendering screen
-  elements that have changed. Some effects (like scrolling backgrounds) are disabled in
-  this mode to maximize performance.
 
 ## Bug Reporting
 
