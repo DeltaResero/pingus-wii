@@ -12,7 +12,6 @@
 #ifndef HEADER_PINGUS_PINGUS_LEVELSET_HPP
 #define HEADER_PINGUS_PINGUS_LEVELSET_HPP
 
-#include <optional>
 
 #include "engine/display/sprite.hpp"
 #include "pingus/pingus_level.hpp"
@@ -38,16 +37,8 @@ public:
       finished()
     {}
 
-    /** Returns the PingusLevel, loading it from disk on first call. */
-    const PingusLevel& get_plf() const
-    {
-      if (!m_plf)
-        m_plf = PLFResMgr::load_plf(resname);
-      return *m_plf;
-    }
-
-  private:
-    mutable std::optional<PingusLevel> m_plf;
+    /** Loads the PingusLevel on demand; nothing keeps it once the caller is done. */
+    PingusLevel get_plf() const { return PLFResMgr::load_plf(resname); }
   };
 
 private:
