@@ -51,7 +51,9 @@ GameSession::GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen
   fast_forward(false),
   single_step(false)
 {
-  server = std::unique_ptr<Server>(new Server(plf, true));
+  // Demos are a developer tool; recording one on every play fills the
+  // SD card with files nothing ever cleans up.
+  server = std::unique_ptr<Server>(new Server(plf, globals::developer_mode));
 
   // the world is initially on time
   world_delay = 0;
