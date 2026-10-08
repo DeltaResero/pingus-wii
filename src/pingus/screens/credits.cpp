@@ -59,9 +59,10 @@ private:
   CreditsOkButton & operator=(const CreditsOkButton&);
 };
 
-Credits::Credits(const Pathname& filename) :
+Credits::Credits(const Pathname& filename, bool after_final_story) :
   scene_context(),
   fast_scrolling(false),
+  m_after_final_story(after_final_story),
   background("core/menu/wood"),
   blackboard("core/menu/blackboard"),
   pingu("core/misc/creditpingu"),
@@ -209,7 +210,7 @@ Credits::on_escape_press ()
 {
   bool credits_seen = false;
   StatManager::instance()->get_bool("credits-seen", credits_seen);
-  if (!credits_seen)
+  if (m_after_final_story && !credits_seen)
   {
     ScreenManager::instance ()->pop_screen ();
   }

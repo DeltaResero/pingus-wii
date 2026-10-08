@@ -31,6 +31,11 @@ private:
   std::unique_ptr<SceneContext> scene_context;
 
   bool fast_scrolling;
+
+  /** Shown on top of the worldmap after the final story; leaving for the
+      first time also leaves the finished worldmap. */
+  bool m_after_final_story;
+
   Sprite background;
   Sprite blackboard;
   Sprite pingu;
@@ -54,7 +59,7 @@ private:
   std::vector<CreditLine> credits;
 
 public:
-  Credits(const Pathname& filename);
+  Credits(const Pathname& filename, bool after_final_story = false);
   virtual ~Credits();
 
   void update(float);
