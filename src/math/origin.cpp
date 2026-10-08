@@ -24,7 +24,7 @@
 //   Magnus Norddahl
 //   (if your name is missing here, please add it)
 
-#include <assert.h>
+#include <stdexcept>
 
 #include "math/origin.hpp"
 
@@ -86,7 +86,7 @@ std::string origin2string(Origin origin)
       return "bottom_right";
 
     default:
-      assert(!"never reached");
+      throw std::invalid_argument("origin2string: unknown origin");
   }
 }
 
