@@ -11,6 +11,7 @@
 
 #include "pingus/pingus_main.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <signal.h>
@@ -118,8 +119,10 @@ PingusMain::apply_args()
   if (options.developer_mode.is_set())
     globals::developer_mode = options.developer_mode.get();
 
+  // game_speed is milliseconds per world tick; 0 would stall the update
+  // loop and divide by zero, so use the same floor as the keypad + key.
   if (options.speed.is_set())
-    globals::game_speed = options.speed.get();
+    globals::game_speed = std::max(5, options.speed.get());
 
   if (options.desiredfps.is_set())
     globals::desired_fps = options.desiredfps.get();
@@ -182,7 +185,7 @@ PingusMain::parse_args(int argc, char** argv)
   argp.add_option(334, "developer-mode", "",
                   "Enables some special features for developers");
   argp.add_option('t', "speed", "SPEED",
-                  "Set the game speed (0=fastest, >0=slower)");
+                  "Set milliseconds per game tick (default: 20, minimum: 5, lower=faster)");
   argp.add_option('k', "fps", "FPS",
                   "Set the desired game framerate (frames per second)");
   argp.add_option(344, "tile-size", "INT",
