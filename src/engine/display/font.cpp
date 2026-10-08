@@ -30,12 +30,6 @@
 namespace pingus {
 
 #ifdef HAVE_OPENGL
-#ifdef __WII__
-#  include <GL/gl.h>
-#else
-#  include <SDL_opengl.h>
-#endif
-
 struct GlyphVertex {
   GLfloat x, y;
   GLfloat u, v;
