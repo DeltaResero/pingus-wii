@@ -36,6 +36,7 @@ public:
   void put(Surface, int x, int y);
 
   const Sprite& get_sprite();
+  void release_sprite();
 };
 
 MapTile::MapTile () :
@@ -84,13 +85,24 @@ MapTile::get_sprite()
   }
 }
 
+void
+MapTile::release_sprite()
+{
+  if (surface)
+  {
+    sprite = Sprite();
+    sprite_needs_update = true;
+  }
+}
+
 GroundMap::GroundMap(int width_, int height_) :
   colmap(),
   tiles(),
   width(width_),
   height(height_),
   tile_width(),
-  tile_height()
+  tile_height(),
+  drawn_tiles(0, 0, -1, -1)
 {
   colmap.reset(new CollisionMap(width, height));
 
@@ -138,10 +150,20 @@ GroundMap::draw(SceneContext& gc)
   int start_y = std::max(0, display.top  / globals::tile_size);
   int tilemap_width  = display.get_width()  / globals::tile_size + 1;
   int tilemap_height = display.get_height() / globals::tile_size + 1;
+  int last_x = std::min(start_x + tilemap_width,  tile_width  - 1);
+  int last_y = std::min(start_y + tilemap_height, tile_height - 1);
+  Rect visible(start_x, start_y, last_x, last_y);
+
+  // Tiles that scrolled out of view give their textures back
+  for (int x = drawn_tiles.left; x <= drawn_tiles.right; ++x)
+    for (int y = drawn_tiles.top; y <= drawn_tiles.bottom; ++y)
+      if (!visible.contains(Vector2i(x, y)))
+        get_tile(x, y)->release_sprite();
+  drawn_tiles = visible;
 
   // drawing the stuff
-  for (int x = start_x; x <= (start_x + tilemap_width) && x < tile_width; ++x)
-    for (int y = start_y; y <= start_y + tilemap_height && y < tile_height; ++y)
+  for (int x = start_x; x <= last_x; ++x)
+    for (int y = start_y; y <= last_y; ++y)
     {
       if (get_tile(x, y)->get_sprite())
       {

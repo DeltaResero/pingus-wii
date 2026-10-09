@@ -15,6 +15,7 @@
 #include <memory>
 
 #include "engine/display/surface.hpp"
+#include "math/rect.hpp"
 #include "pingus/globals.hpp"
 #include "pingus/worldobj.hpp"
 
@@ -44,6 +45,9 @@ private:
 
   int tile_width;
   int tile_height;
+
+  /** Tiles drawn last frame, inclusive, in tile coordinates */
+  Rect drawn_tiles;
 
 public:
   GroundMap(int width, int height);
