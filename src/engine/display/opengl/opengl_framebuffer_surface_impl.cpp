@@ -65,8 +65,6 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
       tile.u_scale = 1.0f / static_cast<float>(tile.texture_size.width);
       tile.v_scale = 1.0f / static_cast<float>(tile.texture_size.height);
 
-      glGenTextures(1, &tile.handle);
-
       // Determine format: check for per-pixel alpha AND colorkey transparency
       Uint32 colorkey_val = 0;
       bool has_colorkey = (SDL_GetColorKey(src, &colorkey_val) == 0);
@@ -164,6 +162,15 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
       // Restore the original blend mode
       SDL_SetSurfaceBlendMode(src, saved_blend);
 
+      // OpenGX leaves the handle unwritten once its texture slots run out
+      tile.handle = 0;
+      glGenTextures(1, &tile.handle);
+      if (tile.handle == 0) {
+        log_error("Out of GL texture names, leaving a {}x{} tile blank", w, h);
+        SDL_FreeSurface(convert);
+        continue;
+      }
+
       glBindTexture(GL_TEXTURE_2D, tile.handle);
 
       // Critical fix for "garbage" graphics: Tell GL about row alignment
@@ -177,14 +184,23 @@ OpenGLFramebufferSurfaceImpl::OpenGLFramebufferSurfaceImpl(SDL_Surface* src) :
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+      while (glGetError() != GL_NO_ERROR) {}
+
       SDL_LockSurface(convert);
       glTexImage2D(GL_TEXTURE_2D, 0, gl_format,
                    tile.texture_size.width, tile.texture_size.height, 0,
                    gl_format, gl_type, convert->pixels);
+      bool upload_failed = (glGetError() == GL_OUT_OF_MEMORY);
       SDL_UnlockSurface(convert);
 
       glPixelStorei(GL_UNPACK_ROW_LENGTH, 0); // Reset state
       SDL_FreeSurface(convert);
+
+      if (upload_failed) {
+        log_error("Out of memory for a {}x{} GL texture, leaving it blank", w, h);
+        glDeleteTextures(1, &tile.handle);
+        continue;
+      }
 
       m_tiles.push_back(tile);
     }
