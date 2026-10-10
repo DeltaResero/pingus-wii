@@ -45,6 +45,8 @@ public:
   int get_height() const;
 
   void render(int x, int y, Framebuffer& target);
+  /** Draws the current frame stretched to \a size */
+  void render(int x, int y, const Size& size, Framebuffer& target);
   void update(float delta = 0.033f);
 
   void set_hotspot(Origin origin, int x, int y);

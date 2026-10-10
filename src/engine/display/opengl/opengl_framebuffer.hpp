@@ -57,6 +57,7 @@ public:
 
   void draw_surface(const FramebufferSurface& src, Vector2i pos);
   void draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos);
+  void draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Rect& dstrect);
 
   void draw_line(Vector2i pos1, Vector2i pos2, Color color);
   void draw_rect(const Rect& rect, Color color);

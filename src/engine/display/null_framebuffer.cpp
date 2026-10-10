@@ -98,6 +98,11 @@ NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, const Rect& /*s
 }
 
 void
+NullFramebuffer::draw_surface(const FramebufferSurface& /*src*/, const Rect& /*srcrect*/, const Rect& /*dstrect*/)
+{
+}
+
+void
 NullFramebuffer::draw_line(Vector2i /*pos1*/, Vector2i /*pos2*/, Color /*color*/)
 {
 }

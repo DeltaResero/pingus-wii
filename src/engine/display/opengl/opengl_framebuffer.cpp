@@ -231,6 +231,20 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, Vector2i pos)
 void
 OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos)
 {
+  draw_surface(src, srcrect, Rect(pos, srcrect.get_size()));
+}
+
+void
+OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Rect& dstrect)
+{
+  if (srcrect.get_width() <= 0 || srcrect.get_height() <= 0 ||
+      dstrect.get_width() <= 0 || dstrect.get_height() <= 0)
+    return;
+
+  // Screen pixels per source pixel
+  const float sx = static_cast<float>(dstrect.get_width())  / static_cast<float>(srcrect.get_width());
+  const float sy = static_cast<float>(dstrect.get_height()) / static_cast<float>(srcrect.get_height());
+
   // Ensure texture rendering is enabled
   if (!m_texture_enabled)
   {
@@ -265,10 +279,10 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
       continue;
 
     // Calculate draw position on screen
-    int draw_x = pos.x + (intersection.left - srcrect.left);
-    int draw_y = pos.y + (intersection.top  - srcrect.top);
-    int draw_width = intersection.get_width();
-    int draw_height = intersection.get_height();
+    const float x1 = static_cast<float>(dstrect.left) + static_cast<float>(intersection.left   - srcrect.left) * sx;
+    const float y1 = static_cast<float>(dstrect.top)  + static_cast<float>(intersection.top    - srcrect.top)  * sy;
+    const float x2 = static_cast<float>(dstrect.left) + static_cast<float>(intersection.right  - srcrect.left) * sx;
+    const float y2 = static_cast<float>(dstrect.top)  + static_cast<float>(intersection.bottom - srcrect.top)  * sy;
 
     // Calculate UV coordinates from tile-local pixel offsets.
     float u1 = static_cast<float>(intersection.left   - tile.rect.left) * tile.u_scale;
@@ -293,10 +307,10 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     }
 
     GLfloat vertices[] = {
-      static_cast<GLfloat>(draw_x),              static_cast<GLfloat>(draw_y),
-      static_cast<GLfloat>(draw_x + draw_width), static_cast<GLfloat>(draw_y),
-      static_cast<GLfloat>(draw_x + draw_width), static_cast<GLfloat>(draw_y + draw_height),
-      static_cast<GLfloat>(draw_x),              static_cast<GLfloat>(draw_y + draw_height),
+      x1, y1,
+      x2, y1,
+      x2, y2,
+      x1, y2,
     };
     glVertexPointer(2, GL_FLOAT, 0, vertices);
 

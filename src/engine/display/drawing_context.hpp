@@ -72,6 +72,8 @@ public:
 
   void draw(const Sprite& sprite, Vector2i pos, float z = 0);
   void draw(const Sprite& sprite, Vector3f pos);
+  /** Draws \a sprite stretched to \a size */
+  void draw(const Sprite& sprite, Vector2i pos, const Size& size, float z = 0);
 
   /** Fills the screen with a given color, this is different from
       clear() in that it doesn't remove other DrawingRequest from the

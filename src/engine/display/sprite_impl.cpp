@@ -176,6 +176,19 @@ SpriteImpl::render(int x, int y, Framebuffer& fb)
 }
 
 void
+SpriteImpl::render(int x, int y, const Size& size, Framebuffer& fb)
+{
+  const Vector2i scaled_offset(offset.x * size.width  / frame_size.width,
+                               offset.y * size.height / frame_size.height);
+
+  fb.draw_surface(framebuffer_surface,
+                  Rect(frame_pos + Vector2i(frame_size.width  * (frame%array.width),
+                                            frame_size.height * (frame/array.width)),
+                       frame_size),
+                  Rect(Vector2i(x - scaled_offset.x, y - scaled_offset.y), size));
+}
+
+void
 SpriteImpl::restart()
 {
   finished = false;

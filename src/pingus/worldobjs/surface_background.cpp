@@ -11,6 +11,8 @@
 
 #include "pingus/worldobjs/surface_background.hpp"
 
+#include <algorithm>
+
 #include "engine/display/scene_context.hpp"
 #include "pingus/globals.hpp"
 #include "pingus/resource.hpp"
@@ -29,6 +31,7 @@ SurfaceBackground::SurfaceBackground(const FileReader& reader) :
   stretch_y(false),
   keep_aspect(false),
   bg_sprite(),
+  tile_size(),
   scroll_ox(0),
   scroll_oy(0)
 {
@@ -63,6 +66,7 @@ SurfaceBackground::SurfaceBackground(const FileReader& reader) :
     // FIXME: would be nice to allow surface manipulation with
     // animated sprites, but it's not that easy to do
     bg_sprite = Sprite(desc);
+    tile_size = Size(bg_sprite.get_width(), bg_sprite.get_height());
   }
   else
   {
@@ -82,21 +86,22 @@ SurfaceBackground::SurfaceBackground(const FileReader& reader) :
 
     surface.fill(color);
 
-    // Scaling Code
+    // Stretched at draw time
+    tile_size = surface.get_size();
     if (stretch_x && stretch_y)
     {
-      surface = surface.scale(world->get_width(), world->get_height());
+      tile_size = Size(world->get_width(), world->get_height());
     }
     else if (stretch_x && !stretch_y)
     {
       if (keep_aspect)
       {
         float aspect = static_cast<float>(surface.get_height()) / static_cast<float>(surface.get_width());
-        surface = surface.scale(world->get_width(), static_cast<int>(static_cast<float>(world->get_width()) * aspect));
+        tile_size = Size(world->get_width(), static_cast<int>(static_cast<float>(world->get_width()) * aspect));
       }
       else
       {
-        surface = surface.scale(world->get_width(), surface.get_height());
+        tile_size = Size(world->get_width(), surface.get_height());
       }
     }
     else if (!stretch_x && stretch_y)
@@ -104,11 +109,11 @@ SurfaceBackground::SurfaceBackground(const FileReader& reader) :
       if (keep_aspect)
       {
         float aspect = static_cast<float>(surface.get_width()) / static_cast<float>(surface.get_height());
-        surface = surface.scale(static_cast<int>(static_cast<float>(world->get_height()) * aspect), world->get_height());
+        tile_size = Size(static_cast<int>(static_cast<float>(world->get_height()) * aspect), world->get_height());
       }
       else
       {
-        surface = surface.scale(surface.get_width(), world->get_height());
+        tile_size = Size(surface.get_width(), world->get_height());
       }
     }
 
@@ -134,20 +139,20 @@ SurfaceBackground::update()
   {
     scroll_ox += scroll_x;
 
-    if (scroll_ox > bg_sprite.get_width())
-      scroll_ox -= static_cast<float>(bg_sprite.get_width());
-    else if (-scroll_ox > bg_sprite.get_width())
-      scroll_ox += static_cast<float>(bg_sprite.get_width());
+    if (scroll_ox > tile_size.width)
+      scroll_ox -= static_cast<float>(tile_size.width);
+    else if (-scroll_ox > tile_size.width)
+      scroll_ox += static_cast<float>(tile_size.width);
   }
 
   if (scroll_y)
   {
     scroll_oy += scroll_y;
 
-    if (scroll_oy > bg_sprite.get_height())
-      scroll_oy -= static_cast<float>(bg_sprite.get_height());
-    else if (-scroll_oy > bg_sprite.get_height())
-      scroll_oy += static_cast<float>(bg_sprite.get_height());
+    if (scroll_oy > tile_size.height)
+      scroll_oy -= static_cast<float>(tile_size.height);
+    else if (-scroll_oy > tile_size.height)
+      scroll_oy += static_cast<float>(tile_size.height);
   }
 }
 
@@ -165,35 +170,28 @@ SurfaceBackground::draw (SceneContext& gc)
   int start_x = static_cast<int>((static_cast<float>(offset.x) * para_x) + scroll_ox);
   int start_y = static_cast<int>((static_cast<float>(offset.y) * para_y) + scroll_oy);
 
+  // Start from the tile that covers the visible area's left and top edges
+  start_x %= tile_size.width;
   if (start_x > 0)
-    start_x = (start_x % bg_sprite.get_width()) - bg_sprite.get_width();
+    start_x -= tile_size.width;
 
+  start_y %= tile_size.height;
   if (start_y > 0)
-    start_y = (start_y % bg_sprite.get_height()) - bg_sprite.get_height();
+    start_y -= tile_size.height;
 
-  // Ensure the first tile's left screen edge is at or before x=0 (and
-  // equivalently for y).  When para_x < 1 the background scrolls slower than
-  // the camera: start_x = offset.x * para_x, and for a rightward-scrolled
-  // camera offset.x is negative, so start_x > offset.x.  The first tile's
-  // screen position (start_x - offset.x) is therefore positive, leaving an
-  // uncovered strip along the left edge of the viewport that widens as the
-  // camera moves further right.  The loop below pulls start_x back by one
-  // tile width at a time until the tile is guaranteed to cover screen x=0.
-  while ((start_x - offset.x) > 0)
-    start_x -= bg_sprite.get_width();
+  const int end_x = std::min(world->get_width(),  gc.color().get_width());
+  const int end_y = std::min(world->get_height(), gc.color().get_height());
 
-  while ((start_y - offset.y) > 0)
-    start_y -= bg_sprite.get_height();
+  const bool stretched = (stretch_x || stretch_y);
 
-  for(int y = start_y;
-      y < world->get_height();
-      y += bg_sprite.get_height())
+  for(int y = start_y; y < end_y; y += tile_size.height)
   {
-    for(int x = start_x;
-        x < world->get_width();
-        x += bg_sprite.get_width())
+    for(int x = start_x; x < end_x; x += tile_size.width)
     {
-      gc.color().draw(bg_sprite, Vector2i(x - offset.x, y - offset.y), pos.z);
+      if (stretched)
+        gc.color().draw(bg_sprite, Vector2i(x - offset.x, y - offset.y), tile_size, pos.z);
+      else
+        gc.color().draw(bg_sprite, Vector2i(x - offset.x, y - offset.y), pos.z);
     }
   }
 }

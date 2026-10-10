@@ -14,6 +14,7 @@
 
 #include "math/vector3f.hpp"
 #include "math/color.hpp"
+#include "math/size.hpp"
 #include "pingus/worldobj.hpp"
 
 namespace pingus::worldobjs {
@@ -51,6 +52,9 @@ private:
 
   /** Background image */
   Sprite bg_sprite;
+
+  /** Size of one tile on screen, the image's own size unless stretched */
+  Size tile_size;
 
   /** The horizontal scrolling speed in pixels per tick */
   float scroll_ox;

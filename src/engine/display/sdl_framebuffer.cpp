@@ -71,17 +71,31 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, Vector2i pos)
 void
 SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcrect, Vector2i pos)
 {
+  draw_surface(surface, srcrect, Rect(pos, srcrect.get_size()));
+}
+
+void
+SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcrect, const Rect& dstrect)
+{
   SDLFramebufferSurfaceImpl* impl = dynamic_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
+
+  if (srcrect.get_width() <= 0 || srcrect.get_height() <= 0 ||
+      dstrect.get_width() <= 0 || dstrect.get_height() <= 0)
+    return;
 
   float src_x = (float)srcrect.left;
   float src_y = (float)srcrect.top;
   float src_w = (float)srcrect.get_width();
   float src_h = (float)srcrect.get_height();
 
-  float dst_x = (float)pos.x;
-  float dst_y = (float)pos.y;
-  float dst_w = src_w;
-  float dst_h = src_h;
+  float dst_x = (float)dstrect.left;
+  float dst_y = (float)dstrect.top;
+  float dst_w = (float)dstrect.get_width();
+  float dst_h = (float)dstrect.get_height();
+
+  // Source pixels per screen pixel
+  const float sx = src_w / dst_w;
+  const float sy = src_h / dst_h;
 
   // Software-clip the destination rectangle to the logical screen bounds
   // before submitting geometry to the renderer.
@@ -108,10 +122,10 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcr
   if (dst_x >= cr || dst_y >= cb || dst_x + dst_w <= cl || dst_y + dst_h <= ct)
     return;
 
-  if (dst_x < cl) { float d = cl-dst_x; src_x+=d; src_w-=d; dst_w-=d; dst_x=cl; }
-  if (dst_y < ct) { float d = ct-dst_y; src_y+=d; src_h-=d; dst_h-=d; dst_y=ct; }
-  if (dst_x+dst_w > cr) { float d=(dst_x+dst_w)-cr; src_w-=d; dst_w-=d; }
-  if (dst_y+dst_h > cb) { float d=(dst_y+dst_h)-cb; src_h-=d; dst_h-=d; }
+  if (dst_x < cl) { float d = cl-dst_x; src_x+=d*sx; src_w-=d*sx; dst_w-=d; dst_x=cl; }
+  if (dst_y < ct) { float d = ct-dst_y; src_y+=d*sy; src_h-=d*sy; dst_h-=d; dst_y=ct; }
+  if (dst_x+dst_w > cr) { float d=(dst_x+dst_w)-cr; src_w-=d*sx; dst_w-=d; }
+  if (dst_y+dst_h > cb) { float d=(dst_y+dst_h)-cb; src_h-=d*sy; dst_h-=d; }
 
   if (src_w <= 0.0f || src_h <= 0.0f || dst_w <= 0.0f || dst_h <= 0.0f)
     return;

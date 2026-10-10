@@ -71,6 +71,27 @@ public:
   }
 };
 
+class StretchedSpriteDrawingRequest : public DrawingRequest
+{
+private:
+  Sprite sprite;
+  Size size;
+
+public:
+  StretchedSpriteDrawingRequest(const Sprite& sprite_, Vector2i pos_, const Size& size_, float z_)
+    : DrawingRequest(pos_, z_),
+      sprite(sprite_),
+      size(size_)
+  {
+  }
+
+  virtual ~StretchedSpriteDrawingRequest() {}
+
+  void render(Framebuffer& fb, const Rect& rect) {
+    sprite.render(pos.x + rect.left, pos.y + rect.top, size, fb);
+  }
+};
+
 class FillScreenDrawingRequest : public DrawingRequest
 {
 private:
@@ -255,6 +276,12 @@ DrawingContext::draw(const Sprite& sprite, Vector3f pos)
                                                   Vector2i(translate_stack.back().x + static_cast<int>(pos.x),
                                                           translate_stack.back().y + static_cast<int>(pos.y)),
                                                   pos.z));
+}
+
+void
+DrawingContext::draw(const Sprite& sprite, Vector2i pos, const Size& size, float z)
+{
+  draw(request_pool.create<StretchedSpriteDrawingRequest>(sprite, pos + translate_stack.back(), size, z));
 }
 
 void

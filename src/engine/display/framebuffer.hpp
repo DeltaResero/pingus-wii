@@ -43,6 +43,7 @@ public:
 
   virtual void draw_surface(const FramebufferSurface& src, Vector2i pos) =0;
   virtual void draw_surface(const FramebufferSurface& src, const Rect& srcrect, Vector2i pos) =0;
+  virtual void draw_surface(const FramebufferSurface& src, const Rect& srcrect, const Rect& dstrect) =0;
 
   virtual void draw_line(Vector2i pos1, Vector2i pos2, Color color) =0;
 

@@ -83,6 +83,13 @@ Sprite::render(int x, int y, Framebuffer& fb)
     impl->render(x, y, fb);
 }
 
+void
+Sprite::render(int x, int y, const Size& size, Framebuffer& fb)
+{
+  if (impl.get())
+    impl->render(x, y, size, fb);
+}
+
 int
 Sprite::get_width() const
 {
