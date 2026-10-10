@@ -418,8 +418,6 @@ if(WII_BUILD)
         VERBATIM
     )
 else()
-    # Non-Wii: Create distribution directory in build/dist/pingus-wii/
-    
     # Strip the binary in Release mode
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
         add_custom_command(TARGET pingus POST_BUILD
@@ -427,33 +425,6 @@ else()
             COMMENT "Stripping binary..."
             VERBATIM
         )
-    endif()
-    
-    # Create distribution directory and copy all necessary files
-    add_custom_command(TARGET pingus POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii
-        # Copy binary
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pingus> ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/
-        # Copy data directory
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/data
-        COMMENT "Creating distribution directory in build/dist/pingus-wii/..."
-        VERBATIM
-    )
-    
-    # Copy platform-specific files to distribution directory
-    if(UNIX AND NOT APPLE)
-        # Linux: Copy .desktop file and icon
-        add_custom_command(TARGET pingus POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus-wii.desktop ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/
-            COMMENT "Copying Linux desktop file to dist/pingus-wii/..."
-            VERBATIM
-        )
-        # Note: For later once we separate out from data/ the icon into packaging/linux/, uncomment:
-        # COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus.png ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
-    elseif(WIN32)
-        # Windows: Icon is already compiled into the binary via pingus.rc
-        # No additional files needed in dist, but could copy DLLs here if needed
-        message(STATUS "Windows build: Icon embedded in executable")
     endif()
 endif()
 

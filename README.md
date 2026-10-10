@@ -279,11 +279,18 @@ level editor, append the following flag to your `cmake` command: `-DWITH_EDITOR=
    make -j$(nproc)
    ```
 
+4. Run it from where it was built:
+   ```bash
+   ./pingus-wii
+   ```
+
+   The game reads its data straight from the source tree and does not need installing.
+
 **Important Note on Installation:**
 While `sudo make install` is supported by CMake, it is **not recommended** for this
 project. Installing files directly to your system directories this way without using a
 package manager makes them very difficult to uninstall cleanly later. We strongly recommend
-using the portable method for testing.
+running it from the build directory.
 
 **Note on Other Operating Systems:**
 Support for other platforms (Windows, macOS, BSD) is currently outside the scope of this
