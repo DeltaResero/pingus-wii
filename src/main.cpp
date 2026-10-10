@@ -12,11 +12,24 @@
 #include <SDL2/SDL.h>
 
 #include "pingus/pingus_main.hpp"
+#ifdef __WII__
+#include "util/wii.hpp"
+#endif
 
 int main(int argc, char** argv)
 {
-  pingus::PingusMain app;
-  return app.run(argc, argv);
+#ifdef __WII__
+  pingus::Wii::take_power_buttons();
+#endif
+
+  int result = pingus::PingusMain().run(argc, argv);
+
+#ifdef __WII__
+  // PingusMain has saved everything by now.
+  pingus::Wii::power_off_if_requested();
+#endif
+
+  return result;
 }
 
 // EOF

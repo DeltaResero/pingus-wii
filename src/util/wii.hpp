@@ -46,6 +46,13 @@ std::string get_base_dir();
  *  @throws std::runtime_error if no valid installation is found */
 std::string get_data_dir();
 
+/** Take both power buttons from SDL, so a press quits the game as the reset
+ *  button does instead of powering off mid-frame */
+void take_power_buttons();
+
+/** Power off if a power button was pressed. Doesn't return if so */
+void power_off_if_requested();
+
 } // namespace Wii
 
 #endif // __WII__

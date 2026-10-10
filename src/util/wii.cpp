@@ -18,8 +18,13 @@
 #include <stdexcept>
 
 #include <fat.h>
+#include <ogc/system.h>
 #include <ogc/usbstorage.h>
 #include <sdcard/wiisd_io.h>
+#include <wiiuse/wpad.h>
+
+// SDL's event pump sends SDL_QUIT while this is set.
+extern "C" bool OGC_ResetRequested;
 
 #define CACHE_SIZE 32
 #define SECTOR_SIZE 64
@@ -34,6 +39,9 @@ bool g_sd_mounted = false;
 bool g_usb_mounted = false;
 std::string g_base_dir;
 
+// Set from an interrupt.
+volatile bool g_power_off_requested = false;
+
 bool dir_exists(const std::string& directory)
 {
   DIR* dp = opendir(directory.c_str());
@@ -43,6 +51,17 @@ bool dir_exists(const std::string& directory)
     return true;
   }
   return false;
+}
+
+void on_power_button()
+{
+  g_power_off_requested = true;
+  OGC_ResetRequested = true;
+}
+
+void on_remote_power_button(s32)
+{
+  on_power_button();
 }
 
 } // anonymous namespace
@@ -148,6 +167,25 @@ std::string get_data_dir()
   }
 
   return data_path;
+}
+
+void take_power_buttons()
+{
+  SYS_SetPowerCallback(on_power_button);
+  WPAD_SetPowerButtonCallback(on_remote_power_button);
+}
+
+void power_off_if_requested()
+{
+  if (!g_power_off_requested)
+    return;
+
+  SYS_ResetSystem(SYS_POWEROFF, 0, 0);
+
+  // libogc returns if IOS hasn't cut the power yet, with IOS already gone.
+  while (g_power_off_requested)
+  {
+  }
 }
 
 } // namespace Wii
