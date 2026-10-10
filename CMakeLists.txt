@@ -462,6 +462,12 @@ if(NOT WII_BUILD)
     set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for the binary")
     set(INSTALL_SUBDIR_SHARE "share/games/pingus-wii" CACHE STRING "Installation subdir for data")
 
+    # Where the game looks for its data: the source tree, then the install
+    file(RELATIVE_PATH INSTALL_DATA_FROM_BIN "/${INSTALL_SUBDIR_BIN}" "/${INSTALL_SUBDIR_SHARE}")
+    target_compile_definitions(libpingus PRIVATE
+        BUILD_DATA_DIR="${CMAKE_SOURCE_DIR}/data"
+        INSTALL_DATA_FROM_BIN="${INSTALL_DATA_FROM_BIN}")
+
     install(TARGETS pingus DESTINATION ${INSTALL_SUBDIR_BIN})
     install(DIRECTORY data/ DESTINATION ${INSTALL_SUBDIR_SHARE})
 

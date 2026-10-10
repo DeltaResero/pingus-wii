@@ -61,25 +61,19 @@ namespace pingus {
 namespace {
 
 #ifndef __WII__
-// Beside the binary first, so a portable folder wins over an install.
+// The source tree when built from it, otherwise the installed copy
 std::string find_datadir()
 {
-  char* base_path = SDL_GetBasePath();
-  if (base_path != nullptr)
+  if (System::exist(BUILD_DATA_DIR))
+    return BUILD_DATA_DIR;
+
+  std::string exedir;
+  if (char* base_path = SDL_GetBasePath())
   {
-    std::string exedir = base_path;
+    exedir = base_path;
     SDL_free(base_path);
-
-    for (const char* candidate : { "data", "../share/games/pingus-wii" })
-    {
-      std::string path = Pathname::join(exedir, candidate);
-      if (System::exist(path))
-        return path;
-    }
   }
-
-  // The source tree, when run from it
-  return "data";
+  return Pathname::join(exedir, INSTALL_DATA_FROM_BIN);
 }
 #endif
 
