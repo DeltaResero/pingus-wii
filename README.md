@@ -218,20 +218,18 @@ level editor, append the following flag to your `cmake` command: `-DWITH_EDITOR=
    make -j$(nproc)
    ```
 
-   This will generate `pingus.dol` and a ready-to-deploy folder structure in
-   `build/apps/pingus`.
+   This produces `boot.dol` in the build directory.
 
 <br>
 
 ## Installing Pingus on Wii (Homebrew Channel)
 
-1. The build process automatically creates the necessary folder structure in
-   `build/apps/pingus`.
+1. Create a `pingus` folder under `apps/` on your SD or USB device.
 
-2. Copy the `pingus` folder from `build/apps/` to the `apps/` folder on your SD/USB
-   device.
+2. Copy in the built `boot.dol`, the `data` folder from the source tree, and the icon and
+   metadata from `packaging/wii/`:
    ```
-   SD:/apps/pingus/pingus.dol
+   SD:/apps/pingus/boot.dol
    SD:/apps/pingus/data/
    SD:/apps/pingus/icon.png
    SD:/apps/pingus/meta.xml

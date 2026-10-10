@@ -383,10 +383,8 @@ if(WII_BUILD)
     target_link_options(pingus PRIVATE -Wl,-Map,${CMAKE_CURRENT_BINARY_DIR}/pingus.map)
 endif()
 
-# Post-Build Steps and Distribution Directory Creation
+# Post-Build Steps
 if(WII_BUILD)
-    # Wii: Create Homebrew Channel structure in build/apps/pingus/
-    
     # Strip the ELF binary (Release builds only) to reduce file size
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
         add_custom_command(TARGET pingus POST_BUILD
@@ -404,19 +402,6 @@ if(WII_BUILD)
         COMMENT "Converting ELF to DOL for Homebrew Channel..."
         VERBATIM
     )
-    
-    # Create Homebrew Channel structure
-    add_custom_command(TARGET pingus POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus
-        # Copy binary and data
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/boot.dol ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/boot.dol
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/data
-        # Copy Homebrew Channel metadata (Icon and XML)
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/wii/icon.png ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/icon.png
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/wii/meta.xml ${CMAKE_CURRENT_BINARY_DIR}/apps/pingus/meta.xml
-        COMMENT "Creating Homebrew Channel package in build/apps/pingus/..."
-        VERBATIM
-    )
 else()
     # Strip the binary in Release mode
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
@@ -428,7 +413,7 @@ else()
     endif()
 endif()
 
-# Install targets (Skip for Wii, we build a custom app structure)
+# Install targets (Skip for Wii, its files are copied to the SD card by hand)
 if(NOT WII_BUILD)
     set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for the binary")
     set(INSTALL_SUBDIR_SHARE "share/games/pingus-wii" CACHE STRING "Installation subdir for data")
