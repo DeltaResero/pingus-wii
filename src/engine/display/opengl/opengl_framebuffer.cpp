@@ -165,6 +165,11 @@ void
 OpenGLFramebuffer::flip()
 {
   SDL_GL_SwapWindow(m_window);
+#ifdef __WII__
+  // SDL turns the depth test back on after every frame without telling
+  // OpenGX, and this makes OpenGX send its own setting again.
+  glDisable(GL_DEPTH_TEST);
+#endif
 }
 
 void
