@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Pingus
+Name=Pingus Wii
 Comment=Guide groups of penguins through various obstacles
-Icon=pingus
+Icon=pingus-wii
 Terminal=false
-Exec=pingus %f
+Exec=pingus-wii %f
 Type=Application
 Categories=Game;LogicGame;
 StartupNotify=false

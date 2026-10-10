@@ -371,6 +371,9 @@ endif()
 # Main executable
 add_executable(pingus src/main.cpp)
 target_link_libraries(pingus libpingus)
+if(NOT WII_BUILD)
+    set_target_properties(pingus PROPERTIES OUTPUT_NAME pingus-wii)
+endif()
 
 # Generate a linker map file for Wii builds.
 # When the Wii exception screen shows a crash address, search pingus.map for
@@ -415,7 +418,7 @@ if(WII_BUILD)
         VERBATIM
     )
 else()
-    # Non-Wii: Create distribution directory in build/dist/pingus/
+    # Non-Wii: Create distribution directory in build/dist/pingus-wii/
     
     # Strip the binary in Release mode
     if(CMAKE_BUILD_TYPE STREQUAL "Release" AND CMAKE_STRIP)
@@ -428,12 +431,12 @@ else()
     
     # Create distribution directory and copy all necessary files
     add_custom_command(TARGET pingus POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii
         # Copy binary
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pingus> ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pingus> ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/
         # Copy data directory
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/data
-        COMMENT "Creating distribution directory in build/dist/pingus/..."
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/data ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/data
+        COMMENT "Creating distribution directory in build/dist/pingus-wii/..."
         VERBATIM
     )
     
@@ -441,8 +444,8 @@ else()
     if(UNIX AND NOT APPLE)
         # Linux: Copy .desktop file and icon
         add_custom_command(TARGET pingus POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus.desktop ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus/
-            COMMENT "Copying Linux desktop file to dist/pingus/..."
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/packaging/linux/pingus-wii.desktop ${CMAKE_CURRENT_BINARY_DIR}/dist/pingus-wii/
+            COMMENT "Copying Linux desktop file to dist/pingus-wii/..."
             VERBATIM
         )
         # Note: For later once we separate out from data/ the icon into packaging/linux/, uncomment:
@@ -456,12 +459,17 @@ endif()
 
 # Install targets (Skip for Wii, we build a custom app structure)
 if(NOT WII_BUILD)
-    install(TARGETS pingus DESTINATION bin)
-    install(DIRECTORY data/ DESTINATION share/pingus)
-    
-    # Install desktop entry (Linux)
+    set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for the binary")
+    set(INSTALL_SUBDIR_SHARE "share/games/pingus-wii" CACHE STRING "Installation subdir for data")
+
+    install(TARGETS pingus DESTINATION ${INSTALL_SUBDIR_BIN})
+    install(DIRECTORY data/ DESTINATION ${INSTALL_SUBDIR_SHARE})
+
+    # Install desktop entry and icon (Linux)
     if(UNIX AND NOT APPLE)
-        install(FILES packaging/linux/pingus.desktop DESTINATION share/applications)
+        install(FILES packaging/linux/pingus-wii.desktop DESTINATION share/applications)
+        install(FILES data/images/icons/pingus.svg DESTINATION share/icons/hicolor/scalable/apps
+                RENAME pingus-wii.svg)
     endif()
 endif()
 
