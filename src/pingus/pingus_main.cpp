@@ -177,7 +177,7 @@ PingusMain::parse_args(int argc, char** argv)
   argp.add_option('u', "userdir", "DIR",
                   "Load config files and store savegames in DIR");
   argp.add_option('a', "addon", "DIR", "Load game modifications from DIR");
-  argp.add_option(342, "no-cfg-file", "", "Don't read ~/.pingus/config");
+  argp.add_option(342, "no-cfg-file", "", "Don't read the config file in the user directory");
   argp.add_option('c', "config", "FILE", "Read config options from FILE");
   argp.add_option(360, "controller", "FILE",
                   "Uses the controller given in FILE");

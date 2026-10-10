@@ -23,6 +23,9 @@
 #include <string_view>
 #include <string.h>
 
+#include <SDL2/SDL_error.h>
+#include <SDL2/SDL_filesystem.h>
+
 #ifdef __WII__
 #  include "util/wii.hpp"
 #endif
@@ -288,56 +291,18 @@ System::find_userdir()
   // On Wii, user directory is in the same location as the data directory
   // Store saves, config, etc. in the base Pingus directory
   return Wii::get_base_dir();
-#elif defined(WIN32)
-  std::string tmpstr;
-  char* appdata  = getenv("APPDATA");
-  if (appdata)
+#else
+  // The platform's per-user data folder, such as ~/.local/share/pingus-wii/
+  char* pref_path = SDL_GetPrefPath(nullptr, "pingus-wii");
+  if (pref_path == nullptr)
   {
-    tmpstr = std::string(appdata) + "/Pingus/";
-    for (size_t pos = tmpstr.find('\\', 0); pos != std::string::npos; pos = tmpstr.find('\\', 0))
-      tmpstr[pos] = '/';
-  }
-  else
-  {
-    tmpstr = "user/";
+    throw std::runtime_error(std::format("can't find userdir: {}", SDL_GetError()));
   }
 
-  return tmpstr;
-
-#else /* !WIN32 */
-  // If ~/.pingus/ exist, use that for backward compatibility reasons,
-  // if it does not, use $XDG_CONFIG_HOME, see:
-  // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-
-  { // check for ~/.pingus/
-    char* homedir = getenv("HOME");
-    if (homedir && strcmp(homedir, "") != 0)
-    {
-      std::string old_pingus_config_dir = std::string(homedir) + "/.pingus/";
-      if (exist(old_pingus_config_dir))
-      {
-        return old_pingus_config_dir;
-      }
-    }
-  }
-
-  char* config_dir = getenv("XDG_CONFIG_HOME");
-  if (!config_dir || strcmp(config_dir, "") == 0)
-  {
-    char* homedir = getenv("HOME");
-    if (homedir && strcmp(homedir, "") != 0)
-    {
-      return std::string(homedir) + "/.config/pingus/";
-    }
-    else
-    {
-      throw std::runtime_error("can't find userdir as neither $HOME nor $XDG_CONFIG_HOME is set");
-    }
-  }
-  else
-  {
-    return std::string(config_dir) + "/pingus/";
-  }
+  std::string path = pref_path;
+  SDL_free(pref_path);
+  std::replace(path.begin(), path.end(), '\\', '/');
+  return path;
 #endif
 }
 
