@@ -129,22 +129,24 @@ System::opendir(const std::string& pathname, const std::string& pattern)
         match = true;
       }
 
-      if (match)
+      if (match &&
+          strcmp(de->d_name, "..") != 0 &&
+          strcmp(de->d_name, ".") != 0)
       {
+        std::string path = Pathname::join(pathname, de->d_name);
         struct stat buf;
-        stat((Pathname::join(pathname, de->d_name)).c_str (), &buf);
 
-        if (strcmp(de->d_name, "..") != 0 &&
-            strcmp(de->d_name, ".") != 0)
+        if (stat(path.c_str(), &buf) != 0)
         {
-          if (S_ISDIR(buf.st_mode))
-          {
-            dir_list.push_back(DirectoryEntry(de->d_name, DE_DIRECTORY));
-          }
-          else
-          {
-            dir_list.push_back(DirectoryEntry(de->d_name, DE_FILE));
-          }
+          log_warn("{}: {}", path, strerror(errno));
+        }
+        else if (S_ISDIR(buf.st_mode))
+        {
+          dir_list.push_back(DirectoryEntry(de->d_name, DE_DIRECTORY));
+        }
+        else
+        {
+          dir_list.push_back(DirectoryEntry(de->d_name, DE_FILE));
         }
       }
     }
