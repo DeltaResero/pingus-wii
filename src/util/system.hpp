@@ -115,6 +115,9 @@ public:
   /** Write \a content to the given filename atomically */
   static void write_file(const std::string& filename, const std::string& content);
 
+  /** Puts back a file whose write_file() was cut off between dropping the old copy and renaming the new one */
+  static void recover_file(const std::string& filename);
+
 private:
   System (const System&);
   System& operator= (const System&);

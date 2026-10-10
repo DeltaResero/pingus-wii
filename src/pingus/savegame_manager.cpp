@@ -38,6 +38,7 @@ SavegameManager::SavegameManager(const std::string& arg_filename) :
   assert(instance_ == nullptr);
   instance_ = this;
 
+  System::recover_file(filename);
   if (!System::exist(filename))
   {
     log_info("{}: savegame file not found", filename);

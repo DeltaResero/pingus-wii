@@ -72,6 +72,7 @@ PingusMain::read_rc_file (void)
   {
     std::string filename = System::get_userdir() + "config";
 
+    System::recover_file(filename);
     if (!System::exist(filename))
     {
       log_info("{}: config file not found", filename);

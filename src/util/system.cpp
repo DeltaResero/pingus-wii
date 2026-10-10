@@ -13,6 +13,8 @@
 #include "util/system.hpp"
 
 #include <algorithm>
+#include <cerrno>
+#include <cstdio>
 #include <filesystem>
 #include <fstream>
 #include <memory>
@@ -689,22 +691,40 @@ System::normalize_path(const std::string& path)
 }
 
 void
+System::recover_file(const std::string& filename)
+{
+  const std::string tmpfile = filename + ".tmp";
+  if (!exist(filename) && exist(tmpfile))
+  {
+    log_warn("{}: restoring from {}", filename, tmpfile);
+    std::rename(tmpfile.c_str(), filename.c_str());
+  }
+}
+
+void
 System::write_file(const std::string& filename, const std::string& content)
 {
   log_debug("writing {}", filename);
 
 #if defined(WIN32) || defined(__WII__)
-  // Simple implementation for Windows and Wii
-  // Wii's FAT library doesn't support atomic file operations like mkstemp
-  std::ofstream out(filename, std::ios::binary | std::ios::trunc);
+  // No mkstemp here, and rename won't replace an existing file
+  const std::string tmpfile = filename + ".tmp";
+  std::ofstream out(tmpfile, std::ios::binary | std::ios::trunc);
   if (!out)
   {
-    throw std::runtime_error(std::format("{}: failed to open for writing", filename));
+    throw std::runtime_error(std::format("{}: failed to open for writing", tmpfile));
   }
   out.write(content.data(), content.size());
+  out.close();
   if (!out)
   {
-    throw std::runtime_error(std::format("{}: write failed", filename));
+    throw std::runtime_error(std::format("{}: write failed", tmpfile));
+  }
+
+  std::remove(filename.c_str());
+  if (std::rename(tmpfile.c_str(), filename.c_str()) != 0)
+  {
+    throw std::runtime_error(std::format("{}: {}", tmpfile, strerror(errno)));
   }
 #else
   // build the filename: "/home/foo/outfile.pngXXXXXX"

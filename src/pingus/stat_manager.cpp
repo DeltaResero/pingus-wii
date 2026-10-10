@@ -49,6 +49,7 @@ StatManager::~StatManager()
 void
 StatManager::load(const std::string& filename)
 {
+  System::recover_file(filename);
   if (!System::exist(filename.c_str()))
   {
     // Create empty file
