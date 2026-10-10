@@ -16,6 +16,8 @@
 #include <memory>
 #include <signal.h>
 
+#include <SDL2/SDL_filesystem.h>
+
 #ifndef DISABLE_EDITOR
 #include "editor/editor_level.hpp"
 #include "editor/editor_screen.hpp"
@@ -29,6 +31,7 @@
 #include "pingus/screens/pingus_menu.hpp"
 #include "pingus/worldmap/worldmap_screen.hpp"
 #include "util/log.hpp"
+#include "util/pathname.hpp"
 #include "util/string_util.hpp"
 #include "util/system.hpp"
 
@@ -54,6 +57,33 @@
 #include "pingus/worldobj_factory.hpp"
 
 namespace pingus {
+
+namespace {
+
+#ifndef __WII__
+// Beside the binary first, so a portable folder wins over an install.
+std::string find_datadir()
+{
+  char* base_path = SDL_GetBasePath();
+  if (base_path != nullptr)
+  {
+    std::string exedir = base_path;
+    SDL_free(base_path);
+
+    for (const char* candidate : { "data", "../share/games/pingus-wii" })
+    {
+      std::string path = Pathname::join(exedir, candidate);
+      if (System::exist(path))
+        return path;
+    }
+  }
+
+  // The source tree, when run from it
+  return "data";
+}
+#endif
+
+} // namespace
 
 PingusMain::PingusMain() :
   cmd_options()
@@ -383,8 +413,7 @@ PingusMain::init_path_finder()
     // On Wii, get data directory from SD/USB storage
     g_path_manager.set_path(Wii::get_data_dir());
 #else
-    // assume game is run from source dir
-    g_path_manager.set_path("data");
+    g_path_manager.set_path(find_datadir());
 #endif
   }
 }
