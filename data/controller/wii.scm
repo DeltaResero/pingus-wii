@@ -78,16 +78,16 @@
     (sdl:joystick-button (device 0) (button 10)))
 
   ;; Pause game
-  ;; Remote: Plus | Classic: Plus
-  (pause-button
-    (sdl:joystick-button (device 0) (button 5))
-    (sdl:joystick-button (device 0) (button 18)))
-
-  ;; Fast forward
   ;; Remote: Minus | Classic: Minus
-  (fast-forward-button
+  (pause-button
     (sdl:joystick-button (device 0) (button 4))
     (sdl:joystick-button (device 0) (button 17)))
+
+  ;; Fast forward
+  ;; Remote: Plus | Classic: Plus
+  (fast-forward-button
+    (sdl:joystick-button (device 0) (button 5))
+    (sdl:joystick-button (device 0) (button 18)))
 
   ;; Escape/Menu
   ;; Remote: Home | Classic: Home
