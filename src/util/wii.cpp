@@ -16,6 +16,7 @@
 
 #include <dirent.h>
 #include <stdexcept>
+#include <unistd.h>
 
 #include <fat.h>
 #include <ogc/system.h>
@@ -26,13 +27,20 @@
 // SDL's event pump sends SDL_QUIT while this is set.
 extern "C" bool OGC_ResetRequested;
 
-#define CACHE_SIZE 32
-#define SECTOR_SIZE 64
-
 namespace pingus {
 
 
 namespace {
+
+// Pages of cache, and sectors per page, handed to libfat for each device.
+const int CACHE_PAGES = 32;
+const int SECTORS_PER_PAGE = 64;
+
+// Checks for a USB drive, 50 ms apart, before giving up on it.
+const int USB_TRIES = 20;
+const useconds_t USB_TRY_DELAY = 50000;
+
+const char* const APP_SUBDIR = "apps/pingus";
 
 // Global state for mounted devices
 bool g_sd_mounted = false;
@@ -41,6 +49,13 @@ std::string g_base_dir;
 
 // Set from an interrupt.
 volatile bool g_power_off_requested = false;
+
+// A released device has to drop the cached path naming it.
+void forget_base_dir(const std::string& device)
+{
+  if (g_base_dir.compare(0, device.size(), device) == 0)
+    g_base_dir.clear();
+}
 
 bool dir_exists(const std::string& directory)
 {
@@ -76,24 +91,29 @@ bool mount_sd()
   if (!__io_wiisd.startup())
     return false;
 
+  // A slot with no card in it starts up and then reports nothing inserted.
   if (!__io_wiisd.isInserted())
   {
     __io_wiisd.shutdown();
     return false;
   }
 
-  g_sd_mounted = fatMount("sd", &__io_wiisd, 0, CACHE_SIZE, SECTOR_SIZE);
+  g_sd_mounted = fatMount("sd", &__io_wiisd, 0, CACHE_PAGES, SECTORS_PER_PAGE);
+  if (!g_sd_mounted)
+    __io_wiisd.shutdown();
+
   return g_sd_mounted;
 }
 
 void unmount_sd()
 {
-  if (g_sd_mounted)
-  {
-    fatUnmount("sd");
-    __io_wiisd.shutdown();
-    g_sd_mounted = false;
-  }
+  if (!g_sd_mounted)
+    return;
+
+  fatUnmount("sd");
+  __io_wiisd.shutdown();
+  g_sd_mounted = false;
+  forget_base_dir("sd:/");
 }
 
 bool mount_usb()
@@ -102,45 +122,52 @@ bool mount_usb()
     return true;
 
   __io_usbstorage.startup();
-  g_usb_mounted = fatMount("usb", &__io_usbstorage, 0, CACHE_SIZE, SECTOR_SIZE);
+
+  // A drive behind a hub can take a moment to answer.
+  for (int i = 1; i < USB_TRIES && !__io_usbstorage.isInserted(); ++i)
+    usleep(USB_TRY_DELAY);
+
+  g_usb_mounted = fatMount("usb", &__io_usbstorage, 0, CACHE_PAGES, SECTORS_PER_PAGE);
+  if (!g_usb_mounted)
+    __io_usbstorage.shutdown();
+
   return g_usb_mounted;
 }
 
 void unmount_usb()
 {
-  if (g_usb_mounted)
-  {
-    fatUnmount("usb");
-    __io_usbstorage.shutdown();
-    g_usb_mounted = false;
-  }
+  if (!g_usb_mounted)
+    return;
+
+  fatUnmount("usb");
+  __io_usbstorage.shutdown();
+  g_usb_mounted = false;
+  forget_base_dir("usb:/");
 }
 
 std::string get_base_dir()
 {
-  // Return cached value if already found
-  if (!g_base_dir.empty() && (g_usb_mounted || g_sd_mounted))
+  if (!g_base_dir.empty())
     return g_base_dir;
 
-  // Try USB first (typically faster)
+  // USB first: it is the faster of the two where both are present.
   if (mount_usb())
   {
-    std::string usb_path = "usb:/apps/pingus";
-    if (dir_exists(usb_path))
+    const std::string path = std::string("usb:/") + APP_SUBDIR + "/";
+    if (dir_exists(path))
     {
-      g_base_dir = usb_path + "/";
+      g_base_dir = path;
       return g_base_dir;
     }
     unmount_usb();
   }
 
-  // Fall back to SD card
   if (mount_sd())
   {
-    std::string sd_path = "sd:/apps/pingus";
-    if (dir_exists(sd_path))
+    const std::string path = std::string("sd:/") + APP_SUBDIR + "/";
+    if (dir_exists(path))
     {
-      g_base_dir = sd_path + "/";
+      g_base_dir = path;
       return g_base_dir;
     }
     unmount_sd();
