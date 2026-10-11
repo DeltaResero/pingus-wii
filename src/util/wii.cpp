@@ -110,7 +110,8 @@ void unmount_sd()
   if (!g_sd_mounted)
     return;
 
-  fatUnmount("sd");
+  // Without the colon, libfat unmounts the current directory's device.
+  fatUnmount("sd:");
   __io_wiisd.shutdown();
   g_sd_mounted = false;
   forget_base_dir("sd:/");
@@ -139,7 +140,7 @@ void unmount_usb()
   if (!g_usb_mounted)
     return;
 
-  fatUnmount("usb");
+  fatUnmount("usb:");
   __io_usbstorage.shutdown();
   g_usb_mounted = false;
   forget_base_dir("usb:/");
