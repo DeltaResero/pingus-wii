@@ -42,7 +42,6 @@ StatManager::StatManager(const std::string& arg_filename)
 
 StatManager::~StatManager()
 {
-  flush();
   instance_ = nullptr;
 }
 
