@@ -49,6 +49,7 @@ void deinit ()
   chalk_normal = Font();
   chalk_small  = Font();
   pingus_small = Font();
+  pingus_small_fixnum = Font();
   courier_small = Font();
   verdana11 = Font();
   lcd = Font();

@@ -46,6 +46,7 @@ public:
   static Size get_physical_size();  // returns actual framebuffer pixel dimensions
 
   static void create_window(FramebufferType framebuffer_type, const Size& size, bool fullscreen, bool resizable);
+  static void deinit();
   static void set_video_mode(const Size& size, bool fullscreen, bool resizable);
   static void resize(const Size& size);
 

@@ -23,6 +23,8 @@
 #include "editor/editor_screen.hpp"
 #endif
 
+#include "engine/display/display.hpp"
+#include "engine/display/sprite.hpp"
 #include "engine/input/manager.hpp"
 #include "engine/system/sdl_system.hpp"
 #include "pingus/config_manager.hpp"
@@ -650,6 +652,10 @@ PingusMain::run(int argc, char** argv)
   fonts::deinit();
   WorldObjFactory::deinit();
   Resource::deinit();
+
+  // Free the textures and window now, while SDL is still up to take them back
+  Sprite::purge_cache();
+  Display::deinit();
 
   return 0;
 }

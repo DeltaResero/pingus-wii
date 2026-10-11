@@ -123,6 +123,12 @@ Display::create_window(FramebufferType framebuffer_type, const Size& size, bool 
 }
 
 void
+Display::deinit()
+{
+  s_framebuffer.reset();
+}
+
+void
 Display::set_video_mode(const Size& size, bool fullscreen, bool resizable)
 {
   if (fullscreen)
