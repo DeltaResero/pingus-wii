@@ -49,8 +49,8 @@ private:
   ArmageddonButton& operator= (const ArmageddonButton&);
 };
 
-/** Fast Forward button, press it to let the game run faster, press it
-    again to return to normal speed
+/** Fast Forward button, hold it to let the game run faster, or press it
+    while paused to advance one frame
 
     \sa Client */
 class ForwardButton : public gui::RectComponent

@@ -280,7 +280,7 @@ GameSession::on_fast_forward_press ()
 {
   if (get_pause())
   {
-    set_pause(false);
+    single_step = true;
   }
   else
   {
