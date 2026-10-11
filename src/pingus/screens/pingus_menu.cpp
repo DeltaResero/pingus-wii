@@ -32,7 +32,6 @@ namespace pingus {
 PingusMenu::PingusMenu() :
   is_init(),
   hint(),
-  help(),
   text_scroll_offset(),
   background(),
   logo(),
@@ -65,9 +64,6 @@ PingusMenu::PingusMenu() :
   // Apply initial layout
   create_background(Size(Display::get_width(), Display::get_height()));
   layout_buttons(Size(Display::get_width(), Display::get_height()));
-
-  help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: "
-         "fullscreen   ::   F12: screenshot ::..";
 }
 
 PingusMenu::~PingusMenu()
@@ -171,16 +167,6 @@ PingusMenu::draw_background(DrawingContext& gc)
                 "Pingus comes with ABSOLUTELY NO WARRANTY. This is free "
                 "software, and you are\n welcome to redistribute it under "
                 "certain conditions; see the file LICENSE for details.\n");
-
-  gc.draw_fillrect(Rect(0, Display::get_height() - 26, Display::get_width(),
-                        Display::get_height()),
-                   Color(0, 0, 0, 255));
-
-  gc.print_center(
-      fonts::pingus_small,
-      Vector2i(gc.get_width() / 2,
-               gc.get_height() - fonts::pingus_small.get_height() - 8),
-      help);
 
   if (0) // display hint
   {

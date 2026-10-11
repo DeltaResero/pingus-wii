@@ -34,7 +34,6 @@ class PingusMenu : public GUIScreen
 public:
   bool is_init;
   std::string hint;
-  std::string help;
   float text_scroll_offset;
 
 private:
