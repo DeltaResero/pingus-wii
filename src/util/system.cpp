@@ -442,9 +442,10 @@ System::checksum(std::string filename)
 { // FIXME: Replace sys with SHA1 or MD5 or so
   FILE* in;
   size_t bytes_read;
-  constexpr size_t BUFFER_SIZE = 64 * 1024;
+  constexpr size_t BUFFER_SIZE = 4 * 1024;
   char buffer[BUFFER_SIZE];
-  long int checksum = 0;
+  // Unsigned so it wraps instead of overflowing, with the same bits as before
+  unsigned long checksum = 0;
 
   in = fopen(filename.c_str(), "r");
 
@@ -464,14 +465,14 @@ System::checksum(std::string filename)
     }
 
     for (size_t i=0; i < bytes_read; ++i)
-      checksum = checksum * 17 + buffer[i];
+      checksum = checksum * 17 + static_cast<unsigned long>(buffer[i]);
   }
   while (bytes_read != 0);
 
   fclose (in);
 
   std::ostringstream str;
-  str << checksum;
+  str << static_cast<long>(checksum);
   return str.str();
 }
 

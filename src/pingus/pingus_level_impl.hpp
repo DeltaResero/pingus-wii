@@ -14,6 +14,7 @@
 
 #include "math/color.hpp"
 #include "math/size.hpp"
+#include "util/pathname.hpp"
 #include <map>
 #include <string>
 #include <vector>
@@ -26,6 +27,7 @@ public:
   // Set defaults in constructor
   PingusLevelImpl() :
     resname(),
+    pathname(),
     checksum(),
     levelname(),
     description(),
@@ -42,6 +44,9 @@ public:
 
   std::string resname;
 
+  Pathname pathname;
+
+  /** Only demos need it, so it's read on first use */
   std::string checksum;
 
   std::string levelname;

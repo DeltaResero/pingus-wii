@@ -42,6 +42,9 @@ PingusLevel::PingusLevel(const std::string& resname, const Pathname& pathname) :
 std::string
 PingusLevel::get_checksum() const
 {
+  if (impl->checksum.empty())
+    impl->checksum = System::checksum(impl->pathname);
+
   return impl->checksum;
 }
 
@@ -49,8 +52,7 @@ void
 PingusLevel::load(const std::string& resname,
                   const Pathname& pathname)
 {
-  impl->checksum = System::checksum(pathname);
-
+  impl->pathname = pathname;
   impl->resname = resname;
   FileReader reader = FileReader::parse(pathname);
 
