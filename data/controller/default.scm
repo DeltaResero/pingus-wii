@@ -20,17 +20,17 @@
     (sdl:mouse-button (button 3)))
 
   (pause-button
-   (sdl:keyboard-button (key "p")))
+   (sdl:keyboard-button (key "p"))
+   (sdl:keyboard-button (key "s"))
+   (sdl:keyboard-button (key "d")))
 
   (fast-forward-button
    (sdl:keyboard-button (key "f"))
    (sdl:keyboard-button (key "space")))
 
-  (single-step-button
-   (sdl:keyboard-button (key "s")))
-
   (armageddon-button
-   (sdl:keyboard-button (key "a")))
+   (sdl:keyboard-button (key "a"))
+   (sdl:keyboard-button (key "q")))
 
   (escape-button
    (sdl:keyboard-button (key "escape")))
