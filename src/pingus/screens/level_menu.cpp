@@ -471,6 +471,13 @@ LevelMenu::~LevelMenu()
 }
 
 void
+LevelMenu::on_startup()
+{
+  GUIScreen::on_startup();
+  sound::PingusSound::play_music("pingus-1.it");
+}
+
+void
 LevelMenu::draw_background(DrawingContext& gc)
 {
   // Paint the background wood panel

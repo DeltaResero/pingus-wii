@@ -68,12 +68,17 @@ PingusMenu::PingusMenu() :
 
   help = "..:: Ctrl-g: mouse grab   ::   F10: fps counter   ::   F11: "
          "fullscreen   ::   F12: screenshot ::..";
-
-  sound::PingusSound::play_music("pingus-1.it");
 }
 
 PingusMenu::~PingusMenu()
 {
+}
+
+void
+PingusMenu::on_startup()
+{
+  GUIScreen::on_startup();
+  sound::PingusSound::play_music("pingus-1.it");
 }
 
 void

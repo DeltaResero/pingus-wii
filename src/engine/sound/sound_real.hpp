@@ -13,6 +13,7 @@
 #define HEADER_PINGUS_ENGINE_SOUND_SOUND_REAL_HPP
 
 #include <SDL2/SDL_mixer.h>
+#include <string>
 #include <string_view>
 
 #include "engine/sound/sound_impl.hpp"
@@ -26,6 +27,9 @@ class PingusSoundReal : public PingusSoundImpl
 private:
   /** The current music file */
   Mix_Music* music_sample;
+
+  /** The file music_sample was loaded from */
+  std::string music_filename;
 
   float m_music_volume;
   float m_sound_volume;

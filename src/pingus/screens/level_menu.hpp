@@ -40,6 +40,8 @@ public:
   LevelMenu();
   ~LevelMenu();
 
+  void on_startup() override;
+
   void draw_background(DrawingContext& gc);
   void on_escape_press();
   void on_action_up_press();

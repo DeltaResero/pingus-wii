@@ -23,6 +23,7 @@ namespace pingus::sound {
 
 PingusSoundReal::PingusSoundReal() :
   music_sample(nullptr),
+  music_filename(),
   m_music_volume(1.0f),
   m_sound_volume(1.0f),
   m_master_volume(1.0f)
@@ -88,6 +89,7 @@ PingusSoundReal::real_stop_music ()
     Mix_HaltMusic();
     Mix_FreeMusic(music_sample);
     music_sample = nullptr;
+    music_filename.clear();
   }
 }
 
@@ -98,6 +100,10 @@ PingusSoundReal::real_play_music(std::string_view filename, float volume, bool l
       m_master_volume > 0 &&
       m_music_volume > 0)
   {
+    // Already playing, so let it carry on instead of restarting it
+    if (music_sample && filename == music_filename && Mix_PlayingMusic())
+      return;
+
     log_info("PingusSoundReal: Playing music: {}", filename);
 
     real_stop_music();
@@ -113,6 +119,7 @@ PingusSoundReal::real_play_music(std::string_view filename, float volume, bool l
       return;
     }
 
+    music_filename = safe_filename;
     Mix_PlayMusic(music_sample, loop ? -1 : 0);
     Mix_VolumeMusic(static_cast<int>(MIX_MAX_VOLUME * volume * m_music_volume * m_master_volume));
   }

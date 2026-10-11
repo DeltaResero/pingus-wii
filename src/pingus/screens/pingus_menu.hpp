@@ -66,6 +66,8 @@ public:
   PingusMenu();
   ~PingusMenu();
 
+  void on_startup() override;
+
   void on_click(MenuButton* button);
   void set_hint(const std::string& str);
 

@@ -101,7 +101,6 @@ WorldmapScreen::on_startup ()
 {
   GUIScreen::on_startup();
   exit_worldmap = false;
-  pingus::sound::PingusSound::stop_music();
 
   if (worldmap.get())
     worldmap->on_startup ();
