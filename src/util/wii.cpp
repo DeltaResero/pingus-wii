@@ -98,6 +98,8 @@ bool mount_sd()
     return false;
   }
 
+  // SDL2main has already mounted it with libfat's small cache.
+  fatUnmount("sd:");
   g_sd_mounted = fatMount("sd", &__io_wiisd, 0, CACHE_PAGES, SECTORS_PER_PAGE);
   if (!g_sd_mounted)
     __io_wiisd.shutdown();
@@ -128,6 +130,7 @@ bool mount_usb()
   for (int i = 1; i < USB_TRIES && !__io_usbstorage.isInserted(); ++i)
     usleep(USB_TRY_DELAY);
 
+  fatUnmount("usb:");
   g_usb_mounted = fatMount("usb", &__io_usbstorage, 0, CACHE_PAGES, SECTORS_PER_PAGE);
   if (!g_usb_mounted)
     __io_usbstorage.shutdown();
