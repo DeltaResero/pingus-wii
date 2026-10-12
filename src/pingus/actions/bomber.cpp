@@ -27,7 +27,7 @@ Bomber::Bomber (Pingu* p) :
   sound_played(false),
   gfx_exploded(false),
   colmap_exploded(false),
-  bomber_radius("other/bomber_radius_gfx", "other/bomber_radius"),
+  bomber_radius("pingus/common/bomber_radius_gfx", "pingus/common/bomber_radius"),
   sprite(),
   explo_surf(Sprite("pingus/player" + pingu->get_owner_str() + "/explo"))
 {
