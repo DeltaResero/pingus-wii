@@ -170,6 +170,8 @@ OptionMenu::OptionMenu() :
   add_item("Drag&Drop Scrolling", std::unique_ptr<gui::RectComponent>(dragdrop_scroll_box));
   y_pos += 1;
   add_item("Print FPS", std::unique_ptr<gui::RectComponent>(printfps_box));
+  if (globals::developer_mode)
+    add_debug_item("Show Menu Outlines", globals::draw_menu_outlines);
 
   x_pos = 1;
   y_pos = 0;
@@ -184,7 +186,6 @@ OptionMenu::OptionMenu() :
   {
     y_pos += 1;
     add_debug_item("Show Collision Map", globals::draw_collision_map);
-    add_debug_item("Show Menu Outlines", globals::draw_menu_outlines);
     add_debug_item("Show Worldmap Paths", globals::draw_worldmap_paths);
   }
 
