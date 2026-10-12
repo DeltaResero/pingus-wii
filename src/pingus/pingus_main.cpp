@@ -147,7 +147,7 @@ PingusMain::apply_args()
     globals::developer_mode = options.developer_mode.get();
 
   // game_speed is milliseconds per world tick; 0 would stall the update
-  // loop and divide by zero, so use the same floor as the keypad + key.
+  // loop and divide by zero.
   if (options.speed.is_set())
     globals::game_speed = std::max(5, options.speed.get());
 

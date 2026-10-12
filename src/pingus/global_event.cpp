@@ -13,7 +13,6 @@
 
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/config_manager.hpp"
-#include "pingus/globals.hpp"
 #include "pingus/screens/option_menu.hpp"
 
 namespace pingus {
@@ -77,20 +76,6 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
       {
         config_manager.set_mouse_grab(!config_manager.get_mouse_grab());
       }
-      break;
-
-    case SDLK_KP_PLUS:
-      globals::game_speed -= 5;
-      if (globals::game_speed < 5)
-        globals::game_speed = 5;
-      break;
-
-    case SDLK_KP_MINUS:
-      globals::game_speed += 5;
-      break;
-
-    case SDLK_KP_ENTER:
-      globals::game_speed = 20;
       break;
 
     default:
