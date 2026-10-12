@@ -72,11 +72,6 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
       }
       break;
 
-    case SDLK_c:
-      if (globals::developer_mode)
-        globals::draw_collision_map = !globals::draw_collision_map;
-      break;
-
     case SDLK_g:
       if (keystate[SDL_SCANCODE_LCTRL] || keystate[SDL_SCANCODE_RCTRL])
       {

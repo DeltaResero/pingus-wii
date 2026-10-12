@@ -22,6 +22,7 @@
 #include "pingus/components/slider_box.hpp"
 #include "pingus/config_manager.hpp"
 #include "pingus/fonts.hpp"
+#include "pingus/globals.hpp"
 #include "util/log.hpp"
 #include "util/system.hpp"
 
@@ -169,6 +170,13 @@ OptionMenu::OptionMenu() :
   add_item("Drag&Drop Scrolling", std::unique_ptr<gui::RectComponent>(dragdrop_scroll_box));
   y_pos += 1;
   add_item("Print FPS", std::unique_ptr<gui::RectComponent>(printfps_box));
+  if (globals::developer_mode)
+  {
+    CheckBox* collision_map_box = new CheckBox(Rect());
+    collision_map_box->set_state(globals::draw_collision_map, false);
+    collision_map_box->on_change = [](bool v) { globals::draw_collision_map = v; };
+    add_item("Show Collision Map", std::unique_ptr<gui::RectComponent>(collision_map_box));
+  }
 
   x_pos = 1;
   y_pos = 0;
