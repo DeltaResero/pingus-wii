@@ -45,6 +45,7 @@ private:
   PingusLevel plf;
 
   bool show_result_screen;
+  bool record_result;
 
   /// The server
   std::unique_ptr<Server> server;
@@ -67,7 +68,7 @@ private:
   bool single_step;
 
 public:
-  GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen);
+  GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen, bool arg_record_result);
   ~GameSession ();
 
   /** Pass a delta to the screen */

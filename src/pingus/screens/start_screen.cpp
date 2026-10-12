@@ -198,8 +198,9 @@ StartScreenComponent::format_description(int length)
   return description;
 }
 
-StartScreen::StartScreen(const PingusLevel& arg_plf) :
+StartScreen::StartScreen(const PingusLevel& arg_plf, bool arg_record_result) :
   plf(arg_plf),
+  record_result(arg_record_result),
   abort_button(),
   ok_button()
 {
@@ -236,7 +237,7 @@ StartScreen::start_game()
 {
   try
   {
-    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(plf, true));
+    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(plf, true, record_result));
   }
   catch(const std::exception& err)
   {

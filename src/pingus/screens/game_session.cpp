@@ -34,9 +34,10 @@
 namespace pingus {
 
 
-GameSession::GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen) :
+GameSession::GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen, bool arg_record_result) :
   plf(arg_plf),
   show_result_screen(arg_show_result_screen),
+  record_result(arg_record_result),
   server(),
   world_delay(),
   button_panel (0),
@@ -105,7 +106,9 @@ GameSession::update_server(float delta)
 
     result.max_time  = server->get_plf().get_time();
     result.used_time = server->get_time();
+    result.recorded  = record_result;
 
+    if (record_result)
     { // Write the savegame
       Savegame savegame(result.plf.get_resname(),
                         (result.saved >= result.needed) ? Savegame::FINISHED : Savegame::ACCESSIBLE,

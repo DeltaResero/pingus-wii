@@ -84,7 +84,8 @@ void
 LevelDot::on_click()
 {
   //log_info("Starting level: {}", levelname);
-  ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(get_plf()));
+  // Only developer mode can put Pingu on a locked dot, and it doesn't count.
+  ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(get_plf(), is_accessible()));
 }
 
 bool

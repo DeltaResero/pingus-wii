@@ -416,9 +416,11 @@ public:
     on_pointer_move(x, y);
     if (current_level != -1)
     {
-      if (levelset->get_level(current_level)->accessible)
+      // Developer mode can play locked levels, but they don't count.
+      const bool accessible = levelset->get_level(current_level)->accessible;
+      if (accessible || globals::developer_mode)
       {
-        ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(levelset->get_level(current_level)->get_plf()));
+        ScreenManager::instance()->push_screen(std::make_shared<StartScreen>(levelset->get_level(current_level)->get_plf(), accessible));
       }
     }
   }

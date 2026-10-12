@@ -534,7 +534,7 @@ PingusMain::start_game ()
     { // Level file
       screen_manager.push_screen(
           std::make_shared<StartScreen>(PLFResMgr::load_plf_from_filename(
-              Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH))));
+              Pathname(cmd_options.rest.get(), Pathname::SYSTEM_PATH)), true));
     }
   }
   else // start a normal game

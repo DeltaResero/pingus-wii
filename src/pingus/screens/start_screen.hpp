@@ -22,11 +22,12 @@ class StartScreen : public GUIScreen
 {
 private:
   PingusLevel plf;
+  bool record_result;
   gui::SurfaceButton* abort_button;
   gui::SurfaceButton* ok_button;
 
 public:
-  StartScreen(const PingusLevel& plf);
+  StartScreen(const PingusLevel& plf, bool record_result);
   ~StartScreen();
 
   void start_game();

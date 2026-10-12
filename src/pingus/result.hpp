@@ -40,6 +40,9 @@ struct Result
   /** Number of Pingus needed to save */
   int needed;
 
+  /** Whether the result goes into the savegame; locked levels don't */
+  bool recorded;
+
   Result() :
     plf(),
     saved(),
@@ -47,7 +50,8 @@ struct Result
     total(),
     used_time(),
     max_time(),
-    needed()
+    needed(),
+    recorded()
   {}
 
   bool success() {

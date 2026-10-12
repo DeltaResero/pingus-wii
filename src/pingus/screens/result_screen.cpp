@@ -238,6 +238,10 @@ ResultScreenComponent::draw(DrawingContext& gc)
 
   gc.print_left(fonts::chalk_normal,  Vector2i(left_x, (y+=30)), "Time left: ");
   gc.print_right(fonts::chalk_normal, Vector2i(right_x, y), time_str);
+
+  if (!result.recorded)
+    gc.print_center(fonts::chalk_normal, Vector2i(gc.get_width()/2, (y+=50)),
+                    "This level is locked, so the result isn't saved.");
 }
 
 ResultScreen::ResultScreen(Result arg_result) :
@@ -287,7 +291,7 @@ ResultScreen::retry_level()
 {
   try
   {
-    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(result.plf, true));
+    ScreenManager::instance()->replace_screen(std::make_shared<GameSession>(result.plf, true, result.recorded));
   }
   catch(const std::exception& err)
   {
