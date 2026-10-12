@@ -15,7 +15,6 @@
 #include "pingus/config_manager.hpp"
 #include "pingus/globals.hpp"
 #include "pingus/screens/option_menu.hpp"
-#include "util/log.hpp"
 
 namespace pingus {
 
@@ -76,11 +75,6 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
     case SDLK_c:
       if (globals::developer_mode)
         globals::draw_collision_map = !globals::draw_collision_map;
-      break;
-
-    case SDLK_k:
-      if (globals::developer_mode)
-        log_info("Low level screen clear triggered (no-op in SDL2 build)");
       break;
 
     case SDLK_g:

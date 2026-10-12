@@ -177,27 +177,6 @@ Playfield::update(float delta)
 }
 
 void
-Playfield::on_key_pressed(const input::KeyboardEvent& ev)
-{
-  if (globals::developer_mode)
-  {
-    bool spawn = ev.keysym.sym == SDLK_l || ev.keysym.sym == SDLK_r;
-    if (spawn)
-    {
-      Vector2i n = state.screen2world(mouse_pos);
-      Vector3f p = Vector3f(n.x,n.y,0);
-      Pingu* pingu = server->get_world()->get_pingus()->create_pingu(p, 0);
-      if (pingu)
-      {
-        Direction d;
-        ev.keysym.sym == SDLK_l ? d.left() : d.right();
-        pingu->set_direction(d);
-      }
-    }
-  }
-}
-
-void
 Playfield::on_primary_button_press(int x, int y)
 {
   x -= rect.left;
@@ -242,37 +221,6 @@ Playfield::on_pointer_move (int x, int y)
   // FIXME: useless stuff, but currently the controller doesn't have a state
   mouse_pos.x = x;
   mouse_pos.y = y;
-
-  if (globals::developer_mode)
-  { // Some fun stuff that lets you draw directly on the level
-    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_DELETE])
-    {
-      CollisionMask mask("other/bash_radius_gfx");
-      Vector2i p = state.screen2world(mouse_pos);
-      server->get_world()->remove(mask,
-                                  p.x - mask.get_width()/2,
-                                  p.y - mask.get_height()/2);
-    }
-    else if (keystate[SDL_SCANCODE_INSERT])
-    {
-      CollisionMask mask("other/bash_radius_gfx");
-      Vector2i p = state.screen2world(mouse_pos);
-      server->get_world()->put(mask,
-                               p.x - mask.get_width()/2,
-                               p.y - mask.get_height()/2,
-                               Groundtype::GP_GROUND);
-    }
-    else if (keystate[SDL_SCANCODE_HOME])
-    {
-      CollisionMask mask("other/bash_radius_gfx");
-      Vector2i p = state.screen2world(mouse_pos);
-      server->get_world()->put(mask,
-                               p.x - mask.get_width()/2,
-                               p.y - mask.get_height()/2,
-                               Groundtype::GP_BRIDGE);
-    }
-  }
 }
 
 Vector2i
