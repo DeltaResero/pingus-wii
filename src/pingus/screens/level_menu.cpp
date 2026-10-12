@@ -305,8 +305,6 @@ public:
       gc.print_center(fonts::chalk_large, Vector2i(rect.get_width()/2, 20), levelset->get_title());
       gc.print_center(fonts::chalk_normal,  Vector2i(rect.get_width()/2, 62), levelset->get_description());
 
-      levelset->refresh(); // should be better placed in on_startup() or so
-
       //gc.draw_fillrect(Rect(Vector2i(0,0), Size(rect.get_width(), rect.get_height())),
       //                 Color(255, 255, 0, 100));
 
@@ -373,6 +371,13 @@ public:
   {
     page = 0;
     levelset = levelset_;
+    refresh();
+  }
+
+  void refresh()
+  {
+    if (levelset)
+      levelset->refresh();
   }
 
   void on_pointer_leave()
@@ -469,6 +474,8 @@ LevelMenu::on_startup()
 {
   GUIScreen::on_startup();
   sound::PingusSound::play_music("pingus-1.it");
+  // Coming back from a level, so pick up what it saved
+  level_selector->refresh();
 }
 
 void
