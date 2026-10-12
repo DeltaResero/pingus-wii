@@ -291,10 +291,10 @@ infrastructure, adapting the build system for other platforms should be fairly t
 Pingus supports multiple rendering backends which can be selected at runtime using the
 `-r` or `--renderer` command line flags or via the options menu.
 
-- **sdl:** A simple software renderer based on SDL. This is the default and safest option
-  for compatibility.
-- **opengl:** Uses hardware acceleration to render graphics. It is much faster than the
-  SDL renderer and is recommended if your hardware supports OpenGL.
+- **sdl:** Draws through SDL2's own renderer, which uses the graphics hardware on both
+  desktop and Wii. It only falls back to software drawing when no hardware renderer is
+  available. This is the default and safest option for compatibility.
+- **opengl:** Draws through OpenGL directly, or OpenGX on the Wii.
 
 ## Bug Reporting
 

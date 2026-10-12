@@ -229,8 +229,8 @@ PingusMain::parse_args(int argc, char** argv)
         if (argp.get_argument() == "help")
         {
           std::cout << "Available renderers: " << std::endl;
-          std::cout << "     sdl: Software rendering" << std::endl;
-          std::cout << "  opengl: Hardware accelerated graphics" << std::endl;
+          std::cout << "     sdl: SDL2 renderer (default)" << std::endl;
+          std::cout << "  opengl: OpenGL (OpenGX on Wii)" << std::endl;
           std::cout << "    null: No rendering at all, for debugging" << std::endl;
           exit(EXIT_SUCCESS);
         }
