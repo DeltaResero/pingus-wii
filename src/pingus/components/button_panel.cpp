@@ -21,6 +21,15 @@
 
 namespace pingus {
 
+namespace {
+
+// The widest action icon ends 36 pixels in, so counts start just past it.
+const int TEXT_X = 40;
+const int TEXT_PADDING = 6;
+const int TIP_GAP = 6;
+
+} // namespace
+
 
 ButtonPanel::ButtonPanel(Server* s, const Vector2i& pos) :
   RectComponent(Rect()),
@@ -60,42 +69,62 @@ ButtonPanel::~ButtonPanel()
 void
 ButtonPanel::draw(DrawingContext& gc)
 {
-  ActionHolder* aholder = server->get_action_holder();
-
   for(std::vector<ActionButton>::size_type i = 0; i < buttons.size(); ++i)
   {
-    if (current_button == i)
-      gc.draw(highlight, Vector2i(rect.left, rect.top + 38*static_cast<int>(i)));
-    else
-      gc.draw(background, Vector2i(rect.left, rect.top + 38*static_cast<int>(i)));
+    const int y = rect.top + 38*static_cast<int>(i);
+    const std::string str = count_text(buttons[i].name);
+    const int width = text_width(str);
 
-    gc.draw(buttons[i].sprite, Vector2i(rect.left + 20, rect.top + 38*static_cast<int>(i) + 16));
-
-    if (globals::developer_mode)
-    {
-      std::ostringstream out;
-      out << aholder->get_available(buttons[i].name)
-          << " / "
-          << aholder->get_used(buttons[i].name);
-      gc.print_left(fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), out.str());
-    }
+    // Stretched only when the count needs more room than the button has.
+    const Sprite& back = (current_button == i) ? highlight : background;
+    if (width > back.get_width())
+      gc.draw(back, Vector2i(rect.left, y), Size(width, back.get_height()));
     else
-    {
-      std::string str = StringUtil::to_string(aholder->get_available(buttons[i].name));
-      gc.print_center(fonts::pingus_small, Vector2i(rect.left + 46, rect.top + 5 + 38*static_cast<int>(i)), str);
-    }
+      gc.draw(back, Vector2i(rect.left, y));
+
+    gc.draw(buttons[i].sprite, Vector2i(rect.left + 20, y + 16));
+
+    gc.print_left(fonts::pingus_small, Vector2i(rect.left + TEXT_X, y + 5), str);
 
     if (show_tip && tip_button == i)
     {
-      gc.print_left(fonts::pingus_small, Vector2i(rect.left + 65, rect.top + 5 + 38*static_cast<int>(i)),
+      gc.print_left(fonts::pingus_small,
+                    Vector2i(rect.left + std::max(width, back.get_width()) + TIP_GAP, y + 5),
                     ActionName::to_screenname(buttons[i].name));
     }
   }
 }
 
+std::string
+ButtonPanel::count_text(ActionName::Enum name) const
+{
+  ActionHolder* aholder = server->get_action_holder();
+
+  if (globals::developer_mode)
+  {
+    std::ostringstream out;
+    out << aholder->get_available(name) << " / " << aholder->get_used(name);
+    return out.str();
+  }
+
+  return StringUtil::to_string(aholder->get_available(name));
+}
+
+int
+ButtonPanel::text_width(const std::string& str) const
+{
+  return TEXT_X + static_cast<int>(fonts::pingus_small.get_width(str)) + TEXT_PADDING;
+}
+
 void
 ButtonPanel::update (float delta)
 {
+  // The panel takes clicks across the widest button.
+  int width = background.get_width();
+  for (const auto& button : buttons)
+    width = std::max(width, text_width(count_text(button.name)));
+  rect.right = rect.left + width;
+
   for(std::vector<ActionButton>::size_type i = 0; i < buttons.size(); ++i)
     if (i == current_button)
       buttons[i].sprite.update(delta);

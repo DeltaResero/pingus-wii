@@ -47,6 +47,9 @@ private:
   bool show_tip;
   std::vector<ActionButton>::size_type tip_button;
 
+  std::string count_text(ActionName::Enum name) const;
+  int text_width(const std::string& str) const;
+
 public:
   ButtonPanel(Server* s, const Vector2i& pos);
   virtual ~ButtonPanel();
