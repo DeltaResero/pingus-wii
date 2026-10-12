@@ -72,7 +72,13 @@ public:
   {
     vertical_spacing = static_cast<float>(size) * desc.vertical_spacing;
 
-    glyphs.resize(65536); // 16bit ought to be enough for everybody
+    // Size the table to the highest code the font has, capped at 16 bits
+    uint32_t highest = 0;
+    for(const auto& image : desc.images)
+      for(const auto& glyph : image.glyphs)
+        if (glyph.unicode < 65536)
+          highest = std::max(highest, glyph.unicode);
+    glyphs.resize(highest + 1);
 
     // Copy Unicode -> Glyph mapping
     for(std::vector<GlyphImageDescription>::size_type j = 0; j < desc.images.size(); ++j)
@@ -88,7 +94,7 @@ public:
 
       for(auto i = desc.images[j].glyphs.begin(); i != desc.images[j].glyphs.end(); ++i)
       {
-        if (i->unicode < glyphs.size())
+        if (i->unicode < 65536)
         {
           if (glyphs[i->unicode] == nullptr)
           {
