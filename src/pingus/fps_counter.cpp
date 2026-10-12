@@ -14,9 +14,6 @@
 #include <SDL2/SDL.h>
 #include <sstream>
 
-#include "engine/display/display.hpp"
-#include "pingus/fonts.hpp"
-
 namespace pingus {
 
 
@@ -35,11 +32,11 @@ FPSCounter::~FPSCounter()
 {
 }
 
-void
-FPSCounter::draw(int y)
+const std::string&
+FPSCounter::update()
 {
   update_fps_counter();
-  fonts::pingus_small.render(origin_center, Display::get_width()/2, y, fps_string, *Display::get_framebuffer());
+  return fps_string;
 }
 
 void

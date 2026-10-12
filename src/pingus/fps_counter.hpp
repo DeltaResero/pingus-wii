@@ -37,7 +37,8 @@ public:
   FPSCounter();
   ~FPSCounter();
 
-  void draw(int y);
+  /** Counts this frame and returns the current "N fps" text */
+  const std::string& update();
 
 private:
   FPSCounter (const FPSCounter&);

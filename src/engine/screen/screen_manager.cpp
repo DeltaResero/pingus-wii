@@ -273,21 +273,22 @@ ScreenManager::update(float delta, const std::vector<input::Event>& events)
   if (globals::software_cursor)
     cursor.render(mouse_pos.x, mouse_pos.y, *Display::get_framebuffer());
 
-  // Draw FPS Counter
-  const int overlay_y = 35 + get_current_screen()->get_overlay_offset();
+  // Right-aligned under a level's timer, in the same font, so it never
+  // moves Developer Mode or lands on a screen's title.
   if (globals::print_fps)
   {
-    fps_counter->draw(overlay_y);
-    if (globals::developer_mode)
-    {
-      fonts::pingus_small.render(origin_center, Display::get_width()/2, overlay_y + 25,
-                                         "Developer Mode", *Display::get_framebuffer());
-    }
+    const Size margin = Display::get_overscan_margin();
+    fonts::pingus_small_fixnum.render(origin_top_right,
+                                      Display::get_width() - 30 - margin.width,
+                                      25 + margin.height,
+                                      fps_counter->update(), *Display::get_framebuffer());
   }
-  else if (globals::developer_mode)
+
+  if (globals::developer_mode)
   {
-    fonts::pingus_small.render(origin_center, Display::get_width()/2, overlay_y,
-                                       "Developer Mode", *Display::get_framebuffer());
+    fonts::pingus_small.render(origin_center, Display::get_width()/2,
+                               35 + get_current_screen()->get_overlay_offset(),
+                               "Developer Mode", *Display::get_framebuffer());
   }
 
   Display::flip_display();
