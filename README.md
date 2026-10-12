@@ -163,17 +163,8 @@ wii-sdl2_image
 wii-sdl2_mixer
 ```
 
-**Graphics & Compression:**
-```
-ppc-libpng
-ppc-freetype
-ppc-zlib
-```
-
 **OpenGL/OpenGX Backend:**
 ```
-wii-freeglut
-wii-glu
 wii-opengx
 ```
 
@@ -256,8 +247,6 @@ level editor, append the following flag to your `cmake` command: `-DWITH_EDITOR=
    SDL2
    SDL2_image
    SDL2_mixer
-   libpng
-   zlib
    ```
 
    **Optional Libraries:**
