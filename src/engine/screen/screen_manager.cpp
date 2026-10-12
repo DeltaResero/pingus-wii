@@ -274,18 +274,19 @@ ScreenManager::update(float delta, const std::vector<input::Event>& events)
     cursor.render(mouse_pos.x, mouse_pos.y, *Display::get_framebuffer());
 
   // Draw FPS Counter
+  const int overlay_y = 35 + get_current_screen()->get_overlay_offset();
   if (globals::print_fps)
   {
-    fps_counter->draw();
+    fps_counter->draw(overlay_y);
     if (globals::developer_mode)
     {
-      fonts::pingus_small.render(origin_center, Display::get_width()/2, 60,
+      fonts::pingus_small.render(origin_center, Display::get_width()/2, overlay_y + 25,
                                          "Developer Mode", *Display::get_framebuffer());
     }
   }
   else if (globals::developer_mode)
   {
-    fonts::pingus_small.render(origin_center, Display::get_width()/2, 35,
+    fonts::pingus_small.render(origin_center, Display::get_width()/2, overlay_y,
                                        "Developer Mode", *Display::get_framebuffer());
   }
 

@@ -388,6 +388,13 @@ GameSession::resize(const Size& size_)
   layout_hud();
 }
 
+int
+GameSession::get_overlay_offset() const
+{
+  // Below the pingu counter, which TV Overscan makes deeper.
+  return Display::get_overscan_margin().height;
+}
+
 void
 GameSession::layout_hud()
 {

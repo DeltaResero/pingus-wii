@@ -46,6 +46,10 @@ public:
 
   virtual Size get_size() const { return size; }
 
+  /** How far down the fps counter and Developer Mode label go, to clear
+      anything the screen keeps along its top edge */
+  virtual int get_overlay_offset() const { return 0; }
+
 private:
   Screen (const Screen&);
   Screen& operator= (const Screen&);

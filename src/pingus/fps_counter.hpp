@@ -37,7 +37,7 @@ public:
   FPSCounter();
   ~FPSCounter();
 
-  void draw();
+  void draw(int y);
 
 private:
   FPSCounter (const FPSCounter&);
