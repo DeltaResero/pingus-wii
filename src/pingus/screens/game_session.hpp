@@ -107,6 +107,9 @@ public:
 
   void resize(const Size&);
 
+  /** Place the HUD, inside the TV overscan margin when that's on */
+  void layout_hud();
+
 private:
   void process_scroll_event (const input::ScrollEvent&);
   void process_axis_event (const input::AxisEvent&);

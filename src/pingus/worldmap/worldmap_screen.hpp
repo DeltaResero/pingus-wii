@@ -83,6 +83,9 @@ private:
   /** Startup Hook of the Screen */
   void on_startup ();
 
+  /** In the bottom-left corner, inside the TV overscan margin when that's on */
+  void place_close_button();
+
   WorldmapScreen (const WorldmapScreen&);
   WorldmapScreen& operator=(const WorldmapScreen &);
 };

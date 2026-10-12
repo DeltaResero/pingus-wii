@@ -70,6 +70,9 @@ public:
   bool get_print_fps() const;
   std::function<void(bool)> on_print_fps_change;
 
+  void set_tv_overscan(bool);
+  bool get_tv_overscan() const;
+
   void set_software_cursor(bool);
   bool get_software_cursor() const;
   std::function<void(bool)> on_software_cursor_change;

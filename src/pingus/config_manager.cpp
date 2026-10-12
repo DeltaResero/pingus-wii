@@ -254,6 +254,21 @@ ConfigManager::get_print_fps() const
 }
 
 void
+ConfigManager::set_tv_overscan(bool v)
+{
+  log_info("ConfigManager::set_tv_overscan: {}", v);
+
+  globals::tv_overscan = v;
+  m_opts.tv_overscan.set(v);
+}
+
+bool
+ConfigManager::get_tv_overscan() const
+{
+  return globals::tv_overscan;
+}
+
+void
 ConfigManager::set_software_cursor(bool v)
 {
   log_info("ConfigManager::set_software_cursor: {}", v);
@@ -353,6 +368,9 @@ ConfigManager::apply(const Options& opts)
 
   if (opts.print_fps.is_set())
     set_print_fps(opts.print_fps.get());
+
+  if (opts.tv_overscan.is_set())
+    set_tv_overscan(opts.tv_overscan.get());
 
   if (opts.software_cursor.is_set())
     set_software_cursor(opts.software_cursor.get());

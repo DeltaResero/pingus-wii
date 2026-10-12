@@ -13,6 +13,7 @@
 
 #include <algorithm>
 
+#include "engine/display/display.hpp"
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/globals.hpp"
@@ -69,27 +70,31 @@ ButtonPanel::~ButtonPanel()
 void
 ButtonPanel::draw(DrawingContext& gc)
 {
+  // With TV Overscan the buttons still start at the screen's edge, and
+  // reach further in so their contents clear the cropped border.
+  const int inset = Display::get_overscan_margin().width;
+
   for(std::vector<ActionButton>::size_type i = 0; i < buttons.size(); ++i)
   {
     const int y = rect.top + 38*static_cast<int>(i);
     const std::string str = count_text(buttons[i].name);
-    const int width = text_width(str);
 
-    // Stretched only when the count needs more room than the button has.
+    // Stretched only when the count or the inset needs more room than the button has.
     const Sprite& back = (current_button == i) ? highlight : background;
+    const int width = inset + std::max(back.get_width(), text_width(str));
     if (width > back.get_width())
       gc.draw(back, Vector2i(rect.left, y), Size(width, back.get_height()));
     else
       gc.draw(back, Vector2i(rect.left, y));
 
-    gc.draw(buttons[i].sprite, Vector2i(rect.left + 20, y + 16));
+    gc.draw(buttons[i].sprite, Vector2i(rect.left + inset + 20, y + 16));
 
-    gc.print_left(fonts::pingus_small, Vector2i(rect.left + TEXT_X, y + 5), str);
+    gc.print_left(fonts::pingus_small, Vector2i(rect.left + inset + TEXT_X, y + 5), str);
 
     if (show_tip && tip_button == i)
     {
       gc.print_left(fonts::pingus_small,
-                    Vector2i(rect.left + std::max(width, back.get_width()) + TIP_GAP, y + 5),
+                    Vector2i(rect.left + width + TIP_GAP, y + 5),
                     ActionName::to_screenname(buttons[i].name));
     }
   }
@@ -123,7 +128,7 @@ ButtonPanel::update (float delta)
   int width = background.get_width();
   for (const auto& button : buttons)
     width = std::max(width, text_width(count_text(button.name)));
-  rect.right = rect.left + width;
+  rect.right = rect.left + Display::get_overscan_margin().width + width;
 
   for(std::vector<ActionButton>::size_type i = 0; i < buttons.size(); ++i)
     if (i == current_button)

@@ -48,7 +48,8 @@ TimeDisplay::draw (DrawingContext& gc)
     }
 
     std::string time_string = GameTime::ticks_to_realtime_string(time_value);
-    gc.print_right(font, Vector2i(Display::get_width() - 30, 3), time_string, 150);
+    const Size margin = Display::get_overscan_margin();
+    gc.print_right(font, Vector2i(Display::get_width() - 30 - margin.width, 3 + margin.height), time_string, 150);
   }
 }
 

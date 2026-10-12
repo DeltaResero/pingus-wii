@@ -18,6 +18,7 @@ namespace globals {
 int         game_speed              = 20;
 float       desired_fps             = 40;
 bool        print_fps               = false;
+bool        tv_overscan             = false;
 bool        music_enabled           = true;
 bool        sound_enabled           = true;
 int         fast_forward_time_scale = 4;

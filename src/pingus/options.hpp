@@ -105,6 +105,7 @@ struct Options
   Value<bool> developer_mode;
 
   Value<bool>  print_fps;
+  Value<bool>  tv_overscan;
   Value<int>   speed;
   Value<float> desiredfps;
   Value<int>   tile_size;
@@ -129,6 +130,7 @@ struct Options
     controller(),
     developer_mode(),
     print_fps(),
+    tv_overscan(),
     speed(),
     desiredfps(),
     tile_size()

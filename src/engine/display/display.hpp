@@ -45,6 +45,9 @@ public:
   static Size get_size();           // returns (LOGICAL_WIDTH, LOGICAL_HEIGHT)
   static Size get_physical_size();  // returns actual framebuffer pixel dimensions
 
+  /** How far the HUD stays in from each edge, so a TV's cropped border doesn't hide it */
+  static Size get_overscan_margin();
+
   static void create_window(FramebufferType framebuffer_type, const Size& size, bool fullscreen, bool resizable);
   static void deinit();
   static void set_video_mode(const Size& size, bool fullscreen, bool resizable);

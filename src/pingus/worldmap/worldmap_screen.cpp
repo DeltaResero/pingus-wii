@@ -18,6 +18,7 @@
 #include "engine/screen/screen_manager.hpp"
 #include "engine/sound/sound.hpp"
 #include "pingus/fonts.hpp"
+#include "pingus/res_descriptor.hpp"
 #include "pingus/screens/story_screen.hpp"
 #include "pingus/worldmap/pingus.hpp"
 #include "pingus/worldmap/worldmap.hpp"
@@ -30,10 +31,18 @@ class WorldmapScreenCloseButton
 {
 private:
   WorldmapScreen* worldmap_screen;
+
+  /** A plain strip of chalkboard, and the same strip upside down */
+  Sprite board;
+  Sprite board_below;
+  Sprite box;
+  Sprite box_ticked;
+
 public:
   WorldmapScreenCloseButton(WorldmapScreen* worldmap_screen);
   void on_click();
   void draw (DrawingContext& gc);
+  bool is_at (int x, int y);
   void on_pointer_enter();
 
 private:
@@ -41,12 +50,28 @@ private:
   WorldmapScreenCloseButton & operator=(const WorldmapScreenCloseButton&);
 };
 
+namespace {
+
+// The button's face; the board behind it reaches to the screen's corner.
+const int LEAVE_WIDTH  = 119;
+const int LEAVE_HEIGHT = 37;
+
+// Lines the strip's green up with where the old Leave board's was; its
+// frame is thicker and dips toward the right end.
+const Vector2i BOARD_OFFSET(2, -5);
+
+} // namespace
+
 WorldmapScreenCloseButton::WorldmapScreenCloseButton(WorldmapScreen* worldmap_screen_) :
-  pingus::gui::SurfaceButton(0, Display::get_height() - 37,
-                     "core/worldmap/leave_button_normal",
-                     "core/worldmap/leave_button_pressed",
-                     "core/worldmap/leave_button_hover"),
-  worldmap_screen(worldmap_screen_)
+  pingus::gui::SurfaceButton(0, Display::get_height() - LEAVE_HEIGHT,
+                     "core/worldmap/levelname_bg",
+                     "core/worldmap/levelname_bg",
+                     "core/worldmap/levelname_bg"),
+  worldmap_screen(worldmap_screen_),
+  board("core/worldmap/levelname_bg"),
+  board_below(ResDescriptor("core/worldmap/levelname_bg", ResourceModifier::ROT180FLIP)),
+  box("core/menu/checkbox_small"),
+  box_ticked("core/menu/checkbox_marked_small")
 {
 }
 
@@ -60,8 +85,24 @@ WorldmapScreenCloseButton::on_pointer_enter()
 void
 WorldmapScreenCloseButton::draw (DrawingContext& gc)
 {
-  SurfaceButton::draw(gc);
-  gc.print_center(pingus::fonts::chalk_small, Vector2i(44, Display::get_height() - 25), "Leave?");
+  // The board runs in from off the left edge, and its mirror image fills
+  // down to the bottom when TV Overscan lifts the button off it.
+  const int board_x = x_pos + LEAVE_WIDTH - board.get_width() + BOARD_OFFSET.x;
+  const int board_y = y_pos + BOARD_OFFSET.y;
+  gc.draw(board, Vector2i(board_x, board_y));
+  if (board_y + board.get_height() < Display::get_height())
+    gc.draw(board_below, Vector2i(board_x, board_y + board.get_height()));
+
+  // Shrunk to the size of the box the old Leave board had drawn on it.
+  gc.draw(mouse_over ? box_ticked : box, Vector2i(x_pos + 83, y_pos + 9), Size(28, 28));
+  gc.print_center(pingus::fonts::chalk_small, Vector2i(x_pos + 44, y_pos + 12), "Leave?");
+}
+
+bool
+WorldmapScreenCloseButton::is_at (int x, int y)
+{
+  return x >= 0 && x < x_pos + LEAVE_WIDTH + BOARD_OFFSET.x
+    && y > y_pos + BOARD_OFFSET.y && y < Display::get_height();
 }
 
 void
@@ -100,6 +141,9 @@ void
 WorldmapScreen::on_startup ()
 {
   GUIScreen::on_startup();
+
+  // TV Overscan may have changed in Options.
+  place_close_button();
   exit_worldmap = false;
 
   if (worldmap.get())
@@ -159,7 +203,14 @@ void
 WorldmapScreen::resize(const Size& size_)
 {
   GUIScreen::resize(size_);
-  close_button->set_pos(0, size.height - 37);
+  place_close_button();
+}
+
+void
+WorldmapScreen::place_close_button()
+{
+  const Size margin = Display::get_overscan_margin();
+  close_button->set_pos(margin.width, size.height - LEAVE_HEIGHT - margin.height);
 }
 
 void

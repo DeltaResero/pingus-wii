@@ -148,6 +148,11 @@ Options::from_file_reader(const FileReader& reader)
     opts.print_fps.set(bool_value);
   }
 
+  if (reader.read_bool("tv-overscan", bool_value))
+  {
+    opts.tv_overscan.set(bool_value);
+  }
+
   if (reader.read_string("controller", string_value))
   {
     opts.controller.set(string_value);
@@ -214,6 +219,9 @@ Options::save(const Pathname& filename) const
   if (print_fps.is_set())
     writer.write_bool("print-fps", print_fps.get());
 
+  if (tv_overscan.is_set())
+    writer.write_bool("tv-overscan", tv_overscan.get());
+
   if (controller.is_set())
     writer.write_string("controller", controller.get());
 
@@ -266,6 +274,7 @@ Options::merge(const Options& rhs)
   developer_mode.merge(rhs.developer_mode);
 
   print_fps.merge(rhs.print_fps);
+  tv_overscan.merge(rhs.tv_overscan);
   speed.merge(rhs.speed);
   desiredfps.merge(rhs.desiredfps);
   tile_size.merge(rhs.tile_size);

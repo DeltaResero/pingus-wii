@@ -82,6 +82,8 @@ GameSession::GameSession(const PingusLevel& arg_plf, bool arg_show_result_screen
   armageddon_button = gui_manager->create<ArmageddonButton>(get_server(), Display::get_width() - 40, Display::get_height() - 62);
   forward_button    = gui_manager->create<ForwardButton>(this, Display::get_width() - 40 * 2, Display::get_height() - 62);
   pause_button      = gui_manager->create<PauseButton>(this, Display::get_width() - 40 * 3, Display::get_height() - 62);
+
+  layout_hud();
 }
 
 GameSession::~GameSession()
@@ -315,6 +317,9 @@ GameSession::on_action_axis_move (float move)
 void
 GameSession::on_startup ()
 {
+  // TV Overscan may have changed in Options while the level was paused.
+  layout_hud();
+
   if (globals::developer_mode)
     log_info("Starting Music: {}", server->get_plf().get_music());
 
@@ -380,14 +385,24 @@ GameSession::resize(const Size& size_)
                            Size(std::min(size.width,  world_width),
                                 std::min(size.height, world_height))));
 
-  armageddon_button->set_rect(Rect(Vector2i(size.width - 40, size.height - 62),
+  layout_hud();
+}
+
+void
+GameSession::layout_hud()
+{
+  const Size margin = Display::get_overscan_margin();
+  const int right  = size.width  - margin.width;
+  const int bottom = size.height - margin.height;
+
+  armageddon_button->set_rect(Rect(Vector2i(right - 40, bottom - 62),
                                    Size(38, 60)));
-  forward_button->set_rect(Rect(Vector2i(size.width - 40*2, size.height - 62),
+  forward_button->set_rect(Rect(Vector2i(right - 40*2, bottom - 62),
                                 Size(38, 60)));
-  pause_button->set_rect(Rect(Vector2i(size.width - 40*3, size.height - 62),
+  pause_button->set_rect(Rect(Vector2i(right - 40*3, bottom - 62),
                               Size(38, 60)));
 
-  small_map->set_rect(Rect(Vector2i(5, size.height - 105), Size(175, 100)));
+  small_map->set_rect(Rect(Vector2i(margin.width + 5, bottom - 105), Size(175, 100)));
 
   button_panel->set_pos(Vector2i(0, (size.height - 150)/2));
 }

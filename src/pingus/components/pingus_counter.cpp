@@ -11,6 +11,7 @@
 
 #include "pingus/components/pingus_counter.hpp"
 
+#include "engine/display/display.hpp"
 #include "engine/display/drawing_context.hpp"
 #include "pingus/fonts.hpp"
 #include "pingus/pingu_holder.hpp"
@@ -32,7 +33,13 @@ PingusCounter::draw(DrawingContext& gc)
 {
   char str[128];
 
-  gc.draw(background, Vector2i(gc.get_width()/2, 0));
+  // With TV Overscan the bar still hangs from the top edge, only deeper.
+  const int top = Display::get_overscan_margin().height;
+  if (top > 0)
+    gc.draw(background, Vector2i(gc.get_width()/2, 0),
+            Size(background.get_width(), background.get_height() + top));
+  else
+    gc.draw(background, Vector2i(gc.get_width()/2, 0));
 
   World* world = server->get_world();
 
@@ -43,7 +50,7 @@ PingusCounter::draw(DrawingContext& gc)
            world->get_pingus()->get_number_of_exited(),
            server->get_plf().get_number_to_save());
 
-  gc.print_center(font, Vector2i(gc.get_width()/2, -2), str);
+  gc.print_center(font, Vector2i(gc.get_width()/2, top - 2), str);
 }
 
 

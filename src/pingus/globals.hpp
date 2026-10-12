@@ -24,6 +24,7 @@ namespace globals {
 extern int         game_speed;                      ///< -t, --set-speed
 extern float       desired_fps;                     ///< -k, --set-fps
 extern bool        print_fps;                       ///< --print-fps
+extern bool        tv_overscan;                     ///< keep the HUD clear of a TV's cropped edges
 
 extern bool        music_enabled;                   ///< -m, --enable-music
 extern bool        sound_enabled;                   ///< -s, --enable-sound

@@ -58,6 +58,13 @@ Display::get_physical_size()
   return s_framebuffer.get() ? s_framebuffer->get_size() : Size(LOGICAL_WIDTH, LOGICAL_HEIGHT);
 }
 
+Size
+Display::get_overscan_margin()
+{
+  // A TV hides about the outer 5% top and bottom, and a little less at the sides.
+  return globals::tv_overscan ? Size(20, 30) : Size(0, 0);
+}
+
 void
 Display::resize(const Size& size_)
 {

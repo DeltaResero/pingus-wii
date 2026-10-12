@@ -170,6 +170,12 @@ OptionMenu::OptionMenu() :
   add_item("Drag&Drop Scrolling", std::unique_ptr<gui::RectComponent>(dragdrop_scroll_box));
   y_pos += 1;
   add_item("Print FPS", std::unique_ptr<gui::RectComponent>(printfps_box));
+
+  CheckBox* tv_overscan_box = new CheckBox(Rect());
+  tv_overscan_box->set_state(config_manager.get_tv_overscan(), false);
+  tv_overscan_box->on_change = [](bool v) { config_manager.set_tv_overscan(v); };
+  add_item("TV Overscan", std::unique_ptr<gui::RectComponent>(tv_overscan_box));
+
   if (globals::developer_mode)
     add_debug_item("Show Menu Outlines", globals::draw_menu_outlines);
 
