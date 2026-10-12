@@ -21,6 +21,7 @@ CheckBox::CheckBox(const Rect& rect_) :
   RectComponent(rect_),
   m_checkbox_marked("core/menu/checkbox_marked_small"),
   m_checkbox("core/menu/checkbox_small"),
+  m_checkbox_locked("core/menu/locked_small"),
   state(false),
   on_change()
 {
@@ -43,7 +44,11 @@ CheckBox::draw(DrawingContext& gc)
   if (globals::draw_menu_outlines)
     gc.draw_rect(rect, Color(0, 255, 255));
 
-  if (state)
+  if (!is_enabled())
+  {
+    gc.draw(m_checkbox_locked, Vector2i(rect.left, rect.top));
+  }
+  else if (state)
   {
     gc.draw(m_checkbox_marked, Vector2i(rect.left, rect.top));
   }

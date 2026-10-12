@@ -24,6 +24,7 @@ class CheckBox : public gui::RectComponent
 private:
   Sprite m_checkbox_marked;
   Sprite m_checkbox;
+  Sprite m_checkbox_locked;
 
   bool state;
 

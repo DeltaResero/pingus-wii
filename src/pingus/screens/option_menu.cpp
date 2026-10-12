@@ -265,15 +265,18 @@ OptionMenu::add_item(const std::string& label, std::unique_ptr<gui::RectComponen
   }
 
 #ifdef __WII__
-  // Disable specific options for Wii to lock them
+  // The Wii decides these, so they can't be changed.
   if (label == "Fullscreen" ||
       label == "Mouse Grab" ||
       label == "Software Cursor" ||
       label == "Resolution:")
   {
-      control->set_enabled(false);
-      // FIXME: Should grey text for disabled options
+    control->set_enabled(false);
   }
+
+  // Mouse grab does nothing on the Wii at all.
+  if (label == "Mouse Grab")
+    label_component->set_struck(true);
 #endif
 
   options.push_back(Option(label_component, control.get()));

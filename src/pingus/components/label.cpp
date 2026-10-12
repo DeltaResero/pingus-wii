@@ -19,7 +19,8 @@ namespace pingus {
 
 Label::Label(const std::string& label_, const Rect& rect_)
   : RectComponent(rect_),
-    label(label_)
+    label(label_),
+    struck(false)
 {
 }
 
@@ -30,6 +31,14 @@ Label::draw(DrawingContext& gc)
     gc.draw_rect(rect, Color(0, 255, 255));
 
   gc.print_left(fonts::chalk_normal, Vector2i(rect.left, rect.top), label);
+
+  if (struck)
+  {
+    // Through the middle of the lowercase letters, where fonts put a strikeout.
+    const int y = rect.top + fonts::chalk_normal.get_height() * 2 / 3;
+    gc.draw_fillrect(Rect(rect.left, y, rect.left + static_cast<int>(fonts::chalk_normal.get_width(label)), y + 2),
+                     Color(255, 255, 255));
+  }
 }
 
 

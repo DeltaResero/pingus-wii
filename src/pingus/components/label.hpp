@@ -20,12 +20,16 @@ class Label : public gui::RectComponent
 {
 private:
   std::string label;
+  bool struck;
 
 public:
   Label(const std::string& label, const Rect& rect);
 
   void draw(DrawingContext& gc);
   void update_layout() {}
+
+  /** Draw a line through the text, for an option that does nothing here */
+  void set_struck(bool v) { struck = v; }
 
 private:
   Label (const Label&);
