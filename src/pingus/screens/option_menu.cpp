@@ -324,7 +324,7 @@ OptionMenu::draw_background(DrawingContext& gc)
 
   gc.print_center(fonts::chalk_large,
                   Vector2i(gc.get_width()/2,
-                           gc.get_height()/2 - 240),
+                           gc.get_height()/2 - 230),
                   "Option Menu");
 
   gc.print_center(fonts::chalk_normal, Vector2i(gc.get_width()/2 + 245 + 30, gc.get_height()/2 + 150 - 20), "Close");

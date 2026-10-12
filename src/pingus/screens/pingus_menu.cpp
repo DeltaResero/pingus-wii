@@ -81,7 +81,7 @@ void
 PingusMenu::layout_buttons(const Size& size)
 {
   const int center_x = size.width / 2;
-  const int center_y = size.height / 2;
+  const int center_y = size.height / 2 + 10;
   const int x_offset = 125;
   const int row_spacing = 70;
 
@@ -157,10 +157,10 @@ PingusMenu::draw_background(DrawingContext& gc)
   background->draw(gc);
 
   gc.draw(logo, Vector2i((gc.get_width() / 2) - (logo.get_width() / 2),
-                         gc.get_height() / 2 - 280));
+                         gc.get_height() / 2 - 270));
 
   gc.print_left(fonts::pingus_small,
-                Vector2i(gc.get_width() / 2 - 400 + 25, gc.get_height() - 140),
+                Vector2i(gc.get_width() / 2 - 400 + 25, gc.get_height() - 130),
                 "Pingus " VERSION
                 " - Copyright (C) 1998-2011 Ingo Ruhnke <grumbel@gmail.com>\n"
                 "See the file AUTHORS for a complete list of contributors.\n"

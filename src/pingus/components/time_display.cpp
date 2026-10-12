@@ -49,7 +49,9 @@ TimeDisplay::draw (DrawingContext& gc)
 
     std::string time_string = GameTime::ticks_to_realtime_string(time_value);
     const Size margin = Display::get_overscan_margin();
-    gc.print_right(font, Vector2i(Display::get_width() - 30 - margin.width, 3 + margin.height), time_string, 150);
+    // One digit further in than the edge needs, to stay on the blackboards.
+    const int right = Display::get_width() - 30 - static_cast<int>(font.get_width('0')) - margin.width;
+    gc.print_right(font, Vector2i(right, 3 + margin.height), time_string, 150);
   }
 }
 

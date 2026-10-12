@@ -150,12 +150,12 @@ StartScreenComponent::draw(DrawingContext& gc)
 
   gc.print_center(fonts::chalk_large,
                   Vector2i(gc.get_width() /2,
-                           gc.get_height()/2 - 230),
+                           gc.get_height()/2 - 220),
                   plf.get_levelname());
 
   gc.print_left(fonts::chalk_normal,
                 Vector2i(gc.get_width() /2 - 300,
-                         gc.get_height()/2 - 170),
+                         gc.get_height()/2 - 140),
                 format_description(800 - 200));
 
   y += 32;
@@ -177,8 +177,8 @@ StartScreenComponent::draw(DrawingContext& gc)
 
   if (globals::developer_mode)
   {
-    // Between the top of the blackboard and the level's title.
-    gc.print_center(fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()/2 - 250), plf.get_resname());
+    // Between the level's title and its description.
+    gc.print_center(fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()/2 - 164), plf.get_resname());
   }
 }
 

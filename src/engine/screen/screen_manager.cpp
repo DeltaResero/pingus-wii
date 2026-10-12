@@ -273,21 +273,19 @@ ScreenManager::update(float delta, const std::vector<input::Event>& events)
   if (globals::software_cursor)
     cursor.render(mouse_pos.x, mouse_pos.y, *Display::get_framebuffer());
 
-  // Right-aligned under a level's timer, in the same font, so it never
-  // moves Developer Mode or lands on a screen's title.
+  // Both keep one spot on every screen, clear of the screens' titles and
+  // of a level's counter bar and timer even with TV Overscan on.
   if (globals::print_fps)
   {
-    const Size margin = Display::get_overscan_margin();
+    const int digit = static_cast<int>(fonts::pingus_small_fixnum.get_width('0'));
     fonts::pingus_small_fixnum.render(origin_top_right,
-                                      Display::get_width() - 30 - margin.width,
-                                      25 + margin.height,
+                                      Display::get_width() - 50 - digit, 55,
                                       fps_counter->update(), *Display::get_framebuffer());
   }
 
   if (globals::developer_mode)
   {
-    fonts::pingus_small.render(origin_center, Display::get_width()/2,
-                               35 + get_current_screen()->get_overlay_offset(),
+    fonts::pingus_small.render(origin_center, Display::get_width()/2, 65,
                                "Developer Mode", *Display::get_framebuffer());
   }
 

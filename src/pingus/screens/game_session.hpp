@@ -107,8 +107,6 @@ public:
 
   void resize(const Size&);
 
-  int get_overlay_offset() const override;
-
   /** Place the HUD, inside the TV overscan margin when that's on */
   void layout_hud();
 
