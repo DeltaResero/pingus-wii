@@ -295,14 +295,14 @@ OpenGLFramebuffer::draw_surface(const FramebufferSurface& src, const Rect& srcre
     float u2 = static_cast<float>(intersection.right  - tile.rect.left) * tile.u_scale;
     float v2 = static_cast<float>(intersection.bottom - tile.rect.top)  * tile.v_scale;
 
-    // Unconditionally inset UVs by 0.5 texels at tile boundaries.
-    // GL_CLAMP_TO_EDGE is unreliable on some platforms (like Wii GX) and can
-    // blend with the border color at u/v = 0.0 or 1.0. Insetting forces
-    // GL_LINEAR to sample the exact center of the edge pixels, preventing seams.
-    if (intersection.left   == tile.rect.left)   u1 += 0.5f * tile.u_scale;
-    if (intersection.top    == tile.rect.top)    v1 += 0.5f * tile.v_scale;
-    if (intersection.right  == tile.rect.right)  u2 -= 0.5f * tile.u_scale;
-    if (intersection.bottom == tile.rect.bottom) v2 -= 0.5f * tile.v_scale;
+    // Inset UVs by 0.5 texels at tile boundaries and at the source rect's own
+    // edges. GL_CLAMP_TO_EDGE is unreliable on some platforms (like Wii GX) and
+    // can blend with the border color at u/v = 0.0 or 1.0, and GL_LINEAR at a
+    // sprite frame's edge would otherwise blend in the next frame of the sheet.
+    if (intersection.left   == tile.rect.left   || intersection.left   == srcrect.left)   u1 += 0.5f * tile.u_scale;
+    if (intersection.top    == tile.rect.top    || intersection.top    == srcrect.top)    v1 += 0.5f * tile.v_scale;
+    if (intersection.right  == tile.rect.right  || intersection.right  == srcrect.right)  u2 -= 0.5f * tile.u_scale;
+    if (intersection.bottom == tile.rect.bottom || intersection.bottom == srcrect.bottom) v2 -= 0.5f * tile.v_scale;
 
     // Only bind texture if it's different from the last one
     if (m_last_texture_id != tile.handle)
