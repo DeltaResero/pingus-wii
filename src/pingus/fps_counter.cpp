@@ -16,9 +16,6 @@
 
 namespace pingus {
 
-
-FPSCounter fps_counter;
-
 FPSCounter::FPSCounter() :
   fps_string(),
   fps_count(),
