@@ -245,9 +245,6 @@ target_link_libraries(libpingus
     ${SDL2_MIXER_LIBRARIES}
 )
 
-# Link Standard C++ Filesystem (Plain signature to match above)
-target_link_libraries(libpingus stdc++fs)
-
 if(WITH_OPENGL AND OPENGL_FOUND)
     if(WII_BUILD)
         target_link_libraries(libpingus ${OPENGX_LIB})
