@@ -40,7 +40,6 @@
 CMakeLists.txt              text eol=lf
 *.cmake                     text eol=lf
 Makefile                    text eol=lf
-config.h.in                 text eol=lf
 *.rc                        text eol=lf
 
 # Packaging and Metadata

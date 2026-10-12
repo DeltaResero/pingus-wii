@@ -153,20 +153,10 @@ else()
 endif()
 
 
-# Set HAVE_SDL (always true for this project)
-set(HAVE_SDL 1)
-
-# Generate config.h
-configure_file(
-    "${CMAKE_SOURCE_DIR}/config.h.in"
-    "${CMAKE_BINARY_DIR}/config.h"
-)
-
 # Compile definitions
 add_compile_definitions(
     VERSION="${PROJECT_FULL_VERSION}"
     _GNU_SOURCE=1
-    HAVE_SDL=1
 )
 
 if(HAVE_OPENGL)
@@ -179,7 +169,6 @@ endif()
 
 # Include directories
 include_directories(
-    ${CMAKE_BINARY_DIR}  # For config.h
     ${CMAKE_SOURCE_DIR}/src
     ${SDL2_INCLUDE_DIRS}
     ${SDL2_IMAGE_INCLUDE_DIRS}
