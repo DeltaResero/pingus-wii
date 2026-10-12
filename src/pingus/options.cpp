@@ -168,6 +168,11 @@ Options::from_file_reader(const FileReader& reader)
     opts.drag_drop_scrolling.set(bool_value);
   }
 
+  if (reader.read_bool("developer-mode", bool_value))
+  {
+    opts.developer_mode.set(bool_value);
+  }
+
   return opts;
 }
 
@@ -220,6 +225,9 @@ Options::save(const Pathname& filename) const
 
   if (drag_drop_scrolling.is_set())
     writer.write_bool("drag-drop-scrolling", drag_drop_scrolling.get());
+
+  if (developer_mode.is_set())
+    writer.write_bool("developer-mode", developer_mode.get());
 
   writer.end_mapping(); // pingus-config
 

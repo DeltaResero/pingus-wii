@@ -83,14 +83,6 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
         log_info("Low level screen clear triggered (no-op in SDL2 build)");
       break;
 
-    case SDLK_m:
-      if (keystate[SDL_SCANCODE_LCTRL] || keystate[SDL_SCANCODE_RCTRL])
-      {
-        log_info("Developer Mode: {}", globals::developer_mode);
-        globals::developer_mode = !globals::developer_mode;
-      }
-      break;
-
     case SDLK_g:
       if (keystate[SDL_SCANCODE_LCTRL] || keystate[SDL_SCANCODE_RCTRL])
       {
