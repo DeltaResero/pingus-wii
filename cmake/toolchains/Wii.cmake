@@ -75,6 +75,5 @@ set(CMAKE_EXE_LINKER_FLAGS_INIT "-L${DEVKITPRO}/libogc/lib/wii -L${DEVKITPRO}/po
 
 # --- Build Settings ---
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
-set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
 # EOF
