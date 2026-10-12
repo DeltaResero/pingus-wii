@@ -11,7 +11,6 @@
 
 #include "pingus/global_event.hpp"
 
-#include "engine/display/screenshot.hpp"
 #include "engine/screen/screen_manager.hpp"
 #include "pingus/config_manager.hpp"
 #include "pingus/globals.hpp"
@@ -80,12 +79,6 @@ GlobalEvent::on_button_press(const SDL_KeyboardEvent& event)
       {
         if (!dynamic_cast<AddOnMenu*>(ScreenManager::instance()->get_current_screen().get()))
           ScreenManager::instance()->push_screen(std::make_shared<AddOnMenu>());
-      }
-      break;
-
-    case SDLK_F12:
-      {
-        Screenshot::make_screenshot();
       }
       break;
 

@@ -53,13 +53,8 @@ public:
   virtual Size get_size() const =0;
 
   /** Returns the underlying SDL_Window, or nullptr for non-SDL backends.
-   *  Used by SDLSystem to set window caption/icon after window creation,
-   *  and by Screenshot to read back pixels from the SDL framebuffer. */
+   *  Used by SDLSystem to set window caption/icon after window creation. */
   virtual SDL_Window* get_window() const { return nullptr; }
-
-  /** Returns the software render surface (SDL framebuffer only).
-   *  Used by Screenshot::make_screenshot() to read pixels without OpenGL. */
-  virtual SDL_Surface* get_sdl_surface() const { return nullptr; }
 };
 
 

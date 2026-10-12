@@ -106,7 +106,6 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL2 REQUIRED sdl2)
 pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 pkg_check_modules(SDL2_MIXER REQUIRED SDL2_mixer)
-pkg_check_modules(PNG REQUIRED libpng)
 
 # Wii Specific Libraries
 if(WII_BUILD)
@@ -261,7 +260,6 @@ include_directories(
     ${SDL2_INCLUDE_DIRS}
     ${SDL2_IMAGE_INCLUDE_DIRS}
     ${SDL2_MIXER_INCLUDE_DIRS}
-    ${PNG_INCLUDE_DIRS}
 )
 
 if(WII_BUILD)
@@ -332,7 +330,6 @@ target_link_libraries(libpingus
     ${SDL2_LIBRARIES}
     ${SDL2_IMAGE_LIBRARIES}
     ${SDL2_MIXER_LIBRARIES}
-    ${PNG_LIBRARIES}
 )
 
 # Link Standard C++ Filesystem (Plain signature to match above)

@@ -333,9 +333,6 @@ System::init_directories()
 
   // User created images
   create_dir(statdir + "backup/");
-
-  // Screenshots will be dumped to that directory:
-  create_dir(statdir + "screenshots/");
 }
 
 void
