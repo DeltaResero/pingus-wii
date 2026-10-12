@@ -126,10 +126,16 @@ ConfigManager::set_fullscreen(bool v)
 {
   log_info("ConfigManager::set_fullscreen: {}", v);
 
+#ifdef __WII__
+  // Fullscreen is the only mode the Wii has.
+  if (!v)
+    return;
+#endif
+
   if (v != get_fullscreen())
   {
 #ifndef WIN32
-    Display::set_video_mode(Display::get_size(), Display::is_fullscreen(), false);
+    Display::set_video_mode(Display::get_size(), v, false);
 #endif
     if (on_fullscreen_change)
       on_fullscreen_change(v);
