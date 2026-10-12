@@ -60,7 +60,7 @@ SDLFramebuffer::create_surface(const Surface& surface)
 void
 SDLFramebuffer::draw_surface(const FramebufferSurface& surface, Vector2i pos)
 {
-  SDLFramebufferSurfaceImpl* impl = dynamic_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
+  SDLFramebufferSurfaceImpl* impl = static_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
 
   // Delegate to the srcrect overload with a full-image source rectangle so
   // that geometry clipping and UV precision handling are applied consistently
@@ -77,7 +77,7 @@ SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcr
 void
 SDLFramebuffer::draw_surface(const FramebufferSurface& surface, const Rect& srcrect, const Rect& dstrect)
 {
-  SDLFramebufferSurfaceImpl* impl = dynamic_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
+  SDLFramebufferSurfaceImpl* impl = static_cast<SDLFramebufferSurfaceImpl*>(surface.get_impl());
 
   if (srcrect.get_width() <= 0 || srcrect.get_height() <= 0 ||
       dstrect.get_width() <= 0 || dstrect.get_height() <= 0)
