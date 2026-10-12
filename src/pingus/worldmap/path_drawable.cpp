@@ -12,6 +12,7 @@
 #include "pingus/worldmap/path_drawable.hpp"
 
 #include "engine/display/drawing_context.hpp"
+#include "pingus/globals.hpp"
 
 namespace pingus::worldmap {
 
@@ -23,6 +24,9 @@ PathDrawable::PathDrawable (const Path& arg_path)
 void
 PathDrawable::draw (DrawingContext& gc)
 {
+  if (!globals::draw_worldmap_paths)
+    return;
+
   Path::iterator prev = path.begin();
 
   for(Path::iterator next = prev + 1; next != path.end(); ++next)

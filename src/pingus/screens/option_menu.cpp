@@ -170,13 +170,6 @@ OptionMenu::OptionMenu() :
   add_item("Drag&Drop Scrolling", std::unique_ptr<gui::RectComponent>(dragdrop_scroll_box));
   y_pos += 1;
   add_item("Print FPS", std::unique_ptr<gui::RectComponent>(printfps_box));
-  if (globals::developer_mode)
-  {
-    CheckBox* collision_map_box = new CheckBox(Rect());
-    collision_map_box->set_state(globals::draw_collision_map, false);
-    collision_map_box->on_change = [](bool v) { globals::draw_collision_map = v; };
-    add_item("Show Collision Map", std::unique_ptr<gui::RectComponent>(collision_map_box));
-  }
 
   x_pos = 1;
   y_pos = 0;
@@ -186,6 +179,14 @@ OptionMenu::OptionMenu() :
   add_item("Master Volume:", std::unique_ptr<gui::RectComponent>(master_volume_box));
   add_item("Sound Volume:", std::unique_ptr<gui::RectComponent>(sound_volume_box));
   add_item("Music Volume:", std::unique_ptr<gui::RectComponent>(music_volume_box));
+
+  if (globals::developer_mode)
+  {
+    y_pos += 1;
+    add_debug_item("Show Collision Map", globals::draw_collision_map);
+    add_debug_item("Show Menu Outlines", globals::draw_menu_outlines);
+    add_debug_item("Show Worldmap Paths", globals::draw_worldmap_paths);
+  }
 
   // Connect with ConfigManager
   mousegrab_box->set_state(config_manager.get_mouse_grab(), false);
@@ -212,6 +213,15 @@ OptionMenu::OptionMenu() :
     defaults_box = new CheckBox(Rect(Vector2i(Display::get_width()/2 - 100 + 170, Display::get_height()/2 + 160), Size(32, 32)));
     gui_manager->add(defaults_box);
   */
+}
+
+void
+OptionMenu::add_debug_item(const std::string& label, bool& flag)
+{
+  CheckBox* box = new CheckBox(Rect());
+  box->set_state(flag, false);
+  box->on_change = [&flag](bool v) { flag = v; };
+  add_item(label, std::unique_ptr<gui::RectComponent>(box));
 }
 
 void

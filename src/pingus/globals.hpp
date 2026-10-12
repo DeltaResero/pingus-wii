@@ -35,6 +35,8 @@ extern bool        auto_scrolling;                  ///< --enable-auto-scrolling
 extern bool        drag_drop_scrolling;
 extern int         tile_size;                       ///< --tile-size
 extern bool        draw_collision_map;              ///<
+extern bool        draw_menu_outlines;              ///<
+extern bool        draw_worldmap_paths;             ///<
 extern bool        software_cursor;                 ///< --enable-swcursor
 
 extern std::string  global_username;                 ///< The name of the currently logged in user

@@ -71,6 +71,7 @@ public:
   void on_escape_press ();
 
   void add_item(const std::string& label, std::unique_ptr<gui::RectComponent> control);
+  void add_debug_item(const std::string& label, bool& flag);
 
   void resize(const Size&);
   void close_screen();

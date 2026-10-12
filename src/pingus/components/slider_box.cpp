@@ -31,7 +31,7 @@ SliderBox::SliderBox(const Rect& rect_, int steps)
 void
 SliderBox::draw(DrawingContext& gc)
 {
-  if (globals::developer_mode)
+  if (globals::draw_menu_outlines)
     gc.draw_rect(rect, Color(0, 255, 255));
 
   if (value == 0)

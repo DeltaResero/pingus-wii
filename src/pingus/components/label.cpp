@@ -26,7 +26,7 @@ Label::Label(const std::string& label_, const Rect& rect_)
 void
 Label::draw(DrawingContext& gc)
 {
-  if (globals::developer_mode)
+  if (globals::draw_menu_outlines)
     gc.draw_rect(rect, Color(0, 255, 255));
 
   gc.print_left(fonts::chalk_normal, Vector2i(rect.left, rect.top), label);

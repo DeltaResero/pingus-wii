@@ -28,7 +28,7 @@ ChoiceBox::ChoiceBox(const Rect& rect_) :
 void
 ChoiceBox::draw(DrawingContext& gc)
 {
-  if (globals::developer_mode)
+  if (globals::draw_menu_outlines)
     gc.draw_rect(rect, Color(0, 255, 255));
 
   if (!choices.empty())

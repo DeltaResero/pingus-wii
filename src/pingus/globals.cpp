@@ -28,6 +28,8 @@ int         tile_size               = 32;
 
 
 bool        draw_collision_map      = false;
+bool        draw_menu_outlines      = false;
+bool        draw_worldmap_paths     = false;
 
 #ifdef __WII__
 bool        software_cursor         = true;
