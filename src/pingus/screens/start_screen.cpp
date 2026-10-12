@@ -177,7 +177,8 @@ StartScreenComponent::draw(DrawingContext& gc)
 
   if (globals::developer_mode)
   {
-    gc.print_center(fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()-50), plf.get_resname());
+    // Between the top of the blackboard and the level's title.
+    gc.print_center(fonts::chalk_small, Vector2i(gc.get_width()/2, gc.get_height()/2 - 250), plf.get_resname());
   }
 }
 
