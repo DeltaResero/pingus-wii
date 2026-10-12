@@ -142,10 +142,11 @@ StoryScreen::StoryScreen(const FileReader& reader, bool credits) :
   continue_button = gui_manager->create<StoryScreenContinueButton>(story_comp,
                                                                    Display::get_width()/2 + 220 + 40,
                                                                    Display::get_height()/2 + 180 + 32);
+  // On the blackboard, just left of the continue button.
   if (globals::developer_mode)
     skip_button     = gui_manager->create<StoryScreenSkipButton>(story_comp,
-                                                                 Display::get_width() - 4,
-                                                                 Display::get_height() - 26);
+                                                                 Display::get_width()/2 + 220 + 40 - 12,
+                                                                 Display::get_height()/2 + 180 + 32 + 4);
 }
 
 StoryScreen::~StoryScreen()
@@ -300,7 +301,7 @@ StoryScreen::resize(const Size& size_)
   continue_button->set_pos(size.width/2 + 220 + 40,
                            size.height/2 + 180 + 32);
   if (skip_button)
-    skip_button->set_pos(size.width - 4, size.height - 26);
+    skip_button->set_pos(size.width/2 + 220 + 40 - 12, size.height/2 + 180 + 32 + 4);
 }
 
 
