@@ -52,10 +52,6 @@ private:
 
 public:
   static std::unique_ptr<Levelset> from_file(const Pathname& pathname);
-  static std::unique_ptr<Levelset> from_directory(const std::string& title,
-                                                  const std::string& description,
-                                                  const std::string& image,
-                                                  const Pathname& pathname);
 
 public:
   Levelset();

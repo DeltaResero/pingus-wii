@@ -25,36 +25,6 @@ namespace pingus {
 
 
 std::unique_ptr<Levelset>
-Levelset::from_directory(const std::string& title,
-                         const std::string& description,
-                         const std::string& image,
-                         const Pathname& pathname)
-{
-  std::unique_ptr<Levelset> levelset(new Levelset);
-
-  levelset->set_title(title);
-  levelset->set_description(description);
-  levelset->set_image(image);
-
-  std::vector<Pathname> files = pathname.opendir_recursive();
-  for(auto it = files.begin(); it != files.end(); ++it)
-  {
-    if (it->has_extension(".pingus"))
-    {
-      std::string resname = it->get_raw_path();
-
-      // FIXME: we need the resname, not the filename, so we do some
-      // ugly mess, cutting away "levels/" and the ".pingus" suffix
-      resname = resname.substr(7, resname.size() - 7 - 7);
-
-      levelset->add_level(resname, true);
-    }
-  }
-
-  return levelset;
-}
-
-std::unique_ptr<Levelset>
 Levelset::from_file(const Pathname& pathname)
 {
   FileReader reader = FileReader::parse(pathname);

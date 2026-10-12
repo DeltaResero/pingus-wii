@@ -141,14 +141,6 @@ public:
       }
     }
 
-    if (globals::developer_mode)
-    {
-      levelsets.push_back(Levelset::from_directory("Under Construction",
-                                                   "Untested, unpolished and broken levels",
-                                                   "levelsets/underconstruction",
-                                                   Pathname("levels", Pathname::DATA_PATH)));
-    }
-
     std::sort(levelsets.begin(), levelsets.end(),
               [](const auto& lhs, const auto& rhs) {
                 return lhs->get_priority() > rhs->get_priority();
