@@ -12,12 +12,6 @@
 /* Define to 1 if you have OpenGL support */
 #cmakedefine HAVE_OPENGL 1
 
-/* Define to 1 if iconv requires const qualifier */
-#cmakedefine HAVE_ICONV_CONST 1
-
-/* Define the const qualifier for iconv (either "const" or empty) */
-#define ICONV_CONST @ICONV_CONST@
-
 /* GNU Source definition */
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE 1

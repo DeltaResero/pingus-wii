@@ -153,78 +153,6 @@ else()
 endif()
 
 
-# Check for iconv
-# We skip detection on Wii to avoid cross-compilation linking errors during config
-if(WII_BUILD)
-    set(ICONV_CONST "")
-    set(HAVE_ICONV_CONST 1)
-    message(STATUS "Wii build: skipping detection, assuming iconv signature char**")
-else()
-    include(CheckCXXSourceCompiles)
-    
-    # On Linux, iconv is usually in glibc, on other systems it might be a separate library
-    set(CMAKE_REQUIRED_LIBRARIES "")
-    check_cxx_source_compiles("
-    #include <iconv.h>
-    int main() {
-        const char *foo;
-        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-              static_cast<char**>(0), static_cast<size_t*>(0));
-        return 0;
-    }" ICONV_CONST_CONST)
-
-    check_cxx_source_compiles("
-    #include <iconv.h>
-    int main() {
-        char *foo;
-        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-              static_cast<char**>(0), static_cast<size_t*>(0));
-        return 0;
-    }" ICONV_CONST_EMPTY)
-
-    # If glibc iconv didn't work, try with separate iconv library
-    if(NOT ICONV_CONST_CONST AND NOT ICONV_CONST_EMPTY)
-        set(CMAKE_REQUIRED_LIBRARIES "iconv")
-        check_cxx_source_compiles("
-    #include <iconv.h>
-    int main() {
-        const char *foo;
-        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-              static_cast<char**>(0), static_cast<size_t*>(0));
-        return 0;
-    }" ICONV_CONST_CONST_LIB)
-        
-        check_cxx_source_compiles("
-    #include <iconv.h>
-    int main() {
-        char *foo;
-        iconv(static_cast<iconv_t>(0), &foo, static_cast<size_t*>(0), 
-              static_cast<char**>(0), static_cast<size_t*>(0));
-        return 0;
-    }" ICONV_CONST_EMPTY_LIB)
-        
-        if(ICONV_CONST_CONST_LIB)
-            set(ICONV_CONST_CONST TRUE)
-            set(ICONV_NEEDS_LIB TRUE)
-        elseif(ICONV_CONST_EMPTY_LIB)
-            set(ICONV_CONST_EMPTY TRUE)
-            set(ICONV_NEEDS_LIB TRUE)
-        endif()
-    endif()
-
-    if(ICONV_CONST_CONST)
-        set(ICONV_CONST "const")
-        set(HAVE_ICONV_CONST 1)
-        message(STATUS "iconv signature: const char**")
-    elseif(ICONV_CONST_EMPTY)
-        set(ICONV_CONST "")
-        set(HAVE_ICONV_CONST 1)
-        message(STATUS "iconv signature: char**")
-    else()
-        message(FATAL_ERROR "Cannot determine iconv signature")
-    endif()
-endif()
-
 # Set HAVE_SDL (always true for this project)
 set(HAVE_SDL 1)
 
@@ -243,10 +171,6 @@ add_compile_definitions(
 
 if(HAVE_OPENGL)
     add_compile_definitions(HAVE_OPENGL=1)
-endif()
-
-if(HAVE_ICONV_CONST)
-    add_compile_definitions(HAVE_ICONV_CONST ICONV_CONST=${ICONV_CONST})
 endif()
 
 if(NOT WITH_EDITOR)
@@ -352,17 +276,6 @@ if(WII_BUILD)
         ${OGC_LIB} 
         m
     )
-endif()
-
-# Check if iconv is needed as a separate library (macOS, BSD)
-if(ICONV_NEEDS_LIB)
-    find_library(ICONV_LIBRARY iconv)
-    if(ICONV_LIBRARY)
-        target_link_libraries(libpingus ${ICONV_LIBRARY})
-        message(STATUS "Linking separate iconv library: ${ICONV_LIBRARY}")
-    endif()
-else()
-    message(STATUS "Using iconv from glibc (no separate library needed)")
 endif()
 
 # Main executable
