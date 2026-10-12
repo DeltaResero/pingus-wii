@@ -22,7 +22,7 @@ namespace pingus::actions {
 Digger::Digger(Pingu* p) :
   PinguAction(p),
   digger_radius("pingus/common/digger_radius_gfx", "pingus/common/digger_radius"),
-  digger_radius_final("pingus/common/digger_radius_final_gfx", "pingus/common/digger_radius_final_gfx"),
+  digger_radius_final("pingus/common/digger_radius_final_gfx", "pingus/common/digger_radius_final"),
   sprite(),
   delay_count(0)
 {
