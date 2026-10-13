@@ -68,6 +68,18 @@ bool dir_exists(const std::string& directory)
   return false;
 }
 
+// The folder the loader started Pingus from, or empty if it didn't say.
+std::string launch_dir()
+{
+  if (__system_argv->argvMagic != ARGV_MAGIC || __system_argv->argc < 1
+      || __system_argv->argv[0] == nullptr)
+    return std::string();
+
+  const std::string path = __system_argv->argv[0];
+  const std::string::size_type slash = path.rfind('/');
+  return slash == std::string::npos ? std::string() : path.substr(0, slash + 1);
+}
+
 void on_power_button()
 {
   g_power_off_requested = true;
@@ -153,6 +165,17 @@ std::string get_base_dir()
 {
   if (!g_base_dir.empty())
     return g_base_dir;
+
+  // The folder Pingus was started from, whatever it is named.
+  const std::string launch = launch_dir();
+  const bool launched_usb = launch.compare(0, 5, "usb:/") == 0;
+  const bool launched_sd = launch.compare(0, 4, "sd:/") == 0;
+  if (((launched_usb && mount_usb()) || (launched_sd && mount_sd()))
+      && dir_exists(launch + "data/"))
+  {
+    g_base_dir = launch;
+    return g_base_dir;
+  }
 
   // USB first: it is the faster of the two where both are present.
   if (mount_usb())

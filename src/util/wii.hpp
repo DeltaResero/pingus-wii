@@ -36,7 +36,7 @@ bool mount_usb();
 void unmount_usb();
 
 /** Get the base directory for Pingus on the Wii
- *  This will search for the data directory on USB first, then SD
+ *  Tries the folder Pingus was started from, then apps/pingus on USB and SD
  *  @return The base directory path (e.g., "sd:/apps/pingus/")
  *  @throws std::runtime_error if no valid installation is found */
 std::string get_base_dir();
